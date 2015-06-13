@@ -4,19 +4,21 @@
 [alias]
     a       = add
     aa      = add --all
-    aliases = "!git config --list | grep alias | cut -c 7-"
     b       = branch
     ba      = branch --all
     bd      = branch --delete
-    cm      = commit
+    cm      = commit --verbose
     co      = checkout
     cob     = checkout -b
     d       = diff
     dc      = diff --cached
-    l       = log --graph --format='%C(auto)%h%d %s %C(blue)(%ar)'
-    la      = log --graph --format='%C(auto)%h%d %s %C(blue)(%ar)' --all
+    dt      = difftool
+    ff      = merge --ff-only
+    l       = log --graph --format='%C(auto)%h%Cred%d %Creset%s %Cblue(%ar)'
+    la      = log --graph --format='%C(auto)%h%Cred%d %Creset%s %Cblue(%ar)' --all
     ll      = log --graph --decorate --stat
     lla     = log --graph --decorate --stat --all
+    pom     = push origin master
     s       = status --short
     ss      = status
     sub     = submodule
