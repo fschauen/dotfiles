@@ -1,0 +1,11 @@
+BoldAsFont=no
+Charset=UTF-8
+Columns=120
+CursorType=underscore
+Font=Consolas
+FontHeight=9
+Locale=en_US
+Rows=60
+Scrollbar=0
+Term=xterm-256color
+Transparency=off

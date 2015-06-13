@@ -1,0 +1,47 @@
+[init]
+    templatedir = ~/.git_template
+
+[alias]
+    a       = add
+    aa      = add --all
+    aliases = "!git config --list | grep alias | cut -c 7-"
+    b       = branch
+    ba      = branch --all
+    bd      = branch --delete
+    cm      = commit
+    co      = checkout
+    cob     = checkout -b
+    d       = diff
+    dc      = diff --cached
+    l       = log --graph --format='%C(auto)%h%d %s %C(blue)(%ar)'
+    la      = log --graph --format='%C(auto)%h%d %s %C(blue)(%ar)' --all
+    ll      = log --graph --decorate --stat
+    lla     = log --graph --decorate --stat --all
+    s       = status --short
+    ss      = status
+    sub     = submodule
+
+[core]
+    excludesfile    = ~/.gitignore_global
+    editor          = vim
+    trustctime      = false # http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
+
+[push]
+    default = nothing
+
+[color]
+    ui = auto
+
+[color "diff"]
+    meta = blue
+    frag = bold magenta # violet in solarized
+    old = red
+    new = green
+
+[color "status"]
+    added = green
+    changed = red
+    untracked = cyan
+
+[include]
+    path = ~/.gitconfig.local
