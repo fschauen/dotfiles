@@ -44,8 +44,12 @@ alias la="ls -aF"
 alias ll="ls -lF"
 alias lla="ls -laF"
 alias grep="grep --color=auto";
+alias egrep="egrep --color=auto";
+alias fgrep="fgrep --color=auto";
+alias v="vim"
 alias vi="vim"
 alias path='echo $PATH | tr -s ":" "\n"'
+alias manpath='echo $MANPATH | tr -s ":" "\n"'
 
 if [[ ${PLATFORM%%-*} == "darwin" ]]; then
     alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
