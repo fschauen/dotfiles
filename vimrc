@@ -110,19 +110,11 @@ augroup vimrc " {{{
 augroup END " }}}
 
 " Key mappings {{{
-    " split navigations and resizing
-    nnoremap <c-j> <c-w><c-j>
-    nnoremap <c-k> <c-w><c-k>
-    nnoremap <c-l> <c-w><c-l>
-    nnoremap <c-h> <c-w><c-h>
-    nnoremap <c-w><c-k> :execute "resize " . (winheight(0) * 5/4)<cr>
-    nnoremap <c-w><c-j> :execute "resize " . (winheight(0) * 4/5)<cr>
-    nnoremap <c-w><c-h> :execute "vertical resize " . (winwidth(0) * 5/4)<cr>
-    nnoremap <c-w><c-l> :execute "vertical resize " . (winwidth(0) * 4/5)<cr>
-
-    " fast navigation of matchpairs ({[]})
-    nnoremap <tab> %
-    vnoremap <tab> %
+    " window resizing similar to the way I have tmux set up
+    nnoremap <c-w><c-k> 5<c-w>+
+    nnoremap <c-w><c-j> 5<c-w>-
+    nnoremap <c-w><c-h> 5<c-w><
+    nnoremap <c-w><c-l> 5<c-w>>
 
     " retain selection when indenting/unindenting in visual mode
     vnoremap > ><cr>gv
