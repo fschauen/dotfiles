@@ -79,7 +79,7 @@ let mapleader = ","
     " }}}
 
     " tagbar {{{
-        nnoremap <leader>t :TagbarToggle<CR>
+        nnoremap <leader>t :TagbarToggle<cr>
     " }}}
 
     " vim-airline {{{
@@ -92,50 +92,65 @@ let mapleader = ","
     " }}}
 
     " vim-trailing-whitespace {{{
-        nnoremap <leader>w :FixWhitespace<CR>
+        nnoremap <leader>w :FixWhitespace<cr>
     " }}}
 " }}}
 
-" Autocmds {{{
-    autocmd FileType vim setlocal foldmethod=marker
-    autocmd FileType *.py setlocal foldmethod=indent | setlocal foldnestmax=2
-" }}}
+augroup vimrc " {{{
+    autocmd!
+    au BufNewFile,BufRead *.md set ft=markdown
+    au BufNewFile,BufRead bash_profile,bashrc set ft=sh
+    au BufNewFile,BufRead gitconfig set ft=gitconfig
+    au BufNewFile,BufRead rcrc set ft=sh
+
+    au FileType vim setl foldmethod=marker
+    au FileType python setl foldmethod=indent
+    au FileType markdown,text setl formatoptions+=t | setl spell
+    au FileType gitcommit setl formatoptions+=t | setl spell | setl textwidth=72
+augroup END " }}}
 
 " Key mappings {{{
     " split navigations and resizing
-    nnoremap <C-J> <C-W><C-J>
-    nnoremap <C-K> <C-W><C-K>
-    nnoremap <C-L> <C-W><C-L>
-    nnoremap <C-H> <C-W><C-H>
-    nnoremap <C-W><C-K> :execute "resize " . (winheight(0) * 5/4)<CR>
-    nnoremap <C-W><C-J> :execute "resize " . (winheight(0) * 4/5)<CR>
-    nnoremap <C-W><C-H> :execute "vertical resize " . (winwidth(0) * 5/4)<CR>
-    nnoremap <C-W><C-L> :execute "vertical resize " . (winwidth(0) * 4/5)<CR>
+    nnoremap <c-j> <c-w><c-j>
+    nnoremap <c-k> <c-w><c-k>
+    nnoremap <c-l> <c-w><c-l>
+    nnoremap <c-h> <c-w><c-h>
+    nnoremap <c-w><c-k> :execute "resize " . (winheight(0) * 5/4)<cr>
+    nnoremap <c-w><c-j> :execute "resize " . (winheight(0) * 4/5)<cr>
+    nnoremap <c-w><c-h> :execute "vertical resize " . (winwidth(0) * 5/4)<cr>
+    nnoremap <c-w><c-l> :execute "vertical resize " . (winwidth(0) * 4/5)<cr>
 
     " fast navigation of matchpairs ({[]})
-    nnoremap <TAB> %
-    vnoremap <TAB> %
+    nnoremap <tab> %
+    vnoremap <tab> %
 
     " retain selection when indenting/unindenting in visual mode
-    vnoremap > ><CR>gv
-    vnoremap < <<CR>gv
+    vnoremap > ><cr>gv
+    vnoremap < <<cr>gv
 
     " case insensitive searching
     nnoremap // /\c
     nnoremap ?? ?\c
 
     " quickly exit insert mode
-    inoremap jk <ESC>
+    inoremap jk <esc>
 
     " better navigation for wrapped lines
     noremap j gj
     noremap k gk
 
     " space opens/closes folds
-    nnoremap <SPACE> za
+    nnoremap <space> za
 
     " turn off search highlight
-    nnoremap <LEADER><SPACE> :nohlsearch<CR>
+    nnoremap <leader><leader> :nohlsearch<cr>
+
+    " switch between last two files
+    nnoremap <leader><space> <c-^>
+
+    " quickly change background
+    nnoremap <leader>bd :set background=dark<cr>
+    nnoremap <leader>bl :set background=light<cr>
 " }}}
 
 if filereadable(expand("~/.vimrc.local"))
