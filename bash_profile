@@ -15,18 +15,24 @@ export PLATFORM=$(get_platform)
 export EDITOR="vim"
 export HISTSIZE="65536"
 export HISTFILESIZE="$HISTSIZE"
+export HISTCONTROL=ignoredups:ignorespace
 export LANG="en_US.UTF-8"
 export LANGUAGE="en_US"
 export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
+[ -z "$BACKGROUND" ] && export BACKGROUND="dark"
 
 gnubin=/usr/local/opt/coreutils/libexec/gnubin
+[ -d "$gnubin" ] && PATH="$gnubin:$PATH"
+[ -d "$HOME/.dotfiles/bin" ] && PATH="$HOME/.dotfiles/bin:$PATH"
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+export PATH
+
+localman=/usr/local/share/man
 gnuman=/usr/local/opt/coreutils/libexec/gnuman
-[ -d "$gnubin" ]                && export PATH="$gnubin:$PATH"
-[ -d "$gnuman" ]                && export MANPATH="$gnuman:$MANPATH"
-[ -d "$HOME/.dotfiles/bin" ]    && export PATH="$HOME/.dotfiles/bin:$PATH"
-[ -d "$HOME/bin" ]              && export PATH="$HOME/bin:$PATH"
-[ -z "$BACKGROUND" ]            && export BACKGROUND="dark"
+[ -d "$localman" ] && MANPATH="$localman:$MANPATH"
+[ -d "$gnuman" ] && MANPATH="$gnuman:$MANPATH"
+export MANPATH
 
 #
 # Aliases
