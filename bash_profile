@@ -119,9 +119,9 @@ apply_solarized() {
             setcolor Pm $cursor_color   # Cursor text
             selector="P%s" a=a b=b c=c d=d e=e f=f
         else
-            setcolor "10;" $fg_color        # Foreground
-            setcolor "11;" $bg_color        # Background
-            setcolor "12;" $cursor_color    # Cursor
+            setcolor "10;#" $fg_color       # Foreground
+            setcolor "11;#" $bg_color       # Background
+            setcolor "12;#" $cursor_color   # Cursor
             selector="4;%d;#" a=10 b=11 c=12 d=13 e=14 f=15
         fi
 
