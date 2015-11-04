@@ -7,7 +7,6 @@ export LANG="en_US.UTF-8"
 export LANGUAGE="en_US"
 export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
-[ -z "$BACKGROUND" ] && export BACKGROUND="dark"
 
 # Prepend custom bin directories to PATH if they exist.
 for p in /usr/local/opt/coreutils/libexec/gnubin "$HOME/.dotfiles/bin" "$HOME/bin"
@@ -46,9 +45,8 @@ done
 # ~/.bashrc.local can be used for local settings (not in repository)
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local
 
-# Solarized shell & prompt
-
-setcolor() (
+# Change a color in the terminal's palette
+change_palette() (
     IFS=""  # $* should be joined without spaces
     if [ -n "$TMUX" ]; then
         # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
@@ -60,20 +58,26 @@ setcolor() (
     fi
 )
 
-apply_solarized() {
+# Solarize the shell by adjusting:
+#   - the terminal's color palette
+#   - the ANSI color palette
+#   - prompt string
+#   - `ls` command output colors
+do_solarize_shell() {
+    [ -z "$BACKGROUND" ] && BACKGROUND="dark"
+
     if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
         echo "tell application \"Terminal\" to set current settings of selected tab of front window to settings set \"solarized-$BACKGROUND\"" | osascript
     else
-        # http://ethanschoonover.com/solarized
+        # Solarized colors from http://ethanschoonover.com/solarized
         base03=002b36 base02=073642 base01=586e75 base00=657b83
         base0=839496  base1=93a1a1  base2=eee8d5  base3=fdf6e3
         red=dc322f    orange=cb4b16 yellow=b58900 green=859900
         cyan=2aa198   blue=268bd2   violet=6c71c4 magenta=d33682
 
-        # Determine customization colors based on dark/light background
+        # Customize the terminal's color palette & determine selector for
+        # changing the ANSI color palette below
         cursor_color=$red
-        sel_color=$base01             # only for iTerm2
-        sel_text_color=$Base2         # only for iTerm2
         if [ "$BACKGROUND" = "dark" ]; then
             bg_color=$base03
             fg_color=$base1
@@ -81,47 +85,45 @@ apply_solarized() {
             bg_color=$base2
             fg_color=$base02
         fi
-
-        # Customize foreground/background/cursor & determine selector for
-        # setting the ANSI colors below
         if [ -n "$ITERM_SESSION_ID" ]; then
-            setcolor Pg $fg_color       # Foreground
-            setcolor Pi $fg_color       # Bold
-            setcolor Ph $bg_color       # Background
-            setcolor Pj $sel_color      # Selection
-            setcolor Pk $sel_text_color # Selected text
-            setcolor Pl $cursor_color   # Cursor
-            setcolor Pm $cursor_color   # Cursor text
+            change_palette Pg $fg_color       # Foreground
+            change_palette Pi $fg_color       # Bold
+            change_palette Ph $bg_color       # Background
+            change_palette Pj $base01         # Selection
+            change_palette Pk $base2          # Selected text
+            change_palette Pl $cursor_color   # Cursor
+            change_palette Pm $cursor_color   # Cursor text
             selector="P%s" a=a b=b c=c d=d e=e f=f
         else
-            setcolor "10;#" $fg_color       # Foreground
-            setcolor "11;#" $bg_color       # Background
-            setcolor "12;#" $cursor_color   # Cursor
+            change_palette "10;#" $fg_color       # Foreground
+            change_palette "11;#" $bg_color       # Background
+            change_palette "12;#" $cursor_color   # Cursor
             selector="4;%d;#" a=10 b=11 c=12 d=13 e=14 f=15
         fi
 
-        # Set the ANSI colors
+        # Change the ANSI color palette
         #   iTerm2: Pnrrggbb (http://iterm2.com/documentation-escape-codes.html)
         #   other terminals: 4;n;#rrggbb
         #        Pn or 4;n;#         n  rrggbb        ANSI name
-        setcolor $(printf $selector  0) $base02     # 0;30 black
-        setcolor $(printf $selector  1) $red        # 0;31 red
-        setcolor $(printf $selector  2) $green      # 0;32 green
-        setcolor $(printf $selector  3) $yellow     # 1;33 yellow
-        setcolor $(printf $selector  4) $blue       # 0;34 blue
-        setcolor $(printf $selector  5) $magenta    # 0;35 magenta
-        setcolor $(printf $selector  6) $cyan       # 0;36 cyan
-        setcolor $(printf $selector  7) $base2      # 0;37 white
-        setcolor $(printf $selector  8) $base03     # 1;30 bold black
-        setcolor $(printf $selector  9) $orange     # 1;31 bold red
-        setcolor $(printf $selector $a) $base01     # 1;32 bold green
-        setcolor $(printf $selector $b) $base00     # 1;33 bold yellow
-        setcolor $(printf $selector $c) $base0      # 1;34 bold blue
-        setcolor $(printf $selector $d) $violet     # 1;35 bold magenta
-        setcolor $(printf $selector $e) $base1      # 1;36 bold cyan
-        setcolor $(printf $selector $f) $base3      # 1;37 bold white
+        change_palette $(printf $selector  0) $base02     # 0;30 black
+        change_palette $(printf $selector  1) $red        # 0;31 red
+        change_palette $(printf $selector  2) $green      # 0;32 green
+        change_palette $(printf $selector  3) $yellow     # 1;33 yellow
+        change_palette $(printf $selector  4) $blue       # 0;34 blue
+        change_palette $(printf $selector  5) $magenta    # 0;35 magenta
+        change_palette $(printf $selector  6) $cyan       # 0;36 cyan
+        change_palette $(printf $selector  7) $base2      # 0;37 white
+        change_palette $(printf $selector  8) $base03     # 1;30 bold black
+        change_palette $(printf $selector  9) $orange     # 1;31 bold red
+        change_palette $(printf $selector $a) $base01     # 1;32 bold green
+        change_palette $(printf $selector $b) $base00     # 1;33 bold yellow
+        change_palette $(printf $selector $c) $base0      # 1;34 bold blue
+        change_palette $(printf $selector $d) $violet     # 1;35 bold magenta
+        change_palette $(printf $selector $e) $base1      # 1;36 bold cyan
+        change_palette $(printf $selector $f) $base3      # 1;37 bold white
     fi
 
+    # Customize the prompt
     if [ "$BACKGROUND" = "light" ]; then
         prompt_color="\[\033[0;36m\]" # cyan
     else
@@ -130,16 +132,18 @@ apply_solarized() {
     export PS1="\n[${prompt_color}\w\[\033[0m\]]\n\$ ";
     export PS2=". ";
 
+    # Customize colors for `ls` command
     ls_colors="$HOME/.dircolors/solarized-$BACKGROUND"
     if type dircolors &> /dev/null && [ -f $ls_colors ]; then
         eval "$(dircolors $ls_colors)"
     fi
 }
-apply_solarized
 
-light() { export BACKGROUND="light" && apply_solarized; }
-dark() { export BACKGROUND="dark" && apply_solarized; }
+# Quickly change between light and dark background
+light() { export BACKGROUND="light" && do_solarize_shell; }
+dark() { export BACKGROUND="dark" && do_solarize_shell; }
 
+# Print the solarized palette (for testing)
 solarized() {
     printf "\033[%sm%-7s\033[0m "  "1;30" Base03
     printf "\033[%sm%-7s\033[0m "  "0;30" Base02
@@ -159,3 +163,4 @@ solarized() {
     printf "\033[%sm%-7s\033[0m\n" "0;35" Magenta
 }
 
+do_solarize_shell
