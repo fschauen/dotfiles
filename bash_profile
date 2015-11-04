@@ -1,17 +1,4 @@
-get_platform() {
-    local remove_spaces="s/ *//g"
-    local to_lower="y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
-    local get_version="s/[^0-9]*\(\([0-9]\+\.\?\)*\)/\1/"
-    local kernel=$(uname -s  | sed "$remove_spaces; $to_lower")
-    local version=$(uname -r | sed "$get_version")
-    local machine=$(uname -m | sed "$remove_spaces; $to_lower")
-    echo "$kernel-$version-$machine"
-}
-
-#
 # Environment variables
-#
-export PLATFORM=$(get_platform)
 export EDITOR="vim"
 export HISTSIZE="65536"
 export HISTFILESIZE="$HISTSIZE"
