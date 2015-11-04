@@ -7,6 +7,8 @@ export LANG="en_US.UTF-8"
 export LANGUAGE="en_US"
 export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
+export LESS="-i -j.49 -M -R -z-2"
+export PAGER=less
 
 # Prepend custom bin directories to PATH if they exist.
 for p in /usr/local/opt/coreutils/libexec/gnubin "$HOME/.dotfiles/bin" "$HOME/bin"
