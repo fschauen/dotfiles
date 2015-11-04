@@ -22,17 +22,18 @@ export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 [ -z "$BACKGROUND" ] && export BACKGROUND="dark"
 
-gnubin=/usr/local/opt/coreutils/libexec/gnubin
-[ -d "$gnubin" ] && PATH="$gnubin:$PATH"
-[ -d "$HOME/.dotfiles/bin" ] && PATH="$HOME/.dotfiles/bin:$PATH"
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
-export PATH
+# Prepend custom bin directories to PATH if they exist.
+for p in /usr/local/opt/coreutils/libexec/gnubin "$HOME/.dotfiles/bin" "$HOME/bin"
+do
+    [ -d "$p" ] && export PATH="$p:$PATH"
+done
 
-localman=/usr/local/share/man
-gnuman=/usr/local/opt/coreutils/libexec/gnuman
-[ -d "$localman" ] && MANPATH="$localman:$MANPATH"
-[ -d "$gnuman" ] && MANPATH="$gnuman:$MANPATH"
-export MANPATH
+# Prepend custom man directories to MATPATH if they exist, so that we get
+# correct man page entries when multiple versions of a command are available.
+for p in localman=/usr/local/share/man /usr/local/opt/coreutils/libexec/gnuman
+do
+    [ -d "$p" ] && export MANPATH="$p:$MANPATH"
+done
 
 #
 # Aliases
