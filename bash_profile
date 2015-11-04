@@ -22,9 +22,7 @@ do
     [ -d "$p" ] && export MANPATH="$p:$MANPATH"
 done
 
-#
-# Aliases
-#
+# Useful aliases
 alias g="git"
 alias ls="ls --color=auto"
 alias l="ls -F"
@@ -39,22 +37,16 @@ alias vi="vim"
 alias path='echo $PATH | tr -s ":" "\n"'
 alias manpath='echo $MANPATH | tr -s ":" "\n"'
 
-#
 # Shell options
-#
 for option in cdspell checkwinsize globstar histappend nocaseglob
 do
     shopt -s "$option" 2> /dev/null
 done
 
-#
 # ~/.bashrc.local can be used for local settings (not in repository)
-#
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local
 
-#
 # Solarized shell & prompt
-#
 
 setcolor() (
     IFS=""  # $* should be joined without spaces
