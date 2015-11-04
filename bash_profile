@@ -52,11 +52,6 @@ alias vi="vim"
 alias path='echo $PATH | tr -s ":" "\n"'
 alias manpath='echo $MANPATH | tr -s ":" "\n"'
 
-if [[ ${PLATFORM%%-*} == "darwin" ]]; then
-    alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-    alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
-fi
-
 #
 # Shell options
 #
