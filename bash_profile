@@ -165,4 +165,5 @@ solarized() {
     printf "\033[%sm%-7s\033[0m\n" "0;35" Magenta
 }
 
-do_solarize_shell
+# Solarize the shell only if running interactively (makes FTP clients happy)
+[[ "$-" == *i* ]] && do_solarize_shell
