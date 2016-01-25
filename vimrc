@@ -61,6 +61,7 @@ let mapleader = ","
     Plugin 'kien/ctrlp.vim'
     Plugin 'majutsushi/tagbar'
     Plugin 'scrooloose/nerdtree'
+    Plugin 'davidoc/taskpaper.vim'
     Plugin 'scrooloose/syntastic'
     Plugin 'tpope/vim-fugitive'
 
@@ -79,7 +80,14 @@ let mapleader = ","
     " }}}
 
     " tagbar {{{
-        nnoremap <leader>t :TagbarToggle<cr>
+        nnoremap <leader>g :TagbarToggle<cr>
+    " }}}
+
+    " taskpaper {{{
+        " relink some of the default highlight groups for visual improvement
+        hi link taskpaperDone          Comment
+        hi link taskpaperCancelled     Comment
+        hi link taskpaperComment       Normal
     " }}}
 
     " vim-airline {{{
