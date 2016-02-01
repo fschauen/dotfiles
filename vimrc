@@ -65,6 +65,7 @@ let mapleader = ","
     Plugin 'scrooloose/syntastic'
     Plugin 'tpope/vim-fugitive'
     Plugin 'terryma/vim-multiple-cursors'
+    Plugin 'junegunn/vim-easy-align'
 
     call vundle#end()
     filetype plugin indent on
@@ -102,6 +103,11 @@ let mapleader = ","
 
     " vim-trailing-whitespace {{{
         nnoremap <leader>w :FixWhitespace<cr>
+    " }}}
+
+    " vim-easy-align {{{
+        xmap ga <Plug>(EasyAlign)
+        xmap ga <Plug>(EasyAlign)
     " }}}
 " }}}
 
