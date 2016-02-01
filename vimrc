@@ -64,6 +64,7 @@ let mapleader = ","
     Plugin 'davidoc/taskpaper.vim'
     Plugin 'scrooloose/syntastic'
     Plugin 'tpope/vim-fugitive'
+    Plugin 'terryma/vim-multiple-cursors'
 
     call vundle#end()
     filetype plugin indent on
