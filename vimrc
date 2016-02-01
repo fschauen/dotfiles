@@ -66,6 +66,7 @@ let mapleader = ","
     Plugin 'tpope/vim-fugitive'
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'junegunn/vim-easy-align'
+    Plugin 'junegunn/rainbow_parentheses.vim'
 
     call vundle#end()
     filetype plugin indent on
@@ -79,6 +80,11 @@ let mapleader = ","
 
     " nerdtree {{{
         nmap <leader>n :NERDTreeToggle<cr>
+    " }}}
+
+    " rainbow_parentheses {{{
+        let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
+        nnoremap <leader>r :RainbowParentheses!!<cr> " toggle rainbow parens
     " }}}
 
     " tagbar {{{
