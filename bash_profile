@@ -47,6 +47,13 @@ done
 # ~/.bashrc.local can be used for local settings (not in repository)
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local
 
+# Add git command completion and prompt
+export GIT_PS1_SHOWDIRTYSTATE=1     # show unstaged (*) and staged (+)
+export GIT_PS1_SHOWSTASHSTATE=1     # show $ if something is stashed
+export GIT_PS1_SHOWUNTRACKEDFILES=1 # show % if something is untracked
+source git-completion.bash
+source git-prompt.sh
+
 # Change a color in the terminal's palette
 change_palette() (
     IFS=""  # $* should be joined without spaces
@@ -131,7 +138,8 @@ do_solarize_shell() {
     else
         prompt_color="\[\033[0;34m\]" # blue
     fi
-    export PS1="\n[${prompt_color}\w\[\033[0m\]]\n\$ ";
+    git_prompt='$(__git_ps1 "%s ")'
+    export PS1="\n[${prompt_color}\w\[\033[0m\]]\n${git_prompt}\$ ";
     export PS2=". ";
 
     # Customize colors for `ls` command
