@@ -67,6 +67,7 @@ let mapleader = ","
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'junegunn/vim-easy-align'
     Plugin 'junegunn/rainbow_parentheses.vim'
+    Plugin 'elzr/vim-json'
 
     call vundle#end()
     filetype plugin indent on
