@@ -165,6 +165,9 @@ augroup END " }}}
     " quickly change background
     nnoremap <leader>bd :set background=dark<cr>
     nnoremap <leader>bl :set background=light<cr>
+
+    " Execute macro in q
+    nnoremap Q @q
 " }}}
 
 if filereadable(expand("~/.vimrc.local"))
