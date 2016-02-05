@@ -51,6 +51,9 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1 # show % if something is untracked
 source git-completion.bash
 source git-prompt.sh
 
+# combined mkdir and cd
+mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
+
 # Change a color in the terminal's palette
 change_palette() (
     IFS=""  # $* should be joined without spaces
