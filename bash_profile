@@ -44,9 +44,6 @@ do
     shopt -s "$option" 2> /dev/null
 done
 
-# ~/.bashrc.local can be used for local settings (not in repository)
-[ -f ~/.bashrc.local ] && . ~/.bashrc.local
-
 # Add git command completion and prompt
 export GIT_PS1_SHOWDIRTYSTATE=1     # show unstaged (*) and staged (+)
 export GIT_PS1_SHOWSTASHSTATE=1     # show $ if something is stashed
@@ -175,3 +172,6 @@ solarized() {
 
 # Solarize the shell only if running interactively (makes FTP clients happy)
 [[ "$-" == *i* ]] && do_solarize_shell
+
+# ~/.bashrc.local can be used for local settings (not in repository)
+[ -f ~/.bashrc.local ] && . ~/.bashrc.local
