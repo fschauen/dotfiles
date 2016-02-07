@@ -73,7 +73,7 @@ change_palette() (
 #   - prompt string
 #   - `ls` command output colors
 do_solarize_shell() {
-    [ -z "$BACKGROUND" ] && BACKGROUND="dark"
+    [ -z "$BACKGROUND" ] && export BACKGROUND="dark"
 
     if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
         echo "tell application \"Terminal\" to set current settings of selected tab of front window to settings set \"solarized-$BACKGROUND\"" | osascript
@@ -113,7 +113,7 @@ do_solarize_shell() {
         # Change the ANSI color palette
         #   iTerm2: Pnrrggbb (http://iterm2.com/documentation-escape-codes.html)
         #   other terminals: 4;n;#rrggbb
-        #        Pn or 4;n;#         n  rrggbb        ANSI name
+        #        Pn or 4;n;#         n        rrggbb        ANSI name
         change_palette $(printf $selector  0) $base02     # 0;30 black
         change_palette $(printf $selector  1) $red        # 0;31 red
         change_palette $(printf $selector  2) $green      # 0;32 green

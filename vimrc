@@ -110,6 +110,11 @@ let mapleader = ","
     " }}}
 
     " vim-colors-solarized {{{
+        if $BACKGROUND == 'light'   " use background from bash if available
+            set background=light
+        else
+            set background=dark     " default is dark
+        endif
         silent! colorscheme solarized
     " }}}
 
