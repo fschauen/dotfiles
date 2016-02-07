@@ -1,8 +1,30 @@
+# Color palette translation:
+#
+#   Solarized  Git/ANSI
+#   ---------  --------
+#   base03     bold black
+#   base02     black
+#   base01     bold green
+#   base00     bold yellow
+#   base0      bold blue
+#   base1      bold cyan
+#   base2      white
+#   base3      bold white
+#   red        red
+#   green      green
+#   blue       blue
+#   magenta    magenta
+#   yellow     yellow
+#   cyan       cyan
+#   orange     bold red
+#   violet     bold magenta
+
 [alias]
     a       = add
     aa      = add --all
     b       = branch
     ba      = branch --all
+    bav     = branch --all --verbose
     bd      = branch --delete
     cm      = commit --verbose
     co      = checkout
@@ -11,8 +33,8 @@
     dc      = diff --cached
     dt      = difftool
     ff      = merge --ff-only
-    l       = log --graph --format='%C(auto)%h%Cred%d %Creset%s %Cblue(%ar)'
-    la      = log --graph --format='%C(auto)%h%Cred%d %Creset%s %Cblue(%ar)' --all
+    l       = log --graph --format='%C(auto)%h%d %s %C(auto,bold green)%ar'
+    la      = log --graph --format='%C(auto)%h%d %s %C(auto,bold green)%ar' --all
     ll      = log --graph --decorate --stat
     lla     = log --graph --decorate --stat --all
     pom     = push origin master
@@ -31,6 +53,13 @@
 
 [color]
     ui = auto
+
+[color "decorate"]
+    branch          = blue
+    remoteBranch    = bold red  # orange
+    tag             = green
+    stash           = bold magenta
+    HEAD            = cyan
 
 [color "diff"]
     meta = blue
