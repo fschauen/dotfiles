@@ -71,6 +71,8 @@ let mapleader = ","
     Plugin 'junegunn/vim-easy-align'
     Plugin 'junegunn/rainbow_parentheses.vim'
     Plugin 'elzr/vim-json'
+    Plugin 'godlygeek/tabular' " must come before vim-markdown
+    Plugin 'plasticboy/vim-markdown'
 
     call vundle#end()
     filetype plugin indent on
@@ -123,7 +125,6 @@ let mapleader = ","
 
 augroup vimrc " {{{
     autocmd!
-    au BufNewFile,BufRead *.md set ft=markdown
     au BufNewFile,BufRead bash_profile,bashrc set ft=sh
     au BufNewFile,BufRead gitconfig set ft=gitconfig
     au BufNewFile,BufRead rcrc set ft=sh
