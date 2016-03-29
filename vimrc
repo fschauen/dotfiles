@@ -48,29 +48,22 @@ set nocompatible
 " }}}
 
 " Plugins {{{
-    filetype off
-
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#rc()
-    Plugin 'altercation/vim-colors-solarized'
-    Plugin 'benmills/vimux'
-    Plugin 'bronson/vim-trailing-whitespace'
-    Plugin 'davidoc/taskpaper.vim'
-    Plugin 'elzr/vim-json'
-    Plugin 'godlygeek/tabular' " must come before vim-markdown
-    Plugin 'gmarik/Vundle.vim'
-    Plugin 'junegunn/rainbow_parentheses.vim'
-    Plugin 'junegunn/vim-easy-align'
-    Plugin 'kien/ctrlp.vim'
-    Plugin 'majutsushi/tagbar'
-    Plugin 'plasticboy/vim-markdown'
-    Plugin 'scrooloose/nerdtree'
-    Plugin 'tpope/vim-commentary'
-    Plugin 'vim-airline/vim-airline'
-    Plugin 'vim-airline/vim-airline-themes'
-
-    filetype plugin indent on
-    syntax enable
+    call plug#begin('~/.vim/bundle')
+        Plug 'altercation/vim-colors-solarized'
+        Plug 'benmills/vimux'
+        Plug 'bronson/vim-trailing-whitespace'
+        Plug 'davidoc/taskpaper.vim'
+        Plug 'elzr/vim-json'
+        Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
+        Plug 'junegunn/rainbow_parentheses.vim'
+        Plug 'junegunn/vim-easy-align'
+        Plug 'kien/ctrlp.vim'
+        Plug 'majutsushi/tagbar'
+        Plug 'scrooloose/nerdtree'
+        Plug 'tpope/vim-commentary'
+        Plug 'vim-airline/vim-airline'
+        Plug 'vim-airline/vim-airline-themes'
+    call plug#end()
 
     let g:ctrlp_match_window = 'bottom,order:ttb'
     let g:ctrlp_switch_buffer = 0       " open files in new buffer
@@ -85,7 +78,9 @@ set nocompatible
     let g:airline_theme="solarized"
     let g:airline_powerline_fonts = 1
 
-    silent! colorscheme solarized
+    colorscheme solarized
+    filetype plugin indent on
+    syntax enable
 " }}}
 
 " Mappings {{{
