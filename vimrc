@@ -60,7 +60,7 @@ set nocompatible
         Plug 'junegunn/vim-easy-align'
         Plug 'kien/ctrlp.vim'
         Plug 'majutsushi/tagbar'
-        Plug 'scrooloose/nerdtree'
+        Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
         Plug 'tpope/vim-commentary'
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
