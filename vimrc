@@ -1,151 +1,107 @@
 set nocompatible
-let mapleader = ","
 
-" Vim options {{{
-    set background=dark             " use dark background
-    set backspace=indent,eol,start  " allow backspace over everything
-    set clipboard=unnamed           " use system clipboard for yank/put/delete
-    set colorcolumn=80              " highlight column 80
-    set cursorline                  " highlight current line
-    set encoding=utf8               " use UTF-8 by default
-    set expandtab                   " expand <Tab> to spaces in Insert mode
-    set foldenable                  " enable folding
-    set foldlevelstart=100          " open all folds when opening
-    set foldmethod=syntax           " fold based on syntax  by default
-    set foldnestmax=10              " avoid folds too deeply nested
-    set formatoptions-=t            " don't auto wrap when typing
-    set hidden                      " allow switch away from buffer w/o writing
-    set history=1000                " remember 1000 commnand lines
-    set hlsearch                    " highlight matches for last search pattern
-    set incsearch                   " show match for partly typed search command
-    set laststatus=2                " always show the status line
-    set lazyredraw                  " don't redraw when executing macros
-    set listchars=tab:▸\ ,trail:·,eol:¶
-    set nobackup                    " don't keep a backup after overwriting a file
-    set noshowmode                  " hide mode since it's shown in airline
-    set noswapfile                  " don't use swap files
-    set number                      " show line numbers
-    set scrolloff=7                 " number of screen lines to show around the cursor
-    set shiftwidth=4                " number of spaces used for each step of (auto)indent
-    set showmatch                   " show matching brackets
-    set smartindent                 " do clever autoindenting
-    set smarttab                    " a <Tab> in an indent inserts 'shiftwidth' spaces
-    set splitbelow                  " new horizontal splits go below current
-    set splitright                  " new vertical splits to the right of current
-    set tabstop=4                   " number of spaces a <Tab> in the text stands for
-    set textwidth=79                " break lines at 79 characters
-    set timeoutlen=1000             " timeout of 1s for key combinations
-    set ttimeoutlen=100             " timeout of 100ms for <esc>
-    set ttyfast                     " fast terminal connection
-    set wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
-    set wildmenu                    " enhanced command-line completion
-    set wrap                        " wrap long lines
-    set writebackup                 " make a backup before writing a file
-    if has('multi_byte')
-        let &showbreak='↳'
-    else
-        let &showbreak=' '
-    endif
+" Options {{{
+    set   autoindent
+    set   autoread
+    let  &background = $BACKGROUND ==# 'light' ? 'light' : 'dark'
+    set   backspace=indent,eol,start
+    set nobackup
+    set   clipboard=unnamed
+    set   colorcolumn=80
+    set   cursorline
+    set   encoding=utf8
+    set   expandtab
+    set   foldenable
+    set   foldlevelstart=100
+    set   foldmethod=syntax
+    set   foldnestmax=10
+    set   formatoptions-=t
+    set   hidden
+    set   history=1000
+    set   hlsearch
+    set   incsearch
+    set   laststatus=2
+    set   lazyredraw
+    set   listchars=tab:›\ ,trail:·
+    set   number
+    set   scrolloff=5
+    set   shiftwidth=4
+    let  &showbreak = '↪ '
+    set   showmatch
+    set noshowmode
+    set   sidescrolloff=5
+    set   nrformats-=octal
+    set   smartindent
+    set   smarttab
+    set   splitbelow
+    set   splitright
+    set noswapfile
+    set   tabstop=4
+    set   textwidth=79
+    set   timeoutlen=1000
+    set   ttimeoutlen=100
+    set   ttyfast
+    set   wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
+    set   wildmenu
+    set   wrap
+    set   writebackup
 " }}}
 
 " Plugins {{{
     filetype off
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin()
-    Plugin 'gmarik/Vundle.vim'
 
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#rc()
     Plugin 'altercation/vim-colors-solarized'
     Plugin 'benmills/vimux'
-    Plugin 'bling/vim-airline'
     Plugin 'bronson/vim-trailing-whitespace'
-    Plugin 'kien/ctrlp.vim'
-    Plugin 'majutsushi/tagbar'
-    Plugin 'scrooloose/nerdtree'
     Plugin 'davidoc/taskpaper.vim'
-    Plugin 'scrooloose/syntastic'
-    Plugin 'tpope/vim-endwise'
-    Plugin 'tpope/vim-commentary'
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'tpope/vim-surround'
-    Plugin 'terryma/vim-multiple-cursors'
-    Plugin 'junegunn/vim-easy-align'
-    Plugin 'junegunn/rainbow_parentheses.vim'
     Plugin 'elzr/vim-json'
     Plugin 'godlygeek/tabular' " must come before vim-markdown
+    Plugin 'gmarik/Vundle.vim'
+    Plugin 'junegunn/rainbow_parentheses.vim'
+    Plugin 'junegunn/vim-easy-align'
+    Plugin 'kien/ctrlp.vim'
+    Plugin 'majutsushi/tagbar'
     Plugin 'plasticboy/vim-markdown'
+    Plugin 'scrooloose/nerdtree'
+    Plugin 'tpope/vim-commentary'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
 
-    call vundle#end()
     filetype plugin indent on
     syntax enable
 
-    " ctrlp {{{
-        let g:ctrlp_match_window = 'bottom,order:ttb'
-        let g:ctrlp_switch_buffer = 0       " open files in new buffer
-        let g:ctrlp_working_path_mode = 0   " use the current working directory
-    " }}}
+    let g:ctrlp_match_window = 'bottom,order:ttb'
+    let g:ctrlp_switch_buffer = 0       " open files in new buffer
+    let g:ctrlp_working_path_mode = 0   " use the current working directory
 
-    " nerdtree {{{
-        nmap <leader>n :NERDTreeToggle<cr>
-    " }}}
+    let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
 
-    " rainbow_parentheses {{{
-        let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
-        nnoremap <leader>r :RainbowParentheses!!<cr> " toggle rainbow parens
-    " }}}
+    highlight link taskpaperDone          Comment
+    highlight link taskpaperCancelled     Comment
+    highlight link taskpaperComment       Normal
 
-    " tagbar {{{
-        nnoremap <leader>g :TagbarToggle<cr>
-    " }}}
+    let g:airline_theme="solarized"
+    let g:airline_powerline_fonts = 1
 
-    " taskpaper {{{
-        " relink some of the default highlight groups for visual improvement
-        hi link taskpaperDone          Comment
-        hi link taskpaperCancelled     Comment
-        hi link taskpaperComment       Normal
-    " }}}
-
-    " vim-airline {{{
-        let g:airline_theme="solarized"
-        let g:airline_powerline_fonts = 1
-    " }}}
-
-    " vim-colors-solarized {{{
-        if $BACKGROUND == 'light'   " use background from bash if available
-            set background=light
-        else
-            set background=dark     " default is dark
-        endif
-        silent! colorscheme solarized
-    " }}}
-
-    " vim-trailing-whitespace {{{
-        nnoremap <leader>w :FixWhitespace<cr>
-    " }}}
-
-    " vim-easy-align {{{
-        xmap ga <Plug>(EasyAlign)
-        xmap ga <Plug>(EasyAlign)
-    " }}}
+    silent! colorscheme solarized
 " }}}
 
-augroup vimrc " {{{
-    autocmd!
-    au BufNewFile,BufRead bash_profile,bashrc set ft=sh
-    au BufNewFile,BufRead gitconfig set ft=gitconfig
-    au BufNewFile,BufRead rcrc set ft=sh
+" Mappings {{{
+    let mapleader = "\<space>"
+    let maplocalleader = ","
 
-    au FileType vim setl foldmethod=marker
-    au FileType python setl foldmethod=indent
-    au FileType markdown,text setl formatoptions+=t | setl spell
-    au FileType gitcommit setl formatoptions+=t | setl spell | setl textwidth=72
-augroup END " }}}
+    " Start interactive EasyAlign
+    nmap ga <Plug>(EasyAlign)
+    xmap ga <Plug>(EasyAlign)
 
-" Key mappings {{{
-    " window resizing similar to the way I have tmux set up
-    nnoremap <c-w><c-k> 5<c-w>+
-    nnoremap <c-w><c-j> 5<c-w>-
-    nnoremap <c-w><c-h> 5<c-w><
-    nnoremap <c-w><c-l> 5<c-w>>
+    " better navigation for wrapped lines
+    noremap j gj
+    noremap k gk
+
+    " quickly exit insert mode
+    inoremap jk <esc>
 
     " retain selection when indenting/unindenting in visual mode
     vnoremap > ><cr>gv
@@ -155,30 +111,48 @@ augroup END " }}}
     nnoremap // /\c
     nnoremap ?? ?\c
 
-    " quickly exit insert mode
-    inoremap jk <esc>
+    " window resizing similar to the way I have tmux set up
+    nnoremap <c-w><c-k> 5<c-w>+
+    nnoremap <c-w><c-j> 5<c-w>-
+    nnoremap <c-w><c-h> 5<c-w><
+    nnoremap <c-w><c-l> 5<c-w>>
 
-    " better navigation for wrapped lines
-    noremap j gj
-    noremap k gk
-
-    " space opens/closes folds
-    nnoremap <space> za
-
-    " turn off search highlight
-    nnoremap <leader><leader> :nohlsearch<cr>
-
-    " switch between last two files
-    nnoremap <leader><space> <c-^>
+    " easier tab navigation
+    nnoremap <c-j> :tabprevious<cr>
+    nnoremap <c-k> :tabnext<cr>
+    nnoremap <c-h> :tabfirst<cr>
+    nnoremap <c-l> :tablast<cr>
 
     " quickly change background
-    nnoremap <leader>bd :set background=dark<cr>
-    nnoremap <leader>bl :set background=light<cr>
+    nnoremap <leader>bg
+        \ :let &background = &background ==# 'light' ? 'dark' : 'light'<cr>
 
-    " Execute macro in q
-    nnoremap Q @q
-" }}}
+    " toggle tagbar
+    nnoremap <leader>g :TagbarToggle<cr>
 
-if filereadable(expand("~/.vimrc.local"))
-    source ~/.vimrc.local
-endif
+    " turn off search highlight
+    nnoremap <leader>h :nohlsearch<cr>
+
+    " toggle NERDTree
+    nnoremap <leader>n :NERDTreeToggle<cr>
+
+    " toggle rainbow parens
+    nnoremap <leader>r :RainbowParentheses!!<cr>
+
+    " fix whitespace
+    nnoremap <leader>w :FixWhitespace<cr>
+" }}}"
+
+augroup vimrc " {{{
+    autocmd!
+    autocmd BufNewFile,BufRead bash_profile,bashrc set filetype=sh
+    autocmd BufNewFile,BufRead gitconfig set filetype=gitconfig
+    autocmd BufNewFile,BufRead rcrc set filetype=sh
+
+    autocmd FileType vim setlocal foldmethod=marker
+    autocmd FileType python setlocal foldmethod=indent foldignore=
+    autocmd FileType markdown,text,gitcommit setlocal formatoptions+=t spell
+    autocmd FileType gitcommit setlocal textwidth=72
+augroup END " }}}
+
+if filereadable(expand("~/.vimrc.local")) | source ~/.vimrc.local | endif
