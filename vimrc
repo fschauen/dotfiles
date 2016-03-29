@@ -23,6 +23,7 @@ set nocompatible
     set   laststatus=2
     set   lazyredraw
     set   listchars=tab:›\ ,trail:·
+    set   modelines=0
     set   number
     set   scrolloff=5
     set   shiftwidth=4
