@@ -117,7 +117,7 @@ do_solarize_shell() {
         change_palette $(printf $selector  0) $base02     # 0;30 black
         change_palette $(printf $selector  1) $red        # 0;31 red
         change_palette $(printf $selector  2) $green      # 0;32 green
-        change_palette $(printf $selector  3) $yellow     # 1;33 yellow
+        change_palette $(printf $selector  3) $yellow     # 0;33 yellow
         change_palette $(printf $selector  4) $blue       # 0;34 blue
         change_palette $(printf $selector  5) $magenta    # 0;35 magenta
         change_palette $(printf $selector  6) $cyan       # 0;36 cyan
