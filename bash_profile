@@ -133,14 +133,9 @@ do_solarize_shell() {
     fi
 
     # Customize the prompt
-    if [ "$BACKGROUND" = "light" ]; then
-        prompt_color="\[\033[0;36m\]" # cyan
-    else
-        prompt_color="\[\033[0;34m\]" # blue
-    fi
-    git_prompt='$(__git_ps1 "%s ")'
-    export PS1="\n[${prompt_color}\w\[\033[0m\]]\n${git_prompt}\$ ";
-    export PS2=". ";
+    [ -n "$SSH_CLIENT" ] && __c="0;33" || __c="0;36"
+    export PS1="\n[\[\033[${__c}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n$(__git_ps1 '%s ')\$ "
+    export PS2=". "
 
     # Customize colors for `ls` command
     ls_colors="$HOME/.dircolors/solarized-$BACKGROUND"
