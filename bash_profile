@@ -25,7 +25,7 @@ done
 
 # Useful aliases
 alias g="git"
-alias ls="ls -F --color=auto"
+alias ls="ls -F --color=auto --group-directories-first"
 alias la="ls -a"
 alias ll="ls -l"
 alias lla="ls -la"
