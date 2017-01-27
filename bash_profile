@@ -25,11 +25,12 @@ done
 
 # Useful aliases
 alias g="git"
-alias ls="ls --color=auto"
-alias l="ls -F"
-alias la="ls -aF"
-alias ll="ls -lF"
-alias lla="ls -laF"
+alias ls="ls -F --color=auto"
+alias la="ls -a"
+alias ll="ls -l"
+alias lla="ls -la"
+alias llh="ls -lh"
+alias llha="ls -lha"
 alias grep="grep --color=auto";
 alias egrep="egrep --color=auto";
 alias fgrep="fgrep --color=auto";
