@@ -50,7 +50,6 @@ export GIT_PS1_SHOWDIRTYSTATE=1     # show unstaged (*) and staged (+)
 export GIT_PS1_SHOWSTASHSTATE=1     # show $ if something is stashed
 export GIT_PS1_SHOWUNTRACKEDFILES=1 # show % if something is untracked
 source git-completion.bash
-source git-prompt.sh
 
 # combined mkdir and cd
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
@@ -135,7 +134,7 @@ do_solarize_shell() {
 
     # Customize the prompt
     [ -n "$SSH_CLIENT" ] && __c="0;33" || __c="0;36"
-    export PS1="\n[\[\033[${__c}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n$(__git_ps1 '%s ')\$ "
+    export PS1="\n[\[\033[${__c}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n\$ "
     export PS2=". "
 
     # Customize colors for `ls` command
