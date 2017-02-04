@@ -45,10 +45,7 @@ do
     shopt -s "$option" 2> /dev/null
 done
 
-# Add git command completion and prompt
-export GIT_PS1_SHOWDIRTYSTATE=1     # show unstaged (*) and staged (+)
-export GIT_PS1_SHOWSTASHSTATE=1     # show $ if something is stashed
-export GIT_PS1_SHOWUNTRACKEDFILES=1 # show % if something is untracked
+# Add git command completion
 source git-completion.bash
 
 # combined mkdir and cd
