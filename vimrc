@@ -52,7 +52,6 @@ set nocompatible
     call plug#begin('~/.vim/bundle')
         Plug 'altercation/vim-colors-solarized'
         Plug 'bronson/vim-trailing-whitespace'
-        Plug 'davidoc/taskpaper.vim'
         Plug 'elzr/vim-json'
         Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
         Plug 'junegunn/rainbow_parentheses.vim'
@@ -70,10 +69,6 @@ set nocompatible
     let g:ctrlp_working_path_mode = 0   " use the current working directory
 
     let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
-
-    highlight link taskpaperDone          Comment
-    highlight link taskpaperCancelled     Comment
-    highlight link taskpaperComment       Normal
 
     if !exists('g:airline_symbols')
         let g:airline_symbols = {}
