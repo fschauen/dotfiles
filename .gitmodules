@@ -1,6 +1,0 @@
-[submodule "resources/Menlo-for-Powerline"]
-	path = resources/Menlo-for-Powerline
-	url = https://github.com/abertsch/Menlo-for-Powerline.git
-[submodule "resources/powerline-consolas"]
-	path = resources/powerline-consolas
-	url = https://github.com/nicolalamacchia/powerline-consolas.git
