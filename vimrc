@@ -51,7 +51,6 @@ set nocompatible
 " Plugins {{{
     call plug#begin('~/.vim/bundle')
         Plug 'altercation/vim-colors-solarized'
-        Plug 'benmills/vimux'
         Plug 'bronson/vim-trailing-whitespace'
         Plug 'davidoc/taskpaper.vim'
         Plug 'elzr/vim-json'
