@@ -55,7 +55,6 @@ set nocompatible
         Plug 'elzr/vim-json'
         Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
         Plug 'junegunn/rainbow_parentheses.vim'
-        Plug 'junegunn/vim-easy-align'
         Plug 'kien/ctrlp.vim'
         Plug 'majutsushi/tagbar'
         Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -93,10 +92,6 @@ set nocompatible
 " Mappings {{{
     let mapleader = "\<space>"
     let maplocalleader = ","
-
-    " Start interactive EasyAlign
-    nmap ga <Plug>(EasyAlign)
-    xmap ga <Plug>(EasyAlign)
 
     " better navigation for wrapped lines
     noremap j gj
