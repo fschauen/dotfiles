@@ -85,6 +85,8 @@ set nocompatible
     let g:airline_symbols.linenr = '␤'
     let g:airline_symbols.whitespace = '✗'
 
+    let g:bufferline_echo = 0
+
     colorscheme solarized
     filetype plugin indent on
     syntax enable
