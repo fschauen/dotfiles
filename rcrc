@@ -1,3 +1,3 @@
 # rcm config -> https://github.com/thoughtbot/rcm
-EXCLUDES="bin resources"
+EXCLUDES="bin resources README"
 SYMLINK_DIRS="dircolors git_template vim"
