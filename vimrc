@@ -62,6 +62,7 @@ set nocompatible
         Plug 'tpope/vim-commentary'
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
+        Plug 'keith/swift.vim'
     call plug#end()
 
     let g:ctrlp_match_window = 'bottom,order:ttb'
