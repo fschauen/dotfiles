@@ -62,6 +62,7 @@ set nocompatible
         Plug 'tpope/vim-commentary'
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
+        Plug 'vim-scripts/srec.vim'
         Plug 'keith/swift.vim'
     call plug#end()
 
@@ -87,6 +88,14 @@ set nocompatible
     let g:airline_symbols.whitespace = '✗'
 
     let g:bufferline_echo = 0
+
+    highlight link srecStart        Comment
+    highlight link srecType         Comment
+    highlight link srecLength       WarningMsg
+    highlight link srec16BitAddress Constant
+    highlight link srec24BitAddress Constant
+    highlight link srec32BitAddress Constant
+    highlight link srecChecksum     Type
 
     colorscheme solarized
     filetype plugin indent on
@@ -149,6 +158,7 @@ augroup vimrc " {{{
     autocmd BufNewFile,BufRead bash_profile,bashrc set filetype=sh
     autocmd BufNewFile,BufRead gitconfig set filetype=gitconfig
     autocmd BufNewFile,BufRead rcrc set filetype=sh
+    autocmd BufNewFile,BufRead *.sx,*.s19 set filetype=srec
 
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType python setlocal foldmethod=indent foldignore=
