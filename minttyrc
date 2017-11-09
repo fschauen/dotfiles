@@ -6,6 +6,6 @@ Font=Consolas
 FontHeight=9
 Locale=en_US
 Rows=60
-Scrollbar=0
+Scrollbar=none
 Term=xterm-256color
 Transparency=off
