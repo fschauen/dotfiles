@@ -24,13 +24,18 @@ do
 done
 
 # Useful aliases
+if ls --group-directories-first >/dev/null 2>&1
+then
+    ls_dir_group="--group-directories-first"    # GNU version
+else
+    ls_dir_group="" # BSD version, doesn't support directory grouping
+fi
+
 alias g="git"
-alias ls="ls -F --color=auto --group-directories-first"
+alias ls="ls -hF --color=auto ${ls_dir_group}"
 alias la="ls -a"
 alias ll="ls -l"
 alias lla="ls -la"
-alias llh="ls -lh"
-alias llha="ls -lha"
 alias grep="grep --color=auto";
 alias egrep="egrep --color=auto";
 alias fgrep="fgrep --color=auto";
