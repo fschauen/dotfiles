@@ -16,7 +16,7 @@ do
     [ -d "$p" ] && export PATH="$p:$PATH"
 done
 
-# Prepend custom man directories to MATPATH if they exist, so that we get
+# Prepend custom man directories to MANPATH if they exist, so that we get
 # correct man page entries when multiple versions of a command are available.
 for p in /usr/local/share/man /usr/local/opt/coreutils/libexec/gnuman
 do
