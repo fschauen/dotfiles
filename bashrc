@@ -135,7 +135,13 @@ do_solarize_shell() {
     fi
 
     # Customize the prompt
-    [ -n "$SSH_CLIENT" ] && __c="0;33" || __c="0;36"
+    if [ $(id -u) -eq 0 ]; then
+        __c="1;31"      # orange user name for root
+    elif [ -n "$SSH_CLIENT" ]; then
+        __c="0;33"      # yellow user name when connected via SSH
+    else
+        __c="0;36"      # default user name color is cyan
+    fi
     export PS1="\n[\[\033[${__c}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n\$ "
     export PS2=". "
 
