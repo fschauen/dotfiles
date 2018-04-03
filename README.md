@@ -1,12 +1,15 @@
-Getting started (see https://github.com/thoughtbot/rcm#installation):
+# Getting started 
 
-1. Install rcm:
+1. Install [rcm](https://github.com/thoughtbot/rcm#installation):
 
-    sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
-    sudo apt-get update
-    sudo apt-get install rcm 
+    ```bash
+        sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
+        sudo apt-get update
+        sudo apt-get install rcm 
+    ```
 
 2. Install the dotfiles:
 
-    env RCRC=$HOME/.dotfiles/rcrc rcup
-
+    ```bash
+        env RCRC=$HOME/.dotfiles/rcrc rcup
+    ```
