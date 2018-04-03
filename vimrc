@@ -64,6 +64,7 @@ set nocompatible
         Plug 'vim-airline/vim-airline-themes'
         Plug 'vim-scripts/srec.vim'
         Plug 'keith/swift.vim'
+        Plug 'chr4/nginx.vim'
     call plug#end()
 
     let g:ctrlp_match_window = 'bottom,order:ttb'
