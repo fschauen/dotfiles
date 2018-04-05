@@ -1,15 +1,13 @@
-# Getting started 
+# Installation
 
-1. Install [rcm](https://github.com/thoughtbot/rcm#installation):
-
-    ```bash
-        sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
-        sudo apt-get update
-        sudo apt-get install rcm 
-    ```
-
-2. Install the dotfiles:
+Install using:
 
     ```bash
-        env RCRC=$HOME/.dotfiles/rcrc rcup
+        cd $HOME && \
+        git clone git@git.schauenburg.me:fernando/dotfiles.git .dotfiles && \
+        .dotfiles/bin/setup.sh
     ```
+
+Installation of the dotfiles is handled automatically from `setup.sh` via
+[rcm](https://github.com/thoughtbot/rcm#installation).
+
