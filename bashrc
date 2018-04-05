@@ -142,7 +142,7 @@ do_solarize_shell() {
     else
         __c="0;36"      # default user name color is cyan
     fi
-    export PS1="\n[\[\033[${__c}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n\$ "
+    export PS1="[\[\033[${__c}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n\$ "
     export PS2=". "
 
     # Customize colors for `ls` command
