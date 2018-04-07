@@ -14,6 +14,7 @@ then
         Darwin*)
             brew tap thoughtbot/formulae
             brew install rcm
+            brew install reattach-to-user-namespace
             ;;
 
         CYGWIN*)
