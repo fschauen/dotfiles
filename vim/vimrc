@@ -80,22 +80,23 @@ set nocompatible
 
     let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
 
+                                                   " line : col (% of total)
+    let g:airline_section_z = airline#section#create(['%4l:%3v (%p%% of %L)'])
     if !exists('g:airline_symbols')
         let g:airline_symbols = {}
     endif
+
     let g:airline_left_sep = ' '
-    let g:airline_right_sep = ' '
     let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ' '
     let g:airline_right_alt_sep = ''
-    let g:airline_symbols.crypt = '☢'
+    let g:airline_symbols.crypt = '🔒'
+    let g:airline_symbols.branch = '⎇'
     let g:airline_symbols.paste = 'Ⓟ'
     let g:airline_symbols.spell = '✔'
-    let g:airline_symbols.branch = '⎇'
     let g:airline_symbols.readonly = ' ⃠'
-    let g:airline_symbols.linenr = '␤'
+    let g:airline_symbols.notexists = '∄'
     let g:airline_symbols.whitespace = '✗'
-
-    let g:bufferline_echo = 0
 
     highlight link srecStart        Comment
     highlight link srecType         Comment
