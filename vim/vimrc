@@ -28,7 +28,7 @@ set nocompatible
       let  &listchars = 'tab:▸ ,extends:❯,precedes:❮,trail:·'
       let  &showbreak = '↪ '
     else
-      let  &listchars = 'tab:> ,extends:>,precedes:<,trail:-'
+      let  &listchars = 'tab:>~,extends:>,precedes:<,trail:-'
       let  &showbreak = '-> '
     endif
     set     modelines=0
