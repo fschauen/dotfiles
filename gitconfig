@@ -46,7 +46,7 @@
     excludesfile    = ~/.gitignore_global
     editor          = vim
     trustctime      = false # http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
-	pager           = less -F -X
+    pager           = less -F -X
 
 [push]
     default = nothing
@@ -73,9 +73,9 @@
     untracked = cyan
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    required = true
 
 [include]
     path = ~/.gitconfig.local
