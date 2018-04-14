@@ -42,6 +42,7 @@ set nocompatible
     set   timeoutlen=1000
     set   ttimeoutlen=100
     set   ttyfast
+    set   viminfofile=~/.vim/viminfo
     set   wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
     set   wildmenu
     set   wrap
