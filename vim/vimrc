@@ -23,12 +23,18 @@ set nocompatible
     set     incsearch
     set     laststatus=2
     set     lazyredraw
-    set     listchars=tab:›\ ,trail:·
+    set     list
+    if has('multi_byte') && &encoding ==# 'utf-8'
+      let  &listchars = 'tab:▸ ,extends:❯,precedes:❮,trail:·'
+      let  &showbreak = '↪ '
+    else
+      let  &listchars = 'tab:> ,extends:>,precedes:<,trail:-'
+      let  &showbreak = '-> '
+    endif
     set     modelines=0
     set     number
     set     scrolloff=5
     set     shiftwidth=4
-    let    &showbreak = '↪ '
     set     showmatch
     set   noshowmode
     set     sidescrolloff=5
