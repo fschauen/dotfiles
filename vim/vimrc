@@ -9,6 +9,7 @@ set nocompatible
     set     clipboard=unnamed
     set     colorcolumn=80
     set     cursorline
+    set     diffopt=filler,vertical
     set     encoding=utf8
     set     expandtab
     set     foldenable
