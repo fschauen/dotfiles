@@ -1,52 +1,52 @@
 set nocompatible
 
 " Options {{{
-    set   autoindent
-    set   autoread
-    let  &background = $BACKGROUND ==# 'light' ? 'light' : 'dark'
-    set   backspace=indent,eol,start
-    set nobackup
-    set   clipboard=unnamed
-    set   colorcolumn=80
-    set   cursorline
-    set   encoding=utf8
-    set   expandtab
-    set   foldenable
-    set   foldlevelstart=100
-    set   foldmethod=syntax
-    set   foldnestmax=10
-    set   formatoptions-=t
-    set   hidden
-    set   history=1000
-    set   hlsearch
-    set   incsearch
-    set   laststatus=2
-    set   lazyredraw
-    set   listchars=tab:›\ ,trail:·
-    set   modelines=0
-    set   number
-    set   scrolloff=5
-    set   shiftwidth=4
-    let  &showbreak = '↪ '
-    set   showmatch
-    set noshowmode
-    set   sidescrolloff=5
-    set   nrformats-=octal
-    set   smartindent
-    set   smarttab
-    set   splitbelow
-    set   splitright
-    set noswapfile
-    set   tabstop=4
-    set   textwidth=79
-    set   timeoutlen=1000
-    set   ttimeoutlen=100
-    set   ttyfast
-    set   viminfofile=~/.vim/viminfo
-    set   wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
-    set   wildmenu
-    set   wrap
-    set   writebackup
+    set     autoindent
+    set     autoread
+    let    &background = $BACKGROUND ==# 'light' ? 'light' : 'dark'
+    set     backspace=indent,eol,start
+    set   nobackup
+    set     clipboard=unnamed
+    set     colorcolumn=80
+    set     cursorline
+    set     encoding=utf8
+    set     expandtab
+    set     foldenable
+    set     foldlevelstart=100
+    set     foldmethod=syntax
+    set     foldnestmax=10
+    set     formatoptions-=t
+    set     hidden
+    set     history=1000
+    set     hlsearch
+    set     incsearch
+    set     laststatus=2
+    set     lazyredraw
+    set     listchars=tab:›\ ,trail:·
+    set     modelines=0
+    set     number
+    set     scrolloff=5
+    set     shiftwidth=4
+    let    &showbreak = '↪ '
+    set     showmatch
+    set   noshowmode
+    set     sidescrolloff=5
+    set     nrformats-=octal
+    set     smartindent
+    set     smarttab
+    set     splitbelow
+    set     splitright
+    set   noswapfile
+    set     tabstop=4
+    set     textwidth=79
+    set     timeoutlen=1000
+    set     ttimeoutlen=100
+    set     ttyfast
+    set     viminfofile=~/.vim/viminfo
+    set     wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
+    set     wildmenu
+    set     wrap
+    set     writebackup
 " }}}
 
 " Plugins {{{
