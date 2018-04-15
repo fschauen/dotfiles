@@ -98,8 +98,12 @@ set nocompatible
 
     let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
 
-                                                   " line : col (% of total)
-    let g:airline_section_z = airline#section#create(['%4l:%3v (%p%% of %L)'])
+    if has('multi_byte') && &encoding ==# 'utf-8'
+        let g:airline_section_z = airline#section#create(['ℓ%4l/%L 𝚌%3v'])
+    else                                                " line / total : col
+        let g:airline_section_z = airline#section#create(['L%4l/%L c%3v'])
+    endif
+
     if !exists('g:airline_symbols')
         let g:airline_symbols = {}
     endif
