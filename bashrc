@@ -158,14 +158,23 @@ do_solarize_shell() {
     fi
 
     # Customize the prompt
-    if [ $(id -u) -eq 0 ]; then
-        __c="1;31"      # orange user name for root
-    elif [ -n "$SSH_CLIENT" ]; then
-        __c="0;33"      # yellow user name when connected via SSH
+    if [[ -n "$TMUX" ]]; then
+        LVL=$(($SHLVL - 2))
     else
-        __c="0;36"      # default user name color is cyan
+        LVL=$SHLVL
     fi
-    export PS1="[\[\033[${__c}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n\$ "
+    if [ $EUID -eq 0 ]; then
+        PROMPT=$(printf '#%.0s' $(seq 1 $LVL))
+        COLOR="1;31"        # orange user name for root
+    else
+        PROMPT=$(printf '\$%.0s' $(seq 1 $LVL))
+        if [ -n "$SSH_CLIENT" ]; then
+            COLOR="0;33"    # yellow user name when connected via SSH
+        else
+            COLOR="0;36"    # default user name color is cyan
+        fi
+    fi
+    export PS1="[\[\033[${COLOR}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n$PROMPT "
     export PS2=". "
 
     # Customize colors for `ls` command
