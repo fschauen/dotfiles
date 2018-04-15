@@ -37,6 +37,7 @@ set nocompatible
     set     number
     set     scrolloff=5
     set     shiftwidth=4
+    set     shortmess+=I
     set     showmatch
     set   noshowmode
     set     sidescrolloff=5
