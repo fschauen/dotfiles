@@ -12,9 +12,39 @@ then
             ;;
 
         Darwin*)
+            if ! command -v brew &>/dev/null; then
+                ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+            fi
+            brew analytics off
+
             brew tap thoughtbot/formulae
-            brew install rcm
-            brew install reattach-to-user-namespace
+            brew install \
+                bash \
+                coreutils \
+                ctags \
+                curl \
+                findutils \
+                git \
+                git-lfs \
+                gnupg \
+                openssl \
+                rcm \
+                reattach-to-user-namespace \
+                ssh-copy-id \
+                tmux \
+                tree \
+                vim
+
+            brew tap caskroom/fonts
+            brew cask install \
+                1password \
+                cyberduck \
+                dropbox \
+                font-source-code-pro \
+                google-chrome \
+                iterm2 \
+                transmission \
+                virtualbox
             ;;
 
         CYGWIN*)
@@ -34,4 +64,3 @@ fi
 
 # Use RCM to install dotfiles
 env RCRC=$(realpath "${BASH_SOURCE%/*}/../rcrc") rcup -v
-
