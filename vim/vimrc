@@ -126,9 +126,9 @@ set nocompatible
     vnoremap > ><cr>gv
     vnoremap < <<cr>gv
 
-    " case insensitive searching
+    " better searching (case insensitive & expand on previous)
     nnoremap // /\c
-    nnoremap ?? ?\c
+    nnoremap /// /<C-R>/
 
     " window resizing similar to the way I have tmux set up
     nnoremap <c-w><c-k> 5<c-w>+
