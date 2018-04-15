@@ -159,22 +159,22 @@ dark() { export BACKGROUND="dark" && do_solarize_shell; }
 
 # Print the solarized palette (for testing)
 solarized() {
-    printf "\033[%sm%-7s\033[0m "  "1;30" Base03
-    printf "\033[%sm%-7s\033[0m "  "0;30" Base02
-    printf "\033[%sm%-7s\033[0m "  "1;32" Base01
-    printf "\033[%sm%-7s\033[0m "  "1;33" Base00
-    printf "\033[%sm%-7s\033[0m "  "1;34" Base0
-    printf "\033[%sm%-7s\033[0m "  "1;36" Base1
-    printf "\033[%sm%-7s\033[0m "  "0;37" Base2
-    printf "\033[%sm%-7s\033[0m\n" "1;37" Base3
-    printf "\033[%sm%-7s\033[0m "  "0;31" Red
-    printf "\033[%sm%-7s\033[0m "  "1;31" Orange
-    printf "\033[%sm%-7s\033[0m "  "0;33" Yellow
-    printf "\033[%sm%-7s\033[0m "  "0;32" Green
-    printf "\033[%sm%-7s\033[0m "  "0;36" Cyan
-    printf "\033[%sm%-7s\033[0m "  "0;34" Blue
-    printf "\033[%sm%-7s\033[0m "  "1;35" Violet
-    printf "\033[%sm%-7s\033[0m\n" "0;35" Magenta
+    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;30" Base03  "1;30"  8
+    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;31" Red     "0;31"  1
+    printf "\033[%sm%-7s %-s %2d\033[0m        " "0;30" Base02  "0;30"  0
+    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "1;31" Orange  "1;31"  9
+    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;32" Base01  "1;32" 10
+    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;33" Yellow  "0;33"  3
+    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;33" Base00  "1;33" 11
+    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;32" Green   "0;32"  2
+    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;34" Base0   "1;34" 12
+    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;36" Cyan    "0;36"  6
+    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;36" Base1   "1;36" 14
+    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;34" Blue    "0;34"  4
+    printf "\033[%sm%-7s %-s %2d\033[0m        " "0;37" Base2   "0;37"  7
+    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "1;35" Violet  "1;35" 13
+    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;37" Base3   "1;37" 15
+    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;35" Magenta "0;35"  5
 }
 
 # Solarize the shell only if running interactively (makes FTP clients happy)
