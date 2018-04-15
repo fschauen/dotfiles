@@ -28,13 +28,6 @@ set nocompatible
     set     laststatus=2
     set     lazyredraw
     set     list
-    if has('multi_byte') && &encoding ==# 'utf-8'
-      let  &listchars = 'tab:▷ ,extends:»,precedes:«,trail:·'
-      let  &showbreak = ' ⤷  '
-    else
-      let  &listchars = 'tab:>~,extends:>,precedes:<,trail:-'
-      let  &showbreak = '-> '
-    endif
     set     modelines=0
     set     number
     set     scrolloff=5
@@ -69,6 +62,16 @@ set nocompatible
     set     wildmenu
     set     wrap
     set     writebackup
+
+    if has('multi_byte') && &encoding ==# 'utf-8'
+      set   foldtext=VimrcFoldText()
+      set   fillchars=fold:·
+      let  &listchars = 'tab:▷ ,extends:»,precedes:«,trail:·'
+      let  &showbreak = ' ⤷  '
+    else
+      let  &listchars = 'tab:>~,extends:>,precedes:<,trail:-'
+      let  &showbreak = '-> '
+    endif
 " }}}
 
 " Plugins {{{
@@ -140,6 +143,19 @@ set nocompatible
       endif
     endfunction
 
+    " Turn fold text from this:
+    "
+    "   +---  2 lines: text of first line in fold --------------------------
+    "
+    " into this:
+    "
+    "   ··· 2ℓ: text of first line in fold ······························
+    function! VimrcFoldText() abort
+      let l:level=substitute(v:folddashes, '-', '·', 'g')
+      let l:count=(v:foldend - v:foldstart + 1)
+      let l:title=substitute(getline(v:foldstart), '\v *', '', '')
+      return l:level . ' ' . l:count . 'ℓ: ' . l:title . ' '
+    endfunction
 " }}}"
 
 " Mappings {{{
