@@ -9,9 +9,10 @@ export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LESS="-i -j.49 -M -R -z-2"
 export PAGER=less
+export DOTFILES="$HOME/.dotfiles"
 
 # Prepend custom bin directories to PATH if they exist.
-for p in /usr/local/opt/coreutils/libexec/gnubin "$HOME/.dotfiles/bin" "$HOME/bin"
+for p in /usr/local/opt/coreutils/libexec/gnubin "$DOTFILES/bin" "$HOME/bin"
 do
     [ -d "$p" ] && export PATH="$p:$PATH"
 done
@@ -51,7 +52,7 @@ do
 done
 
 # Add git command completion
-source git-completion.bash
+source "$DOTFILES/resources/git-completion.bash"
 
 # combined mkdir and cd
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
