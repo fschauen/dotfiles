@@ -43,7 +43,7 @@ alias fgrep="fgrep --color=auto";
 alias v="vim"
 alias vi="vim"
 alias path='echo $PATH | tr -s ":" "\n"'
-alias manpath='echo $MANPATH | tr -s ":" "\n"'
+alias mpath='echo $MANPATH | tr -s ":" "\n"'
 
 # Shell options
 for option in cdspell checkwinsize globstar histappend nocaseglob
