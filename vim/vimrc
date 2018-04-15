@@ -12,6 +12,7 @@ set nocompatible
     set     diffopt=filler,vertical
     set     encoding=utf8
     set     expandtab
+    set     fileformats=unix,mac,dos
     set     foldenable
     set     foldlevelstart=100
     set     foldmethod=syntax
