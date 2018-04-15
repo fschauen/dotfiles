@@ -146,9 +146,6 @@ set nocompatible
     nnoremap <leader>bg
         \ :let &background = &background ==# 'light' ? 'dark' : 'light'<cr>
 
-    " toggle tagbar
-    nnoremap <leader>g :TagbarToggle<cr>
-
     " turn off search highlight
     nnoremap <leader>h :nohlsearch<cr>
 
