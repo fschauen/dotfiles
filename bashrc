@@ -11,17 +11,39 @@ export LESS="-i -j.49 -M -R -z-2"
 export PAGER=less
 export DOTFILES="$HOME/.dotfiles"
 
-# Prepend custom bin directories to PATH if they exist.
-for p in /usr/local/opt/coreutils/libexec/gnubin "$DOTFILES/bin" "$HOME/bin"
-do
-    [ -d "$p" ] && export PATH="$p:$PATH"
+# Find out where Homebrew performs installations. If Homebrew is not installed
+# (e.g. running on Linux), assume /usr/local for our installations.
+if command -v brew &>/dev/null; then
+    BREW_PREFIX=$(brew --prefix)
+else
+    BREW_PREFIX=/usr/local
+fi
+
+# Prevent path_helper from messing with the PATH when starting tmux.
+#   See: https://superuser.com/a/583502
+if [ -f /etc/profile ]; then
+    export PATH=""
+    source /etc/profile
+fi
+
+# Add custom bin dirs to PATH if they exist and are not already in PATH.
+for p in $BREW_PREFIX/opt/coreutils/libexec/gnubin $DOTFILES/bin $HOME/bin; do
+    if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
+        PATH="$p:$PATH"
+    fi
 done
+
+# If MANPATH is not yet defined, initialize it with the contents of `manpath`.
+if [ -z ${MANPATH+x} ]; then
+    export MANPATH=$(manpath)
+fi
 
 # Prepend custom man directories to MANPATH if they exist, so that we get
 # correct man page entries when multiple versions of a command are available.
-for p in /usr/local/share/man /usr/local/opt/coreutils/libexec/gnuman
-do
-    [ -d "$p" ] && export MANPATH="$p:$MANPATH"
+for p in $BREW_PREFIX/share/man $BREW_PREFIX/opt/coreutils/libexec/gnuman; do
+    if [ -d "$p" ] && [[ ":$MANPATH:" != *":$p:"* ]]; then
+        MANPATH="$p:$MANPATH"
+    fi
 done
 
 # Useful aliases
