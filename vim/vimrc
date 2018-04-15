@@ -17,7 +17,9 @@ set nocompatible
     set     foldlevelstart=100
     set     foldmethod=syntax
     set     foldnestmax=10
+    let    &formatlistpat='^\s*\(\d\+[\]:.)}\t ]\|[-*]\|\[[ x]\]\|([ x])\)\s*'
     set     formatoptions-=t
+    set     formatoptions+=jn
     set     hidden
     set     history=1000
     set     hlsearch
