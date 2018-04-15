@@ -8,6 +8,6 @@ Install using:
     .dotfiles/resources/bootstrap
 ```
 
-Installation of the dotfiles is handled automatically from `setup.sh` via
+Installation of the dotfiles is handled automatically from `bootstrap` via
 [rcm](https://github.com/thoughtbot/rcm#installation).
 
