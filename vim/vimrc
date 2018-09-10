@@ -56,7 +56,9 @@ set nocompatible
                 "   | |    |      |     |     |
                 "   v v    v      v     v     v
     set     viminfo=h,'500,<10000,s1000,/1000,:1000
-    set     viminfofile=~/.vim/viminfo
+    if has('viminfofile')
+      set   viminfofile=~/.vim/viminfo
+    endif
     set     virtualedit=block
     set     wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
     set     wildmenu
