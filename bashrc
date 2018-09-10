@@ -21,7 +21,7 @@ fi
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
-if [ -f /etc/profile ]; then
+if [ "$(uname)" == "Darwin" ]; then
     export PATH=""
     source /etc/profile
 fi
