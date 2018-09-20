@@ -237,6 +237,7 @@ man() {
     LESS_TERMCAP_se=$'\e[0m' \
     LESS_TERMCAP_me=$'\e[0m' \
     LESS_TERMCAP_ue=$'\e[0m' \
+    GROFF_NO_SGR=1 \
     man "$@"
 }
 
