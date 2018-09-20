@@ -1,187 +1,183 @@
 # Return immediately if non-interactive (makes FTP clients happy)
 [[ "$-" == *i* ]] || return
 
-# Environment variables
-export EDITOR="vim"
-export HISTSIZE="65536"
-export HISTFILESIZE="$HISTSIZE"
-export HISTCONTROL=ignoredups:ignorespace
-export LANG="en_US.UTF-8"
-export LANGUAGE="en_US"
-export LC_CTYPE="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-export LESS="-i -j.49 -M -R -z-2"
-export PAGER=less
-export DOTFILES="$HOME/.dotfiles"
+bashrc_customize_environment() {
+    [ -z "$BACKGROUND" ] && export BACKGROUND="dark"
+    export EDITOR="vim"
+    export HISTSIE="65536"
+    export HISTFILESIZE="$HISTSIZE"
+    export HISTCONTROL=ignoredups:ignorespace
+    export LANG="en_US.UTF-8"
+    export LANGUAGE="en_US"
+    export LC_CTYPE="en_US.UTF-8"
+    export LC_ALL="en_US.UTF-8"
+    export LESS="-i -j.49 -M -R -z-2"
+    export PAGER=less
+    export DOTFILES="$HOME/.dotfiles"
+    export \
+        base03="1;30" base02="0;30" base01="1;32" base00="1;33" \
+        base0="1;34"  base1="1;36"  base2="0;37"  base3="1;37"  \
+        red="0;31"    orange="1;31" yellow="0;33" green="0;32"  \
+        cyan="0;36"   blue="0;34"   violet="1;35" magenta="0;35"
+}
 
-# Find out where Homebrew performs installations. If Homebrew is not installed
-# (e.g. running on Linux), assume /usr/local for our installations.
-if command -v brew &>/dev/null; then
-    BREW_PREFIX=$(brew --prefix)
-else
-    BREW_PREFIX=/usr/local
-fi
+bashrc_customize_shell_options() {
+    for option in cdspell checkwinsize globstar histappend nocaseglob
+    do
+        shopt -s "$option" 2> /dev/null
+    done
+}
 
-# Prevent path_helper from messing with the PATH when starting tmux.
-#   See: https://superuser.com/a/583502
-if [ "$(uname)" == "Darwin" ]; then
-    export PATH=""
-    source /etc/profile
-fi
-
-# Add custom bin dirs to PATH if they exist and are not already in PATH.
-for p in $BREW_PREFIX/opt/coreutils/libexec/gnubin $DOTFILES/bin $HOME/bin; do
-    if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
-        PATH="$p:$PATH"
+bashrc_customize_paths() {
+    # Find out where Homebrew performs installations. If Homebrew is not
+    # installed (e.g. running on Linux), assume /usr/local for our
+    # installations.
+    local prefix=/usr/local
+    if command -v brew &>/dev/null; then
+        prefix=$(brew --prefix)
     fi
-done
 
-# If MANPATH is not yet defined, initialize it with the contents of `manpath`.
-if [ -z ${MANPATH+x} ]; then
-    export MANPATH=$(manpath)
-fi
-
-# Prepend custom man directories to MANPATH if they exist, so that we get
-# correct man page entries when multiple versions of a command are available.
-for p in $BREW_PREFIX/share/man $BREW_PREFIX/opt/coreutils/libexec/gnuman; do
-    if [ -d "$p" ] && [[ ":$MANPATH:" != *":$p:"* ]]; then
-        MANPATH="$p:$MANPATH"
+    # Prevent path_helper from messing with the PATH when starting tmux.
+    #   See: https://superuser.com/a/583502
+    if [ "$(uname)" == "Darwin" ]; then
+        export PATH=""
+        source /etc/profile
     fi
-done
 
-# Useful aliases
-if ls --group-directories-first >/dev/null 2>&1
-then
-    ls_dir_group="--group-directories-first"    # GNU version
-else
-    ls_dir_group="" # BSD version, doesn't support directory grouping
-fi
+    # Add custom bin dirs to PATH if they exist and are not already in PATH.
+    for p in $prefix/opt/coreutils/libexec/gnubin $DOTFILES/bin $HOME/bin
+    do
+        if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
+            PATH="$p:$PATH"
+        fi
+    done
 
-alias g="git"
-alias ls="ls -hF --color=auto ${ls_dir_group}"
-alias la="ls -a"
-alias ll="ls -l"
-alias lla="ls -la"
-alias grep="grep --color=auto";
-alias egrep="egrep --color=auto";
-alias fgrep="fgrep --color=auto";
-alias v="vim"
-alias vi="vim"
-alias path='echo $PATH | tr -s ":" "\n"'
-alias mpath='echo $MANPATH | tr -s ":" "\n"'
+    # If MANPATH is not yet defined, initialize it with the contents of
+    # `manpath`.
+    if [ -z ${MANPATH+x} ]; then
+        export MANPATH=$(manpath)
+    fi
 
-# Shell options
-for option in cdspell checkwinsize globstar histappend nocaseglob
-do
-    shopt -s "$option" 2> /dev/null
-done
+    # Prepend custom man directories to MANPATH if they exist, so that we get
+    # correct man page entries when multiple versions of a command are
+    # available.
+    for p in $prefix/share/man $prefix/opt/coreutils/libexec/gnuman
+    do
+        if [ -d "$p" ] && [[ ":$MANPATH:" != *":$p:"* ]]; then
+            MANPATH="$p:$MANPATH"
+        fi
+    done
+}
 
-# Add git command completion
-source "$DOTFILES/resources/git-completion.bash"
+bashrc_customize_aliases() {
+    # Group directories first if supported by the available `ls` command.
+    local ls_dir_group=""
+    if ls --group-directories-first >/dev/null 2>&1; then
+        ls_dir_group="--group-directories-first"
+    fi
 
-# combined mkdir and cd
-mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
+    alias g="git"
+    alias ls="ls -hF --color=auto ${ls_dir_group}"
+    alias la="ls -a"
+    alias ll="ls -l"
+    alias lla="ls -la"
+    alias grep="grep --color=auto";
+    alias egrep="egrep --color=auto";
+    alias fgrep="fgrep --color=auto";
+    alias v="vim"
+    alias vi="vim"
+    alias path='echo $PATH | tr -s ":" "\n"'
+    alias mpath='echo $MANPATH | tr -s ":" "\n"'
+}
 
-# Change a color in the terminal's palette
-change_palette() (
-    IFS=""  # $* should be joined without spaces
+bashrc_send_term_osc() {
+    # Send an OSC (Operating System Commmand) to the terminal.
     if [ -n "$TMUX" ]; then
         # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
-        echo -ne "\033Ptmux;\033\033]$*\007\033\\"
+        echo -ne "\ePtmux;\e\e]$1\007\e\\"
     elif [ "${TERM%%-*}" = "screen" ]; then
-        echo -ne "\033P\033]$*\007\033\\"
+        echo -ne "\eP\e]$1\007\e\\"
     else
-        echo -ne "\033]$*\033\\"
+        echo -ne "\e]$1\e\\"
     fi
-)
+}
 
-# Solarize the shell by adjusting:
-#   - the terminal's color palette
-#   - the ANSI color palette
-#   - prompt string
-#   - `ls` command output colors
-do_solarize_shell() {
-    [ -z "$BACKGROUND" ] && export BACKGROUND="dark"
-
+bashrc_customize_terminal_colors() {
     if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
         echo "tell application \"Terminal\" to set current settings of selected tab of front window to settings set \"solarized-$BACKGROUND\"" | osascript
-    else
-        # Solarized colors from http://ethanschoonover.com/solarized
-        base03=002b36 base02=073642 base01=586e75 base00=657b83
-        base0=839496  base1=93a1a1  base2=eee8d5  base3=fdf6e3
-        red=dc322f    orange=cb4b16 yellow=b58900 green=859900
-        cyan=2aa198   blue=268bd2   violet=6c71c4 magenta=d33682
-
-        # Customize the terminal's color palette & determine selector for
-        # changing the ANSI color palette below
-        cursor_color=$red
-        if [ "$BACKGROUND" = "dark" ]; then
-            bg_color=$base03
-            fg_color=$base1
-        else
-            bg_color=$base2
-            fg_color=$base02
-        fi
-        if [ -n "$ITERM_SESSION_ID" ]; then
-            change_palette Pg $fg_color       # Foreground
-            change_palette Pi $fg_color       # Bold
-            change_palette Ph $bg_color       # Background
-            change_palette Pj $base01         # Selection
-            change_palette Pk $base2          # Selected text
-            change_palette Pl $cursor_color   # Cursor
-            change_palette Pm $cursor_color   # Cursor text
-            selector="P%s" a=a b=b c=c d=d e=e f=f
-        else
-            change_palette "10;#" $fg_color       # Foreground
-            change_palette "11;#" $bg_color       # Background
-            change_palette "12;#" $cursor_color   # Cursor
-            selector="4;%d;#" a=10 b=11 c=12 d=13 e=14 f=15
-        fi
-
-        # Change the ANSI color palette
-        #   iTerm2: Pnrrggbb (http://iterm2.com/documentation-escape-codes.html)
-        #   other terminals: 4;n;#rrggbb
-        #        Pn or 4;n;#         n        rrggbb        ANSI name
-        change_palette $(printf $selector  0) $base02     # 0;30 black
-        change_palette $(printf $selector  1) $red        # 0;31 red
-        change_palette $(printf $selector  2) $green      # 0;32 green
-        change_palette $(printf $selector  3) $yellow     # 0;33 yellow
-        change_palette $(printf $selector  4) $blue       # 0;34 blue
-        change_palette $(printf $selector  5) $magenta    # 0;35 magenta
-        change_palette $(printf $selector  6) $cyan       # 0;36 cyan
-        change_palette $(printf $selector  7) $base2      # 0;37 white
-        change_palette $(printf $selector  8) $base03     # 1;30 bold black
-        change_palette $(printf $selector  9) $orange     # 1;31 bold red
-        change_palette $(printf $selector $a) $base01     # 1;32 bold green
-        change_palette $(printf $selector $b) $base00     # 1;33 bold yellow
-        change_palette $(printf $selector $c) $base0      # 1;34 bold blue
-        change_palette $(printf $selector $d) $violet     # 1;35 bold magenta
-        change_palette $(printf $selector $e) $base1      # 1;36 bold cyan
-        change_palette $(printf $selector $f) $base3      # 1;37 bold white
+        return
     fi
 
-    # Customize the prompt
+    # Solarized colors from http://ethanschoonover.com/solarized
+    local \
+    base03_rgb=002b36 base02_rgb=073642 base01_rgb=586e75 base00_rgb=657b83 \
+    base0_rgb=839496  base1_rgb=93a1a1  base2_rgb=eee8d5  base3_rgb=fdf6e3 \
+    red_rgb=dc322f    orange_rgb=cb4b16 yellow_rgb=b58900 green_rgb=859900 \
+    cyan_rgb=2aa198   blue_rgb=268bd2   violet_rgb=6c71c4 magenta_rgb=d33682
+
+    if [ "$BACKGROUND" = "dark" ]; then
+        local background_rgb=$base03_rgb foreground_rgb=$base1_rgb
+    else
+        local background_rgb=$base2_rgb  foreground_rgb=$base02_rgb
+    fi
+    if [ -n "$ITERM_SESSION_ID" ]; then
+        # iTerm2: Pnrrggbb (http://iterm2.com/documentation-escape-codes.html)
+        bashrc_send_term_osc "Pg$foreground_rgb"    # Foreground
+        bashrc_send_term_osc "Pi$foreground_rgb"    # Bold
+        bashrc_send_term_osc "Ph$background_rgb"    # Background
+        bashrc_send_term_osc "Pj$base01_rgb"        # Selection
+        bashrc_send_term_osc "Pk$base2_rgb"         # Selected text
+        bashrc_send_term_osc "Pl$red_rgb"           # Cursor
+        bashrc_send_term_osc "Pm$red_rgb"           # Cursor text
+        local format_string="P%s" a=a b=b c=c d=d e=e f=f
+    else
+        # Other terminals: 4;n;#rrggbb (e.g. https://github.com/mintty/mintty/wiki/Tips#changing-colours)
+        bashrc_send_term_osc "10;#$foreground_rgb"  # Foreground
+        bashrc_send_term_osc "11;#$background_rgb"  # Background
+        bashrc_send_term_osc "12;#$red_rgb"         # Cursor
+        local format_string="4;%d;#" a=10 b=11 c=12 d=13 e=14 f=15
+    fi
+
+    bashrc_send_term_osc "$(printf $format_string  0)$base02_rgb"
+    bashrc_send_term_osc "$(printf $format_string  1)$red_rgb"
+    bashrc_send_term_osc "$(printf $format_string  2)$green_rgb"
+    bashrc_send_term_osc "$(printf $format_string  3)$yellow_rgb"
+    bashrc_send_term_osc "$(printf $format_string  4)$blue_rgb"
+    bashrc_send_term_osc "$(printf $format_string  5)$magenta_rgb"
+    bashrc_send_term_osc "$(printf $format_string  6)$cyan_rgb"
+    bashrc_send_term_osc "$(printf $format_string  7)$base2_rgb"
+    bashrc_send_term_osc "$(printf $format_string  8)$base03_rgb"
+    bashrc_send_term_osc "$(printf $format_string  9)$orange_rgb"
+    bashrc_send_term_osc "$(printf $format_string $a)$base01_rgb"
+    bashrc_send_term_osc "$(printf $format_string $b)$base00_rgb"
+    bashrc_send_term_osc "$(printf $format_string $c)$base0_rgb"
+    bashrc_send_term_osc "$(printf $format_string $d)$violet_rgb"
+    bashrc_send_term_osc "$(printf $format_string $e)$base1_rgb"
+    bashrc_send_term_osc "$(printf $format_string $f)$base3_rgb"
+}
+
+bashrc_customize_prompt() {
+    local level=$SHLVL color="$cyan" prompt=$(printf '\$%.0s' $(seq 1 $level))
+
     if [[ -n "$TMUX" ]]; then
-        LVL=$(($SHLVL - 2))
-    else
-        LVL=$SHLVL
+        level=$(($SHLVL - 2))
     fi
-    if [ $EUID -eq 0 ]; then
-        PROMPT=$(printf '#%.0s' $(seq 1 $LVL))
-        COLOR="1;31"        # orange user name for root
-    else
-        PROMPT=$(printf '\$%.0s' $(seq 1 $LVL))
-        if [ -n "$SSH_CLIENT" ]; then
-            COLOR="0;33"    # yellow user name when connected via SSH
-        else
-            COLOR="0;36"    # default user name color is cyan
-        fi
-    fi
-    export PS1="[\[\033[${COLOR}m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]]\n$PROMPT "
-    export PS2=". "
 
-    # Customize colors for `ls` command
-    ls_colors="$HOME/.dircolors/solarized-$BACKGROUND"
+    if [ $EUID -eq 0 ]; then
+        # root user
+        prompt=$(printf '#%.0s' $(seq 1 $level))
+        color="$orange"
+    elif [ -n "$SSH_CLIENT" ]; then
+        # SSH connection
+        color="$yellow"
+    fi
+
+    export PS1="[\[\e[${color}m\]\u@\h \[\e[${blue}m\]\w\[\e[0m\]]\n$prompt "
+    export PS2=". "
+}
+
+bashrc_customize_ls() {
+    local ls_colors="$HOME/.dircolors/solarized-$BACKGROUND"
     if type dircolors &> /dev/null && [ -f $ls_colors ]; then
         eval "$(dircolors $ls_colors)"
     fi
@@ -193,24 +189,35 @@ dark() { export BACKGROUND="dark" && do_solarize_shell; }
 
 # Print the solarized palette (for testing)
 solarized() {
-    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;30" Base03  "1;30"  8
-    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;31" Red     "0;31"  1
-    printf "\033[%sm%-7s %-s %2d\033[0m        " "0;30" Base02  "0;30"  0
-    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "1;31" Orange  "1;31"  9
-    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;32" Base01  "1;32" 10
-    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;33" Yellow  "0;33"  3
-    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;33" Base00  "1;33" 11
-    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;32" Green   "0;32"  2
-    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;34" Base0   "1;34" 12
-    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;36" Cyan    "0;36"  6
-    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;36" Base1   "1;36" 14
-    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;34" Blue    "0;34"  4
-    printf "\033[%sm%-7s %-s %2d\033[0m        " "0;37" Base2   "0;37"  7
-    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "1;35" Violet  "1;35" 13
-    printf "\033[%sm%-7s %-s %2d\033[0m        " "1;37" Base3   "1;37" 15
-    printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;35" Magenta "0;35"  5
+    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base03"  Base03  "$base03"  8
+    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$red"     Red     "$red"     1
+    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base02"  Base02  "$base02"  0
+    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$orange"  Orange  "$orange"  9
+    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base01"  Base01  "$base01"  10
+    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$yellow"  Yellow  "$yellow"  3
+    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base00"  Base00  "$base00"  11
+    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$green"   Green   "$green"   2
+    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base0"   Base0   "$base0"   12
+    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$cyan"    Cyan    "$cyan"    6
+    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base1"   Base1   "$base1"   14
+    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$blue"    Blue    "$blue"    4
+    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base2"   Base2   "$base2"   7
+    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$violet"  Violet  "$violet"  13
+    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base3"   Base3   "$base3"   15
+    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$magenta" Magenta "$magenta" 5
 }
 
+# Combined mkdir and cd
+mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
 
-# ~/.bashrc.local can be used for local settings (not in repository)
+# Apply customizations
+bashrc_customize_environment
+bashrc_customize_shell_options
+bashrc_customize_paths
+bashrc_customize_aliases
+bashrc_customize_terminal_colors
+bashrc_customize_prompt
+bashrc_customize_ls
+source "$DOTFILES/resources/git-completion.bash"
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local
+
