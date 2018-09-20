@@ -222,6 +222,24 @@ solarized() {
 # Combined mkdir and cd
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
 
+# Colorized `man`
+man() {
+    if [ "$BACKGROUND" = "dark" ]; then
+        local standout="$base02;44" bold="$yellow" underline="$base3;4"
+    else
+        local standout="$base02;46" bold="$blue" underline="$base00;4"
+    fi
+
+    env \
+    LESS_TERMCAP_so=$(echo -ne "\e[${standout}m") \
+    LESS_TERMCAP_md=$(echo -ne "\e[${bold}m") \
+    LESS_TERMCAP_us=$(echo -ne "\e[${underline}m") \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    man "$@"
+}
+
 # Apply customizations
 bashrc_customize_environment
 bashrc_customize_shell_options
