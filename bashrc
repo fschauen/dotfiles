@@ -157,12 +157,13 @@ bashrc_customize_terminal_colors() {
 }
 
 bashrc_customize_prompt() {
-    local level=$SHLVL color="$cyan" prompt=$(printf '\$%.0s' $(seq 1 $level))
-
+    local level=$SHLVL
     if [[ -n "$TMUX" ]]; then
         level=$(($SHLVL - 2))
     fi
 
+    local color="$cyan"
+    local prompt=$(printf '\$%.0s' $(seq 1 $level))
     if [ $EUID -eq 0 ]; then
         # root user
         prompt=$(printf '#%.0s' $(seq 1 $level))
