@@ -1,3 +1,6 @@
+# Return immediately if non-interactive (makes FTP clients happy)
+[[ "$-" == *i* ]] || return
+
 # Environment variables
 export EDITOR="vim"
 export HISTSIZE="65536"
@@ -208,8 +211,6 @@ solarized() {
     printf "\033[%sm%-7s %-s %2d\033[0m\n"       "0;35" Magenta "0;35"  5
 }
 
-# Solarize the shell only if running interactively (makes FTP clients happy)
-[[ "$-" == *i* ]] && do_solarize_shell
 
 # ~/.bashrc.local can be used for local settings (not in repository)
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local
