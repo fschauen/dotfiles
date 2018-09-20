@@ -183,9 +183,21 @@ bashrc_customize_ls() {
     fi
 }
 
-# Quickly change between light and dark background
-light() { export BACKGROUND="light" && do_solarize_shell; }
-dark() { export BACKGROUND="dark" && do_solarize_shell; }
+# Change to light background
+light() {
+    export BACKGROUND="light"
+    bashrc_customize_terminal_colors
+    bashrc_customize_prompt
+    bashrc_customize_ls
+}
+
+# Change to dark background
+dark() {
+    export BACKGROUND="dark"
+    bashrc_customize_terminal_colors
+    bashrc_customize_prompt
+    bashrc_customize_ls
+}
 
 # Print the solarized palette (for testing)
 solarized() {
