@@ -4,9 +4,6 @@
 bashrc_customize_environment() {
     [ -z "$BACKGROUND" ] && export BACKGROUND="dark"
     export EDITOR="vim"
-    export HISTSIE="65536"
-    export HISTFILESIZE="$HISTSIZE"
-    export HISTCONTROL=ignoredups:ignorespace
     export LANG="en_US.UTF-8"
     export LANGUAGE="en_US"
     export LC_CTYPE="en_US.UTF-8"
@@ -19,6 +16,12 @@ bashrc_customize_environment() {
         base0="1;34"  base1="1;36"  base2="0;37"  base3="1;37"  \
         red="0;31"    orange="1;31" yellow="0;33" green="0;32"  \
         cyan="0;36"   blue="0;34"   violet="1;35" magenta="0;35"
+
+    # Eternal bash history (from https://stackoverflow.com/a/19533853)
+    export HISTFILESIZE=
+    export HISTSIZE=
+    export HISTTIMEFORMAT="[%F %T] "
+    export HISTFILE=~/.bash_eternal_history
 }
 
 bashrc_customize_shell_options() {
