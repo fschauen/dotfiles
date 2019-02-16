@@ -180,8 +180,9 @@ bashrc_set_prompt() {
 
     local user_host_color="\[\e[${color}m\]"
     local pwd_color="\[\e[${blue}m\]"
-    local default_color="\[\e[0m\]"
     local exit_code_color="\[\e[${magenta}m\]"
+    local git_color="\[\e[${green}m\]"
+    local default_color="\[\e[0m\]"
 
     PS1="["                                 # [
     PS1+="$user_host_color\u@\h "           # user @ host
@@ -189,12 +190,17 @@ bashrc_set_prompt() {
     if [[ $exit_code != 0 ]]; then
         PS1+=" $exit_code_color$exit_code"  # last exit code if non-zero
     fi
+    PS1+="$git_color$(__git_ps1 ' %s')"     # git status (only if in repo)
     PS1+="$default_color"                   # back to default color
     PS1+="]"                                # ]
     PS1+="\n$prompt "                       # prompt on next line
 }
 
 bashrc_customize_prompt() {
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWSTASHSTATE=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    export GIT_PS1_SHOWUPSTREAM="verbose"
     export PROMPT_COMMAND="bashrc_set_prompt"
     export PS2=". "
 }
@@ -273,6 +279,7 @@ bashrc_customize_terminal_colors
 bashrc_customize_prompt
 bashrc_customize_ls
 
-[ -f  ~/.git-completion.bash ] && . ~/.git-completion.bash
+[ -f  ~/.config/shell/git-prompt.sh ] && . ~/.config/shell/git-prompt.sh
+[ -f  ~/.config/shell/git-completion.bash ] && . ~/.config/shell/git-completion.bash
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local
 
