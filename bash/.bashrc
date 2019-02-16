@@ -159,14 +159,16 @@ bashrc_customize_terminal_colors() {
     bashrc_send_term_osc "$(printf $format_string $f)$base3_rgb"
 }
 
-bashrc_customize_prompt() {
+bashrc_set_prompt() {
+    local exit_code=$?
+
     local level=$SHLVL
     if [[ -n "$TMUX" ]]; then
         level=$(($SHLVL - 2))
     fi
 
-    local color="$cyan"
     local prompt=$(printf '\$%.0s' $(seq 1 $level))
+    local color="$cyan"
     if [ $EUID -eq 0 ]; then
         # root user
         prompt=$(printf '#%.0s' $(seq 1 $level))
@@ -176,7 +178,24 @@ bashrc_customize_prompt() {
         color="$yellow"
     fi
 
-    export PS1="[\[\e[${color}m\]\u@\h \[\e[${blue}m\]\w\[\e[0m\]]\n$prompt "
+    local user_host_color="\[\e[${color}m\]"
+    local pwd_color="\[\e[${blue}m\]"
+    local default_color="\[\e[0m\]"
+    local exit_code_color="\[\e[${magenta}m\]"
+
+    PS1="["                                 # [
+    PS1+="$user_host_color\u@\h "           # user @ host
+    PS1+="$pwd_color\w"                     # pwd
+    if [[ $exit_code != 0 ]]; then
+        PS1+=" $exit_code_color$exit_code"  # last exit code if non-zero
+    fi
+    PS1+="$default_color"                   # back to default color
+    PS1+="]"                                # ]
+    PS1+="\n$prompt "                       # prompt on next line
+}
+
+bashrc_customize_prompt() {
+    export PROMPT_COMMAND="bashrc_set_prompt"
     export PS2=". "
 }
 
