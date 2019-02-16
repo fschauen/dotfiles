@@ -1,13 +1,11 @@
 # Installation
 
-Install using:
+Install using GNU `stow`:
 
 ```bash
-    cd $HOME && \
-    git clone git@git.schauenburg.me:fernando/dotfiles.git .dotfiles && \
-    .dotfiles/resources/bootstrap
+    cd ~
+    git clone git@git.schauenburg.me:fernando/dotfiles.git .dotfiles
+    cd .dotfiles
+    stow bash # (and/or bin, dircolors, git, ...)
 ```
-
-Installation of the dotfiles is handled automatically from `bootstrap` via
-[rcm](https://github.com/thoughtbot/rcm#installation).
 

@@ -48,7 +48,7 @@ bashrc_customize_paths() {
     fi
 
     # Add custom bin dirs to PATH if they exist and are not already in PATH.
-    for p in $prefix/opt/coreutils/libexec/gnubin $DOTFILES/bin $HOME/bin
+    for p in $prefix/opt/coreutils/libexec/gnubin $HOME/.local/bin $HOME/bin
     do
         if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
             PATH="$p:$PATH"
@@ -253,6 +253,7 @@ bashrc_customize_aliases
 bashrc_customize_terminal_colors
 bashrc_customize_prompt
 bashrc_customize_ls
-source "$DOTFILES/resources/git-completion.bash"
+
+[ -f  ~/.git-completion.bash ] && . ~/.git-completion.bash
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local
 
