@@ -33,8 +33,10 @@
     dc      = diff --cached
     dt      = difftool
     ff      = merge --ff-only
-    l       = log --graph --format='%C(auto)%h%d %s %C(auto,bold green)%ar'
-    la      = log --graph --format='%C(auto)%h%d %s %C(auto,bold green)%ar' --all
+    l       = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar'
+    ln      = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar %C(auto)by %C(bold magenta)%an <%ae>'
+    la      = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar' --all
+    lna     = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar %C(auto)by %C(bold magenta)%an <%ae>' --all
     ll      = log --graph --decorate --stat
     lla     = log --graph --decorate --stat --all
     pom     = push origin master
