@@ -206,7 +206,7 @@ bashrc_customize_prompt() {
 }
 
 bashrc_customize_ls() {
-    local ls_colors="$HOME/.dircolors/solarized-$BACKGROUND"
+    local ls_colors="$HOME/.config/dircolors/solarized-$BACKGROUND"
     if type dircolors &> /dev/null && [ -f $ls_colors ]; then
         eval "$(dircolors $ls_colors)"
     fi
