@@ -18,6 +18,7 @@ bashrc_customize_environment() {
         cyan="0;36"   blue="0;34"   violet="1;35" magenta="0;35"
 
     # Eternal bash history (from https://stackoverflow.com/a/19533853)
+    export HISTCONTROL=erasedups
     export HISTFILESIZE=
     export HISTSIZE=
     export HISTTIMEFORMAT="[%F %T] "
