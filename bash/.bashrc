@@ -98,11 +98,11 @@ bashrc_send_term_osc() {
     # Send an OSC (Operating System Commmand) to the terminal.
     if [ -n "$TMUX" ]; then
         # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
-        echo -ne "\ePtmux;\e\e]$1\007\e\\"
+        echo -ne "\033Ptmux;\033\033]$1\007\033\\"
     elif [ "${TERM%%-*}" = "screen" ]; then
-        echo -ne "\eP\e]$1\007\e\\"
+        echo -ne "\033P\033]$1\007\033\\"
     else
-        echo -ne "\e]$1\e\\"
+        echo -ne "\033]$1\033\\"
     fi
 }
 
@@ -179,11 +179,11 @@ bashrc_set_prompt() {
         color="$yellow"
     fi
 
-    local user_host_color="\[\e[${color}m\]"
-    local pwd_color="\[\e[${blue}m\]"
-    local exit_code_color="\[\e[${magenta}m\]"
-    local git_color="\[\e[${green}m\]"
-    local default_color="\[\e[0m\]"
+    local user_host_color="\[\033[${color}m\]"
+    local pwd_color="\[\033[${blue}m\]"
+    local exit_code_color="\[\033[${magenta}m\]"
+    local git_color="\[\033[${green}m\]"
+    local default_color="\[\033[0m\]"
 
     PS1="["                                 # [
     PS1+="$user_host_color\u@\h "           # user @ host
@@ -231,22 +231,22 @@ dark() {
 
 # Print the solarized palette (for testing)
 solarized() {
-    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base03"  Base03  "$base03"  8
-    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$red"     Red     "$red"     1
-    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base02"  Base02  "$base02"  0
-    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$orange"  Orange  "$orange"  9
-    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base01"  Base01  "$base01"  10
-    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$yellow"  Yellow  "$yellow"  3
-    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base00"  Base00  "$base00"  11
-    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$green"   Green   "$green"   2
-    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base0"   Base0   "$base0"   12
-    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$cyan"    Cyan    "$cyan"    6
-    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base1"   Base1   "$base1"   14
-    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$blue"    Blue    "$blue"    4
-    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base2"   Base2   "$base2"   7
-    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$violet"  Violet  "$violet"  13
-    printf "\e[%sm%-7s %-s %2d\e[0m\t" "$base3"   Base3   "$base3"   15
-    printf "\e[%sm%-7s %-s %2d\e[0m\n" "$magenta" Magenta "$magenta" 5
+    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base03"  Base03  "$base03"  8
+    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$red"     Red     "$red"     1
+    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base02"  Base02  "$base02"  0
+    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$orange"  Orange  "$orange"  9
+    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base01"  Base01  "$base01"  10
+    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$yellow"  Yellow  "$yellow"  3
+    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base00"  Base00  "$base00"  11
+    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$green"   Green   "$green"   2
+    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base0"   Base0   "$base0"   12
+    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$cyan"    Cyan    "$cyan"    6
+    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base1"   Base1   "$base1"   14
+    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$blue"    Blue    "$blue"    4
+    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base2"   Base2   "$base2"   7
+    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$violet"  Violet  "$violet"  13
+    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base3"   Base3   "$base3"   15
+    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$magenta" Magenta "$magenta" 5
 }
 
 # Combined mkdir and cd
@@ -261,12 +261,12 @@ man() {
     fi
 
     env \
-    LESS_TERMCAP_so=$(echo -ne "\e[${standout}m") \
-    LESS_TERMCAP_md=$(echo -ne "\e[${bold}m") \
-    LESS_TERMCAP_us=$(echo -ne "\e[${underline}m") \
-    LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_me=$'\e[0m' \
-    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_so=$(echo -ne "\033[${standout}m") \
+    LESS_TERMCAP_md=$(echo -ne "\033[${bold}m") \
+    LESS_TERMCAP_us=$(echo -ne "\033[${underline}m") \
+    LESS_TERMCAP_se=$'\033[0m' \
+    LESS_TERMCAP_me=$'\033[0m' \
+    LESS_TERMCAP_ue=$'\033[0m' \
     GROFF_NO_SGR=1 \
     man "$@"
 }
