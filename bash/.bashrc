@@ -288,8 +288,12 @@ bashrc_customize_terminal_colors
 bashrc_customize_prompt
 bashrc_customize_ls
 
-[ -f  ~/.config/shell/git-prompt.sh ] && . ~/.config/shell/git-prompt.sh
-[ -f  ~/.config/shell/git-completion.bash ] && . ~/.config/shell/git-completion.bash
+# Source any available completion helpers
+if [ -d /usr/local/etc/bash_completion.d ]; then
+    for f in /usr/local/etc/bash_completion.d/*; do
+        source "$f"
+    done
+fi
 
 # Source a local bashrc if available
 if [ -f "$HOME/.bashrc.local" ]; then
