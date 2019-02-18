@@ -26,6 +26,3 @@ set visible-stats on
 # Restore this behavior from emacs mode
 "\C-l": clear-screen
 
-# Avoid issues with C-s
-"\C-f": forward-search-history
-

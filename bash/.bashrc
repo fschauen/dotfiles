@@ -279,6 +279,7 @@ man() {
 }
 
 # Apply customizations
+stty -ixon # disable ctrl-s and ctrl-q
 bashrc_customize_environment
 bashrc_customize_shell_options
 bashrc_customize_paths
