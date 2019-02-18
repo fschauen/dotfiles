@@ -290,5 +290,9 @@ bashrc_customize_ls
 
 [ -f  ~/.config/shell/git-prompt.sh ] && . ~/.config/shell/git-prompt.sh
 [ -f  ~/.config/shell/git-completion.bash ] && . ~/.config/shell/git-completion.bash
-[ -f ~/.bashrc.local ] && . ~/.bashrc.local
+
+# Source a local bashrc if available
+if [ -f "$HOME/.bashrc.local" ]; then
+    source "$HOME/.bashrc.local"
+fi
 
