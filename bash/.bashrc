@@ -11,7 +11,6 @@ bashrc_customize_environment() {
     export LESS="-i -j.49 -M -R -z-2"
     export LESSHISTFILE=/dev/null
     export PAGER=less
-    export DOTFILES="$HOME/.dotfiles"
     export \
         base03="1;30" base02="0;30" base01="1;32" base00="1;33" \
         base0="1;34"  base1="1;36"  base2="0;37"  base3="1;37"  \
