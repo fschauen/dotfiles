@@ -49,12 +49,15 @@ bashrc_customize_paths() {
     fi
 
     # Add custom bin dirs to PATH if they exist and are not already in PATH.
-    for p in $prefix/opt/coreutils/libexec/gnubin $HOME/.local/bin $HOME/bin
+    while read p
     do
-        if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
-            PATH="$p:$PATH"
+        if [ -d "$p" ] && [[ ":$MANPATH:" != *":$p:"* ]]; then
+            MANPATH="$p:$MANPATH"
         fi
-    done
+    done <<-EOF
+        $prefix/share/man
+        $prefix/opt/coreutils/libexec/gnuman
+EOF
 
     # If MANPATH is not yet defined, initialize it with the contents of
     # `manpath`.
@@ -65,12 +68,16 @@ bashrc_customize_paths() {
     # Prepend custom man directories to MANPATH if they exist, so that we get
     # correct man page entries when multiple versions of a command are
     # available.
-    for p in $prefix/share/man $prefix/opt/coreutils/libexec/gnuman
+    while read p
     do
-        if [ -d "$p" ] && [[ ":$MANPATH:" != *":$p:"* ]]; then
-            MANPATH="$p:$MANPATH"
+        if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
+            PATH="$p:$PATH"
         fi
-    done
+    done <<-EOF
+        $prefix/opt/coreutils/libexec/gnubin
+        $HOME/.local/bin
+        $HOME/bin
+EOF
 }
 
 bashrc_customize_aliases() {
