@@ -195,13 +195,14 @@ bashrc_set_prompt() {
     PS1="["                                 # [
     PS1+="$user_host_color\u@\h "           # user @ host
     PS1+="$pwd_color\w"                     # pwd
-    if [[ $exit_code != 0 ]]; then
-        PS1+=" $exit_code_color$exit_code"  # last exit code if non-zero
-    fi
     PS1+="$git_color$(__git_ps1 ' %s')"     # git status (only if in repo)
     PS1+="$default_color"                   # back to default color
-    PS1+="]"                                # ]
-    PS1+="\n$prompt "                       # prompt on next line
+    PS1+="]\n"                              # ]
+    if [[ $exit_code != 0 ]]; then
+        PS1+="$exit_code_color$exit_code "  # last exit code if non-zero
+        PS1+="$default_color"               # back to default color
+    fi
+    PS1+="$prompt "                       # prompt
 }
 
 bashrc_customize_prompt() {
