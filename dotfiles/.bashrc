@@ -81,16 +81,25 @@ EOF
 }
 
 bashrc_customize_aliases() {
-    # Group directories first if supported by the available `ls` command.
-    local ls_dir_group=""
+    # Make `ls` group directories first if supported.
     if ls --group-directories-first >/dev/null 2>&1; then
-        ls_dir_group="--group-directories-first"
+        alias ls="ls -hF --group-directories-first --color=auto"    # GNU
+    else
+        alias ls="ls -hF -G"                                        # BSD
     fi
 
-    alias ls="ls -hF --color=auto ${ls_dir_group}"
+    # Force `ls` to use color output (e.g. for piping into `less`).
+    if ls --color=auto >/dev/null 2>&1; then
+        alias lsc="ls --color=always"                               # GNU
+    else
+        alias lsc="/usr/bin/env CLICOLOR_FORCE=1 ls"                # BSD
+    fi
+
     alias la="ls -a"
     alias ll="ls -l"
+    alias llc="lsc -l"
     alias lla="ls -la"
+    alias llac="lsc -la"
     alias grep="grep --color=auto";
     alias egrep="egrep --color=auto";
     alias fgrep="fgrep --color=auto";
