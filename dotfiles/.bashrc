@@ -100,11 +100,20 @@ bashrc_customize_aliases() {
     alias llc="lsc -l"
     alias lla="ls -la"
     alias llac="lsc -la"
+
     alias grep="grep --color=auto";
     alias egrep="egrep --color=auto";
     alias fgrep="fgrep --color=auto";
     alias path='echo $PATH | tr -s ":" "\n"'
     alias mpath='echo $MANPATH | tr -s ":" "\n"'
+
+    alias tree="tree -F --dirsfirst"
+    alias tra="tree -a"
+    alias trl="tree -ugsh"   # like ls -l (prints owner, group, human size)
+    alias trla="trl -a"
+    alias trac="tra -C"
+    alias trlc="trl -C"
+    alias trlac="trla -C"
 }
 
 bashrc_send_term_osc() {
