@@ -87,7 +87,6 @@ bashrc_customize_aliases() {
         ls_dir_group="--group-directories-first"
     fi
 
-    alias g="git"
     alias ls="ls -hF --color=auto ${ls_dir_group}"
     alias la="ls -a"
     alias ll="ls -l"
@@ -95,8 +94,6 @@ bashrc_customize_aliases() {
     alias grep="grep --color=auto";
     alias egrep="egrep --color=auto";
     alias fgrep="fgrep --color=auto";
-    alias v="vim"
-    alias vi="vim"
     alias path='echo $PATH | tr -s ":" "\n"'
     alias mpath='echo $MANPATH | tr -s ":" "\n"'
 }
