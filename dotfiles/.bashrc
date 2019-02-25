@@ -44,40 +44,41 @@ bashrc_customize_paths() {
     # Prevent path_helper from messing with the PATH when starting tmux.
     #   See: https://superuser.com/a/583502
     if [ "$(uname)" == "Darwin" ]; then
-        export PATH=""
+        PATH=""
         source /etc/profile
     fi
 
     # Add custom bin dirs to PATH if they exist and are not already in PATH.
-    while read p
-    do
-        if [ -d "$p" ] && [[ ":$MANPATH:" != *":$p:"* ]]; then
-            MANPATH="$p:$MANPATH"
+    while read p; do
+        if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
+            PATH="$p:$PATH"
         fi
-    done <<-EOF
-        $prefix/share/man
-        $prefix/opt/coreutils/libexec/gnuman
-EOF
-
-    # If MANPATH is not yet defined, initialize it with the contents of
-    # `manpath`.
-    if [ -z ${MANPATH+x} ]; then
-        export MANPATH=$(manpath)
-    fi
+    done <<EOS
+$prefix/bin
+$prefix/opt/man-db/libexec/bin
+$prefix/opt/coreutils/libexec/gnubin
+$prefix/opt/gnu-sed/libexec/gnubin
+$HOME/.local/bin
+$HOME/bin
+EOS
+    export PATH
 
     # Prepend custom man directories to MANPATH if they exist, so that we get
     # correct man page entries when multiple versions of a command are
     # available.
-    while read p
-    do
-        if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
-            PATH="$p:$PATH"
+    MANPATH=$(MANPATH= manpath)
+    while read p; do
+        if [ -d "$p" ] && [[ ":$MANPATH:" != *":$p:"* ]]; then
+            MANPATH="$p:$MANPATH"
         fi
-    done <<-EOF
-        $prefix/opt/coreutils/libexec/gnubin
-        $HOME/.local/bin
-        $HOME/bin
-EOF
+    done <<EOS
+$prefix/share/man
+$prefix/opt/man-db/libexec/man
+$prefix/opt/coreutils/libexec/gnuman
+$prefix/opt/gnu-sed/libexec/gnuman
+$HOME/.local/share/man
+EOS
+    export MANPATH
 }
 
 bashrc_customize_aliases() {
