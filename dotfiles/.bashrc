@@ -203,7 +203,7 @@ bashrc_set_prompt() {
     local git_color="\[\033[${green}m\]"
     local default_color="\[\033[0m\]"
 
-    PS1="["                                 # [
+    PS1="\n["                               # [
     PS1+="$user_host_color\u@\h "           # user @ host
     PS1+="$pwd_color\w"                     # pwd
     PS1+="$git_color$(__git_ps1 ' %s')"     # git status (only if in repo)
