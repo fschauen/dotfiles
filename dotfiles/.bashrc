@@ -185,12 +185,7 @@ bashrc_customize_terminal_colors() {
 
 bashrc_set_prompt() {
     local exit_code=$?
-
     local level=$SHLVL
-    if [[ -n "$TMUX" ]]; then
-        level=$(($SHLVL - 2))
-    fi
-
     local prompt=$(printf '\$%.0s' $(seq 1 $level))
     local color="$cyan"
     if [ $EUID -eq 0 ]; then
