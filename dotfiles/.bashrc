@@ -19,23 +19,25 @@ bashrc_customize_environment() {
     export HISTTIMEFORMAT="[%F %T] "
     export HISTFILE=~/.bash_eternal_history
 
-    # Color codes and RGB definitions
-    export Base03="1;30"  Base03_RGB="002B36"
-    export Base02="0;30"  Base02_RGB="073642"
-    export Base01="1;32"  Base01_RGB="586E75"
-    export Base00="1;33"  Base00_RGB="657B83"
-    export Base0="1;34"   Base0_RGB="839496"
-    export Base1="1;36"   Base1_RGB="93A1A1"
-    export Base2="0;37"   Base2_RGB="EEE8D5"
-    export Base3="1;37"   Base3_RGB="FDF6E3"
-    export Red="0;31"     Red_RGB="DC322F"
-    export Orange="1;31"  Orange_RGB="CB4B16"
-    export Yellow="0;33"  Yellow_RGB="B58900"
-    export Green="0;32"   Green_RGB="859900"
-    export Cyan="0;36"    Cyan_RGB="2AA198"
-    export Blue="0;34"    Blue_RGB="268BD2"
-    export Violet="1;35"  Violet_RGB="6C71C4"
-    export Magenta="0;35" Magenta_RGB="D33682"
+    # Color definitions (from http://ethanschoonover.com/solarized)
+    #      NAME    CODE               HEX         16/8 TERMCOL  XTERM/HEX    L*A*B       RGB          HSB
+    #      ------  -----              ------      ---- -------  ----------- -----------  -----------  -----------
+    export Base03="1;30"  Base03_RGB="002B36"   #  8/4 brblack  234 #1c1c1c  15 -12 -12    0  43  54  193 100  21
+    export Base02="0;30"  Base02_RGB="073642"   #  0/4 black    235 #262626  20 -12 -12    7  54  66  192  90  26
+    export Base01="1;32"  Base01_RGB="586E75"   # 10/7 brgreen  240 #585858  45 -07 -07   88 110 117  194  25  46
+    export Base00="1;33"  Base00_RGB="657B83"   # 11/7 bryellow 241 #626262  50 -07 -07  101 123 131  195  23  51
+    export Base0="1;34"   Base0_RGB="839496"    # 12/6 brblue   244 #808080  60 -06 -03  131 148 150  186  13  59
+    export Base1="1;36"   Base1_RGB="93A1A1"    # 14/4 brcyan   245 #8a8a8a  65 -05 -02  147 161 161  180   9  63
+    export Base2="0;37"   Base2_RGB="EEE8D5"    #  7/7 white    254 #e4e4e4  92 -00  10  238 232 213   44  11  93
+    export Base3="1;37"   Base3_RGB="FDF6E3"    # 15/7 brwhite  230 #ffffd7  97  00  10  253 246 227   44  10  99
+    export Yellow="0;33"  Yellow_RGB="B58900"   #  3/3 yellow   136 #af8700  60  10  65  181 137   0   45 100  71
+    export Orange="1;31"  Orange_RGB="CB4B16"   #  9/3 brred    166 #d75f00  50  50  55  203  75  22   18  89  80
+    export Red="0;31"     Red_RGB="DC322F"      #  1/1 red      160 #d70000  50  65  45  220  50  47    1  79  86
+    export Magenta="0;35" Magenta_RGB="D33682"  #  5/5 magenta  125 #af005f  50  65 -05  211  54 130  331  74  83
+    export Violet="1;35"  Violet_RGB="6C71C4"   # 13/5 brmagenta 61 #5f5faf  50  15 -45  108 113 196  237  45  77
+    export Blue="0;34"    Blue_RGB="268BD2"     #  4/4 blue      33 #0087ff  55 -10 -45   38 139 210  205  82  82
+    export Cyan="0;36"    Cyan_RGB="2AA198"     #  6/6 cyan      37 #00afaf  60 -35 -05   42 161 152  175  74  63
+    export Green="0;32"   Green_RGB="859900"    #  2/2 green     64 #5f8700  60 -20  65  133 153   0   68 100  60
 }
 
 bashrc_customize_shell_options() {
@@ -164,7 +166,6 @@ bashrc_customize_terminal_colors() {
 
     # Solarize the terminal:
     #   - 4;n;#rrggbb (e.g. https://github.com/mintty/mintty/wiki/Tips#changing-colours)
-    #   - Colors from http://ethanschoonover.com/solarized
     bashrc_send_term_osc "4;0;#$Base02_RGB"
     bashrc_send_term_osc "4;1;#$Red_RGB"
     bashrc_send_term_osc "4;2;#$Green_RGB"
