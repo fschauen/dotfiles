@@ -248,22 +248,17 @@ bashrc_customize_ls() {
 
 # Print the solarized palette (for testing)
 solarized() {
-    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base03"  Base03  "$base03"  8
-    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$red"     Red     "$red"     1
-    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base02"  Base02  "$base02"  0
-    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$orange"  Orange  "$orange"  9
-    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base01"  Base01  "$base01"  10
-    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$yellow"  Yellow  "$yellow"  3
-    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base00"  Base00  "$base00"  11
-    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$green"   Green   "$green"   2
-    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base0"   Base0   "$base0"   12
-    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$cyan"    Cyan    "$cyan"    6
-    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base1"   Base1   "$base1"   14
-    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$blue"    Blue    "$blue"    4
-    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base2"   Base2   "$base2"   7
-    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$violet"  Violet  "$violet"  13
-    printf "\033[%sm%-7s %-s %2d\033[0m\t" "$base3"   Base3   "$base3"   15
-    printf "\033[%sm%-7s %-s %2d\033[0m\n" "$magenta" Magenta "$magenta" 5
+    local names=(Base02 Red Green Yellow Blue Magenta Cyan Base2
+                 Base03 Orange Base01 Base00 Base0 Violet Base1 Base3)
+    local   hex=(073642 DC322F 859900 B58900 268BD2 D33682 2AA198 EEE8D5
+                 002B36 CB4B16 586E75 657B83 839496 6C71C4 93A1A1 FDF6E3)
+
+    for index in 1 9 3 2 6 4 13 5 8 0 10 11 12 14 7 15; do
+        local c="$(( $index > 7 ));$(( 30 + $index % 8 ))"
+        printf \
+            "\033[${c}m%2d $c ${hex[index]} %-7s \x1b[48;5;${index}m%s\033[0m\n" \
+            $index ${names[index]} "          "
+    done
 }
 
 # Combined mkdir and cd
