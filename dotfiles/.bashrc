@@ -25,6 +25,17 @@ bashrc_customize_environment() {
     export HISTFILE=~/.bash_eternal_history
 }
 
+bashrc_update_colors() {
+    export BACKGROUND="$1"
+    bashrc_customize_terminal_colors
+    bashrc_customize_prompt
+    bashrc_customize_ls
+    if [ -n "$TMUX" ] && [ -f "$HOME/.tmux.conf" ]; then
+        tmux set-environment -g BACKGROUND "$BACKGROUND"
+        tmux source-file "$HOME/.tmux.conf"
+    fi
+}
+
 bashrc_customize_shell_options() {
     for option in cdspell checkwinsize globstar histappend nocaseglob
     do
@@ -82,6 +93,9 @@ EOS
 }
 
 bashrc_customize_aliases() {
+    alias light='bashrc_update_colors "light"'
+    alias dark='bashrc_update_colors "dark"'
+
     # Make `ls` group directories first if supported.
     if ls --group-directories-first >/dev/null 2>&1; then
         alias ls="ls -hF --group-directories-first --color=auto"    # GNU
@@ -230,22 +244,6 @@ bashrc_customize_ls() {
     if type dircolors &> /dev/null && [ -f $ls_colors ]; then
         eval "$(dircolors $ls_colors)"
     fi
-}
-
-# Change to light background
-light() {
-    export BACKGROUND="light"
-    bashrc_customize_terminal_colors
-    bashrc_customize_prompt
-    bashrc_customize_ls
-}
-
-# Change to dark background
-dark() {
-    export BACKGROUND="dark"
-    bashrc_customize_terminal_colors
-    bashrc_customize_prompt
-    bashrc_customize_ls
 }
 
 # Print the solarized palette (for testing)
