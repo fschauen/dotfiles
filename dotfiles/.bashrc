@@ -11,11 +11,12 @@ bashrc_customize_environment() {
     export LESS="-i -j.49 -M -R -z-2"
     export LESSHISTFILE=/dev/null
     export PAGER=less
+
     export \
-        base03="1;30" base02="0;30" base01="1;32" base00="1;33" \
-        base0="1;34"  base1="1;36"  base2="0;37"  base3="1;37"  \
-        red="0;31"    orange="1;31" yellow="0;33" green="0;32"  \
-        cyan="0;36"   blue="0;34"   violet="1;35" magenta="0;35"
+        Base03="1;30" Base02="0;30" Base01="1;32" Base00="1;33" \
+        Base0="1;34"  Base1="1;36"  Base2="0;37"  Base3="1;37"  \
+        Red="0;31"    Orange="1;31" Yellow="0;33" Green="0;32"  \
+        Cyan="0;36"   Blue="0;34"   Violet="1;35" Magenta="0;35"
 
     # Eternal bash history (from https://stackoverflow.com/a/19533853)
     export HISTCONTROL=erasedups
@@ -197,20 +198,20 @@ bashrc_set_prompt() {
     local exit_code=$?
     local level=$SHLVL
     local prompt=$(printf '\$%.0s' $(seq 1 $level))
-    local color="$cyan"
+    local color="$Cyan"
     if [ $EUID -eq 0 ]; then
         # root user
         prompt=$(printf '#%.0s' $(seq 1 $level))
-        color="$orange"
+        color="$Orange"
     elif [ -n "$SSH_CLIENT" ]; then
         # SSH connection
-        color="$yellow"
+        color="$Yellow"
     fi
 
     local user_host_color="\[\033[${color}m\]"
-    local pwd_color="\[\033[${blue}m\]"
-    local exit_code_color="\[\033[${magenta}m\]"
-    local git_color="\[\033[${green}m\]"
+    local pwd_color="\[\033[${Blue}m\]"
+    local exit_code_color="\[\033[${Magenta}m\]"
+    local git_color="\[\033[${Green}m\]"
     local default_color="\[\033[0m\]"
 
     PS1="\n["                               # [
@@ -263,9 +264,9 @@ mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
 # Colorized `man`
 man() {
     if [ "$BACKGROUND" = "dark" ]; then
-        local standout="$base02;44" bold="$yellow" underline="$base3;4"
+        local standout="$Base02;44" bold="$Yellow" underline="$Base3;4"
     else
-        local standout="$base02;46" bold="$blue" underline="$base00;4"
+        local standout="$Base02;46" bold="$Blue" underline="$Base00;4"
     fi
 
     env \
