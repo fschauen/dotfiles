@@ -187,8 +187,8 @@ bashrc_customize_terminal_colors() {
         local background="$Base03_RGB"
         local foreground="$Base1_RGB"
     else
-        local background="$Base2_RGB"
-        local foreground="$Base02_RGB"
+        local background="$Base3_RGB"
+        local foreground="$Base01_RGB"
     fi
 
     if [ -n "$ITERM_SESSION_ID" ]; then
@@ -267,6 +267,18 @@ solarized() {
         local code=${!name} rgb=${!name_rgb}
         echo -e "\x1b[48;5;${i}m    \033[0m \033[${code}m#$rgb $code $name ($i)"
     done
+}
+
+# Print all 256 colors
+colortest() {
+    for i in $(seq 0 15); do
+        for j in $(seq 0 15); do
+            local n=$(( 16 * $i + $j ))
+            printf "\x1b[48;5;${n}m  %3d  \033[0m" $n
+        done
+        printf '\n'
+    done
+    printf '\033[0m'
 }
 
 # Combined mkdir and cd
