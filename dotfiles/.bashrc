@@ -131,17 +131,17 @@ bashrc_customize_aliases() {
     alias trlac="trla -C"
 }
 
-bashrc_send_term_osc() {
-    # Send an OSC (Operating System Commmand) to the terminal.
-    if [ -n "$TMUX" ]; then
-        # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
-        echo -ne "\033Ptmux;\033\033]$1\007\033\\"
-    elif [ "${TERM%%-*}" = "screen" ]; then
-        echo -ne "\033P\033]$1\007\033\\"
-    else
-        echo -ne "\033]$1\033\\"
-    fi
-}
+# Send an OSC (Operating System Commmand) to the terminal.
+if [ -n "$TMUX" ]; then
+    # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
+    bashrc_send_term_osc() { printf '\033Ptmux;\033\033]%s\007\033\\' "$1"; }
+    # bashrc_send_term_osc() { printf '\033Ptmux;\033\033]%s\033\033\\\033\\' "$1"; }
+elif [ "${TERM%%[-.]*}" = "screen" ]; then
+    # GNU screen (screen, screen-256color, screen-256color-bce)
+    bashrc_send_term_osc() { printf '\033P\033]%s\007\033\\' "$1"; }
+else
+    bashrc_send_term_osc() { printf '\033]%s\033\\' "$1"; }
+fi
 
 bashrc_customize_terminal_colors() {
     if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
@@ -149,52 +149,48 @@ bashrc_customize_terminal_colors() {
         return
     fi
 
-    # Solarized colors from http://ethanschoonover.com/solarized
-    local \
-    base03_rgb=002b36 base02_rgb=073642 base01_rgb=586e75 base00_rgb=657b83 \
-    base0_rgb=839496  base1_rgb=93a1a1  base2_rgb=eee8d5  base3_rgb=fdf6e3 \
-    red_rgb=dc322f    orange_rgb=cb4b16 yellow_rgb=b58900 green_rgb=859900 \
-    cyan_rgb=2aa198   blue_rgb=268bd2   violet_rgb=6c71c4 magenta_rgb=d33682
+    # Solarize the terminal:
+    #   - 4;n;#rrggbb (e.g. https://github.com/mintty/mintty/wiki/Tips#changing-colours)
+    #   - Colors from http://ethanschoonover.com/solarized
+    bashrc_send_term_osc "4;0;#073642"  # Base02
+    bashrc_send_term_osc "4;1;#DC322F"  # Red
+    bashrc_send_term_osc "4;2;#859900"  # Green
+    bashrc_send_term_osc "4;3;#B58900"  # Yellow
+    bashrc_send_term_osc "4;4;#268BD2"  # Blue
+    bashrc_send_term_osc "4;5;#D33682"  # Magenta
+    bashrc_send_term_osc "4;6;#2AA198"  # Cyan
+    bashrc_send_term_osc "4;7;#EEE8D5"  # Base2
+    bashrc_send_term_osc "4;8;#002B36"  # Base03
+    bashrc_send_term_osc "4;9;#CB4B16"  # Orange
+    bashrc_send_term_osc "4;10;#586E75" # Base01
+    bashrc_send_term_osc "4;11;#657B83" # Base00
+    bashrc_send_term_osc "4;12;#839496" # Base0
+    bashrc_send_term_osc "4;13;#6C71C4" # Violet
+    bashrc_send_term_osc "4;14;#93A1A1" # Base1
+    bashrc_send_term_osc "4;15;#FDF6E3" # Base3
 
     if [ "$BACKGROUND" = "dark" ]; then
-        local background_rgb=$base03_rgb foreground_rgb=$base1_rgb
+        local background_rgb="002B36"   # Base03
+        local foreground_rgb="93A1A1"   # Base1
     else
-        local background_rgb=$base2_rgb  foreground_rgb=$base02_rgb
+        local background_rgb="EEE8D5"   # Base2
+        local foreground_rgb="073642"   # Base02
     fi
+
     if [ -n "$ITERM_SESSION_ID" ]; then
         # iTerm2: Pnrrggbb (http://iterm2.com/documentation-escape-codes.html)
         bashrc_send_term_osc "Pg$foreground_rgb"    # Foreground
         bashrc_send_term_osc "Pi$foreground_rgb"    # Bold
         bashrc_send_term_osc "Ph$background_rgb"    # Background
-        bashrc_send_term_osc "Pj$base01_rgb"        # Selection
-        bashrc_send_term_osc "Pk$base2_rgb"         # Selected text
-        bashrc_send_term_osc "Pl$red_rgb"           # Cursor
-        bashrc_send_term_osc "Pm$red_rgb"           # Cursor text
-        local format_string="P%s" a=a b=b c=c d=d e=e f=f
+        bashrc_send_term_osc "Pj586E75"             # Selection (Base01)
+        bashrc_send_term_osc "PkEEE8D5"             # Selected text (Base2)
+        bashrc_send_term_osc "PlDC322F"             # Cursor (Red)
+        bashrc_send_term_osc "PmDC322F"             # Cursor text (Red)
     else
-        # Other terminals: 4;n;#rrggbb (e.g. https://github.com/mintty/mintty/wiki/Tips#changing-colours)
         bashrc_send_term_osc "10;#$foreground_rgb"  # Foreground
         bashrc_send_term_osc "11;#$background_rgb"  # Background
-        bashrc_send_term_osc "12;#$red_rgb"         # Cursor
-        local format_string="4;%d;#" a=10 b=11 c=12 d=13 e=14 f=15
+        bashrc_send_term_osc "12;#DC322F"           # Cursor (Red)
     fi
-
-    bashrc_send_term_osc "$(printf $format_string  0)$base02_rgb"
-    bashrc_send_term_osc "$(printf $format_string  1)$red_rgb"
-    bashrc_send_term_osc "$(printf $format_string  2)$green_rgb"
-    bashrc_send_term_osc "$(printf $format_string  3)$yellow_rgb"
-    bashrc_send_term_osc "$(printf $format_string  4)$blue_rgb"
-    bashrc_send_term_osc "$(printf $format_string  5)$magenta_rgb"
-    bashrc_send_term_osc "$(printf $format_string  6)$cyan_rgb"
-    bashrc_send_term_osc "$(printf $format_string  7)$base2_rgb"
-    bashrc_send_term_osc "$(printf $format_string  8)$base03_rgb"
-    bashrc_send_term_osc "$(printf $format_string  9)$orange_rgb"
-    bashrc_send_term_osc "$(printf $format_string $a)$base01_rgb"
-    bashrc_send_term_osc "$(printf $format_string $b)$base00_rgb"
-    bashrc_send_term_osc "$(printf $format_string $c)$base0_rgb"
-    bashrc_send_term_osc "$(printf $format_string $d)$violet_rgb"
-    bashrc_send_term_osc "$(printf $format_string $e)$base1_rgb"
-    bashrc_send_term_osc "$(printf $format_string $f)$base3_rgb"
 }
 
 bashrc_set_prompt() {
