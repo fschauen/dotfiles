@@ -25,17 +25,6 @@ bashrc_customize_environment() {
     export HISTFILE=~/.bash_eternal_history
 }
 
-bashrc_update_colors() {
-    export BACKGROUND="$1"
-    bashrc_customize_terminal_colors
-    bashrc_customize_prompt
-    bashrc_customize_ls
-    if [ -n "$TMUX" ] && [ -f "$HOME/.tmux.conf" ]; then
-        tmux set-environment -g BACKGROUND "$BACKGROUND"
-        tmux source-file "$HOME/.tmux.conf"
-    fi
-}
-
 bashrc_customize_shell_options() {
     for option in cdspell checkwinsize globstar histappend nocaseglob
     do
@@ -90,6 +79,17 @@ $prefix/opt/gnu-sed/libexec/gnuman
 $HOME/.local/share/man
 EOS
     export MANPATH
+}
+
+bashrc_update_colors() {
+    export BACKGROUND="$1"
+    if [ -n "$TMUX" ] && [ -f "$HOME/.tmux.conf" ]; then
+        tmux set-environment -g BACKGROUND "$BACKGROUND"
+        tmux source-file "$HOME/.tmux.conf"
+    fi
+    bashrc_customize_terminal_colors
+    bashrc_customize_prompt
+    bashrc_customize_ls
 }
 
 bashrc_customize_aliases() {
