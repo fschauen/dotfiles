@@ -12,18 +12,30 @@ bashrc_customize_environment() {
     export LESSHISTFILE=/dev/null
     export PAGER=less
 
-    export \
-        Base03="1;30" Base02="0;30" Base01="1;32" Base00="1;33" \
-        Base0="1;34"  Base1="1;36"  Base2="0;37"  Base3="1;37"  \
-        Red="0;31"    Orange="1;31" Yellow="0;33" Green="0;32"  \
-        Cyan="0;36"   Blue="0;34"   Violet="1;35" Magenta="0;35"
-
     # Eternal bash history (from https://stackoverflow.com/a/19533853)
     export HISTCONTROL=erasedups
     export HISTFILESIZE=
     export HISTSIZE=
     export HISTTIMEFORMAT="[%F %T] "
     export HISTFILE=~/.bash_eternal_history
+
+    # Color codes and RGB definitions
+    export Base03="1;30"  Base03_RGB="002B36"
+    export Base02="0;30"  Base02_RGB="073642"
+    export Base01="1;32"  Base01_RGB="586E75"
+    export Base00="1;33"  Base00_RGB="657B83"
+    export Base0="1;34"   Base0_RGB="839496"
+    export Base1="1;36"   Base1_RGB="93A1A1"
+    export Base2="0;37"   Base2_RGB="EEE8D5"
+    export Base3="1;37"   Base3_RGB="FDF6E3"
+    export Red="0;31"     Red_RGB="DC322F"
+    export Orange="1;31"  Orange_RGB="CB4B16"
+    export Yellow="0;33"  Yellow_RGB="B58900"
+    export Green="0;32"   Green_RGB="859900"
+    export Cyan="0;36"    Cyan_RGB="2AA198"
+    export Blue="0;34"    Blue_RGB="268BD2"
+    export Violet="1;35"  Violet_RGB="6C71C4"
+    export Magenta="0;35" Magenta_RGB="D33682"
 }
 
 bashrc_customize_shell_options() {
@@ -153,44 +165,44 @@ bashrc_customize_terminal_colors() {
     # Solarize the terminal:
     #   - 4;n;#rrggbb (e.g. https://github.com/mintty/mintty/wiki/Tips#changing-colours)
     #   - Colors from http://ethanschoonover.com/solarized
-    bashrc_send_term_osc "4;0;#073642"  # Base02
-    bashrc_send_term_osc "4;1;#DC322F"  # Red
-    bashrc_send_term_osc "4;2;#859900"  # Green
-    bashrc_send_term_osc "4;3;#B58900"  # Yellow
-    bashrc_send_term_osc "4;4;#268BD2"  # Blue
-    bashrc_send_term_osc "4;5;#D33682"  # Magenta
-    bashrc_send_term_osc "4;6;#2AA198"  # Cyan
-    bashrc_send_term_osc "4;7;#EEE8D5"  # Base2
-    bashrc_send_term_osc "4;8;#002B36"  # Base03
-    bashrc_send_term_osc "4;9;#CB4B16"  # Orange
-    bashrc_send_term_osc "4;10;#586E75" # Base01
-    bashrc_send_term_osc "4;11;#657B83" # Base00
-    bashrc_send_term_osc "4;12;#839496" # Base0
-    bashrc_send_term_osc "4;13;#6C71C4" # Violet
-    bashrc_send_term_osc "4;14;#93A1A1" # Base1
-    bashrc_send_term_osc "4;15;#FDF6E3" # Base3
+    bashrc_send_term_osc "4;0;#$Base02_RGB"
+    bashrc_send_term_osc "4;1;#$Red_RGB"
+    bashrc_send_term_osc "4;2;#$Green_RGB"
+    bashrc_send_term_osc "4;3;#$Yellow_RGB"
+    bashrc_send_term_osc "4;4;#$Blue_RGB"
+    bashrc_send_term_osc "4;5;#$Magenta_RGB"
+    bashrc_send_term_osc "4;6;#$Cyan_RGB"
+    bashrc_send_term_osc "4;7;#$Base2_RGB"
+    bashrc_send_term_osc "4;8;#$Base03_RGB"
+    bashrc_send_term_osc "4;9;#$Orange_RGB"
+    bashrc_send_term_osc "4;10;#$Base01_RGB"
+    bashrc_send_term_osc "4;11;#$Base00_RGB"
+    bashrc_send_term_osc "4;12;#$Base0_RGB"
+    bashrc_send_term_osc "4;13;#$Violet_RGB"
+    bashrc_send_term_osc "4;14;#$Base1_RGB"
+    bashrc_send_term_osc "4;15;#$Base3_RGB"
 
     if [ "$BACKGROUND" = "dark" ]; then
-        local background_rgb="002B36"   # Base03
-        local foreground_rgb="93A1A1"   # Base1
+        local background="$Base03_RGB"
+        local foreground="$Base1_RGB"
     else
-        local background_rgb="EEE8D5"   # Base2
-        local foreground_rgb="073642"   # Base02
+        local background="$Base2_RGB"
+        local foreground="$Base02_RGB"
     fi
 
     if [ -n "$ITERM_SESSION_ID" ]; then
         # iTerm2: Pnrrggbb (http://iterm2.com/documentation-escape-codes.html)
-        bashrc_send_term_osc "Pg$foreground_rgb"    # Foreground
-        bashrc_send_term_osc "Pi$foreground_rgb"    # Bold
-        bashrc_send_term_osc "Ph$background_rgb"    # Background
-        bashrc_send_term_osc "Pj586E75"             # Selection (Base01)
-        bashrc_send_term_osc "PkEEE8D5"             # Selected text (Base2)
-        bashrc_send_term_osc "PlDC322F"             # Cursor (Red)
-        bashrc_send_term_osc "PmDC322F"             # Cursor text (Red)
+        bashrc_send_term_osc "Pg$foreground"    # Foreground
+        bashrc_send_term_osc "Pi$foreground"    # Bold
+        bashrc_send_term_osc "Ph$background"    # Background
+        bashrc_send_term_osc "Pj$Base01_RGB"    # Selection
+        bashrc_send_term_osc "Pk$Base2_RGB"     # Selected text
+        bashrc_send_term_osc "Pl$Red_RGB"       # Cursor
+        bashrc_send_term_osc "Pm$Red_RGB"       # Cursor text
     else
-        bashrc_send_term_osc "10;#$foreground_rgb"  # Foreground
-        bashrc_send_term_osc "11;#$background_rgb"  # Background
-        bashrc_send_term_osc "12;#DC322F"           # Cursor (Red)
+        bashrc_send_term_osc "10;#$foreground"  # Foreground
+        bashrc_send_term_osc "11;#$background"  # Background
+        bashrc_send_term_osc "12;#$Red_RGB"     # Cursor
     fi
 }
 
