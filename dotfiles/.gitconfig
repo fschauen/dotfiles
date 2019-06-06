@@ -45,7 +45,7 @@
     sub     = submodule
 
 [core]
-    excludesfile    = ~/.gitignore_global
+    excludesfile    = ~/.gitignore
     editor          = vim
     trustctime      = false # http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
     pager           = less -F -X
