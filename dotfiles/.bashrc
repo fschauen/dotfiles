@@ -140,12 +140,10 @@ bashrc_customize_aliases() {
     alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
     alias tree="tree -F --dirsfirst"
-    alias tra="tree -a"
-    alias trl="tree -ugsh"   # like ls -l (prints owner, group, human size)
-    alias trla="trl -a"
-    alias trac="tra -C"
-    alias trlc="trl -C"
-    alias trlac="trla -C"
+}
+
+ltree() {
+    tree -C -F --dirsfirst "$@" | less -R
 }
 
 # Send an OSC (Operating System Commmand) to the terminal.
