@@ -139,11 +139,17 @@ bashrc_customize_aliases() {
 
     alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
     alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
-    alias tree="tree -F --dirsfirst"
+    alias tree="bashrc_tree"
+    alias ltree="bashrc_paged_tree"
 }
 
-ltree() {
-    tree -C -F --dirsfirst "$@" | less -R
+bashrc_tree() {
+    # The 'tree' alias is not available here, so this calls the actual program.
+    tree -F --dirsfirst -I '.git|Spotlight-V100|.fseventsd' "$@"
+}
+
+bashrc_paged_tree() {
+    bashrc_tree -C "$@" | less -R
 }
 
 # Send an OSC (Operating System Commmand) to the terminal.
