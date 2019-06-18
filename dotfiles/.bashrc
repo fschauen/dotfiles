@@ -213,6 +213,15 @@ bashrc_customize_terminal_colors() {
     fi
 }
 
+# Print the python virtual environment name using a format string.
+bashrc_pyvenv() {
+    if ! [ -z "$VIRTUAL_ENV" ]; then
+        printf "$1" $(basename "$VIRTUAL_ENV" 2>/dev/null)
+    else
+        printf ""
+    fi
+}
+
 bashrc_set_prompt() {
     local exit_code=$?
     local level=$SHLVL
@@ -229,14 +238,16 @@ bashrc_set_prompt() {
 
     local user_host_color="\[\033[${color}m\]"
     local pwd_color="\[\033[${Blue}m\]"
-    local exit_code_color="\[\033[${Magenta}m\]"
+    local exit_code_color="\[\033[${Red}m\]"
     local git_color="\[\033[${Green}m\]"
+    local env_color="\[\033[${Magenta}m\]"
     local default_color="\[\033[0m\]"
 
     PS1="\n["                               # [
     PS1+="$user_host_color\u@\h "           # user @ host
     PS1+="$pwd_color\w"                     # pwd
-    PS1+="$git_color$(__git_ps1 ' %s')"     # git status (only if in repo)
+    PS1+="$git_color$(__git_ps1 ' %s')"     # git status (if in repo)
+    PS1+="$env_color$(bashrc_pyvenv ' %s')" # python virtual env (if active)
     PS1+="$default_color"                   # back to default color
     PS1+="]\n"                              # ]
     if [[ $exit_code != 0 ]]; then
