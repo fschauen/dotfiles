@@ -1,0 +1,33 @@
+#!/bin/bash
+
+scriptname=`basename "$0"`
+
+usage() {
+    echo "Usage: $scriptname SHARE [...]"
+    echo ""
+    echo "  Mount the SHARE VirtualBox shared folder(s) into /mnt/SHARE."
+    echo ""
+    echo "Arguments:"
+    echo "  SHARE the name of the shared folder(s) configured for this virtual machine."
+}
+
+mount_share() {
+    share="$1"
+    sudo mkdir "/mnt/$share"
+    sudo chmod 777 "/mnt/$share"
+    sudo mount -t vboxsf -o uid=$UID,gid=$(id -g) "$share" "/mnt/$share"
+}
+
+main() {
+    if [ $# -lt 1 ]; then
+        usage
+        exit 1
+    fi
+
+    for share in "$@"; do
+        mount_share "$share"
+    done
+}
+
+main "$@"
+
