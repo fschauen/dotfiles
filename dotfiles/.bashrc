@@ -138,7 +138,7 @@ bashrc_customize_aliases() {
     alias mpath='echo $MANPATH | tr -s ":" "\n"'
 
     alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
-
+    alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
     alias tree="tree -F --dirsfirst"
 }
 
