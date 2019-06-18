@@ -137,6 +137,8 @@ bashrc_customize_aliases() {
     alias path='echo $PATH | tr -s ":" "\n"'
     alias mpath='echo $MANPATH | tr -s ":" "\n"'
 
+    alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+
     alias tree="tree -F --dirsfirst"
     alias tra="tree -a"
     alias trl="tree -ugsh"   # like ls -l (prints owner, group, human size)
