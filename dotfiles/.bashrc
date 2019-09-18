@@ -137,7 +137,14 @@ bashrc_customize_aliases() {
     alias path='echo $PATH | tr -s ":" "\n"'
     alias mpath='echo $MANPATH | tr -s ":" "\n"'
 
-    alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+    # A few options to get public IP address on command line. The dig solution
+    # below using the OpenDNS resolver doesn't work when connected to
+    # ExpressVPN because all DNS requests are handled by the ExpressVPN DNS
+    # servers and the OpenDNS DNS resolver is blocked.
+    alias myip="curl https://ifconfig.co"
+    #alias myip="curl https://ifconfig.me"
+    #alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+
     alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
     alias tree="bashrc_tree"
     alias ltree="bashrc_paged_tree"
