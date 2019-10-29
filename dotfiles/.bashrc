@@ -160,11 +160,6 @@ bashrc_paged_tree() {
 }
 
 bashrc_customize_terminal_colors() {
-    if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
-        echo "tell application \"Terminal\" to set current settings of selected tab of front window to settings set \"solarized-$BACKGROUND\"" | osascript
-        return
-    fi
-
     # Format string for sending an OSC (Operating System Commmand) to the terminal.
     if [ -n "$TMUX" ]; then
         # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
