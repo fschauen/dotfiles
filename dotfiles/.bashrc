@@ -159,42 +159,42 @@ bashrc_paged_tree() {
     bashrc_tree -C "$@" | less -R
 }
 
-# Send an OSC (Operating System Commmand) to the terminal.
-if [ -n "$TMUX" ]; then
-    # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
-    bashrc_send_term_osc() { printf '\033Ptmux;\033\033]%s\007\033\\' "$1"; }
-    # bashrc_send_term_osc() { printf '\033Ptmux;\033\033]%s\033\033\\\033\\' "$1"; }
-elif [ "${TERM%%[-.]*}" = "screen" ]; then
-    # GNU screen (screen, screen-256color, screen-256color-bce)
-    bashrc_send_term_osc() { printf '\033P\033]%s\007\033\\' "$1"; }
-else
-    bashrc_send_term_osc() { printf '\033]%s\033\\' "$1"; }
-fi
-
 bashrc_customize_terminal_colors() {
     if [ "$TERM_PROGRAM" = "Apple_Terminal" ]; then
         echo "tell application \"Terminal\" to set current settings of selected tab of front window to settings set \"solarized-$BACKGROUND\"" | osascript
         return
     fi
 
+    # Format string for sending an OSC (Operating System Commmand) to the terminal.
+    if [ -n "$TMUX" ]; then
+        # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
+        local format='\033Ptmux;\033\033]%s\007\033\\'
+        # local format='\033Ptmux;\033\033]%s\033\033\\\033\\'
+    elif [ "${TERM%%[-.]*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        local format='\033P\033]%s\007\033\\'
+    else
+        local format='\033]%s\033\\'
+    fi
+
     # Solarize the terminal:
     #   - 4;n;#rrggbb (e.g. https://github.com/mintty/mintty/wiki/Tips#changing-colours)
-    bashrc_send_term_osc "4;0;#$Base02_RGB"
-    bashrc_send_term_osc "4;1;#$Red_RGB"
-    bashrc_send_term_osc "4;2;#$Green_RGB"
-    bashrc_send_term_osc "4;3;#$Yellow_RGB"
-    bashrc_send_term_osc "4;4;#$Blue_RGB"
-    bashrc_send_term_osc "4;5;#$Magenta_RGB"
-    bashrc_send_term_osc "4;6;#$Cyan_RGB"
-    bashrc_send_term_osc "4;7;#$Base2_RGB"
-    bashrc_send_term_osc "4;8;#$Base03_RGB"
-    bashrc_send_term_osc "4;9;#$Orange_RGB"
-    bashrc_send_term_osc "4;10;#$Base01_RGB"
-    bashrc_send_term_osc "4;11;#$Base00_RGB"
-    bashrc_send_term_osc "4;12;#$Base0_RGB"
-    bashrc_send_term_osc "4;13;#$Violet_RGB"
-    bashrc_send_term_osc "4;14;#$Base1_RGB"
-    bashrc_send_term_osc "4;15;#$Base3_RGB"
+    printf "$format" "4;0;#$Base02_RGB"
+    printf "$format" "4;1;#$Red_RGB"
+    printf "$format" "4;2;#$Green_RGB"
+    printf "$format" "4;3;#$Yellow_RGB"
+    printf "$format" "4;4;#$Blue_RGB"
+    printf "$format" "4;5;#$Magenta_RGB"
+    printf "$format" "4;6;#$Cyan_RGB"
+    printf "$format" "4;7;#$Base2_RGB"
+    printf "$format" "4;8;#$Base03_RGB"
+    printf "$format" "4;9;#$Orange_RGB"
+    printf "$format" "4;10;#$Base01_RGB"
+    printf "$format" "4;11;#$Base00_RGB"
+    printf "$format" "4;12;#$Base0_RGB"
+    printf "$format" "4;13;#$Violet_RGB"
+    printf "$format" "4;14;#$Base1_RGB"
+    printf "$format" "4;15;#$Base3_RGB"
 
     if [ "$BACKGROUND" = "dark" ]; then
         local background="$Base03_RGB"
@@ -206,17 +206,17 @@ bashrc_customize_terminal_colors() {
 
     if [ -n "$ITERM_SESSION_ID" ]; then
         # iTerm2: Pnrrggbb (http://iterm2.com/documentation-escape-codes.html)
-        bashrc_send_term_osc "Pg$foreground"    # Foreground
-        bashrc_send_term_osc "Pi$foreground"    # Bold
-        bashrc_send_term_osc "Ph$background"    # Background
-        bashrc_send_term_osc "Pj$Base01_RGB"    # Selection
-        bashrc_send_term_osc "Pk$Base2_RGB"     # Selected text
-        bashrc_send_term_osc "Pl$Red_RGB"       # Cursor
-        bashrc_send_term_osc "Pm$Red_RGB"       # Cursor text
+        printf "$format" "Pg$foreground"    # Foreground
+        printf "$format" "Pi$foreground"    # Bold
+        printf "$format" "Ph$background"    # Background
+        printf "$format" "Pj$Base01_RGB"    # Selection
+        printf "$format" "Pk$Base2_RGB"     # Selected text
+        printf "$format" "Pl$Red_RGB"       # Cursor
+        printf "$format" "Pm$Red_RGB"       # Cursor text
     else
-        bashrc_send_term_osc "10;#$foreground"  # Foreground
-        bashrc_send_term_osc "11;#$background"  # Background
-        bashrc_send_term_osc "12;#$Red_RGB"     # Cursor
+        printf "$format" "10;#$foreground"  # Foreground
+        printf "$format" "11;#$background"  # Background
+        printf "$format" "12;#$Red_RGB"     # Cursor
     fi
 }
 
