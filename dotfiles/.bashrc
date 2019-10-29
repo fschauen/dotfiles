@@ -221,8 +221,13 @@ bashrc_set_prompt() {
 
     local pyvenv=""
     if ! [ -z "$VIRTUAL_ENV" ]; then
-        pyvenv=$(basename "$VIRTUAL_ENV" 2>/dev/null)
+        pyvenv=" "$(basename "$VIRTUAL_ENV" 2>/dev/null)
     fi
+
+    local stopped_jobs="" running_jobs=""
+    local running=$(jobs -r | wc -l) stopped=$(jobs -s | wc -l)
+    if [ ${running} -gt 0 ]; then running_jobs=" run:${running}"; fi
+    if [ ${stopped} -gt 0 ]; then stopped_jobs=" stp:${stopped}"; fi
 
     local color="$Cyan"
     if [ $EUID -eq 0 ]; then
@@ -239,13 +244,17 @@ bashrc_set_prompt() {
     local exit_code_color="\[\033[${Red}m\]"
     local git_color="\[\033[${Green}m\]"
     local env_color="\[\033[${Magenta}m\]"
+    local running_color="\[\033[${Orange}m\]"
+    local stopped_color="\[\033[${Orange}m\]"
     local default_color="\[\033[0m\]"
 
     PS1="\n["                               # [
     PS1+="$user_host_color\u@\h "           # user @ host
     PS1+="$pwd_color\w"                     # pwd
     PS1+="$git_color$(__git_ps1 ' %s')"     # git status (if in repo)
-    PS1+="$env_color $pyvenv"               # python virtual env (if active)
+    PS1+="$env_color$pyvenv"                # python virtual env (if active)
+    PS1+="$running_color$running_jobs"      # background running jobs (if any)
+    PS1+="$stopped_color$stopped_jobs"      # background stopped jobs (if any)
     PS1+="$default_color"                   # back to default color
     PS1+="]\n"                              # ]
     if [[ $exit_code != 0 ]]; then
