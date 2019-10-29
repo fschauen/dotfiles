@@ -44,11 +44,7 @@ bashrc_customize_shell_options() {
     # Prevent overwriting files by mistake with output redirection.
     set -o noclobber
 
-    local option
-    for option in cdspell checkwinsize globstar histappend nocaseglob
-    do
-        shopt -s "$option" 2> /dev/null
-    done
+    shopt -s cdspell checkwinsize globstar histappend nocaseglob
 }
 
 bashrc_customize_paths() {
