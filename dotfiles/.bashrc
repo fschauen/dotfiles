@@ -41,6 +41,9 @@ bashrc_customize_environment() {
 }
 
 bashrc_customize_shell_options() {
+    # Prevent overwriting files by mistake with output redirection.
+    set -o noclobber
+
     local option
     for option in cdspell checkwinsize globstar histappend nocaseglob
     do
