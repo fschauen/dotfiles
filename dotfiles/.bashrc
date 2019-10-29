@@ -280,6 +280,15 @@ bashrc_customize_ls() {
     fi
 }
 
+bashrc_source_completion_helpers() {
+    if [ -d /usr/local/etc/bash_completion.d ]; then
+        local f
+        for f in /usr/local/etc/bash_completion.d/*; do
+            source "$f"
+        done
+    fi
+}
+
 # Print the solarized palette (for testing)
 solarized() {
     local names=(Base02 Red Green Yellow Blue Magenta Cyan Base2
@@ -336,13 +345,7 @@ bashrc_customize_aliases
 bashrc_customize_terminal_colors
 bashrc_customize_prompt
 bashrc_customize_ls
-
-# Source any available completion helpers
-if [ -d /usr/local/etc/bash_completion.d ]; then
-    for f in /usr/local/etc/bash_completion.d/*; do
-        source "$f"
-    done
-fi
+bashrc_source_completion_helpers
 
 # Source a local bashrc if available
 if [ -f "$HOME/.bashrc.local" ]; then
