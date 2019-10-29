@@ -69,12 +69,12 @@ bashrc_customize_paths() {
             PATH="$p:$PATH"
         fi
     done <<EOS
-$prefix/bin
-$prefix/opt/man-db/libexec/bin
-$prefix/opt/coreutils/libexec/gnubin
-$prefix/opt/gnu-sed/libexec/gnubin
-$HOME/.local/bin
-$HOME/bin
+        $prefix/bin
+        $prefix/opt/man-db/libexec/bin
+        $prefix/opt/coreutils/libexec/gnubin
+        $prefix/opt/gnu-sed/libexec/gnubin
+        $HOME/.local/bin
+        $HOME/bin
 EOS
     export PATH
 
@@ -87,11 +87,11 @@ EOS
             MANPATH="$p:$MANPATH"
         fi
     done <<EOS
-$prefix/share/man
-$prefix/opt/man-db/libexec/man
-$prefix/opt/coreutils/libexec/gnuman
-$prefix/opt/gnu-sed/libexec/gnuman
-$HOME/.local/share/man
+        $prefix/share/man
+        $prefix/opt/man-db/libexec/man
+        $prefix/opt/coreutils/libexec/gnuman
+        $prefix/opt/gnu-sed/libexec/gnuman
+        $HOME/.local/share/man
 EOS
     export MANPATH
 }
