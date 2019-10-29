@@ -41,6 +41,7 @@ bashrc_customize_environment() {
 }
 
 bashrc_customize_shell_options() {
+    local option
     for option in cdspell checkwinsize globstar histappend nocaseglob
     do
         shopt -s "$option" 2> /dev/null
@@ -64,6 +65,7 @@ bashrc_customize_paths() {
     fi
 
     # Add custom bin dirs to PATH if they exist and are not already in PATH.
+    local p
     while read p; do
         if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
             PATH="$p:$PATH"
@@ -293,7 +295,7 @@ bashrc_source_completion_helpers() {
 solarized() {
     local names=(Base02 Red Green Yellow Blue Magenta Cyan Base2
                  Base03 Orange Base01 Base00 Base0 Violet Base1 Base3)
-
+    local i
     for i in 1 9 3 2 6 4 13 5 8 0 10 11 12 14 7 15; do
         local name=${names[i]}
         local name_rgb=${name}_RGB
@@ -304,6 +306,7 @@ solarized() {
 
 # Print all 256 colors
 colortest() {
+    local i
     for i in $(seq 0 15); do
         for j in $(seq 0 15); do
             local n=$(( 16 * $i + $j ))
