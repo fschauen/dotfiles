@@ -257,20 +257,13 @@ EOS
     fi
 }
 
-alias tree="bashrc_tree"
-bashrc_tree() {
-    # The 'tree' alias is not available here, so this calls the actual program.
-    tree -F --dirsfirst -I '.git|Spotlight-V100|.fseventsd' "$@"
-}
-
-alias ltree="bashrc_paged_tree"
-bashrc_paged_tree() {
-    bashrc_tree -C "$@" | less -R
-}
-
 ##############################################################################
 # Add shell functions
 ##############################################################################
+
+tree() { command tree --dirsfirst -FI '.git|Spotlight-V100|.fseventsd' "$@"; }
+
+ltree() { tree -C "$@" | less -R; }
 
 # Combined mkdir and cd
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
