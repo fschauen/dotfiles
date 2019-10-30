@@ -270,13 +270,11 @@ mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
 
 # Colorized `man`
 man() {
-    if [ "$BACKGROUND" = "dark" ]; then
-        local standout="$Base02;44" bold="$Yellow" underline="$Base3;4"
-    else
-        local standout="$Base02;46" bold="$Blue" underline="$Base00;4"
+    local standout="$Base02;44" bold="$Yellow" underline="$Base3;4"
+    if [ $BACKGROUND = light ]; then
+        standout="$Base02;46" bold="$Blue" underline="$Base00;4"
     fi
 
-    env \
     LESS_TERMCAP_so=$(echo -ne "\033[${standout}m") \
     LESS_TERMCAP_md=$(echo -ne "\033[${bold}m") \
     LESS_TERMCAP_us=$(echo -ne "\033[${underline}m") \
@@ -284,7 +282,7 @@ man() {
     LESS_TERMCAP_me=$'\033[0m' \
     LESS_TERMCAP_ue=$'\033[0m' \
     GROFF_NO_SGR=1 \
-    man "$@"
+    command man "$@"
 }
 
 solarized() {
