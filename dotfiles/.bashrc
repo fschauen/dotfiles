@@ -203,58 +203,52 @@ bashrc_update_colors() {
         tmux source-file "$HOME/.tmux.conf"
     fi
 
-    # Format string for sending an OSC (Operating System Commmand) to the terminal.
-    if [ -n "$TMUX" ]; then
-        # http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324
-        local format='\033Ptmux;\033\033]%s\007\033\\'
-        # local format='\033Ptmux;\033\033]%s\033\033\\\033\\'
-    elif [ "${TERM%%[-.]*}" = "screen" ]; then
-        # GNU screen (screen, screen-256color, screen-256color-bce)
-        local format='\033P\033]%s\007\033\\'
-    else
-        local format='\033]%s\033\\'
+    # Terminal OSC (Operating System Commmand) definition
+    local osc='\033]%s\033\\'
+    if [ -n "$TMUX" ]; then                osc='\033Ptmux;\033\033]%s\007\033\\'
+    elif [ ${TERM%%[-.]*} = screen ]; then osc='\033P\033]%s\007\033\\'
     fi
 
-    # Solarize the terminal:
-    #   - 4;n;#rrggbb (e.g. https://github.com/mintty/mintty/wiki/Tips#changing-colours)
-    printf "$format" "4;0;#$Base02_RGB"
-    printf "$format" "4;1;#$Red_RGB"
-    printf "$format" "4;2;#$Green_RGB"
-    printf "$format" "4;3;#$Yellow_RGB"
-    printf "$format" "4;4;#$Blue_RGB"
-    printf "$format" "4;5;#$Magenta_RGB"
-    printf "$format" "4;6;#$Cyan_RGB"
-    printf "$format" "4;7;#$Base2_RGB"
-    printf "$format" "4;8;#$Base03_RGB"
-    printf "$format" "4;9;#$Orange_RGB"
-    printf "$format" "4;10;#$Base01_RGB"
-    printf "$format" "4;11;#$Base00_RGB"
-    printf "$format" "4;12;#$Base0_RGB"
-    printf "$format" "4;13;#$Violet_RGB"
-    printf "$format" "4;14;#$Base1_RGB"
-    printf "$format" "4;15;#$Base3_RGB"
+    # Solarize the terminal: 4;n;#rrggbb
+    local n rgb comment
+    while read n rgb comment; do printf "$osc" "4;$n;#$rgb"; done <<EOS
+        0  $Base02_RGB
+        1  $Red_RGB
+        2  $Green_RGB
+        3  $Yellow_RGB
+        4  $Blue_RGB
+        5  $Magenta_RGB
+        6  $Cyan_RGB
+        7  $Base2_RGB
+        8  $Base03_RGB
+        9  $Orange_RGB
+        10 $Base01_RGB
+        11 $Base00_RGB
+        12 $Base0_RGB
+        13 $Violet_RGB
+        14 $Base1_RGB
+        15 $Base3_RGB
+EOS
 
-    if [ "$BACKGROUND" = "dark" ]; then
-        local background="$Base03_RGB"
-        local foreground="$Base1_RGB"
-    else
-        local background="$Base3_RGB"
-        local foreground="$Base01_RGB"
-    fi
+    local fg=$Base1_RGB bg=$Base03_RGB cursor=$Red_RGB
+    if [ $BACKGROUND = light ]; then fg=$Base01_RGB; bg=$Base3_RGB; fi
 
-    if [ -n "$ITERM_SESSION_ID" ]; then
-        # iTerm2: Pnrrggbb (http://iterm2.com/documentation-escape-codes.html)
-        printf "$format" "Pg$foreground"    # Foreground
-        printf "$format" "Pi$foreground"    # Bold
-        printf "$format" "Ph$background"    # Background
-        printf "$format" "Pj$Base01_RGB"    # Selection
-        printf "$format" "Pk$Base2_RGB"     # Selected text
-        printf "$format" "Pl$Red_RGB"       # Cursor
-        printf "$format" "Pm$Red_RGB"       # Cursor text
-    else
-        printf "$format" "10;#$foreground"  # Foreground
-        printf "$format" "11;#$background"  # Background
-        printf "$format" "12;#$Red_RGB"     # Cursor
+    if [ -n "$ITERM_SESSION_ID" ]; then # iTerm2: Pnrrggbb
+        while read n rgb comment; do printf "$osc" "P$n$rgb"; done <<EOS
+            g $fg           Foreground
+            i $fg           Bold
+            h $bg           Background
+            j $Base01_RGB   Selection
+            k $Base2_RGB    Selected text
+            l $cursor       Cursor
+            m $cursor       Cursor text
+EOS
+    else  # other terminals: n;#rrggbb
+        while read n rgb comment; do printf "$osc" "$n;#$rgb"; done <<EOS
+            10 $fg      Foreground
+            11 $bg      Background
+            12 $cursor  Cursor
+EOS
     fi
 
     local ls_colors="$HOME/.config/dircolors/solarized-$BACKGROUND"
