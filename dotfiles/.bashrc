@@ -103,11 +103,8 @@ PS2="... "
 
 PROMPT_COMMAND=bashrc_set_prompt
 bashrc_set_prompt() {
-    local exit_code=$?
-    local level=$SHLVL
-    local prompt=$(printf '\$%.0s' $(seq 1 $level))
+    local exit_code=$? prompt=$(printf '\$%.0s' $(seq 1 $SHLVL)) pyvenv=""
 
-    local pyvenv=""
     if ! [ -z "$VIRTUAL_ENV" ]; then
         pyvenv=" "$(basename "$VIRTUAL_ENV" 2>/dev/null)
     fi
@@ -118,12 +115,10 @@ bashrc_set_prompt() {
     if [ ${stopped} -gt 0 ]; then stopped_jobs=" stp:${stopped}"; fi
 
     local color="$Cyan"
-    if [ $EUID -eq 0 ]; then
-        # root user
-        prompt=$(printf '#%.0s' $(seq 1 $level))
+    if [ $EUID -eq 0 ]; then                        # root user
+        prompt=$(printf '#%.0s' $(seq 1 $SHLVL))
         color="$Orange"
-    elif [ -n "$SSH_CLIENT" ]; then
-        # SSH connection
+    elif [ -n "$SSH_CLIENT" ]; then                 # SSH session
         color="$Yellow"
     fi
 
