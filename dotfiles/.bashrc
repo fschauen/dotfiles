@@ -66,9 +66,7 @@ unset prefix bindir mandir
 ##############################################################################
 
 shopt -s cdspell checkwinsize globstar histappend nocaseglob
-
-# Prevent overwriting files by mistake with output redirection.
-set -o noclobber
+set -o noclobber    # Prevent overwriting files with output redirection.
 
 # Eternal bash history (from https://stackoverflow.com/a/19533853)
 HISTCONTROL=erasedups
@@ -322,6 +320,7 @@ if [ -d /usr/local/etc/bash_completion.d ]; then
     for completion in /usr/local/etc/bash_completion.d/*; do
         source "$completion"
     done
+    unset completion
 fi
 
 # Source a local bashrc if available
