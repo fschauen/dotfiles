@@ -149,8 +149,8 @@ __ps1_venv() {
 }
 
 __ps1_jobs() {
-    local count=$(jobs | wc -l)
-    [ $count -gt 0 ] && printf "${1:-%s}" "bg:${count}"
+    local n=$(jobs | wc -l)
+    [ $n -gt 0 ] && printf "${1:-%s}" "$n job$([ $n -gt 1 ] && echo -n s)"
 }
 
 ##############################################################################
