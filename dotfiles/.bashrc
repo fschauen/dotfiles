@@ -95,15 +95,15 @@ Blue=4    Blue_RGB="268BD2"    # 0;34   4  blue      33 #0087ff  55 -10 -45   38
 Cyan=6    Cyan_RGB="2AA198"    # 0;36   6  cyan      37 #00afaf  60 -35 -05   42 161 152  175  74  63
 Green=2   Green_RGB="859900"   # 0;32   2  green     64 #5f8700  60 -20  65  133 153   0   68 100  60
 
-PS1_DEFAULT=$(tput setaf $Cyan)
-PS1_SSH=$(tput setaf $Yellow)
-PS1_ROOT=$(tput setaf $Orange)
-PS1_PWD=$(tput setaf $Blue)
-PS1_STATUS=$(tput setaf $Red)
-PS1_GIT=$(tput setaf $Green)
-PS1_VENV=$(tput setaf $Magenta)
-PS1_JOBS=$(tput setaf $Orange)
-PS1_RESET=$(tput sgr0)
+PS1_DEFAULT=$(tput setaf $Cyan)     # user@host color for local sessions
+PS1_SSH=$(tput setaf $Yellow)       # user@host color in SSH session
+PS1_ROOT=$(tput setaf $Orange)      # user@host color if logged in as root
+PS1_PWD=$(tput setaf $Blue)         # PWD color
+PS1_ERR=$(tput setaf $Red)          # color for last exit code if non-zero
+PS1_GIT=$(tput setaf $Green)        # color for git branch
+PS1_VENV=$(tput setaf $Violet)      # color for python virtual env
+PS1_JOBS=$(tput setaf $Magenta)     # color for background jobs
+PS1_RST=$(tput sgr0)
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
@@ -115,13 +115,7 @@ PS2="... "
 PROMPT_COMMAND=__ps1_set
 
 __ps1_set() {
-    local exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-        local status="$PS1_STATUS$exit_code$PS1_RESET "
-    else
-        local status=""
-    fi
-
+    local last_status=$?
     if [ $EUID -eq 0 ]; then
         local prompt=$(printf '#%.0s' $(seq 1 $SHLVL))
         local color=$PS1_ROOT
@@ -134,25 +128,29 @@ __ps1_set() {
         fi
     fi
 
-    PS1="\n[$color\u@\h $PS1_PWD\w"         # [user@host pwd
-    PS1+="$PS1_GIT$(__git_ps1 ' %s')"       # git status (if in repo)
-    PS1+="$PS1_VENV$(__ps1_venv ' %s')"     # python virtual env (if active)
-    PS1+="$PS1_JOBS$(__ps1_jobs ' %s')"     # background jobs (if any)
-    PS1+="$PS1_RESET]\n"                    # ]
-    PS1+="$status$prompt "                  # last status & prompt
+    local sep_color=$(tput setaf $Base01)
+    if [ "$BACKGROUND" = "light" ]; then sep_color=$(tput setaf $Base1); fi
+    local sep="$sep_color > $PS1_RST"
+
+    PS1="\n"
+    if [ $last_status -ne 0 ]; then
+        PS1+="$PS1_ERR$last_status$PS1_RST$sep"     # last exit code (in non-zero)
+    fi
+    PS1+="$color\h$PS1_RST$sep$PS1_PWD\w$PS1_RST"   # user@host pwd
+    PS1+=$(__git_ps1 "$sep$PS1_GIT%s$PS1_RST")      # git status (if in repo)
+    PS1+=$(__ps1_venv "$sep$PS1_VENV%s$PS1_RST")    # python virtual env (if active)
+    PS1+=$(__ps1_jobs "$sep$PS1_JOBS%s$PS1_RST")    # background jobs (if any)
+    PS1+="\n$prompt "                               # ] $
 }
 
 __ps1_venv() {
-    if [ -n "$VIRTUAL_ENV" ]; then
-        printf "${1:-%s}" "$(basename "$VIRTUAL_ENV" 2>/dev/null)"
-    fi
+    local venv="$(basename "$VIRTUAL_ENV" 2>/dev/null)"
+    [ ! -z "$venv" ] && printf "${1:-%s}" "venv:$venv"
 }
 
 __ps1_jobs() {
-    local job_count=$(jobs | wc -l)
-    if [ ${job_count} -gt 0 ]; then
-        printf "${1:-%s}" "bg:${job_count}"
-    fi
+    local count=$(jobs | wc -l)
+    [ $count -gt 0 ] && printf "${1:-%s}" "bg:${count}"
 }
 
 ##############################################################################
