@@ -76,75 +76,83 @@ HISTTIMEFORMAT="[%F %T] "
 HISTFILE=~/.bash_eternal_history
 
 # Color definitions (from http://ethanschoonover.com/solarized)
-# NAME  CODE               HEX         16/8 TERMCOL  XTERM/HEX    L*A*B       RGB          HSB
-# ----  -----              ------      ---- -------  ----------- -----------  -----------  -----------
-Base03="1;30"  Base03_RGB="002B36"   #  8/4 brblack  234 #1c1c1c  15 -12 -12    0  43  54  193 100  21
-Base02="0;30"  Base02_RGB="073642"   #  0/4 black    235 #262626  20 -12 -12    7  54  66  192  90  26
-Base01="1;32"  Base01_RGB="586E75"   # 10/7 brgreen  240 #585858  45 -07 -07   88 110 117  194  25  46
-Base00="1;33"  Base00_RGB="657B83"   # 11/7 bryellow 241 #626262  50 -07 -07  101 123 131  195  23  51
-Base0="1;34"   Base0_RGB="839496"    # 12/6 brblue   244 #808080  60 -06 -03  131 148 150  186  13  59
-Base1="1;36"   Base1_RGB="93A1A1"    # 14/4 brcyan   245 #8a8a8a  65 -05 -02  147 161 161  180   9  63
-Base2="0;37"   Base2_RGB="EEE8D5"    #  7/7 white    254 #e4e4e4  92 -00  10  238 232 213   44  11  93
-Base3="1;37"   Base3_RGB="FDF6E3"    # 15/7 brwhite  230 #ffffd7  97  00  10  253 246 227   44  10  99
-Yellow="0;33"  Yellow_RGB="B58900"   #  3/3 yellow   136 #af8700  60  10  65  181 137   0   45 100  71
-Orange="1;31"  Orange_RGB="CB4B16"   #  9/3 brred    166 #d75f00  50  50  55  203  75  22   18  89  80
-Red="0;31"     Red_RGB="DC322F"      #  1/1 red      160 #d70000  50  65  45  220  50  47    1  79  86
-Magenta="0;35" Magenta_RGB="D33682"  #  5/5 magenta  125 #af005f  50  65 -05  211  54 130  331  74  83
-Violet="1;35"  Violet_RGB="6C71C4"   # 13/5 brmagenta 61 #5f5faf  50  15 -45  108 113 196  237  45  77
-Blue="0;34"    Blue_RGB="268BD2"     #  4/4 blue      33 #0087ff  55 -10 -45   38 139 210  205  82  82
-Cyan="0;36"    Cyan_RGB="2AA198"     #  6/6 cyan      37 #00afaf  60 -35 -05   42 161 152  175  74  63
-Green="0;32"   Green_RGB="859900"    #  2/2 green     64 #5f8700  60 -20  65  133 153   0   68 100  60
+# NAME                  HEX         SGR  16 / 8 TERMCOL  XTERM/HEX    L*A*B       RGB          HSB
+# ----                  ------      ---  ------ -------  ----------- -----------  -----------  -----------
+Base03=8    Base03_RGB="002B36"   # 1;30  8 / 4 brblack  234 #1c1c1c  15 -12 -12    0  43  54  193 100  21
+Base02=0    Base02_RGB="073642"   # 0;30  0 / 4 black    235 #262626  20 -12 -12    7  54  66  192  90  26
+Base01=10   Base01_RGB="586E75"   # 1;32 10 / 7 brgreen  240 #585858  45 -07 -07   88 110 117  194  25  46
+Base00=11   Base00_RGB="657B83"   # 1;33 11 / 7 bryellow 241 #626262  50 -07 -07  101 123 131  195  23  51
+Base0=12    Base0_RGB="839496"    # 1;34 12 / 6 brblue   244 #808080  60 -06 -03  131 148 150  186  13  59
+Base1=14    Base1_RGB="93A1A1"    # 1;36 14 / 4 brcyan   245 #8a8a8a  65 -05 -02  147 161 161  180   9  63
+Base2=7     Base2_RGB="EEE8D5"    # 0;37  7 / 7 white    254 #e4e4e4  92 -00  10  238 232 213   44  11  93
+Base3=15    Base3_RGB="FDF6E3"    # 1;37 15 / 7 brwhite  230 #ffffd7  97  00  10  253 246 227   44  10  99
+Yellow=3    Yellow_RGB="B58900"   # 0;33  3 / 3 yellow   136 #af8700  60  10  65  181 137   0   45 100  71
+Orange=9    Orange_RGB="CB4B16"   # 1;31  9 / 3 brred    166 #d75f00  50  50  55  203  75  22   18  89  80
+Red=1       Red_RGB="DC322F"      # 0;31  1 / 1 red      160 #d70000  50  65  45  220  50  47    1  79  86
+Magenta=5   Magenta_RGB="D33682"  # 0;35  5 / 5 magenta  125 #af005f  50  65 -05  211  54 130  331  74  83
+Violet=13   Violet_RGB="6C71C4"   # 1;35 13 / 5 brmagenta 61 #5f5faf  50  15 -45  108 113 196  237  45  77
+Blue=4      Blue_RGB="268BD2"     # 0;34  4 / 4 blue      33 #0087ff  55 -10 -45   38 139 210  205  82  82
+Cyan=6      Cyan_RGB="2AA198"     # 0;36  6 / 6 cyan      37 #00afaf  60 -35 -05   42 161 152  175  74  63
+Green=2     Green_RGB="859900"    # 0;32  2 / 2 green     64 #5f8700  60 -20  65  133 153   0   68 100  60
+
+PS1_DEFAULT=$(tput setaf $Cyan)
+PS1_SSH=$(tput setaf $Yellow)
+PS1_ROOT=$(tput setaf $Orange)
+PS1_PWD=$(tput setaf $Blue)
+PS1_STATUS=$(tput setaf $Red)
+PS1_GIT=$(tput setaf $Green)
+PS1_VENV=$(tput setaf $Magenta)
+PS1_JOBS=$(tput setaf $Orange)
+PS1_RESET=$(tput sgr0)
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
 GIT_PS1_SHOWUPSTREAM=verbose
+
 PS2="... "
+PS1="\$ "
 
-PROMPT_COMMAND=_set_prompt
-_set_prompt() {
-    local exit_code=$? prompt=$(printf '\$%.0s' $(seq 1 $SHLVL)) pyvenv=""
+PROMPT_COMMAND=__ps1_set
 
-    if ! [ -z "$VIRTUAL_ENV" ]; then
-        pyvenv=" "$(basename "$VIRTUAL_ENV" 2>/dev/null)
+__ps1_set() {
+    if [ $? -ne 0 ]; then
+        local status="$PS1_STATUS$exit_code$PS1_RESET "
+    else
+        local status=""
     fi
 
-    local stopped_jobs="" running_jobs=""
-    local running=$(jobs -r | wc -l) stopped=$(jobs -s | wc -l)
-    if [ ${running} -gt 0 ]; then running_jobs=" run:${running}"; fi
-    if [ ${stopped} -gt 0 ]; then stopped_jobs=" stp:${stopped}"; fi
-
-    local color="$Cyan"
-    if [ $EUID -eq 0 ]; then                        # root user
-        prompt=$(printf '#%.0s' $(seq 1 $SHLVL))
-        color="$Orange"
-    elif [ -n "$SSH_CLIENT" ]; then                 # SSH session
-        color="$Yellow"
+    if [ $EUID -eq 0 ]; then
+        local prompt=$(printf '#%.0s' $(seq 1 $SHLVL))
+        local color=$PS1_ROOT
+    else
+        local prompt=$(printf '\$%.0s' $(seq 1 $SHLVL))
+        if [ -n "$SSH_CLIENT" ]; then
+            local color=$PS1_SSH
+        else
+            local color=$PS1_DEFAULT
+        fi
     fi
 
-    local user_host_color="\[\033[${color}m\]"
-    local pwd_color="\[\033[${Blue}m\]"
-    local exit_code_color="\[\033[${Red}m\]"
-    local git_color="\[\033[${Green}m\]"
-    local env_color="\[\033[${Magenta}m\]"
-    local running_color="\[\033[${Orange}m\]"
-    local stopped_color="\[\033[${Orange}m\]"
-    local default_color="\[\033[0m\]"
+    PS1="\n[$color\u@\h $PS1_PWD\w"         # [user@host pwd
+    PS1+="$PS1_GIT$(__git_ps1 ' %s')"       # git status (if in repo)
+    PS1+="$PS1_VENV$(__ps1_venv ' %s')"     # python virtual env (if active)
+    PS1+="$PS1_JOBS$(__ps1_jobs ' $s')"     # background jobs (if any)
+    PS1+="$PS1_RESET]\n"                    # ]
+    PS1+="$status$prompt "                  # last status & prompt
+}
 
-    PS1="\n["                               # [
-    PS1+="$user_host_color\u@\h "           # user @ host
-    PS1+="$pwd_color\w"                     # pwd
-    PS1+="$git_color$(__git_ps1 ' %s')"     # git status (if in repo)
-    PS1+="$env_color$pyvenv"                # python virtual env (if active)
-    PS1+="$running_color$running_jobs"      # background running jobs (if any)
-    PS1+="$stopped_color$stopped_jobs"      # background stopped jobs (if any)
-    PS1+="$default_color"                   # back to default color
-    PS1+="]\n"                              # ]
-    if [[ $exit_code != 0 ]]; then
-        PS1+="$exit_code_color$exit_code "  # last exit code if non-zero
-        PS1+="$default_color"               # back to default color
+__ps1_venv() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        printf "${1:-%s}" "$(basename "$VIRTUAL_ENV" 2>/dev/null)"
     fi
-    PS1+="$prompt "                       # prompt
+}
+
+__ps1_jobs() {
+    local job_count=$(jobs | wc -l)
+    if [ ${job_count} -gt 0 ]; then
+        printf "${1:-%s}" "bg:${job_count}"
+    fi
 }
 
 ##############################################################################
@@ -295,28 +303,26 @@ man() {
 }
 
 solarized() {
-    local names=(Base02 Red Green Yellow Blue Magenta Cyan Base2
-                 Base03 Orange Base01 Base00 Base0 Violet Base1 Base3)
-    local i
-    for i in 1 9 3 2 6 4 13 5 8 0 10 11 12 14 7 15; do
-        local name=${names[i]}
+    local name rst=$(tput sgr0)
+    for name in Red Orange Yellow Green Cyan Blue Violet Magenta Base{0{3..0},{0..3}}
+    do
         local name_rgb=${name}_RGB
-        local code=${!name} rgb=${!name_rgb}
-        echo -e "\x1b[48;5;${i}m    \033[0m \033[${code}m#$rgb $code $name ($i)"
+        local i=${!name} rgb=${!name_rgb}
+        local fg=$(tput setaf $i) bg=$(tput setab $i)
+        printf "$bg%6s$rst $fg#$rgb %2d $name$rst\n" '' $i
     done
 }
 
 # Print all 256 colors
 colortest() {
-    local i
+    local i j rst=$(tput sgr0)
     for i in $(seq 0 15); do
         for j in $(seq 0 15); do
             local n=$(( 16 * $i + $j ))
-            printf "\x1b[48;5;${n}m  %3d  \033[0m" $n
+            printf "$(tput setab $n)  %3d  " $n
         done
-        printf '\n'
+        echo $rst
     done
-    printf '\033[0m'
 }
 
 ##############################################################################
