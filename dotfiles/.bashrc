@@ -138,7 +138,7 @@ __ps1_set() {
     PS1="\n[$color\u@\h $PS1_PWD\w"         # [user@host pwd
     PS1+="$PS1_GIT$(__git_ps1 ' %s')"       # git status (if in repo)
     PS1+="$PS1_VENV$(__ps1_venv ' %s')"     # python virtual env (if active)
-    PS1+="$PS1_JOBS$(__ps1_jobs ' $s')"     # background jobs (if any)
+    PS1+="$PS1_JOBS$(__ps1_jobs ' %s')"     # background jobs (if any)
     PS1+="$PS1_RESET]\n"                    # ]
     PS1+="$status$prompt "                  # last status & prompt
 }
