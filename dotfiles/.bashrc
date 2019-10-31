@@ -101,8 +101,8 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 GIT_PS1_SHOWUPSTREAM=verbose
 PS2="... "
 
-PROMPT_COMMAND=bashrc_set_prompt
-bashrc_set_prompt() {
+PROMPT_COMMAND=_set_prompt
+_set_prompt() {
     local exit_code=$? prompt=$(printf '\$%.0s' $(seq 1 $SHLVL)) pyvenv=""
 
     if ! [ -z "$VIRTUAL_ENV" ]; then
@@ -186,16 +186,16 @@ alias myip="curl https://ifconfig.co"
 #alias myip="curl https://ifconfig.me"
 #alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
-alias light='bashrc_update_colors light'
-alias dark='bashrc_update_colors dark'
+alias light='_update_colors light'
+alias dark='_update_colors dark'
 
-bashrc_send_osc() {
+_send_osc() {
     local OSC="\E]" ST="\E\\"
     if [ -n "$TMUX" ]; then OSC="\EPtmux;\E\E]"; fi
     echo -ne "$OSC$1$ST"
 }
 
-bashrc_update_colors() {
+_update_colors() {
     export BACKGROUND="$1"
 
     local cursor=$Red_RGB            fg=$Base1_RGB   bg=$Base03_RGB
@@ -204,7 +204,7 @@ bashrc_update_colors() {
     local n rgb comment
     if [ -n "$ITERM_SESSION_ID" ]
     then    # iTerm2
-        while read n rgb comment; do bashrc_send_osc "P$n$rgb"; done <<EOL
+        while read n rgb comment; do _send_osc "P$n$rgb"; done <<EOL
             0 $Base02_RGB
             1 $Red_RGB
             2 $Green_RGB
@@ -230,7 +230,7 @@ bashrc_update_colors() {
             m $cursor       Cursor text
 EOL
     else    # assume xterm
-        while read n rgb comment; do bashrc_send_osc "4;$n;#$rgb"; done <<EOL
+        while read n rgb comment; do _send_osc "4;$n;#$rgb"; done <<EOL
             0  $Base02_RGB
             1  $Red_RGB
             2  $Green_RGB
@@ -248,7 +248,7 @@ EOL
             14 $Base1_RGB
             15 $Base3_RGB
 EOL
-        while read n rgb comment; do bashrc_send_osc "$n;#$rgb"; done <<EOL
+        while read n rgb comment; do _send_osc "$n;#$rgb"; done <<EOL
             10 $fg      Foreground
             11 $bg      Background
             12 $cursor  Cursor
@@ -324,7 +324,7 @@ colortest() {
 ##############################################################################
 
 stty -ixon # disable ctrl-s and ctrl-q
-bashrc_update_colors "${BACKGROUND:-dark}"
+_update_colors "${BACKGROUND:-dark}"
 
 # Enable available completion helpers
 if [ -d /usr/local/etc/bash_completion.d ]; then
