@@ -116,7 +116,8 @@ PS1="\$ "
 PROMPT_COMMAND=__ps1_set
 
 __ps1_set() {
-    if [ $? -ne 0 ]; then
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
         local status="$PS1_STATUS$exit_code$PS1_RESET "
     else
         local status=""
