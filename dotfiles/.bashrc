@@ -287,18 +287,23 @@ mkcd() { mkdir -p -- "$1" && cd -P -- "$1"; }
 
 # Colorized `man`
 man() {
-    local standout="$Base02;44" bold="$Yellow" underline="$Base3;4"
+    local rst=$(tput sgr0)
+    local standout=$(tput -S    <<<$(echo -e "setaf $Base03\nsetab $Cyan"))
+    local bold=$(tput -S        <<<$(echo -e "setaf $Yellow"))
+    local underline=$(tput -S   <<<$(echo -e "setaf $Base3\nsmul"))
     if [ $BACKGROUND = light ]; then
-        standout="$Base02;46" bold="$Blue" underline="$Base00;4"
+        standout=$(tput -S      <<<$(echo -e "setaf $Base3\nsetab $Cyan"))
+        bold=$(tput -S          <<<$(echo -e "setaf $Blue"))
+        underline=$(tput -S     <<<$(echo -e "setaf $Base02\nsmul"))
     fi
 
-    LESS_TERMCAP_so=$(echo -ne "\033[${standout}m") \
-    LESS_TERMCAP_md=$(echo -ne "\033[${bold}m") \
-    LESS_TERMCAP_us=$(echo -ne "\033[${underline}m") \
-    LESS_TERMCAP_se=$'\033[0m' \
-    LESS_TERMCAP_me=$'\033[0m' \
-    LESS_TERMCAP_ue=$'\033[0m' \
-    GROFF_NO_SGR=1 \
+    LESS_TERMCAP_so=$standout   \
+    LESS_TERMCAP_md=$bold       \
+    LESS_TERMCAP_us=$underline  \
+    LESS_TERMCAP_se=$rst        \
+    LESS_TERMCAP_me=$rst        \
+    LESS_TERMCAP_ue=$rst        \
+    GROFF_NO_SGR=1              \
     command man "$@"
 }
 
