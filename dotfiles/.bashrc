@@ -138,14 +138,14 @@ __ps1_set() {
     fi
     PS1+="$color\h$PS1_RST$sep$PS1_PWD\w$PS1_RST"   # user@host pwd
     PS1+=$(__git_ps1 "$sep$PS1_GIT%s$PS1_RST")      # git status (if in repo)
-    PS1+=$(__ps1_venv "$sep$PS1_VENV%s$PS1_RST")    # python virtual env (if active)
+    PS1+=$(__ps1_venv "$sep$PS1_VENV(%s)$PS1_RST")  # python virtual env (if active)
     PS1+=$(__ps1_jobs "$sep$PS1_JOBS%s$PS1_RST")    # background jobs (if any)
     PS1+="\n$prompt "                               # ] $
 }
 
 __ps1_venv() {
     local venv="$(basename "$VIRTUAL_ENV" 2>/dev/null)"
-    [ ! -z "$venv" ] && printf "${1:-%s}" "venv:$venv"
+    [ ! -z "$venv" ] && printf "${1:-%s}" "$venv"
 }
 
 __ps1_jobs() {
