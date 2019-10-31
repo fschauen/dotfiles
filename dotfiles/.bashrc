@@ -198,9 +198,9 @@ alias light='_update_colors light'
 alias dark='_update_colors dark'
 
 _send_osc() {
-    local OSC="\E]" ST="\E\\"
-    if [ -n "$TMUX" ]; then OSC="\EPtmux;\E\E]"; fi
-    echo -ne "$OSC$1$ST"
+    local OSC=$'\e]' ST=$'\e\\'
+    if [ -n "$TMUX" ]; then OSC=$'\ePtmux;\e\e]' ST=$'\e\e\\\e\\'; fi
+    echo -n "$OSC$1$ST"
 }
 
 _update_colors() {
