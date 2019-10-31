@@ -188,60 +188,76 @@ alias myip="curl https://ifconfig.co"
 
 alias light='bashrc_update_colors light'
 alias dark='bashrc_update_colors dark'
+
+bashrc_send_osc() {
+    local OSC="\E]" ST="\E\\"
+    if [ -n "$TMUX" ]; then OSC="\EPtmux;\E\E]"; fi
+    echo -ne "$OSC$1$ST"
+}
+
 bashrc_update_colors() {
     export BACKGROUND="$1"
 
-    if [ -n "$TMUX" ] && [ -f "$HOME/.tmux.conf" ]; then
-        tmux set-environment -g BACKGROUND "$BACKGROUND"
-        tmux source-file "$HOME/.tmux.conf"
-    fi
-
-    # Terminal OSC (Operating System Commmand) definition
-    local osc='\033]%s\033\\'
-    if [ -n "$TMUX" ]; then                osc='\033Ptmux;\033\033]%s\007\033\\'
-    elif [ ${TERM%%[-.]*} = screen ]; then osc='\033P\033]%s\007\033\\'
-    fi
-
-    # Solarize the terminal: 4;n;#rrggbb
-    local n rgb comment
-    while read n rgb comment; do printf "$osc" "4;$n;#$rgb"; done <<EOS
-        0  $Base02_RGB
-        1  $Red_RGB
-        2  $Green_RGB
-        3  $Yellow_RGB
-        4  $Blue_RGB
-        5  $Magenta_RGB
-        6  $Cyan_RGB
-        7  $Base2_RGB
-        8  $Base03_RGB
-        9  $Orange_RGB
-        10 $Base01_RGB
-        11 $Base00_RGB
-        12 $Base0_RGB
-        13 $Violet_RGB
-        14 $Base1_RGB
-        15 $Base3_RGB
-EOS
-
-    local fg=$Base1_RGB bg=$Base03_RGB cursor=$Red_RGB
+    local cursor=$Red_RGB            fg=$Base1_RGB   bg=$Base03_RGB
     if [ $BACKGROUND = light ]; then fg=$Base01_RGB; bg=$Base3_RGB; fi
 
-    if [ -n "$ITERM_SESSION_ID" ]; then # iTerm2: Pnrrggbb
-        while read n rgb comment; do printf "$osc" "P$n$rgb"; done <<EOS
+    local n rgb comment
+    if [ -n "$ITERM_SESSION_ID" ]
+    then    # iTerm2
+        while read n rgb comment; do bashrc_send_osc "P$n$rgb"; done <<EOL
+            0 $Base02_RGB
+            1 $Red_RGB
+            2 $Green_RGB
+            3 $Yellow_RGB
+            4 $Blue_RGB
+            5 $Magenta_RGB
+            6 $Cyan_RGB
+            7 $Base2_RGB
+            8 $Base03_RGB
+            9 $Orange_RGB
+            a $Base01_RGB
+            b $Base00_RGB
+            c $Base0_RGB
+            d $Violet_RGB
+            e $Base1_RGB
+            f $Base3_RGB
             g $fg           Foreground
-            i $fg           Bold
             h $bg           Background
+            i $fg           Bold
             j $Base01_RGB   Selection
             k $Base2_RGB    Selected text
             l $cursor       Cursor
             m $cursor       Cursor text
-EOS
-    else  # other terminals: n;#rrggbb
-        while read n rgb comment; do printf "$osc" "$n;#$rgb"; done <<EOS
+EOL
+    else    # assume xterm
+        while read n rgb comment; do bashrc_send_osc "4;$n;#$rgb"; done <<EOL
+            0  $Base02_RGB
+            1  $Red_RGB
+            2  $Green_RGB
+            3  $Yellow_RGB
+            4  $Blue_RGB
+            5  $Magenta_RGB
+            6  $Cyan_RGB
+            7  $Base2_RGB
+            8  $Base03_RGB
+            9  $Orange_RGB
+            10 $Base01_RGB
+            11 $Base00_RGB
+            12 $Base0_RGB
+            13 $Violet_RGB
+            14 $Base1_RGB
+            15 $Base3_RGB
+EOL
+        while read n rgb comment; do bashrc_send_osc "$n;#$rgb"; done <<EOL
             10 $fg      Foreground
             11 $bg      Background
             12 $cursor  Cursor
-EOS
+EOL
+    fi
+
+    if [ -n "$TMUX" ] && [ -f "$HOME/.tmux.conf" ]; then
+        tmux set-environment -g BACKGROUND "$BACKGROUND"
+        tmux source-file "$HOME/.tmux.conf"
     fi
 
     local ls_colors="$HOME/.config/dircolors/solarized-$BACKGROUND"
