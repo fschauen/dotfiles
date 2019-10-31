@@ -76,24 +76,24 @@ HISTTIMEFORMAT="[%F %T] "
 HISTFILE=~/.bash_eternal_history
 
 # Color definitions (from http://ethanschoonover.com/solarized)
-# NAME                  HEX         SGR  16 / 8 TERMCOL  XTERM/HEX    L*A*B       RGB          HSB
-# ----                  ------      ---  ------ -------  ----------- -----------  -----------  -----------
-Base03=8    Base03_RGB="002B36"   # 1;30  8 / 4 brblack  234 #1c1c1c  15 -12 -12    0  43  54  193 100  21
-Base02=0    Base02_RGB="073642"   # 0;30  0 / 4 black    235 #262626  20 -12 -12    7  54  66  192  90  26
-Base01=10   Base01_RGB="586E75"   # 1;32 10 / 7 brgreen  240 #585858  45 -07 -07   88 110 117  194  25  46
-Base00=11   Base00_RGB="657B83"   # 1;33 11 / 7 bryellow 241 #626262  50 -07 -07  101 123 131  195  23  51
-Base0=12    Base0_RGB="839496"    # 1;34 12 / 6 brblue   244 #808080  60 -06 -03  131 148 150  186  13  59
-Base1=14    Base1_RGB="93A1A1"    # 1;36 14 / 4 brcyan   245 #8a8a8a  65 -05 -02  147 161 161  180   9  63
-Base2=7     Base2_RGB="EEE8D5"    # 0;37  7 / 7 white    254 #e4e4e4  92 -00  10  238 232 213   44  11  93
-Base3=15    Base3_RGB="FDF6E3"    # 1;37 15 / 7 brwhite  230 #ffffd7  97  00  10  253 246 227   44  10  99
-Yellow=3    Yellow_RGB="B58900"   # 0;33  3 / 3 yellow   136 #af8700  60  10  65  181 137   0   45 100  71
-Orange=9    Orange_RGB="CB4B16"   # 1;31  9 / 3 brred    166 #d75f00  50  50  55  203  75  22   18  89  80
-Red=1       Red_RGB="DC322F"      # 0;31  1 / 1 red      160 #d70000  50  65  45  220  50  47    1  79  86
-Magenta=5   Magenta_RGB="D33682"  # 0;35  5 / 5 magenta  125 #af005f  50  65 -05  211  54 130  331  74  83
-Violet=13   Violet_RGB="6C71C4"   # 1;35 13 / 5 brmagenta 61 #5f5faf  50  15 -45  108 113 196  237  45  77
-Blue=4      Blue_RGB="268BD2"     # 0;34  4 / 4 blue      33 #0087ff  55 -10 -45   38 139 210  205  82  82
-Cyan=6      Cyan_RGB="2AA198"     # 0;36  6 / 6 cyan      37 #00afaf  60 -35 -05   42 161 152  175  74  63
-Green=2     Green_RGB="859900"    # 0;32  2 / 2 green     64 #5f8700  60 -20  65  133 153   0   68 100  60
+# NAME                RGB HEX    SGR  ANSI TERMCOL  XTERM/HEX    L*A*B       RGB          HSB
+# ----                -------    ---  ---- -------  ----------- -----------  -----------  -----------
+Base03=8  Base03_RGB="002B36"  # 1;30   8  brblack  234 #1c1c1c  15 -12 -12    0  43  54  193 100  21
+Base02=0  Base02_RGB="073642"  # 0;30   0  black    235 #262626  20 -12 -12    7  54  66  192  90  26
+Base01=10 Base01_RGB="586E75"  # 1;32  10  brgreen  240 #585858  45 -07 -07   88 110 117  194  25  46
+Base00=11 Base00_RGB="657B83"  # 1;33  11  bryellow 241 #626262  50 -07 -07  101 123 131  195  23  51
+Base0=12  Base0_RGB="839496"   # 1;34  12  brblue   244 #808080  60 -06 -03  131 148 150  186  13  59
+Base1=14  Base1_RGB="93A1A1"   # 1;36  14  brcyan   245 #8a8a8a  65 -05 -02  147 161 161  180   9  63
+Base2=7   Base2_RGB="EEE8D5"   # 0;37   7  white    254 #e4e4e4  92 -00  10  238 232 213   44  11  93
+Base3=15  Base3_RGB="FDF6E3"   # 1;37  15  brwhite  230 #ffffd7  97  00  10  253 246 227   44  10  99
+Yellow=3  Yellow_RGB="B58900"  # 0;33   3  yellow   136 #af8700  60  10  65  181 137   0   45 100  71
+Orange=9  Orange_RGB="CB4B16"  # 1;31   9  brred    166 #d75f00  50  50  55  203  75  22   18  89  80
+Red=1     Red_RGB="DC322F"     # 0;31   1  red      160 #d70000  50  65  45  220  50  47    1  79  86
+Magenta=5 Magenta_RGB="D33682" # 0;35   5  magenta  125 #af005f  50  65 -05  211  54 130  331  74  83
+Violet=13 Violet_RGB="6C71C4"  # 1;35  13  brmagenta 61 #5f5faf  50  15 -45  108 113 196  237  45  77
+Blue=4    Blue_RGB="268BD2"    # 0;34   4  blue      33 #0087ff  55 -10 -45   38 139 210  205  82  82
+Cyan=6    Cyan_RGB="2AA198"    # 0;36   6  cyan      37 #00afaf  60 -35 -05   42 161 152  175  74  63
+Green=2   Green_RGB="859900"   # 0;32   2  green     64 #5f8700  60 -20  65  133 153   0   68 100  60
 
 PS1_DEFAULT=$(tput setaf $Cyan)
 PS1_SSH=$(tput setaf $Yellow)
@@ -111,7 +111,6 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 GIT_PS1_SHOWUPSTREAM=verbose
 
 PS2="... "
-PS1="\$ "
 
 PROMPT_COMMAND=__ps1_set
 
