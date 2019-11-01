@@ -18,9 +18,7 @@ export PAGER=less
 # installed (e.g. running on Linux), assume /usr/local for our
 # installations.
 prefix=/usr/local
-if command -v brew &>/dev/null; then
-    prefix=$(brew --prefix)
-fi
+if command -v brew &>/dev/null; then prefix=$(brew --prefix); fi
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
@@ -211,8 +209,14 @@ alias light='_update_colors light'
 alias dark='_update_colors dark'
 
 _send_osc() {
-    local OSC=$'\e]' ST=$'\e\\'
-    if [ -n "$TMUX" ]; then OSC=$'\ePtmux;\e\e]' ST=$'\e\e\\\e\\'; fi
+    local OSC ST
+    if [ -n "$TMUX" ]; then
+        OSC=$'\ePtmux;\e\e]'
+        ST=$'\e\e\\\e\\';
+    else
+        OSC=$'\e]'
+        ST=$'\e\\'
+    fi
     echo -n "$OSC$1$ST"
 }
 
@@ -222,12 +226,15 @@ _update_colors() {
     export BACKGROUND="$1"
 
     cursor=$Red_RGB
-    if [ "$BACKGROUND" = "light" ]; then fg=$Base01_RGB; bg=$Base3_RGB
-    else                                 fg=$Base1_RGB;  bg=$Base03_RGB
+    if [ "$BACKGROUND" = "light" ]; then
+        fg=$Base01_RGB
+        bg=$Base3_RGB
+    else
+        fg=$Base1_RGB
+        bg=$Base03_RGB
     fi
 
-    if [ -n "$ITERM_SESSION_ID" ]
-    then    # iTerm2
+    if [ -n "$ITERM_SESSION_ID" ]; then # iTerm2
         while read -r n rgb; do _send_osc "P$n$rgb"; done <<EOL
             0 $Base02_RGB
             1 $Red_RGB
@@ -253,7 +260,7 @@ _update_colors() {
             l $cursor
             m $cursor
 EOL
-    else    # assume xterm
+    else # assume xterm
         while read -r n rgb; do _send_osc "4;$n;#$rgb"; done <<EOL
             0  $Base02_RGB
             1  $Red_RGB
