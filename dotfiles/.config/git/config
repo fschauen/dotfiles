@@ -45,7 +45,7 @@
     sub     = submodule
 
 [core]
-    excludesfile    = ~/.gitignore
+    excludesfile    = ~/.config/git/ignore
     editor          = vim
     trustctime      = false # http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
     pager           = less -F -X
@@ -80,4 +80,4 @@
     required = true
 
 [include]
-    path = ~/.gitconfig.local
+    path = ~/.config/git/config.local

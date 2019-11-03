@@ -5,14 +5,22 @@
 # Customize environment
 ##############################################################################
 
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+
 export EDITOR="vim"
+export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
 export LANG="en_US.UTF-8"
 export LANGUAGE="en_US"
-export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
 export LESS="-i -j.49 -M -R -z-2"
-export LESSHISTFILE=/dev/null
+export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
+export LESSHISTSIZE=1000
 export PAGER=less
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+
 
 # Find out where Homebrew performs installations. If Homebrew is not
 # installed (e.g. running on Linux), assume /usr/local for our
@@ -74,7 +82,7 @@ HISTCONTROL=erasedups
 HISTFILESIZE=
 HISTSIZE=
 HISTTIMEFORMAT="[%F %T] "
-HISTFILE=~/.bash_eternal_history
+HISTFILE="$XDG_CACHE_HOME/bash/history"
 
 # shellcheck disable=SC2034 # these variable are meant for use in shell only
 {
@@ -196,6 +204,8 @@ alias fgrep="fgrep --color=auto";
 alias path='echo $PATH | tr -s ":" "\n"'
 alias mpath='echo $MANPATH | tr -s ":" "\n"'
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/tmux.conf"'
 
 # A few options to get public IP address on command line. The dig solution
 # below using the OpenDNS resolver doesn't work when connected to
