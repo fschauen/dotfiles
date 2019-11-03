@@ -19,8 +19,8 @@ export LESS="-i -j.49 -M -R -z-2"
 export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
 export LESSHISTSIZE=1000
 export PAGER=less
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
-
 
 # Find out where Homebrew performs installations. If Homebrew is not
 # installed (e.g. running on Linux), assume /usr/local for our

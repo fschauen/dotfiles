@@ -1,13 +1,14 @@
-import sys
-
 """Enable default readline configuration on interactive prompts, by
 registering a sys.__interactivehook__.
 
-If the readline module can be imported, the hook will set the Tab key
-as completion key and register ~/.python_history as history file.
-This can be overridden in the sitecustomize or usercustomize module,
-or in a PYTHONSTARTUP file.
+If the readline module can be imported, the hook will set the Tab key as
+completion key and register a history file, using
+$XDG_CACHE_HOME/python/history if XDG_CACHE_HOME iset and .python_history
+otherwise.
 """
+import os
+import sys
+
 def register_readline():
     import atexit
     try:
@@ -39,8 +40,11 @@ def register_readline():
         # each interpreter exit when readline was already configured
         # through a PYTHONSTARTUP hook, see:
         # http://bugs.python.org/issue5845#msg198636
-        history = os.path.join(os.path.expanduser('~'),
-                               '.python_history')
+
+        history = os.path.join(os.path.expanduser('~'), '.python_history')
+        if 'XDG_CACHE_HOME' in os.environ:
+            history = os.path.join(os.environ['XDG_CACHE_HOME'], 'python', 'history')
+
         try:
             readline.read_history_file(history)
         except OSError:
@@ -48,9 +52,13 @@ def register_readline():
 
         def write_history():
             try:
+                history_dir = os.path.dirname(history)
+                if not os.path.isdir(history_dir):
+                    os.makedirs(history_dir)
+
                 readline.write_history_file(history)
-            except (FileNotFoundError, PermissionError):
-                # home directory does not exist or is not writable
+            except (FileNotFoundError, PermissionError, OSError):
+                # history file does not exist or is not writable
                 # https://bugs.python.org/issue19891
                 pass
 
