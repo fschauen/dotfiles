@@ -207,6 +207,10 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 
 alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/tmux.conf"'
 
+# Head and tail as much as fits on screen
+alias head='head -n $((${LINES:-15}-5))'
+alias tail='tail -n $((${LINES:-15}-5))'
+
 # A few options to get public IP address on command line. The dig solution
 # below using the OpenDNS resolver doesn't work when connected to
 # ExpressVPN because all DNS requests are handled by the ExpressVPN DNS
