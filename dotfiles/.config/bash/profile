@@ -215,8 +215,9 @@ alias tail='tail -n $((${LINES:-15}-5))'
 # below using the OpenDNS resolver doesn't work when connected to
 # ExpressVPN because all DNS requests are handled by the ExpressVPN DNS
 # servers and the OpenDNS DNS resolver is blocked.
-alias myip="curl https://ifconfig.co"
-#alias myip="curl https://ifconfig.me"
+alias ipinfo="curl -s ipinfo.io"
+alias myip="curl -s https://ifconfig.co"
+#alias myip="curl -s https://ifconfig.me"
 #alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 alias light='_update_colors light'
