@@ -114,6 +114,8 @@ HISTFILE="$XDG_CACHE_HOME/bash/history"
     PS1_GIT=$(tput setaf $Green)        # color for git branch
     PS1_VENV=$(tput setaf $Violet)      # color for python virtual env
     PS1_JOBS=$(tput setaf $Magenta)     # color for background jobs
+    PS1_SEP=" > "                       # separator between prompt parts
+    PS1_SEP_COLOR=""                    # is set in __update_colors
     PS1_RST=$(tput sgr0)
 
     GIT_PS1_SHOWDIRTYSTATE=1
@@ -122,56 +124,26 @@ HISTFILE="$XDG_CACHE_HOME/bash/history"
     GIT_PS1_SHOWUPSTREAM=verbose
 }
 
+PROMPT_COMMAND=__ps1_set
 PS2="... "
 
-PROMPT_COMMAND=__ps1_set
-
 __ps1_set() {
-    local last_status=$?
-    local prompt color sep_color sep
+    local last_status=$? prompt_char prompt host_color sep
 
-    if [ $EUID -eq 0 ]; then
-        prompt=$(printf '#%.0s' $(seq 1 $SHLVL))
-        color=$PS1_ROOT
-    else
-        prompt=$(printf '\$%.0s' $(seq 1 $SHLVL))
-        if [ -n "$SSH_CLIENT" ]; then
-            color=$PS1_SSH
-        else
-            color=$PS1_DEFAULT
-        fi
-    fi
-
-    if [ "$BACKGROUND" = "light" ]; then
-        sep_color=$(tput setaf $Base1)
-    else
-        sep_color=$(tput setaf $Base01)
-    fi
-    sep="$sep_color > $PS1_RST"
+    prompt_char=">>>>>>>>>>"
+    host_color=$PS1_DEFAULT
+    [ -n "$SSH_CLIENT" ] && host_color=$PS1_SSH
+    [ $EUID -eq 0 ] && { host_color=$PS1_ROOT; prompt_char="!!!!!!!!!!"; }
+    prompt="${prompt_char:0:$SHLVL}"
+    sep="$PS1_SEP_COLOR$PS1_SEP$PS1_RST"
 
     PS1="\n"
-    if [ $last_status -ne 0 ]; then
-        PS1+="$PS1_ERR$last_status$PS1_RST$sep"     # last exit code (in non-zero)
-    fi
-    PS1+="$color\h$PS1_RST$sep$PS1_PWD\w$PS1_RST"   # user@host pwd
-    PS1+=$(__git_ps1 "$sep$PS1_GIT%s$PS1_RST")      # git status (if in repo)
-    PS1+=$(__ps1_venv "$sep$PS1_VENV(%s)$PS1_RST")  # python virtual env (if active)
-    PS1+=$(__ps1_jobs "$sep$PS1_JOBS%s$PS1_RST")    # background jobs (if any)
-    PS1+="\n$prompt "                               # ] $
-}
-
-__ps1_venv() {
-    local venv
-    venv="$(basename "$VIRTUAL_ENV" 2>/dev/null)"
-    # shellcheck disable=SC2059 # variable format string is really needed here
-    [ -n "$venv" ] && printf "${1:-%s}" "$venv"
-}
-
-__ps1_jobs() {
-    local n
-    n=$(jobs | wc -l)
-    # shellcheck disable=SC2059 # variable format string is really needed here
-    [ "$n" -gt 0 ] && printf "${1:-%s}" "$n job$([ "$n" -gt 1 ] && echo -n s)"
+    [ $last_status -ne 0 ] && PS1+="$PS1_ERR$last_status$PS1_RST$sep"
+    PS1+="$host_color\h$PS1_RST$sep$PS1_PWD\w$PS1_RST"
+    PS1+=$(__git_ps1 "$sep$PS1_GIT%s$PS1_RST")
+    [ -n "$VIRTUAL_ENV" ] && PS1+="$sep$PS1_VENV${VIRTUAL_ENV##*/}$PS1_RST"
+    [ "$(jobs | wc -l)" -gt 0 ] && PS1+="$sep${PS1_JOBS}bg: \j$PS1_RST"
+    PS1+="\n$prompt "
 }
 
 ##############################################################################
@@ -239,6 +211,12 @@ _update_colors() {
     local cursor fg bg n rgb
 
     export BACKGROUND="$1"
+
+    if [ "$BACKGROUND" = "light" ]; then
+        PS1_SEP_COLOR=$(tput setaf $Base1)
+    else
+        PS1_SEP_COLOR=$(tput setaf $Base01)
+    fi
 
     cursor=$Red_RGB
     if [ "$BACKGROUND" = "light" ]; then
