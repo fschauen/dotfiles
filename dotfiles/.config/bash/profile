@@ -128,7 +128,7 @@ PROMPT_COMMAND=__ps1_set
 PS2="... "
 
 __ps1_set() {
-    local exit=$? prompt_char prompt host_color sep
+    local exit=$? prompt_char prompt host_color sep pre post
 
     prompt_char=">>>>>>>>>>"
     host_color=$PS1_DEFAULT
@@ -137,13 +137,20 @@ __ps1_set() {
     prompt="${prompt_char:0:$SHLVL}"
     sep="$PS1_SEP_COLOR$PS1_SEP$PS1_RST"
 
-    PS1="\n"
-    [ $exit -ne 0 ] && PS1+="$PS1_EXIT$exit$PS1_RST$sep"
-    PS1+="$host_color\h$PS1_RST$sep$PS1_PWD\w$PS1_RST"
-    PS1+=$(__git_ps1 "$sep$PS1_GIT%s$PS1_RST")
-    [ -n "$VIRTUAL_ENV" ] && PS1+="$sep$PS1_VENV${VIRTUAL_ENV##*/}$PS1_RST"
-    [ "$(jobs | wc -l)" -gt 0 ] && PS1+="$sep${PS1_JOBS}bg: \j$PS1_RST"
-    PS1+="\n$prompt "
+    pre="\n"
+    [ $exit -ne 0 ] && pre+="$PS1_EXIT$exit$PS1_RST$sep"
+    pre+="$host_color\h$PS1_RST$sep$PS1_PWD\w$PS1_RST"
+
+    post=""
+    [ -n "$VIRTUAL_ENV" ] && post+="$sep$PS1_VENV${VIRTUAL_ENV##*/}$PS1_RST"
+    [ "$(jobs | wc -l)" -gt 0 ] && post+="$sep${PS1_JOBS}bg: \j$PS1_RST"
+    post+="\n$prompt "
+
+    if type __git_ps1 &>/dev/null; then
+        __git_ps1 "$pre" "$post" "$sep$PS1_GIT%s$PS1_RST" # __git_ps1 sets PS1
+    else
+        PS1="$pre$post" # prompt without git info
+    fi
 }
 
 ##############################################################################
