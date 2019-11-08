@@ -110,7 +110,7 @@ HISTFILE="$XDG_CACHE_HOME/bash/history"
     PS1_SSH=$(tput setaf $Yellow)       # user@host color in SSH session
     PS1_ROOT=$(tput setaf $Orange)      # user@host color if logged in as root
     PS1_PWD=$(tput setaf $Blue)         # PWD color
-    PS1_ERR=$(tput setaf $Red)          # color for last exit code if non-zero
+    PS1_EXIT=$(tput setaf $Red)         # color for last exit code if non-zero
     PS1_GIT=$(tput setaf $Green)        # color for git branch
     PS1_VENV=$(tput setaf $Violet)      # color for python virtual env
     PS1_JOBS=$(tput setaf $Magenta)     # color for background jobs
@@ -128,7 +128,7 @@ PROMPT_COMMAND=__ps1_set
 PS2="... "
 
 __ps1_set() {
-    local last_status=$? prompt_char prompt host_color sep
+    local exit=$? prompt_char prompt host_color sep
 
     prompt_char=">>>>>>>>>>"
     host_color=$PS1_DEFAULT
@@ -138,7 +138,7 @@ __ps1_set() {
     sep="$PS1_SEP_COLOR$PS1_SEP$PS1_RST"
 
     PS1="\n"
-    [ $last_status -ne 0 ] && PS1+="$PS1_ERR$last_status$PS1_RST$sep"
+    [ $exit -ne 0 ] && PS1+="$PS1_EXIT$exit$PS1_RST$sep"
     PS1+="$host_color\h$PS1_RST$sep$PS1_PWD\w$PS1_RST"
     PS1+=$(__git_ps1 "$sep$PS1_GIT%s$PS1_RST")
     [ -n "$VIRTUAL_ENV" ] && PS1+="$sep$PS1_VENV${VIRTUAL_ENV##*/}$PS1_RST"
