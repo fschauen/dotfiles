@@ -371,8 +371,8 @@ if [ -d /usr/local/etc/bash_completion.d ]; then
 fi
 
 # Source a local bashrc if available
-if [ -f "$HOME/.bashrc.local" ]; then
+if [ -f "$XDG_CONFIG_HOME/bash/profile.local" ]; then
     # shellcheck disable=SC1090
-    source "$HOME/.bashrc.local"
+    source "$XDG_CONFIG_HOME/bash/profile.local"
 fi
 
