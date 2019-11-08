@@ -128,30 +128,27 @@ PROMPT_COMMAND=__ps1_set
 PS2="... "
 
 __ps1_set() {
-    local exit=$? prompt_char prompt host_color sep pre post
+    local exit=$?
+    local sep="$PS1_SEP_COLOR$PS1_SEP"
 
-    prompt_char=">>>>>>>>>>"
-    host_color=$PS1_DEFAULT
-    [ -n "$SSH_CLIENT" ] && host_color=$PS1_SSH
-    [ $EUID -eq 0 ] && { host_color=$PS1_ROOT; prompt_char="!!!!!!!!!!"; }
-    prompt="${prompt_char:0:$SHLVL}"
-    sep="$PS1_SEP_COLOR$PS1_SEP$PS1_RST"
+    local host=$PS1_DEFAULT
+    [ -n "$SSH_CLIENT" ] && host=$PS1_SSH
+    [ $EUID -eq 0 ] && host=$PS1_ROOT
 
-    pre="\n"
-    [ $exit -ne 0 ] && pre+="$PS1_EXIT$exit$PS1_RST$sep"
-    pre+="$host_color\h$PS1_RST$sep$PS1_PWD\w$PS1_RST"
+    local prompt=">>>>>>>>>>"
+    [ $EUID -eq 0 ] && prompt="##########"
 
-    post=""
-    [ -n "$VIRTUAL_ENV" ] && post+="$sep$PS1_VENV${VIRTUAL_ENV##*/}$PS1_RST"
-    [ "$(jobs | wc -l)" -gt 0 ] && post+="$sep${PS1_JOBS}bg: \j$PS1_RST"
-    post+="\n$prompt "
+    local ps=()
+    [ $exit -ne 0 ] && ps+=("$PS1_EXIT$exit")
+    ps+=("$host\h")
+    ps+=("$PS1_PWD\w")
+    type __git_ps1 && __git_ps1 '' '' "$PS1_GIT%s" && [ -n "$PS1" ] && ps+=("$PS1")
+    [ -n "$VIRTUAL_ENV" ] && ps+=("$PS1_VENV${VIRTUAL_ENV##*/}")
+    local j="\j" && [ "${j@P}" -gt 0 ] && ps+=("$PS1_JOBS${j@P} bg")
 
-    if type __git_ps1 &>/dev/null; then
-        __git_ps1 "$pre" "$post" "$sep$PS1_GIT%s$PS1_RST" # __git_ps1 sets PS1
-    else
-        PS1="$pre$post" # prompt without git info
-    fi
-}
+    printf -v PS1 "$sep%s" "${ps[@]:1}"
+    PS1="\n${ps[0]}$PS1$PS1_RST\n${prompt:0:$SHLVL} "
+} &>/dev/null
 
 ##############################################################################
 # Customize shell aliases
