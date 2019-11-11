@@ -20,42 +20,50 @@ export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
 export LESSHISTSIZE=1000
 export LOCAL_PREFIX="/usr/local"
 [ command -v brew &>/dev/null ] && LOCAL_PREFIX=$(brew --prefix)
+export MANPATH="$(MANPATH='' manpath)"
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+
+##############################################################################
+# Customize PATH (and MANPATH)
+##############################################################################
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
 [ "$(uname)" == "Darwin" ] && { PATH=""; source /etc/profile; }
 
+prepend_dir() {   # 1: dir to add, 2: variable to manipulate
+    [ -d "$1" -a -n "$2" ] || return
+    local list="${!2}"                      # capture current value
+    list=${list#"$1sep"}                    # remove dir from beginning
+    list=${list//":$1:"/:}                  # remove dir from middle
+    list=${list%":$1"}                      # remove dir from end
+    printf -v "$2" "$1${list:+":$list"}"    # add in front (use : only if empty)
+}
+
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
-while read -r dir; do
-    [ -d "$dir" ] && [[ ":$PATH:" != *":$dir:"* ]] && PATH="$dir:$PATH"
-done <<EOS
+while read -r dir; do prepend_dir "$dir" PATH; done <<EOL
     $LOCAL_PREFIX/bin
     $LOCAL_PREFIX/opt/man-db/libexec/bin
     $LOCAL_PREFIX/opt/coreutils/libexec/gnubin
     $LOCAL_PREFIX/opt/gnu-sed/libexec/gnubin
     $HOME/.local/bin
     $HOME/bin
-EOS
+EOL
 
 # Prepend custom man directories to MANPATH if they exist, so that we get
 # correct man page entries when multiple versions of a command are
 # available.
-export MANPATH
-MANPATH=$(MANPATH='' manpath)
-while read -r dir; do
-    [ -d "$dir" ] && [[ ":$MANPATH:" != *":$dir:"* ]] && MANPATH="$dir:$MANPATH"
-done <<EOS
+while read -r dir; do prepend_dir "$dir" MANPATH; done <<EOL
     $LOCAL_PREFIX/share/man
     $LOCAL_PREFIX/opt/man-db/libexec/man
     $LOCAL_PREFIX/opt/coreutils/libexec/gnuman
     $LOCAL_PREFIX/opt/gnu-sed/libexec/gnuman
     $HOME/.local/share/man
-EOS
+EOL
 
-unset dir
+unset dir prepend_dir
 
 ##############################################################################
 # Customize shell options & variables
