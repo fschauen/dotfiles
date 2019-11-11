@@ -354,7 +354,7 @@ _update_colors "${BACKGROUND:-dark}"
 
 # Enable available completion helpers
 if [ -d "$LOCAL_PREFIX/etc/bash_completion.d" ]; then
-    for completion in "$LOCAL_PREFIX/etc/bash_completion.d/*"; do
+    for completion in "$LOCAL_PREFIX/etc/bash_completion.d"/*; do
         # shellcheck disable=SC1090
         source "$completion"
     done
