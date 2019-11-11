@@ -18,15 +18,11 @@ export LC_CTYPE="en_US.UTF-8"
 export LESS="-i -j.49 -M -R -z-2"
 export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
 export LESSHISTSIZE=1000
+export LOCAL_PREFIX="/usr/local"
+[ command -v brew &>/dev/null ] && LOCAL_PREFIX=$(brew --prefix)
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
-
-# Find out where Homebrew performs installations. If Homebrew is not
-# installed (e.g. running on Linux), assume /usr/local for our
-# installations.
-prefix=/usr/local
-if command -v brew &>/dev/null; then prefix=$(brew --prefix); fi
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
@@ -43,10 +39,10 @@ while read -r bindir; do
         PATH="$bindir:$PATH"
     fi
 done <<EOS
-    $prefix/bin
-    $prefix/opt/man-db/libexec/bin
-    $prefix/opt/coreutils/libexec/gnubin
-    $prefix/opt/gnu-sed/libexec/gnubin
+    $LOCAL_PREFIX/bin
+    $LOCAL_PREFIX/opt/man-db/libexec/bin
+    $LOCAL_PREFIX/opt/coreutils/libexec/gnubin
+    $LOCAL_PREFIX/opt/gnu-sed/libexec/gnubin
     $HOME/.local/bin
     $HOME/bin
 EOS
@@ -61,14 +57,14 @@ while read -r mandir; do
         MANPATH="$mandir:$MANPATH"
     fi
 done <<EOS
-    $prefix/share/man
-    $prefix/opt/man-db/libexec/man
-    $prefix/opt/coreutils/libexec/gnuman
-    $prefix/opt/gnu-sed/libexec/gnuman
+    $LOCAL_PREFIX/share/man
+    $LOCAL_PREFIX/opt/man-db/libexec/man
+    $LOCAL_PREFIX/opt/coreutils/libexec/gnuman
+    $LOCAL_PREFIX/opt/gnu-sed/libexec/gnuman
     $HOME/.local/share/man
 EOS
 
-unset prefix bindir mandir
+unset bindir mandir
 
 ##############################################################################
 # Customize shell options & variables
@@ -366,8 +362,8 @@ stty -ixon # disable ctrl-s and ctrl-q
 _update_colors "${BACKGROUND:-dark}"
 
 # Enable available completion helpers
-if [ -d /usr/local/etc/bash_completion.d ]; then
-    for completion in /usr/local/etc/bash_completion.d/*; do
+if [ -d "$LOCAL_PREFIX/etc/bash_completion.d" ]; then
+    for completion in "$LOCAL_PREFIX/etc/bash_completion.d/*"; do
         # shellcheck disable=SC1090
         source "$completion"
     done
