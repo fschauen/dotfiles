@@ -26,18 +26,11 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
-if [ "$(uname)" == "Darwin" ]; then
-    # shellcheck disable=SC2123 # intentionally clearing the PATH here
-    PATH=""
-    # shellcheck disable=SC1091 # /etc/profile is part of macOS
-    source /etc/profile
-fi
+[ "$(uname)" == "Darwin" ] && { PATH=""; source /etc/profile; }
 
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
-while read -r bindir; do
-    if [ -d "$bindir" ] && [[ ":$PATH:" != *":$bindir:"* ]]; then
-        PATH="$bindir:$PATH"
-    fi
+while read -r dir; do
+    [ -d "$dir" ] && [[ ":$PATH:" != *":$dir:"* ]] && PATH="$dir:$PATH"
 done <<EOS
     $LOCAL_PREFIX/bin
     $LOCAL_PREFIX/opt/man-db/libexec/bin
@@ -52,10 +45,8 @@ EOS
 # available.
 export MANPATH
 MANPATH=$(MANPATH='' manpath)
-while read -r mandir; do
-    if [ -d "$mandir" ] && [[ ":$MANPATH:" != *":$mandir:"* ]]; then
-        MANPATH="$mandir:$MANPATH"
-    fi
+while read -r dir; do
+    [ -d "$dir" ] && [[ ":$MANPATH:" != *":$dir:"* ]] && MANPATH="$dir:$MANPATH"
 done <<EOS
     $LOCAL_PREFIX/share/man
     $LOCAL_PREFIX/opt/man-db/libexec/man
@@ -64,7 +55,7 @@ done <<EOS
     $HOME/.local/share/man
 EOS
 
-unset bindir mandir
+unset dir
 
 ##############################################################################
 # Customize shell options & variables
