@@ -361,13 +361,11 @@ stty -ixon # disable ctrl-s and ctrl-q
 _update_colors "${BACKGROUND:-dark}"
 
 # Enable available completion helpers
-if [ -d "$LOCAL_PREFIX/etc/bash_completion.d" ]; then
-    for completion in "$LOCAL_PREFIX/etc/bash_completion.d"/*; do
-        # shellcheck disable=SC1090
-        source "$completion"
-    done
-    unset completion
-fi
+while read -r d; do [ -d "$d" ] && for f in "$d"/*; do . "$f"; done; done <<EOL
+    $LOCAL_PREFIX/etc/bash_completion.d
+    $XDG_CONFIG_HOME/bash/completion.d
+EOL
+unset d f
 
 # Source a local bashrc if available
 if [ -f "$XDG_CONFIG_HOME/bash/profile.local" ]; then
