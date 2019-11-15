@@ -5,6 +5,7 @@
   apt: name={{ item }} state=latest update_cache=yes
   loop:
       - curl
+      - gpg
       - tree
 
 - name: Install common packages (macOS)
@@ -12,5 +13,6 @@
   homebrew: name={{ item }} state=latest
   loop:
       - curl
+      - gpg
       - tree
 
