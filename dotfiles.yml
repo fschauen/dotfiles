@@ -7,7 +7,7 @@
     xdg_data_home: "~/.local/share"
   roles:
     - bash
-    #- dircolors
+    - dircolors
     #- git
     #- hushlogin
     #- mintty
