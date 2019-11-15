@@ -9,7 +9,7 @@
     - bash
     - dircolors
     #- git
-    #- hushlogin
+    - hushlogin
     - mintty
     - python
     - readline

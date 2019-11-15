@@ -1,0 +1,5 @@
+---
+- name: Create hushlogin
+  file:
+    state: touch
+    path: ~/.hushlogin
