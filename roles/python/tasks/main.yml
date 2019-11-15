@@ -1,0 +1,16 @@
+---
+- name: Create the python config and cache directories
+  file:
+      path: "~/.{{ item }}/python"
+      state: directory
+  loop:
+      - cache
+      - config
+
+- name: Deploy python startup file
+  file:
+      src: "{{ role_path }}/files/startup.py"
+      dest: ~/.config/python/startup.py
+      state: link
+      force: yes
+

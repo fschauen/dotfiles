@@ -11,7 +11,7 @@
     #- git
     #- hushlogin
     - mintty
-    #- python
+    - python
     - readline
     #- ssh
     #- tmux
