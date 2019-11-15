@@ -1,0 +1,33 @@
+---
+- name: Remove pre-installed bash configurations which could cause conflicts
+  file:
+      state: absent
+      path: "~/.{{ item }}"
+  loop:
+      - bash_logout
+      - profile
+
+- name: Create the bash cache and config directories
+  file:
+      path: "~/.{{ item }}/bash"
+      state: directory
+  loop:
+      - cache 
+      - config
+
+- name: Deploy bash profile
+  file:
+      src: "{{ role_path }}/files/profile"
+      dest: ~/.config/bash/profile
+      state: link
+      force: yes
+
+- name: Make sure bash will find our profile
+  file:
+      src: ~/.config/bash/profile
+      dest: "~/.{{ item }}"
+      state: link
+      force: yes
+  loop:
+      - bashrc
+      - bash_profile

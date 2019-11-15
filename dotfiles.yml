@@ -1,0 +1,15 @@
+---
+
+- name: Set up development machine
+  hosts: localhost
+  roles:
+    - bash
+    #- dircolors
+    #- git
+    #- hushlogin
+    #- mintty
+    #- python
+    #- readline
+    #- ssh
+    #- tmux
+    #- vim
