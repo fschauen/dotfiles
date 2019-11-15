@@ -8,7 +8,7 @@
   roles:
     - bash
     - dircolors
-    #- git
+    - git
     - hushlogin
     - mintty
     - python

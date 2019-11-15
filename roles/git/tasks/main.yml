@@ -1,0 +1,16 @@
+---
+- name: Create the git config directory
+  file:
+      path: ~/.config/git
+      state: directory
+
+- name: Deploy git config
+  file:
+      src: "{{ role_path }}/files/{{ item }}"
+      dest: "~/.config/git/{{ item }}"
+      state: link
+      force: yes
+  loop:
+      - config
+      - ignore
+
