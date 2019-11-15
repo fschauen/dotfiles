@@ -12,7 +12,7 @@
       path: "~/.{{ item }}/bash"
       state: directory
   loop:
-      - cache 
+      - cache
       - config
 
 - name: Deploy bash profile
