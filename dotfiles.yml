@@ -14,5 +14,5 @@
     - python
     - readline
     #- ssh
-    #- tmux
+    - tmux
     - vim

@@ -1,0 +1,13 @@
+---
+- name: Create the tmux config directory
+  file:
+      path: ~/.config/tmux
+      state: directory
+
+- name: Deploy tmux config
+  file:
+      src: "{{ role_path }}/files/tmux.conf"
+      dest: ~/.config/tmux/tmux.conf
+      state: link
+      force: yes
+
