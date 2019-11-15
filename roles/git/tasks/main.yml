@@ -1,4 +1,15 @@
 ---
+- name: Install git (Debian)
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: [git, git-crypt]
+
+- name: Install git (macOS)
+  when: ansible_os_family == "Darwin"
+  homebrew: name={{ item }} state=latest
+  loop: [git, git-crypt]
+
 - name: Create the git config directory
   file:
       path: ~/.config/git

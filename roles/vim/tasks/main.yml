@@ -1,4 +1,13 @@
 ---
+- name: Install vim (Debian)
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt: name=vim state=latest update_cache=yes
+
+- name: Install vim (macOS)
+  when: ansible_os_family == "Darwin"
+  homebrew: name=vim state=latest
+
 - name: Create the vim cache and config directories
   file:
       path: "{{ item }}"

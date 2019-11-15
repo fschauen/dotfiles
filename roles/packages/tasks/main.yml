@@ -1,0 +1,16 @@
+---
+- name: Install common packages (Debian)
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt: name={{ item }} state=latest update_cache=yes
+  loop:
+      - curl
+      - tree
+
+- name: Install common packages (macOS)
+  when: ansible_os_family == "Darwin"
+  homebrew: name={{ item }} state=latest
+  loop:
+      - curl
+      - tree
+

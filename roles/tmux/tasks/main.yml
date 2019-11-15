@@ -1,4 +1,13 @@
 ---
+- name: Install tmux (Debian)
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt: name=tmux state=latest update_cache=yes
+
+- name: Install tmux (macOS)
+  when: ansible_os_family == "Darwin"
+  homebrew: name=tmux state=latest
+
 - name: Create the tmux config directory
   file:
       path: ~/.config/tmux
