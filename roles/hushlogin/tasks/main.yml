@@ -1,5 +1,11 @@
 ---
+- name: Check if hushlogin exists
+  register: hushlogin_stat
+  stat:
+    path: ~/.hushlogin
+
 - name: Create hushlogin
+  when: hushlogin_stat.stat.exists == false
   file:
     state: touch
     path: ~/.hushlogin
