@@ -14,6 +14,6 @@
     - mintty
     - python
     - readline
-    #- ssh
+    - ssh
     - tmux
     - vim
