@@ -9,11 +9,12 @@
 
 - name: Create the bash cache and config directories
   file:
-      path: "~/.{{ item }}/bash"
+      path: "{{ item }}"
       state: directory
   loop:
-      - cache
-      - config
+      - "~/.cache/bash"
+      - "~/.config/bash"
+      - "~/.config/bash/completion.d"
 
 - name: Deploy bash profile
   file:
