@@ -1,0 +1,13 @@
+---
+- name: Create the mintty config directory
+  file:
+      path: ~/.config/mintty
+      state: directory
+
+- name: Deploy mintty config
+  file:
+      src: "{{ role_path }}/files/config"
+      dest: ~/.config/mintty/config
+      state: link
+      force: yes
+

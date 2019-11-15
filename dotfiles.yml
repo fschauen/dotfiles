@@ -10,7 +10,7 @@
     - dircolors
     #- git
     #- hushlogin
-    #- mintty
+    - mintty
     #- python
     - readline
     #- ssh
