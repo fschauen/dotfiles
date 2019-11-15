@@ -6,6 +6,7 @@
     xdg_cache_home: "~/.cache"
     xdg_data_home: "~/.local/share"
   roles:
+    - bin
     - bash
     - dircolors
     - git
