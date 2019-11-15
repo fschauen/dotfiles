@@ -36,7 +36,7 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 prepend_dir() {   # 1: dir to add, 2: variable to manipulate
     [ -d "$1" -a -n "$2" ] || return
     local list="${!2}"                      # capture current value
-    list=${list#"$1sep"}                    # remove dir from beginning
+    list=${list#"$1:"}                      # remove dir from beginning
     list=${list//":$1:"/:}                  # remove dir from middle
     list=${list%":$1"}                      # remove dir from end
     printf -v "$2" "$1${list:+":$list"}"    # add in front (use : only if empty)
