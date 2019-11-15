@@ -1,0 +1,13 @@
+---
+- name: Create the readline config directory
+  file:
+      path: ~/.config/readline
+      state: directory
+
+- name: Deploy inputrc
+  file:
+      src: "{{ role_path }}/files/inputrc"
+      dest: ~/.config/readline/inputrc
+      state: link
+      force: yes
+

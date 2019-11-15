@@ -12,7 +12,7 @@
     #- hushlogin
     #- mintty
     #- python
-    #- readline
+    - readline
     #- ssh
     #- tmux
     - vim
