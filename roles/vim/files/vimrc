@@ -1,5 +1,8 @@
 set nocompatible
 
+if $XDG_CONFIG_HOME == "" | let $XDG_CONFIG_HOME="~/.config" | endif
+if $XDG_CACHE_HOME == "" | let $XDG_CACHE_HOME="~/.cache" | endif
+
 let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
 " Options {{{
@@ -102,10 +105,12 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
     let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
 
-    if has('multi_byte') && &encoding ==# 'utf-8'
-        let g:airline_section_z = airline#section#create(['ℓ%4l/%L 𝚌%3v'])
-    else                                                " line / total : col
-        let g:airline_section_z = airline#section#create(['L%4l/%L c%3v'])
+    if exists('airline#section#create')
+        if has('multi_byte') && &encoding ==# 'utf-8'
+            let g:airline_section_z = airline#section#create(['ℓ%4l/%L 𝚌%3v'])
+        else                                                " line / total : col
+            let g:airline_section_z = airline#section#create(['L%4l/%L c%3v'])
+        endif
     endif
 
     if !exists('g:airline_symbols')
@@ -132,7 +137,7 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
     highlight link srec32BitAddress Constant
     highlight link srecChecksum     Type
 
-    colorscheme solarized
+    silent! colorscheme solarized
     filetype plugin indent on
     syntax enable
 " }}}
@@ -232,7 +237,7 @@ augroup vimrc " {{{
     autocmd FileType gitcommit setlocal textwidth=72
 augroup END " }}}
 
-if filereadable(expand("$XDG_CONFIG_HOME/vimrc.local"))
-    source $XDG_CONFIG_HOME/vimrc.local
+if filereadable(expand("$XDG_CONFIG_HOME/vim/vimrc.local"))
+    source "$XDG_CONFIG_HOME/vim/vimrc.local"
 endif
 
