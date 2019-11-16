@@ -1,37 +1,41 @@
 ---
-- name: Install apt packages (Debian)
+- name: Set up Debian machine
   when: ansible_os_family == "Debian"
   become: yes
-  apt: name={{ item }} state=latest update_cache=yes
-  loop:
-      - curl
-      - exuberant-ctags
-      - gpg
-      - htop
-      - psmisc
-      - shellcheck
-      - sqlite
-      - stow
-      - tree
+  block:
+    - name: Install apt packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop:
+          - curl
+          - exuberant-ctags
+          - gpg
+          - htop
+          - psmisc
+          - shellcheck
+          - sqlite
+          - stow
+          - tree
 
-- name: Install homebrew packages (macOS)
+- name: Set up macOS machine
   when: ansible_os_family == "Darwin"
-  homebrew: name={{ item }} state=latest
-  loop:
-      - coreutils
-      - ctags
-      - curl
-      - exiftool
-      - findutils
-      - gnu-sed
-      - gpg
-      - htop
-      - imagemagic
-      - jupyter
-      - pstree
-      - reattach-to-user-namespace
-      - shellcheck
-      - sqlite
-      - stow
-      - tree
-      - youtube-dl
+  block:
+    - name: Install homebrew packages
+      homebrew: name={{ item }} state=latest
+      loop:
+          - coreutils
+          - ctags
+          - curl
+          - exiftool
+          - findutils
+          - gnu-sed
+          - gpg
+          - htop
+          - imagemagic
+          - jupyter
+          - pstree
+          - reattach-to-user-namespace
+          - shellcheck
+          - sqlite
+          - stow
+          - tree
+          - youtube-dl
