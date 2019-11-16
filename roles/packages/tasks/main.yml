@@ -6,6 +6,7 @@
   loop:
       - curl
       - gpg
+      - htop
       - tree
 
 - name: Install common packages (macOS)
@@ -14,5 +15,6 @@
   loop:
       - curl
       - gpg
+      - htop
       - tree
 
