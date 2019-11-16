@@ -1,4 +1,3 @@
----
 - name: Remove pre-installed bash configurations which could cause conflicts
   file:
       state: absent

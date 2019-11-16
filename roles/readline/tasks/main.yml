@@ -1,4 +1,3 @@
----
 - name: Create the readline config directory
   file:
       path: ~/.config/readline

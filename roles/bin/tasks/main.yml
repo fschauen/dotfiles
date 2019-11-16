@@ -1,4 +1,3 @@
----
 - name: Create local bin directory
   file:
       path: ~/.local/bin

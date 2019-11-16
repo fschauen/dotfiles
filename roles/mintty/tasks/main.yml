@@ -1,4 +1,3 @@
----
 - name: Create the mintty config directory
   file:
       path: ~/.config/mintty

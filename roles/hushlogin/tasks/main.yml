@@ -1,4 +1,3 @@
----
 - name: Check if hushlogin exists
   register: hushlogin_stat
   stat:

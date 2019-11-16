@@ -1,4 +1,3 @@
----
 - name: Set up Debian machine
   when: ansible_os_family == "Debian"
   become: yes
