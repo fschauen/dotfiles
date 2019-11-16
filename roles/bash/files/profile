@@ -360,7 +360,7 @@ stty -ixon # disable ctrl-s and ctrl-q
 _update_colors "${BACKGROUND:-dark}"
 
 # Enable available completion helpers
-while read -r d; do [ -d "$d" ] && for f in "$d"/*; do . "$f"; done; done <<EOL
+while read -r d; do [ -d "$d" ] && for f in "$d"/*; do [ -f "$f" ] && . "$f"; done; done <<EOL
     $LOCAL_PREFIX/etc/bash_completion.d
     $XDG_CONFIG_HOME/bash/completion.d
 EOL
