@@ -2,7 +2,8 @@
 - name: Install python3 (Debian)
   when: ansible_os_family == "Debian"
   become: yes
-  apt: name=python3 state=latest update_cache=yes
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: [python3, python3-pip]
 
 - name: Install python3 (macOS)
   when: ansible_os_family == "Darwin"
