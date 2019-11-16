@@ -1,20 +1,37 @@
 ---
-- name: Install common packages (Debian)
+- name: Install apt packages (Debian)
   when: ansible_os_family == "Debian"
   become: yes
   apt: name={{ item }} state=latest update_cache=yes
   loop:
       - curl
+      - exuberant-ctags
       - gpg
       - htop
+      - psmisc
+      - shellcheck
+      - sqlite
+      - stow
       - tree
 
-- name: Install common packages (macOS)
+- name: Install homebrew packages (macOS)
   when: ansible_os_family == "Darwin"
   homebrew: name={{ item }} state=latest
   loop:
+      - coreutils
+      - ctags
       - curl
+      - exiftool
+      - findutils
+      - gnu-sed
       - gpg
       - htop
+      - imagemagic
+      - jupyter
+      - pstree
+      - reattach-to-user-namespace
+      - shellcheck
+      - sqlite
+      - stow
       - tree
-
+      - youtube-dl
