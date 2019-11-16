@@ -80,4 +80,5 @@
     required = true
 
 [include]
-    path = ~/.config/git/config.local
+    path = ~/.config/git/config.host    # host-specific (from template)
+    path = ~/.config/git/config.local   # optional manual configurations

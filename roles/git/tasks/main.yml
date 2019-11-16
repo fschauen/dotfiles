@@ -25,6 +25,11 @@
       - config
       - ignore
 
+- name: Deploy git host-specific config
+  template:
+      src: config.host.j2
+      dest: ~/.config/git/config.host
+
 - name: Create bin directory for additional git commands
   file:
       path: ~/.local/bin

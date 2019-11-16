@@ -1,0 +1,9 @@
+[user]
+    name = {{ git_user }}
+    email = {{ git_email }}
+
+{% if ansible_os_family == 'Darwin' %}
+[credential]
+    helper = osxkeychain
+{% endif %}
+
