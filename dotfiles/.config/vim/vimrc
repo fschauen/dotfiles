@@ -207,7 +207,7 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
     nnoremap <leader>n :NERDTreeToggle<cr>
 
     " toggle rainbow parens
-    nnoremap <leader>r :RainbowParentheses!!<cr>
+    nnoremap <leader>p :RainbowParentheses!!<cr>
 
     " fix whitespace
     nnoremap <leader>w :FixWhitespace<cr>
