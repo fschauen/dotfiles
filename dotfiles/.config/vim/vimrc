@@ -97,7 +97,6 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
     let g:ctrlp_match_window = 'bottom,order:ttb'
     let g:ctrlp_switch_buffer = 0       " open files in new buffer
-    let g:ctrlp_working_path_mode = 0   " use the current working directory
     let g:ctrlp_show_hidden = 1         " show hidden files
 
     let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
