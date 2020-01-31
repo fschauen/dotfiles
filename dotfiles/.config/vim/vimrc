@@ -228,6 +228,8 @@ augroup vimrc " {{{
     autocmd FileType python setlocal foldmethod=indent foldignore=
     autocmd FileType markdown,text,gitcommit setlocal formatoptions+=t spell
     autocmd FileType gitcommit setlocal textwidth=72
+
+    autocmd BufWritePost vimrc source %
 augroup END " }}}
 
 if filereadable(expand("$XDG_CONFIG_HOME/vimrc.local"))
