@@ -190,11 +190,15 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
     nnoremap <c-w><c-h> 5<c-w><
     nnoremap <c-w><c-l> 5<c-w>>
 
+    " easier window navigation
+    nnoremap <c-j> <c-w>j
+    nnoremap <c-k> <c-w>k
+    nnoremap <c-h> <c-w>h
+    nnoremap <c-l> <c-w>l
+
     " easier tab navigation
-    nnoremap <c-j> :tabprevious<cr>
-    nnoremap <c-k> :tabnext<cr>
-    nnoremap <c-h> :tabfirst<cr>
-    nnoremap <c-l> :tablast<cr>
+    nnoremap <c-n> :tabprevious<cr>
+    nnoremap <c-m> :tabnext<cr>
 
     " quickly change background
     nnoremap <leader>bg
