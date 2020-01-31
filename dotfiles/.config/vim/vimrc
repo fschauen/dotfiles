@@ -217,7 +217,7 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
     nnoremap <leader>w :FixWhitespace<cr>
 
     " cycle through line numbering modes
-    nnoremap <silent> <leader>r :call VimrcCycleNumbers()<CR>
+    nnoremap <silent> <leader>l :call VimrcCycleNumbers()<CR>
 
 " }}}"
 
