@@ -82,6 +82,12 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
         Plug 'altercation/vim-colors-solarized'
         Plug 'bronson/vim-trailing-whitespace'
         Plug 'elzr/vim-json'
+            " Make numbers and booleans stand out, important because of the
+            " concealment used by vim-json.
+            highlight link jsonBraces   Text
+            highlight link jsonNumber   Identifier
+            highlight link jsonBoolean  Identifier
+            highlight link jsonNull     Identifier
         Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
             let g:vim_markdown_conceal_code_blocks = 0
         Plug 'junegunn/rainbow_parentheses.vim'
@@ -133,13 +139,6 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
     colorscheme solarized
     filetype plugin indent on
     syntax enable
-
-    " Make numbers and booleans stand out, important because of the concealment
-    " used by vim-json. IMPORTANT: these commands need to come after enabling
-    " syntax highlighting.
-    " More info: https://github.com/elzr/vim-json/issues/37#issuecomment-500044818
-    highlight Number ctermfg=4      " blue in solarized (see .bashrc)
-    highlight Boolean ctermfg=5     " magenta in solarized (see .bashrc)
 " }}}
 
 " Functions {{{
