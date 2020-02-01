@@ -134,6 +134,13 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
     colorscheme solarized
     filetype plugin indent on
     syntax enable
+
+    " Make numbers and booleans stand out, important because of the concealment
+    " used by vim-json. IMPORTANT: these commands need to come after enabling
+    " syntax highlighting.
+    " More info: https://github.com/elzr/vim-json/issues/37#issuecomment-500044818
+    highlight Number ctermfg=4      " blue in solarized (see .bashrc)
+    highlight Boolean ctermfg=5     " magenta in solarized (see .bashrc)
 " }}}
 
 " Functions {{{
