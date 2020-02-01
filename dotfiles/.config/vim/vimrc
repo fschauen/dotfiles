@@ -231,7 +231,6 @@ augroup vimrc " {{{
     autocmd!
     autocmd BufNewFile,BufRead bash_profile,bashrc set filetype=sh
     autocmd BufNewFile,BufRead gitconfig set filetype=gitconfig
-    autocmd BufNewFile,BufRead rcrc set filetype=sh
     autocmd BufNewFile,BufRead *.sx,*.s19 set filetype=srec
 
     autocmd FileType vim setlocal foldmethod=marker
