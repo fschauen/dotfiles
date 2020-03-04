@@ -1,5 +1,5 @@
 - name: Set up development machine
-  hosts: localhost
+  hosts: dotfiles
   vars_prompt:
       - name: git_user
         private: no
