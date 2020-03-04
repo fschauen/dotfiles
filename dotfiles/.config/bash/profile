@@ -25,6 +25,13 @@ export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
+# Ensure cache directories exist so programs can write history.
+while read -r dir; do [ -d "$dir" ] || mkdir -p -- "$dir"; done <<EOL
+    $XDG_CACHE_HOME/bash
+    $XDG_CACHE_HOME/less
+EOL
+unset dir
+
 ##############################################################################
 # Customize PATH (and MANPATH)
 ##############################################################################
@@ -354,7 +361,7 @@ colortest() {
 }
 
 ##############################################################################
-# Run external cusomizations
+# Run external customizations
 ##############################################################################
 
 stty -ixon # disable ctrl-s and ctrl-q
