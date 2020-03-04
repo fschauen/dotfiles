@@ -1,16 +1,16 @@
-"""Enable default readline configuration on interactive prompts, by
-registering a sys.__interactivehook__.
-
-If the readline module can be imported, the hook will set the Tab key as
-completion key and register a history file, using
-$XDG_CACHE_HOME/python/history if XDG_CACHE_HOME iset and .python_history
-otherwise.
-"""
-import os
-import sys
-
-def register_readline():
+# Improve interactive prompts by configuring readline. This is done by
+# registering a custom hook as sys.__interactivehook__.
+#
+# If the readline module can be imported, the hook will:
+#   1. Set the Tab key as completion key.
+#   2. Initialize readline (e.g. from .inputrc).
+#   3. Register a history file, using:
+#       - $XDG_CACHE_HOME/python/history if XDG_CACHE_HOME iset
+#       - .python_history otherwise.
+def configure_readline():
     import atexit
+    import os
+
     try:
         import readline
         import rlcompleter
@@ -64,5 +64,6 @@ def register_readline():
 
         atexit.register(write_history)
 
-sys.__interactivehook__ = register_readline
-
+import sys
+sys.__interactivehook__ = configure_readline
+del sys, configure_readline  # we don't want any of this in globals()
