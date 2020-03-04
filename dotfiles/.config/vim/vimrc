@@ -1,5 +1,8 @@
 set nocompatible
 
+if $XDG_CONFIG_HOME == "" | let $XDG_CONFIG_HOME="~/.config" | endif
+if $XDG_CACHE_HOME == "" | let $XDG_CACHE_HOME="~/.cache" | endif
+
 let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
 " Options {{{
