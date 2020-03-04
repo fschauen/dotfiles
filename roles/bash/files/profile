@@ -353,7 +353,7 @@ colortest() {
 }
 
 ##############################################################################
-# Run external cusomizations
+# Run external customizations
 ##############################################################################
 
 stty -ixon # disable ctrl-s and ctrl-q
