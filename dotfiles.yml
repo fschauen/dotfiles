@@ -1,0 +1,22 @@
+- name: Set up development machine
+  hosts: localhost
+  vars_prompt:
+      - name: git_user
+        private: no
+        default: Fernando Schauenburg
+      - name: git_email
+        private: no
+        default: fernando@schauenburg.me
+  roles:
+    - packages
+    - bin
+    - bash
+    - dircolors
+    - git
+    - hushlogin
+    - mintty
+    - python
+    - readline
+    - ssh
+    - tmux
+    - vim
