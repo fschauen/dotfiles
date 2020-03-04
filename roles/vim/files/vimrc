@@ -85,59 +85,61 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
         Plug 'altercation/vim-colors-solarized'
         Plug 'bronson/vim-trailing-whitespace'
         Plug 'elzr/vim-json'
+            " Make numbers and booleans stand out, important because of the
+            " concealment used by vim-json.
+            highlight link jsonBraces   Text
+            highlight link jsonNumber   Identifier
+            highlight link jsonBoolean  Identifier
+            highlight link jsonNull     Identifier
         Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
+            let g:vim_markdown_conceal_code_blocks = 0
         Plug 'junegunn/rainbow_parentheses.vim'
+            let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
         Plug 'kien/ctrlp.vim'
+            let g:ctrlp_match_window = 'bottom,order:ttb'
+            let g:ctrlp_switch_buffer = 0       " open files in new buffer
+            let g:ctrlp_show_hidden = 1         " show hidden files
         Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
         Plug 'tpope/vim-commentary'
         Plug 'tpope/vim-fugitive'
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
+            if !exists('g:airline_symbols')
+                let g:airline_symbols = {}
+            endif
+            let g:airline_left_sep = ' '
+            let g:airline_left_alt_sep = ''
+            let g:airline_right_sep = ' '
+            let g:airline_right_alt_sep = ''
+            let g:airline_symbols.crypt = '🔒'
+            let g:airline_symbols.branch = '⎇'
+            let g:airline_symbols.paste = 'Ⓟ'
+            let g:airline_symbols.spell = '✔'
+            let g:airline_symbols.readonly = ' ⃠'
+            let g:airline_symbols.notexists = '∄'
+            let g:airline_symbols.whitespace = '✗'
         Plug 'vim-scripts/srec.vim'
+            highlight link srecStart        Comment
+            highlight link srecType         Comment
+            highlight link srecLength       WarningMsg
+            highlight link srec16BitAddress Constant
+            highlight link srec24BitAddress Constant
+            highlight link srec32BitAddress Constant
+            highlight link srecChecksum     Type
         Plug 'keith/swift.vim'
         Plug 'chr4/nginx.vim'
     call plug#end()
 
-    let g:ctrlp_match_window = 'bottom,order:ttb'
-    let g:ctrlp_switch_buffer = 0       " open files in new buffer
-    let g:ctrlp_working_path_mode = 0   " use the current working directory
-    let g:ctrlp_show_hidden = 1         " show hidden files
-
-    let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
-
-    if exists('airline#section#create')
-        if has('multi_byte') && &encoding ==# 'utf-8'
-            let g:airline_section_z = airline#section#create(['ℓ%4l/%L 𝚌%3v'])
-        else                                                " line / total : col
-            let g:airline_section_z = airline#section#create(['L%4l/%L c%3v'])
-        endif
+    " This has to be here (as opposed to right after the Plug call) because the
+    " function airline#section#create doesn't exist before plug#end() is
+    " called.
+    if has('multi_byte') && &encoding ==# 'utf-8'
+        let g:airline_section_z = airline#section#create(['ℓ%4l/%L 𝚌%3v'])
+    else                                                " line / total : col
+        let g:airline_section_z = airline#section#create(['L%4l/%L c%3v'])
     endif
 
-    if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
-    endif
-
-    let g:airline_left_sep = ' '
-    let g:airline_left_alt_sep = ''
-    let g:airline_right_sep = ' '
-    let g:airline_right_alt_sep = ''
-    let g:airline_symbols.crypt = '🔒'
-    let g:airline_symbols.branch = '⎇'
-    let g:airline_symbols.paste = 'Ⓟ'
-    let g:airline_symbols.spell = '✔'
-    let g:airline_symbols.readonly = ' ⃠'
-    let g:airline_symbols.notexists = '∄'
-    let g:airline_symbols.whitespace = '✗'
-
-    highlight link srecStart        Comment
-    highlight link srecType         Comment
-    highlight link srecLength       WarningMsg
-    highlight link srec16BitAddress Constant
-    highlight link srec24BitAddress Constant
-    highlight link srec32BitAddress Constant
-    highlight link srecChecksum     Type
-
-    silent! colorscheme solarized
+    colorscheme solarized
     filetype plugin indent on
     syntax enable
 " }}}
@@ -181,7 +183,6 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
     " quickly exit insert mode
     inoremap jk <esc>
-    inoremap kj <esc>
 
     " retain selection when indenting/unindenting in visual mode
     vnoremap > ><cr>gv
@@ -197,11 +198,15 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
     nnoremap <c-w><c-h> 5<c-w><
     nnoremap <c-w><c-l> 5<c-w>>
 
+    " easier window navigation
+    nnoremap <c-j> <c-w>j
+    nnoremap <c-k> <c-w>k
+    nnoremap <c-h> <c-w>h
+    nnoremap <c-l> <c-w>l
+
     " easier tab navigation
-    nnoremap <c-j> :tabprevious<cr>
-    nnoremap <c-k> :tabnext<cr>
-    nnoremap <c-h> :tabfirst<cr>
-    nnoremap <c-l> :tablast<cr>
+    nnoremap <c-n> :tabprevious<cr>
+    nnoremap <c-m> :tabnext<cr>
 
     " quickly change background
     nnoremap <leader>bg
@@ -214,13 +219,13 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
     nnoremap <leader>n :NERDTreeToggle<cr>
 
     " toggle rainbow parens
-    nnoremap <leader>r :RainbowParentheses!!<cr>
+    nnoremap <leader>p :RainbowParentheses!!<cr>
 
     " fix whitespace
     nnoremap <leader>w :FixWhitespace<cr>
 
     " cycle through line numbering modes
-    nnoremap <silent> <leader>r :call VimrcCycleNumbers()<CR>
+    nnoremap <silent> <leader>l :call VimrcCycleNumbers()<CR>
 
 " }}}"
 
@@ -228,16 +233,19 @@ augroup vimrc " {{{
     autocmd!
     autocmd BufNewFile,BufRead bash_profile,bashrc set filetype=sh
     autocmd BufNewFile,BufRead gitconfig set filetype=gitconfig
-    autocmd BufNewFile,BufRead rcrc set filetype=sh
     autocmd BufNewFile,BufRead *.sx,*.s19 set filetype=srec
+    autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
 
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType python setlocal foldmethod=indent foldignore=
     autocmd FileType markdown,text,gitcommit setlocal formatoptions+=t spell
     autocmd FileType gitcommit setlocal textwidth=72
+
+    autocmd BufWritePost vimrc source %
 augroup END " }}}
 
-if filereadable(expand("$XDG_CONFIG_HOME/vim/vimrc.local"))
-    source "$XDG_CONFIG_HOME/vim/vimrc.local"
+let LOCAL_VIMRC=expand("$XDG_CONFIG_HOME/vim/vimrc.local")
+if filereadable(LOCAL_VIMRC)
+    exec "source " . LOCAL_VIMRC
 endif
 
