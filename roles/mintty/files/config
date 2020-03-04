@@ -1,6 +1,7 @@
 BoldAsFont=no
 Charset=UTF-8
 Columns=130
+CtrlAltIsAltGr=yes
 CursorType=underscore
 Font=Source Code Pro Medium
 FontHeight=9
