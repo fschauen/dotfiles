@@ -25,13 +25,6 @@ export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
-# Ensure cache directories exist so programs can write history.
-while read -r dir; do [ -d "$dir" ] || mkdir -p -- "$dir"; done <<EOL
-    $XDG_CACHE_HOME/bash
-    $XDG_CACHE_HOME/less
-EOL
-unset dir
-
 ##############################################################################
 # Customize PATH (and MANPATH)
 ##############################################################################
@@ -56,7 +49,6 @@ while read -r dir; do prepend_dir "$dir" PATH; done <<EOL
     $LOCAL_PREFIX/opt/coreutils/libexec/gnubin
     $LOCAL_PREFIX/opt/gnu-sed/libexec/gnubin
     $HOME/.local/bin
-    $HOME/bin
 EOL
 
 # Prepend custom man directories to MANPATH if they exist, so that we get
@@ -368,7 +360,7 @@ stty -ixon # disable ctrl-s and ctrl-q
 _update_colors "${BACKGROUND:-dark}"
 
 # Enable available completion helpers
-while read -r d; do [ -d "$d" ] && for f in "$d"/*; do . "$f"; done; done <<EOL
+while read -r d; do [ -d "$d" ] && for f in "$d"/*; do [ -f "$f" ] && . "$f"; done; done <<EOL
     $LOCAL_PREFIX/etc/bash_completion.d
     $XDG_CONFIG_HOME/bash/completion.d
 EOL
