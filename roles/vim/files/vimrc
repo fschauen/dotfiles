@@ -132,14 +132,17 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
     " This has to be here (as opposed to right after the Plug call) because the
     " function airline#section#create doesn't exist before plug#end() is
-    " called.
-    if has('multi_byte') && &encoding ==# 'utf-8'
-        let g:airline_section_z = airline#section#create(['ℓ%4l/%L 𝚌%3v'])
-    else                                                " line / total : col
-        let g:airline_section_z = airline#section#create(['L%4l/%L c%3v'])
+    " called. THe exists() call is still needed so no errors are generated on
+    " the very first time vim is run, as no plugins are installed yet.
+    if exists("airline#section#create")
+        if has('multi_byte') && &encoding ==# 'utf-8'
+            let g:airline_section_z = airline#section#create(['ℓ%4l/%L 𝚌%3v'])
+        else                                                " line / total : col
+            let g:airline_section_z = airline#section#create(['L%4l/%L c%3v'])
+        endif
     endif
 
-    colorscheme solarized
+    silent! colorscheme solarized
     filetype plugin indent on
     syntax enable
 " }}}
