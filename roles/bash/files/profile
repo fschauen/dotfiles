@@ -134,7 +134,7 @@ __ps1_set() {
 
     local ps=()
     [ $exit -ne 0 ] && ps+=("$PS1_EXIT$exit")
-    ps+=("$host\h")
+    ps+=("$host\u@\h")
     ps+=("$PS1_PWD\w")
     type __git_ps1 && __git_ps1 '' '' "$PS1_GIT%s" && [ -n "$PS1" ] && ps+=("$PS1")
     [ -n "$VIRTUAL_ENV" ] && ps+=("$PS1_VENV${VIRTUAL_ENV##*/}")
