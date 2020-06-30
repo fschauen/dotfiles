@@ -32,7 +32,7 @@
           - gnu-sed
           - gpg
           - htop
-          - imagemagic
+          - imagemagick
           - jupyter
           - pstree
           - reattach-to-user-namespace
