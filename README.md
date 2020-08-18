@@ -12,6 +12,7 @@ Steps:
 1. Install [ansible][].
 1. Create an SSH key with (e.g. with
    `ssh-keygen -t ed25519 -C "$(whoami)@$(hostname)"`) and register it.
+1. Add a preliminary `~/.ssh/config` to reach `git.schauenburg.me` at the correct port.
 1. Clone the repo.
 1. Play the `dotfiles.yml` ansible playbook.
 1. Decrypt key & initialize git-crypt to access sensitive data.
@@ -19,6 +20,7 @@ Steps:
 Cookbook:
 ```bash
 sudo apt-get install ansible
+echo -e "Host git.schauenburg.me\nUser git\nPort 587" >>~/.ssh/config
 git clone git@git.schauenburg.me:fernando/dotfiles.git $HOME/.dotfiles
 cd $HOME/.dotfiles
 ansible-playbook -i hosts.ini dotfiles.yml
