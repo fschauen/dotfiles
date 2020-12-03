@@ -21,7 +21,7 @@ export LESS="-i -j.49 -M -R -z-2"
 export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
 export LESSHISTSIZE=1000
 export LOCAL_PREFIX="/usr/local"
-[ command -v brew &>/dev/null ] && LOCAL_PREFIX=$(brew --prefix)
+command -v brew &>/dev/null && LOCAL_PREFIX="$(brew --prefix)"
 export MANPATH="$(MANPATH='' manpath)"
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
