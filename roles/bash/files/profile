@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 # Return immediately if non-interactive (makes FTP clients happy)
 [[ "$-" == *i* ]] || return
 
