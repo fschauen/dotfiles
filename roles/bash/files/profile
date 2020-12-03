@@ -39,17 +39,19 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 # shellcheck disable=SC1091 # /etc/profile is provided by macOS.
 [ "$(uname)" == "Darwin" ] && { PATH=""; source /etc/profile; }
 
-prepend_dir() {   # 1: dir to add, 2: variable to manipulate
-    [ -d "$1" ] && [ -n "$2" ] || return
-    local list="${!2}"                      # capture current value
-    list=${list#"$1:"}                      # remove dir from beginning
-    list=${list//":$1:"/:}                  # remove dir from middle
-    list=${list%":$1"}                      # remove dir from end
-    printf -v "$2" "$1${list:+":$list"}"    # add in front (use : only if empty)
+_prepend_path() {   # 1: dir to add, 2: path variable to manipulate
+    if [ -d "$1" ] && [ -n "$2" ]; then
+        local _path="${!2}"                     # get path variable value
+        case ":$_path:" in
+            *":$1:"*) :;;                       # dir already in path, noop (:)
+            *) _path="$1${_path:+:}$_path";;    # prepend (adding : if not empty)
+        esac
+        printf -v "$2" "%s" "$_path"            # write back to path variable
+    fi
 }
 
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
-while read -r dir; do prepend_dir "$dir" PATH; done <<EOL
+while read -r dir; do _prepend_path "$dir" PATH; done <<EOL
     $LOCAL_PREFIX/bin
     $LOCAL_PREFIX/opt/man-db/libexec/bin
     $LOCAL_PREFIX/opt/coreutils/libexec/gnubin
@@ -60,7 +62,7 @@ EOL
 # Prepend custom man directories to MANPATH if they exist, so that we get
 # correct man page entries when multiple versions of a command are
 # available.
-while read -r dir; do prepend_dir "$dir" MANPATH; done <<EOL
+while read -r dir; do _prepend_path "$dir" MANPATH; done <<EOL
     $LOCAL_PREFIX/share/man
     $LOCAL_PREFIX/opt/man-db/libexec/man
     $LOCAL_PREFIX/opt/coreutils/libexec/gnuman
@@ -68,7 +70,7 @@ while read -r dir; do prepend_dir "$dir" MANPATH; done <<EOL
     $HOME/.local/share/man
 EOL
 
-unset dir prepend_dir
+unset dir
 
 ##############################################################################
 # Customize shell options & variables
