@@ -22,7 +22,8 @@ export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
 export LESSHISTSIZE=1000
 export LOCAL_PREFIX="/usr/local"
 command -v brew &>/dev/null && LOCAL_PREFIX="$(brew --prefix)"
-export MANPATH="$(MANPATH='' manpath)"
+MANPATH="$(unset MANPATH; manpath)"
+export MANPATH
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
