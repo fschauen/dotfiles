@@ -26,6 +26,7 @@ MANPATH="$(unset MANPATH; manpath)"
 export MANPATH
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
+# shellcheck disable=SC2016 # This expression is to be interpreted by vim, not bash.
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 ##############################################################################
