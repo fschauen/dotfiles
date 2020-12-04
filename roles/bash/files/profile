@@ -220,88 +220,36 @@ alias dark='_update_colors dark'
 #   * https://vt100.net/
 #   * https://iterm2.com/utilities/imgcat
 
-_send_osc() {
-    local OSC ST
+# In tmux, OSC sequences can be forwarded to the underlying terminal by:
+#   * Wrapping the sequence with `DCS tmux; <sequence> ST`
+#   * Replacing ESC in <sequence> with ESC ESC.
+_osc_start() {
     if [ -n "$TMUX" ]; then
-        OSC=$'\ePtmux;\e\e]'
-        ST=$'\e\e\\\e\\';
+        printf "\ePtmux;\e\e]"
     else
-        OSC=$'\e]'
-        ST=$'\e\\'
+        printf "\e]"
     fi
-    echo -n "$OSC$1$ST"
+}
+
+# Either ST or BEL (\a) can be used to end an OSC sequence. However, tmux
+# requires ST to end its wrapping DCS.
+_osc_end() {
+    if [ -n "$TMUX" ]; then
+        printf "\a\e\\"
+    else
+        printf "\a"
+    fi
 }
 
 _update_colors() {
-    local cursor fg bg n rgb
-
     export BACKGROUND="$1"
 
     if [ "$BACKGROUND" = "light" ]; then
+        _set_terminal_colors $Base01_RGB $Base3_RGB $Red_RGB    # fg bg cursor
         PS1_SEP_COLOR=$(tput setaf $Base1)
     else
+        _set_terminal_colors $Base1_RGB $Base03_RGB $Red_RGB    # fg bg cursor
         PS1_SEP_COLOR=$(tput setaf $Base01)
-    fi
-
-    cursor=$Red_RGB
-    if [ "$BACKGROUND" = "light" ]; then
-        fg=$Base01_RGB
-        bg=$Base3_RGB
-    else
-        fg=$Base1_RGB
-        bg=$Base03_RGB
-    fi
-
-    if [ -n "$ITERM_SESSION_ID" ]; then # iTerm2
-        while read -r n rgb; do _send_osc "P$n$rgb"; done <<EOL
-            0 $Base02_RGB
-            1 $Red_RGB
-            2 $Green_RGB
-            3 $Yellow_RGB
-            4 $Blue_RGB
-            5 $Magenta_RGB
-            6 $Cyan_RGB
-            7 $Base2_RGB
-            8 $Base03_RGB
-            9 $Orange_RGB
-            a $Base01_RGB
-            b $Base00_RGB
-            c $Base0_RGB
-            d $Violet_RGB
-            e $Base1_RGB
-            f $Base3_RGB
-            g $fg
-            h $bg
-            i $fg
-            j $Base01_RGB
-            k $Base2_RGB
-            l $cursor
-            m $cursor
-EOL
-    else # assume xterm
-        while read -r n rgb; do _send_osc "4;$n;#$rgb"; done <<EOL
-            0  $Base02_RGB
-            1  $Red_RGB
-            2  $Green_RGB
-            3  $Yellow_RGB
-            4  $Blue_RGB
-            5  $Magenta_RGB
-            6  $Cyan_RGB
-            7  $Base2_RGB
-            8  $Base03_RGB
-            9  $Orange_RGB
-            10 $Base01_RGB
-            11 $Base00_RGB
-            12 $Base0_RGB
-            13 $Violet_RGB
-            14 $Base1_RGB
-            15 $Base3_RGB
-EOL
-        while read -r n rgb; do _send_osc "$n;#$rgb"; done <<EOL
-            10 $fg
-            11 $bg
-            12 $cursor
-EOL
     fi
 
     if [ -n "$TMUX" ] && [ -f "$HOME/.tmux.conf" ]; then
@@ -313,6 +261,96 @@ EOL
     if type dircolors &>/dev/null && [ -f "$ls_colors" ]; then
         eval "$(dircolors "$ls_colors")"
     fi
+}
+
+_set_terminal_colors() {    # 1: foreground, 2: background, 3: cursor
+    if [ -n "$ITERM_SESSION_ID" ]; then # iTerm2
+        _set_iterm2_colors "$1" "$2" "$3"
+    else # assume xterm
+        _set_xterm_colors "$1" "$2" "$3"
+    fi
+}
+
+# Documentation for iTerm2 at
+# https://iterm2.com/documentation-escape-codes.html
+# under the heading "Change the color palette".
+_set_iterm2_colors() {    # 1: foreground, 2: background, 3: cursor
+    local fg="$1" bg="$2" cursor="$3"
+    local n rgb
+    while read -r n rgb; do
+        _osc_start
+        printf "P%s%s" "$n" "$rgb"
+        _osc_end
+    done <<EOL
+        0 $Base02_RGB
+        1 $Red_RGB
+        2 $Green_RGB
+        3 $Yellow_RGB
+        4 $Blue_RGB
+        5 $Magenta_RGB
+        6 $Cyan_RGB
+        7 $Base2_RGB
+        8 $Base03_RGB
+        9 $Orange_RGB
+        a $Base01_RGB
+        b $Base00_RGB
+        c $Base0_RGB
+        d $Violet_RGB
+        e $Base1_RGB
+        f $Base3_RGB
+        g $fg
+        h $bg
+        i $fg
+        j $Base01_RGB
+        k $Base2_RGB
+        l $cursor
+        m $cursor
+EOL
+}
+
+# Documentation for xterm at https://www.xfree86.org/4.8.0/ctlseqs.html
+# under the heading "Operating System Controls".
+_set_xterm_colors() {    # $1 foreground, $2 background, $3 cursor
+    local fg="$1" bg="$2" cursor="$3"
+    local c rgb Ps
+    while read -r c rgb; do
+        # Send sequence OSC Ps BEL
+        # where Ps   -> 4;c;spec
+        #       c    -> index of the ANSI color to change [0..15]
+        #       spec -> RGB value of color as rgb:RR/GG/BB
+        _osc_start
+        printf "4;%s;rgb:%s/%s/%s" "$c" "${rgb:0:2}"  "${rgb:2:2}" "${rgb:4:2}"
+        _osc_end
+    done <<EOL
+        0  $Base02_RGB
+        1  $Red_RGB
+        2  $Green_RGB
+        3  $Yellow_RGB
+        4  $Blue_RGB
+        5  $Magenta_RGB
+        6  $Cyan_RGB
+        7  $Base2_RGB
+        8  $Base03_RGB
+        9  $Orange_RGB
+        10 $Base01_RGB
+        11 $Base00_RGB
+        12 $Base0_RGB
+        13 $Violet_RGB
+        14 $Base1_RGB
+        15 $Base3_RGB
+EOL
+    while read -r Ps rgb; do
+        # Send sequence OSC Ps ; Pt BEL
+        # where Ps -> foreground (10), background (11), or cursor (12)
+        #       Pt -> RGB value of color as rgb:RR/GG/BB
+        _osc_start
+        printf "%s;rgb:%s/%s/%s" "$Ps" "${rgb:0:2}"  "${rgb:2:2}" "${rgb:4:2}"
+        _osc_end
+    done <<EOL
+        10 $fg
+        11 $bg
+        12 $cursor
+EOL
 }
 
 ##############################################################################
