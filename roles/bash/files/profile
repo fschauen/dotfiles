@@ -201,6 +201,25 @@ alias myip="curl -s https://ifconfig.co"
 alias light='_update_colors light'
 alias dark='_update_colors dark'
 
+##############################################################################
+# Terminal color management
+##############################################################################
+
+# Useful terminal control sequences:
+#
+# Sequence  Abbrev  Description
+# -----     -----   -----------------------------
+# ESC P     DCS     Device Control String
+# ESC [     CSI     Control Sequence Introducer
+# ESC \     ST      String Terminator
+# ESC ]     OSC     Operating System Control
+#
+#
+# More info at:
+#   * https://www.xfree86.org/4.8.0/ctlseqs.html
+#   * https://vt100.net/
+#   * https://iterm2.com/utilities/imgcat
+
 _send_osc() {
     local OSC ST
     if [ -n "$TMUX" ]; then
