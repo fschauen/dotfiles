@@ -252,9 +252,9 @@ _update_colors() {
         PS1_SEP_COLOR=$(tput setaf $Base01)
     fi
 
-    if [ -n "$TMUX" ] && [ -f "$HOME/.tmux.conf" ]; then
+    if [ -n "$TMUX" ] && [ -f "$XDG_CONFIG_HOME/tmux/tmux-colors.conf" ]; then
         tmux set-environment -g BACKGROUND "$BACKGROUND"
-        tmux source-file "$HOME/.tmux.conf"
+        tmux source-file "$XDG_CONFIG_HOME/tmux/tmux-colors.conf"
     fi
 
     local ls_colors="$HOME/.config/dircolors/solarized-$BACKGROUND"

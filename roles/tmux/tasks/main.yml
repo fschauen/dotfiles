@@ -14,8 +14,10 @@
 
 - name: Deploy tmux config
   file:
-      src: "{{ role_path }}/files/tmux.conf"
-      dest: ~/.config/tmux/tmux.conf
+      src: "{{ role_path }}/files/{{ item }}"
+      dest: "~/.config/tmux/{{ item }}"
       state: link
       force: yes
-
+  loop:
+      - tmux.conf
+      - tmux-colors.conf
