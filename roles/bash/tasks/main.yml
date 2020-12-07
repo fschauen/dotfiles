@@ -1,3 +1,12 @@
+- name: Install latest bash (Debian)
+  when: ansible_os_family == "Debian"
+  become: yes
+  apt: name=bash state=latest update_cache=yes
+
+- name: Install latest bash (macOS)
+  when: ansible_os_family == "Darwin"
+  homebrew: name=bash state=latest
+
 - name: Remove pre-installed bash configurations which could cause conflicts
   file:
       state: absent
