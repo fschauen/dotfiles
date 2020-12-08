@@ -1,11 +1,22 @@
 - name: Install latest bash (Debian)
   when: ansible_os_family == "Debian"
   become: yes
-  apt: name=bash state=latest update_cache=yes
+  apt:
+      name: "{{ item }}"
+      state: latest
+      update_cache: yes
+  loop:
+      - bash
+      - bash-completion
 
 - name: Install latest bash (macOS)
   when: ansible_os_family == "Darwin"
-  homebrew: name=bash state=latest
+  homebrew:
+      name: "{{ item }}"
+      state: latest
+  loop:
+      - bash
+      - bash-completion
 
 - name: Remove pre-installed bash configurations which could cause conflicts
   file:
@@ -22,7 +33,7 @@
   loop:
       - "~/.cache/bash"
       - "~/.config/bash"
-      - "~/.config/bash/completion.d"
+      - "~/.local/share/bash-completion/completions"
 
 - name: Deploy bash profile
   file:
