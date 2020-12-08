@@ -436,7 +436,7 @@ _update_colors "${BACKGROUND:-dark}"
 # shellcheck disable=SC1090
 while read -r f; do [ -f "$f" ] && source "$f"; done <<EOF
     /usr/share/bash-completion/bash_completion
-    "$LOCAL_CONFIG/bash/profile"
+    $LOCAL_CONFIG/bash/profile
 EOF
 unset f
 
