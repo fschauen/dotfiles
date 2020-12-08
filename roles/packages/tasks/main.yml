@@ -7,13 +7,18 @@
       loop:
           - curl
           - exuberant-ctags
+          - ffmpeg
           - gpg
           - htop
+          - nmap
           - psmisc
           - shellcheck
           - sqlite
           - stow
           - tree
+          - vifm
+          - wget
+          - youtube-dl
 
 
 
@@ -28,18 +33,25 @@
           - ctags
           - curl
           - exiftool
+          - ffmpeg
           - findutils
           - gnu-sed
           - gpg
+          - grep
+          - gzip
           - htop
           - imagemagick
           - jupyter
+          - make
+          - nmap
           - pstree
           - reattach-to-user-namespace
           - shellcheck
           - sqlite
           - stow
           - tree
+          - vifm
+          - wget
           - youtube-dl
 
     - name: Tap into homebrew/cask-fonts
