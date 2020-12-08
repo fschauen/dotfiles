@@ -311,6 +311,9 @@ _set_iterm2_colors() {    # 1: foreground, 2: background, 3: cursor
         curbg       $cursor
         link        $Cyan_RGB
 EOL
+    _osc_start
+    printf "1337;CursorShape=2"     # set cursor shape to underline
+    _osc_end
 }
 
 # Documentation for xterm at https://www.xfree86.org/4.8.0/ctlseqs.html
