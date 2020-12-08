@@ -9,10 +9,14 @@
   homebrew: name={{ item }} state=latest
   loop: [git, git-crypt, git-lfs]
 
-- name: Create the git config directory
+- name: Create the git config directories
   file:
-      path: ~/.config/git
+      path: "{{ item }}"
       state: directory
+  loop:
+      - ~/.config/git
+      - ~/.local/bin
+      - ~/.local/etc/git
 
 - name: Deploy git config
   file:
@@ -27,12 +31,7 @@
 - name: Deploy git host-specific config
   template:
       src: config.host.j2
-      dest: ~/.config/git/config.host
-
-- name: Create bin directory for additional git commands
-  file:
-      path: ~/.local/bin
-      state: directory
+      dest: ~/.local/etc/git/config.host
 
 - name: Deploy additional git commands
   file:
