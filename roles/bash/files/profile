@@ -20,6 +20,7 @@ export LC_CTYPE="en_US.UTF-8"
 export LESS="-i -j.49 -M -R -z-2"
 export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
 export LESSHISTSIZE=1000
+export LOCAL_CONFIG="$HOME/.local/etc"
 export LOCAL_PREFIX="/usr/local"
 if command -v brew &>/dev/null; then
     LOCAL_PREFIX="$(brew --prefix)"
@@ -440,9 +441,9 @@ while read -r d; do [ -d "$d" ] && for f in "$d"/*; do [ -f "$f" ] && . "$f"; do
 EOL
 unset d f
 
-# Source a local bashrc if available
-if [ -f "$XDG_CONFIG_HOME/bash/profile.local" ]; then
+# Source a local bash configuration if available
+if [ -f "$LOCAL_CONFIG/bash/profile" ]; then
     # shellcheck disable=SC1090
-    source "$XDG_CONFIG_HOME/bash/profile.local"
+    source "$LOCAL_CONFIG/bash/profile"
 fi
 
