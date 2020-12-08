@@ -280,35 +280,36 @@ _set_terminal_colors() {    # 1: foreground, 2: background, 3: cursor
 # under the heading "Change the color palette".
 _set_iterm2_colors() {    # 1: foreground, 2: background, 3: cursor
     local fg="$1" bg="$2" cursor="$3"
-    local n rgb
-    while read -r n rgb; do
+    local key rgb
+    while read -r key rgb; do
         _osc_start
-        printf "P%s%s" "$n" "$rgb"
+        printf "1337;SetColors=%s=%s" "$key" "${rgb}"
         _osc_end
     done <<EOL
-        0 $Base02_RGB
-        1 $Red_RGB
-        2 $Green_RGB
-        3 $Yellow_RGB
-        4 $Blue_RGB
-        5 $Magenta_RGB
-        6 $Cyan_RGB
-        7 $Base2_RGB
-        8 $Base03_RGB
-        9 $Orange_RGB
-        a $Base01_RGB
-        b $Base00_RGB
-        c $Base0_RGB
-        d $Violet_RGB
-        e $Base1_RGB
-        f $Base3_RGB
-        g $fg
-        h $bg
-        i $fg
-        j $Base01_RGB
-        k $Base2_RGB
-        l $cursor
-        m $cursor
+        black       $Base02_RGB
+        red         $Red_RGB
+        green       $Green_RGB
+        yellow      $Yellow_RGB
+        blue        $Blue_RGB
+        magenta     $Magenta_RGB
+        cyan        $Cyan_RGB
+        white       $Base2_RGB
+        br_black    $Base03_RGB
+        br_red      $Orange_RGB
+        br_green    $Base01_RGB
+        br_yellow   $Base00_RGB
+        br_blue     $Base0_RGB
+        br_magenta  $Violet_RGB
+        br_cyan     $Base1_RGB
+        br_white    $Base3_RGB
+        fg          $fg
+        bg          $bg
+        bold        $fg
+        selfg       $Base2_RGB
+        selbg       $Base01_RGB
+        curfg       $cursor
+        curbg       $cursor
+        link        $Cyan_RGB
 EOL
 }
 
