@@ -239,7 +239,7 @@ _osc_start() {
 # requires ST to end its wrapping DCS.
 _osc_end() {
     if [ -n "$TMUX" ]; then
-        printf "\a\e\\"
+        printf "\a\e\x5c"       # 0x5c == backslash
     else
         printf "\a"
     fi
