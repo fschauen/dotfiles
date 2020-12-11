@@ -179,6 +179,19 @@ alias lla="ls -la"
 alias llc="lsc -l"
 alias llac="lsc -la"
 
+alias g='git'
+alias ga='git a'
+alias gc='git commit'
+alias gd='git d'
+alias gcm='git cm'
+alias gl='git l'
+alias gla='git la'
+alias gln='git ln'
+alias gs='git s'
+alias gss='git ss'
+
+alias v='vim'
+
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias fgrep="fgrep --color=auto"
