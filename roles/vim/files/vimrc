@@ -2,6 +2,7 @@ set nocompatible
 
 if $XDG_CONFIG_HOME == "" | let $XDG_CONFIG_HOME="~/.config" | endif
 if $XDG_CACHE_HOME == "" | let $XDG_CACHE_HOME="~/.cache" | endif
+if $LOCAL_CONFIG == "" | let $LOCAL_CONFIG="~/.local/etc" | endif
 
 let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 
@@ -247,7 +248,7 @@ augroup vimrc " {{{
     autocmd BufWritePost vimrc source %
 augroup END " }}}
 
-let LOCAL_VIMRC=expand("$XDG_CONFIG_HOME/vim/vimrc.local")
+let LOCAL_VIMRC=expand("$LOCAL_CONFIG/vim/vimrc")
 if filereadable(LOCAL_VIMRC)
     exec "source " . LOCAL_VIMRC
 endif
