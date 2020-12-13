@@ -113,12 +113,11 @@ HISTFILE="$XDG_CACHE_HOME/bash/history"
     Cyan=6    Cyan_RGB="2AA198"    # 0;36   6  cyan      37 #00afaf  60 -35 -05   42 161 152  175  74  63
     Green=2   Green_RGB="859900"   # 0;32   2  green     64 #5f8700  60 -20  65  133 153   0   68 100  60
 
-    PS1_DEFAULT=$(tput setaf $Cyan)     # user@host color for local sessions
-    PS1_SSH=$(tput setaf $Yellow)       # user@host color in SSH session
-    PS1_ROOT=$(tput setaf $Orange)      # user@host color if logged in as root
-    PS1_PWD=$(tput setaf $Blue)         # PWD color
     PS1_EXIT=$(tput setaf $Red)         # color for last exit code if non-zero
-    PS1_GIT=$(tput setaf $Green)        # color for git branch
+    PS1_ROOT=$(tput setaf $Orange)      # logged in as root
+    PS1_SSH=$(tput setaf $Yellow)       # hostname for SSH sessions
+    PS1_PWD=$(tput setaf $Cyan)         # PWD color
+    PS1_GIT=$(tput setaf $Blue)        # color for git branch
     PS1_VENV=$(tput setaf $Violet)      # color for python virtual env
     PS1_JOBS=$(tput setaf $Magenta)     # color for background jobs
     PS1_SEP=" > "                       # separator between prompt parts
@@ -137,24 +136,20 @@ PS2="... "
 __ps1_set() {
     local exit=$?
     local sep="$PS1_SEP_COLOR$PS1_SEP"
-
-    local host=$PS1_DEFAULT
-    [ -n "$SSH_CLIENT" ] && host=$PS1_SSH
-    [ $EUID -eq 0 ] && host=$PS1_ROOT
-
     local prompt=">>>>>>>>>>"
-    [ $EUID -eq 0 ] && prompt="##########"
 
     local ps=()
     [ $exit -ne 0 ] && ps+=("$PS1_EXIT$exit")
-    ps+=("$host\u@\h")
+    [ $EUID -eq 0 ] && { ps+=("$PS1_ROOT\u"); prompt="##########"; }
+    [ -n "$SSH_CONNECTION" ] && ps+=("$PS1_SSH\h")
     ps+=("$PS1_PWD\w")
     type __git_ps1 && __git_ps1 '' '' "$PS1_GIT%s" && [ -n "$PS1" ] && ps+=("$PS1")
     [ -n "$VIRTUAL_ENV" ] && ps+=("$PS1_VENV${VIRTUAL_ENV##*/}")
     local j="\j" && [ "${j@P}" -gt 0 ] && ps+=("$PS1_JOBS${j@P} bg")
 
-    printf -v PS1 "$sep%s" "${ps[@]:1}"
-    PS1="\n${ps[0]}$PS1$PS1_RST\n${prompt:0:$SHLVL} "
+    local extra=""
+    [ ${#ps[@]} -gt 1 ] && printf -v extra "$sep%s" "${ps[@]:1}"
+    PS1="\n${ps[0]}$extra$PS1_RST\n${prompt:0:$SHLVL} "
 } &>/dev/null
 
 ##############################################################################
