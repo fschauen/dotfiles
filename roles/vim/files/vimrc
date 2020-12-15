@@ -13,7 +13,7 @@ let  &background = $BACKGROUND ==# 'light' ? 'light' : 'dark'
 set   backspace=indent,eol,start  " sane backspace behavior
 set nobackup            " don't keep backup file after overwriting a file
 set   clipboard=unnamed " synchronize with system clipboard
-set   colorcolumn=80    " highlight column 80
+set   colorcolumn=+1    " highlight column after 'textwidth'
 set   cursorline        " highlight the line of the cursor
 set   diffopt=filler,vertical  " make side-by-side diffs better
 set   encoding=utf8     " use UTF-8 by default
