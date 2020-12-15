@@ -5,7 +5,7 @@
 #   1. Set the Tab key as completion key.
 #   2. Initialize readline (e.g. from .inputrc).
 #   3. Register a history file, using:
-#       - $XDG_CACHE_HOME/python/history if XDG_CACHE_HOME iset
+#       - $XDG_DATA_HOME/python/history if XDG_DATA_HOME iset
 #       - .python_history otherwise.
 def configure_readline():
     import atexit
@@ -42,8 +42,8 @@ def configure_readline():
         # http://bugs.python.org/issue5845#msg198636
 
         history = os.path.join(os.path.expanduser('~'), '.python_history')
-        if 'XDG_CACHE_HOME' in os.environ:
-            history = os.path.join(os.environ['XDG_CACHE_HOME'], 'python', 'history')
+        if 'XDG_DATA_HOME' in os.environ:
+            history = os.path.join(os.environ['XDG_DATA_HOME'], 'python', 'history')
 
         try:
             readline.read_history_file(history)

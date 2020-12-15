@@ -8,13 +8,13 @@
   when: ansible_os_family == "Darwin"
   homebrew: name=python3 state=latest
 
-- name: Create the python config and cache directories
+- name: Create the python config and data directories
   file:
-      path: "~/.{{ item }}/python"
+      path: "{{ item }}"
       state: directory
   loop:
-      - cache
-      - config
+      - ~/.config/python
+      - ~/.local/share/python
 
 - name: Deploy python startup file
   file:
