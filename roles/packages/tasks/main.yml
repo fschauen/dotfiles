@@ -56,20 +56,20 @@
           - wget
           - youtube-dl
 
-    - name: Tap into homebrew/cask-fonts
-      homebrew_tap: tap=homebrew/cask-fonts state=present
+    # - name: Tap into homebrew/cask-fonts
+    #   homebrew_tap: tap=homebrew/cask-fonts state=present
 
-    - name: Install Mac apps with homebrew cask
-      homebrew_cask: name={{item}} state=present
-      loop:
-        - 1password
-        - cyberduck
-        - dropbox
-        - firefox
-        - font-source-code-pro
-        - google-chrome
-        - iterm2
-        - transmission
-        - vagrant
-        - virtualbox
+    # - name: Install Mac apps with homebrew cask
+    #   homebrew_cask: name={{item}} state=present
+    #   loop:
+    #     - 1password
+    #     - cyberduck
+    #     - dropbox
+    #     - firefox
+    #     - font-source-code-pro
+    #     - google-chrome
+    #     - iterm2
+    #     - transmission
+    #     - vagrant
+    #     - virtualbox
 
