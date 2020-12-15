@@ -246,8 +246,9 @@ augroup vimrc " {{{
     autocmd BufWritePost vimrc source %
 augroup END " }}}
 
-let LOCAL_VIMRC=expand("$LOCAL_CONFIG/vim/vimrc")
-if filereadable(LOCAL_VIMRC)
-    exec "source " . LOCAL_VIMRC
-endif
+for extra_vimrc in expand("$LOCAL_CONFIG/vim/*", v:none, v:true)
+    if filereadable(extra_vimrc)
+        exec "source " . extra_vimrc
+    endif
+endfor
 
