@@ -31,8 +31,8 @@
       path: "{{ item }}"
       state: directory
   loop:
-      - "~/.cache/bash"
       - "~/.config/bash"
+      - "~/.local/share/bash"
       - "~/.local/share/bash-completion/completions"
       - "~/.local/share/less"
 

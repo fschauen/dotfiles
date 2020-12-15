@@ -89,7 +89,7 @@ HISTCONTROL=erasedups
 HISTFILESIZE=
 HISTSIZE=
 HISTTIMEFORMAT="[%F %T] "
-HISTFILE="$XDG_CACHE_HOME/bash/history"
+HISTFILE="$XDG_DATA_HOME/bash/history"
 
 # shellcheck disable=SC2034 # these variable are meant for use in shell only
 {
