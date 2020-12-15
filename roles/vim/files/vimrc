@@ -232,7 +232,7 @@ nnoremap <silent> <leader>l :call VimrcCycleNumbers()<CR>
 
 augroup vimrc " {{{
     autocmd!
-    autocmd BufNewFile,BufRead bash_profile,bashrc set filetype=sh
+    autocmd BufNewFile,BufRead bash_profile,bashrc,profile set filetype=sh
     autocmd BufNewFile,BufRead gitconfig set filetype=gitconfig
     autocmd BufNewFile,BufRead *.sx,*.s19 set filetype=srec
     autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
