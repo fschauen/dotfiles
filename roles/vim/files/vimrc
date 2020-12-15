@@ -2,6 +2,7 @@ set nocompatible
 
 if $XDG_CONFIG_HOME == "" | let $XDG_CONFIG_HOME="~/.config" | endif
 if $XDG_CACHE_HOME == "" | let $XDG_CACHE_HOME="~/.cache" | endif
+if $XDG_DATA_HOME == "" | let $XDG_DATA_HOME="~/.local/share" | endif
 if $LOCAL_CONFIG == "" | let $LOCAL_CONFIG="~/.local/etc" | endif
 
 let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
@@ -70,7 +71,7 @@ set   ttyfast           " indicate a fast terminal for smoother redrawing
           "   | |    |      |     |     |
           "   v v    v      v     v     v
 set   viminfo=h,'500,<10000,s1000,/1000,:1000
-set   viminfofile=$XDG_CACHE_HOME/vim/viminfo
+set   viminfofile=$XDG_DATA_HOME/vim/viminfo
 set   virtualedit=block  " position the cursor anywhere in Visual Block mode
 set   wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
 set   wildignorecase    " ignore case when completing file names
