@@ -15,7 +15,8 @@ set nobackup            " don't keep backup file after overwriting a file
 set   clipboard=unnamed " synchronize with system clipboard
 set   colorcolumn=+1    " highlight column after 'textwidth'
 set   cursorline        " highlight the line of the cursor
-set   diffopt=filler,vertical  " make side-by-side diffs better
+set   cursorlineopt=number      " highlight the line number of the cursor
+set   diffopt=filler,vertical   " make side-by-side diffs better
 set   encoding=utf8     " use UTF-8 by default
 set   expandtab         " use spaces whe <Tab> is inserted
 set   fileformats=unix,mac,dos  " prioritize unix <EOL> format
