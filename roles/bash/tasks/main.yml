@@ -26,7 +26,7 @@
       - bash_logout
       - profile
 
-- name: Create the bash cache and config directories
+- name: Ensure existence of directories used in bashrc
   file:
       path: "{{ item }}"
       state: directory
@@ -34,6 +34,7 @@
       - "~/.cache/bash"
       - "~/.config/bash"
       - "~/.local/share/bash-completion/completions"
+      - "~/.local/share/less"
 
 - name: Deploy bash profile
   file:
