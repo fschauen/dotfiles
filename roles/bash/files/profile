@@ -444,11 +444,15 @@ colortest() {
 stty -ixon # disable ctrl-s and ctrl-q
 _update_colors "${BACKGROUND:-dark}"
 
-# shellcheck disable=SC1090
-while read -r f; do [ -f "$f" ] && source "$f"; done <<EOF
-    /usr/local/etc/profile.d/bash_completion.sh
-    /usr/share/bash-completion/bash_completion
-    $LOCAL_CONFIG/bash/profile
-EOF
-unset f
+_source_extra_configs() {
+    local configs=(
+        /usr/local/etc/profile.d/bash_completion.sh
+        /usr/share/bash-completion/bash_completion
+        $LOCAL_CONFIG/bash/*
+    )
+    local f
+    for f in ${configs[@]}; do [ -f "$f" ] && source "$f"; done
+}
+_source_extra_configs
 
+true
