@@ -44,7 +44,7 @@ set   number            " show line numbers
 set   nrformats-=octal  " number formats for CTRL-A & CTRL-X commands
 set   runtimepath=$XDG_CONFIG_HOME/vim,$VIMRUNTIME  " so vim-plug can work
 set   scrolloff=3       " minimum number of lines above and below cursor
-set   shiftwidth=4      " number of spaces to use for (auto)indent step
+set   shiftwidth=0      " use 'tabstop' spaces for (auto)indent step
 set   shortmess+=I      " don't show the intro message when starting Vim
 set   showbreak="-> "   " prefix for wrapped lines
 set   showmatch         " briefly jump to matching bracket if insert one
