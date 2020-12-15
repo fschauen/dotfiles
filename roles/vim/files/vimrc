@@ -112,20 +112,25 @@ call plug#begin('$XDG_CONFIG_HOME/vim/bundle')
     Plug 'tpope/vim-fugitive'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+        function! VimrcAirlineInit()
+            let g:airline_section_c = airline#section#create(['%{bufnr()}  %f %r%m'])
+            let g:airline_section_z = airline#section#create_right(['%p%%', '%l/%L', '%v'])
+        endfunction
+        autocmd User AirlineAfterInit call VimrcAirlineInit()
         if !exists('g:airline_symbols')
             let g:airline_symbols = {}
         endif
-        let g:airline_left_sep = ' '
-        let g:airline_left_alt_sep = ''
-        let g:airline_right_sep = ' '
-        let g:airline_right_alt_sep = ''
-        let g:airline_symbols.crypt = '🔒'
-        let g:airline_symbols.branch = '⎇'
-        let g:airline_symbols.paste = 'Ⓟ'
-        let g:airline_symbols.spell = '✔'
-        let g:airline_symbols.readonly = ' ⃠'
-        let g:airline_symbols.notexists = '∄'
-        let g:airline_symbols.whitespace = '✗'
+        let g:airline_left_sep = ''
+        let g:airline_left_alt_sep = ''
+        let g:airline_right_sep = ''
+        let g:airline_right_alt_sep = ''
+        let g:airline_symbols.crypt = 'C'       " section A
+        let g:airline_symbols.spell = 'S'       " section A
+        let g:airline_symbols.paste = 'P'       " section A
+        let g:airline_symbols.branch = ''       " section B
+        let g:airline_symbols.dirty = ' !'      " section B, VCS: file changed
+        let g:airline_symbols.notexists = ' ?'  " section B, VCS: file not tracked
+        let g:airline_symbols.whitespace = '✗'  " section [...]
     Plug 'vim-scripts/srec.vim'
         highlight link srecStart        Comment
         highlight link srecType         Comment
@@ -138,17 +143,6 @@ call plug#begin('$XDG_CONFIG_HOME/vim/bundle')
     Plug 'chr4/nginx.vim'
 call plug#end()
 
-" This has to be here (as opposed to right after the Plug call) because the
-" function airline#section#create doesn't exist before plug#end() is
-" called. The exists() call is still needed so no errors are generated on
-" the very first time vim is run, as no plugins are installed yet.
-if exists("airline#section#create")
-    if has('multi_byte') && &encoding ==# 'utf-8'
-        let g:airline_section_z = airline#section#create(['ℓ%4l/%L 𝚌%3v'])
-    else                                                " line / total : col
-        let g:airline_section_z = airline#section#create(['L%4l/%L c%3v'])
-    endif
-endif
 
 silent! colorscheme solarized
 filetype plugin indent on
@@ -156,6 +150,7 @@ syntax enable
 " }}}
 
 " Functions {{{
+
 " Cycle through relativenumber + number, number (only), and no numbering.
 function! VimrcCycleNumbers() abort
   if exists('+relativenumber')
