@@ -113,7 +113,7 @@ call plug#begin('$XDG_CONFIG_HOME/vim/bundle')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
         function! VimrcAirlineInit()
-            let g:airline_section_c = airline#section#create(['%{bufnr()}: %f %r%m'])
+            let g:airline_section_c = airline#section#create(['%{bufnr("%")}: %f %r%m'])
             let g:airline_section_z = airline#section#create_right(['%p%%', '%l/%L', '%v'])
         endfunction
         autocmd User AirlineAfterInit call VimrcAirlineInit()
