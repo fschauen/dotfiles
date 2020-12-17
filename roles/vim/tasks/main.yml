@@ -1,30 +1,41 @@
-- name: Install vim (Debian)
+- name: Install vim with apt
   when: ansible_os_family == "Debian"
   become: yes
-  apt: name=vim state=latest update_cache=yes
+  apt:
+    name: vim
+    state: latest
+    update_cache: yes
 
-- name: Install vim (macOS)
+
+- name: Install vim with homebrew
   when: ansible_os_family == "Darwin"
-  homebrew: name=vim state=latest
+  homebrew:
+    name: vim
+    state: latest
+
 
 - name: Create the vim cache and config directories
   file:
-      path: "{{ item }}"
-      state: directory
+    path: "{{ item }}"
+    state: directory
   loop:
-      - "~/.cache/vim"
-      - "~/.config/vim"
-      - "~/.config/vim/autoload"
+  - ~/.cache/vim
+  - ~/.config/vim
+  - ~/.config/vim/autoload
 
-- name: Deploy vim plug and vimrc
+
+- name: Deploy vim-plug and vimrc
   file:
-      src: "{{ role_path }}/files/{{ item }}"
-      dest: "~/.config/vim/{{ item }}"
-      state: link
-      force: yes
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: ~/.config/vim/{{ item.dest }}
+    state: link
+    force: yes
   loop:
-      - autoload/plug.vim
-      - vimrc
+  - src: plug.vim
+    dest: autoload/plug.vim
+  - src: vimrc
+    dest: vimrc
+
 
 - name: Install configured vim plugins
   shell: vim -u "~/.config/vim/vimrc" +PlugInstall +qall
