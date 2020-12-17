@@ -1,23 +1,32 @@
-- name: Install tmux (Debian)
+- name: Install tmux with apt
   when: ansible_os_family == "Debian"
   become: yes
-  apt: name=tmux state=latest update_cache=yes
+  apt:
+    name: tmux
+    state: latest
+    update_cache: yes
 
-- name: Install tmux (macOS)
+
+- name: Install tmux with homebrew
   when: ansible_os_family == "Darwin"
-  homebrew: name=tmux state=latest
+  homebrew:
+    name: tmux
+    state: latest
+
 
 - name: Create the tmux config directory
   file:
-      path: ~/.config/tmux
-      state: directory
+    path: ~/.config/tmux
+    state: directory
+
 
 - name: Deploy tmux config
   file:
-      src: "{{ role_path }}/files/{{ item }}"
-      dest: "~/.config/tmux/{{ item }}"
-      state: link
-      force: yes
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: ~/.config/tmux/{{ item }}
+    state: link
+    force: yes
   loop:
-      - tmux.conf
-      - tmux-colors.conf
+  - tmux.conf
+  - tmux-colors.conf
+
