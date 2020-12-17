@@ -1,54 +1,57 @@
-- name: Install latest bash (Debian)
+- name: Install latest bash with apt
   when: ansible_os_family == "Debian"
   become: yes
   apt:
-      name: "{{ item }}"
-      state: latest
-      update_cache: yes
-  loop:
-      - bash
-      - bash-completion
+    update_cache: yes
+    state: latest
+    name:
+    - bash
+    - bash-completion
 
-- name: Install latest bash (macOS)
+
+- name: Install latest bash with homebrew
   when: ansible_os_family == "Darwin"
   homebrew:
-      name: "{{ item }}"
-      state: latest
-  loop:
-      - bash
-      - bash-completion
+   state: latest
+   name:
+   - bash
+   - bash-completion
+
 
 - name: Remove pre-installed bash configurations which could cause conflicts
   file:
-      state: absent
-      path: "~/.{{ item }}"
+    path: ~/{{ item }}
+    state: absent
   loop:
-      - bash_logout
-      - profile
+  - .bash_logout
+  - .profile
+
 
 - name: Ensure existence of directories used in bashrc
   file:
-      path: "{{ item }}"
-      state: directory
+    path: ~/{{ item }}
+    state: directory
   loop:
-      - "~/.config/bash"
-      - "~/.local/share/bash"
-      - "~/.local/share/bash-completion/completions"
-      - "~/.local/share/less"
+  - .config/bash
+  - .local/share/bash
+  - .local/share/bash-completion/completions
+  - .local/share/less
+
 
 - name: Deploy bash profile
   file:
-      src: "{{ role_path }}/files/profile"
-      dest: ~/.config/bash/profile
-      state: link
-      force: yes
+    src: "{{ role_path }}/files/profile"
+    dest: ~/.config/bash/profile
+    state: link
+    force: yes
+
 
 - name: Make sure bash will find our profile
   file:
-      src: ~/.config/bash/profile
-      dest: "~/.{{ item }}"
-      state: link
-      force: yes
+    src: ~/.config/bash/profile
+    dest: ~/.{{ item }}
+    state: link
+    force: yes
   loop:
-      - bashrc
-      - bash_profile
+  - .bashrc
+  - .bash_profile
