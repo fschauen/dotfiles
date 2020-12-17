@@ -2,74 +2,58 @@
   when: ansible_os_family == "Debian"
   become: yes
   block:
-    - name: Install apt packages
-      apt: name={{ item }} state=latest update_cache=yes
-      loop:
-          - curl
-          - exa
-          - exuberant-ctags
-          - ffmpeg
-          - gpg
-          - htop
-          - nmap
-          - psmisc
-          - shellcheck
-          - sqlite
-          - stow
-          - tree
-          - vifm
-          - wget
-          - youtube-dl
-
-
+  - name: Install apt packages
+    apt:
+      update_cache: yes
+      state: latest
+      name:
+      - curl
+      - exa
+      - exuberant-ctags
+      - ffmpeg
+      - gpg
+      - htop
+      - nmap
+      - psmisc
+      - shellcheck
+      - sqlite
+      - stow
+      - tree
+      - vifm
+      - wget
+      - youtube-dl
 
 
 - name: Set up macOS machine
   when: ansible_os_family == "Darwin"
   block:
-    - name: Install homebrew packages
-      homebrew: name={{ item }} state=latest
-      loop:
-          - coreutils
-          - ctags
-          - curl
-          - exa
-          - exiftool
-          - ffmpeg
-          - findutils
-          - gnu-sed
-          - gpg
-          - grep
-          - gzip
-          - htop
-          - imagemagick
-          - jupyter
-          - make
-          - nmap
-          - pstree
-          - reattach-to-user-namespace
-          - shellcheck
-          - sqlite
-          - stow
-          - tree
-          - vifm
-          - wget
-          - youtube-dl
-
-    # - name: Tap into homebrew/cask-fonts
-    #   homebrew_tap: tap=homebrew/cask-fonts state=present
-
-    # - name: Install Mac apps with homebrew cask
-    #   homebrew_cask: name={{item}} state=present
-    #   loop:
-    #     - 1password
-    #     - cyberduck
-    #     - dropbox
-    #     - firefox
-    #     - font-source-code-pro
-    #     - google-chrome
-    #     - iterm2
-    #     - transmission
-    #     - vagrant
-    #     - virtualbox
+  - name: Install homebrew packages
+    homebrew:
+      state: latest
+      name:
+      - coreutils
+      - ctags
+      - curl
+      - exa
+      - exiftool
+      - ffmpeg
+      - findutils
+      - gnu-sed
+      - gpg
+      - grep
+      - gzip
+      - htop
+      - imagemagick
+      - jupyter
+      - make
+      - nmap
+      - pstree
+      - reattach-to-user-namespace
+      - shellcheck
+      - sqlite
+      - stow
+      - tree
+      - vifm
+      - wget
+      - youtube-dl
 
