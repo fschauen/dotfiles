@@ -1,15 +1,15 @@
 - name: Create the dircolors config directory
   file:
-      path: ~/.config/dircolors
-      state: directory
+    path: ~/.config/dircolors
+    state: directory
+
 
 - name: Deploy dircolors
   file:
-      src: "{{ role_path }}/files/solarized-{{ item }}"
-      dest: "~/.config/dircolors/solarized-{{ item }}"
-      state: link
-      force: yes
-  loop:
-      - dark
-      - light
+    src: "{{ item }}"
+    dest: ~/.config/dircolors/{{ item | basename }}
+    state: link
+    force: yes
+  with_fileglob:
+  - "{{ role_path }}/files/*"
 
