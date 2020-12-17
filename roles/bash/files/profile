@@ -91,38 +91,47 @@ HISTSIZE=
 HISTTIMEFORMAT="[%F %T] "
 HISTFILE="$XDG_DATA_HOME/bash/history"
 
+_tput_wrapper() {
+    local fmt="$1"; shift
+    printf "$fmt" "$@" | tput -S | sed -E "s/\x1B\[/ \x1B\[/g"
+}
+
 # shellcheck disable=SC2034 # these variable are meant for use in shell only
 {
-    # Color definitions (from http://ethanschoonover.com/solarized)
-    # NAME                RGB HEX    SGR  ANSI TERMCOL  XTERM/HEX    L*A*B       RGB          HSB
-    # ----                -------    ---  ---- -------  ----------- -----------  -----------  -----------
-    Base03=8  Base03_RGB="002B36"  # 1;30   8  brblack  234 #1c1c1c  15 -12 -12    0  43  54  193 100  21
-    Base02=0  Base02_RGB="073642"  # 0;30   0  black    235 #262626  20 -12 -12    7  54  66  192  90  26
-    Base01=10 Base01_RGB="586E75"  # 1;32  10  brgreen  240 #585858  45 -07 -07   88 110 117  194  25  46
-    Base00=11 Base00_RGB="657B83"  # 1;33  11  bryellow 241 #626262  50 -07 -07  101 123 131  195  23  51
-    Base0=12  Base0_RGB="839496"   # 1;34  12  brblue   244 #808080  60 -06 -03  131 148 150  186  13  59
-    Base1=14  Base1_RGB="93A1A1"   # 1;36  14  brcyan   245 #8a8a8a  65 -05 -02  147 161 161  180   9  63
-    Base2=7   Base2_RGB="EEE8D5"   # 0;37   7  white    254 #e4e4e4  92 -00  10  238 232 213   44  11  93
-    Base3=15  Base3_RGB="FDF6E3"   # 1;37  15  brwhite  230 #ffffd7  97  00  10  253 246 227   44  10  99
-    Yellow=3  Yellow_RGB="B58900"  # 0;33   3  yellow   136 #af8700  60  10  65  181 137   0   45 100  71
-    Orange=9  Orange_RGB="CB4B16"  # 1;31   9  brred    166 #d75f00  50  50  55  203  75  22   18  89  80
-    Red=1     Red_RGB="DC322F"     # 0;31   1  red      160 #d70000  50  65  45  220  50  47    1  79  86
-    Magenta=5 Magenta_RGB="D33682" # 0;35   5  magenta  125 #af005f  50  65 -05  211  54 130  331  74  83
-    Violet=13 Violet_RGB="6C71C4"  # 1;35  13  brmagenta 61 #5f5faf  50  15 -45  108 113 196  237  45  77
-    Blue=4    Blue_RGB="268BD2"    # 0;34   4  blue      33 #0087ff  55 -10 -45   38 139 210  205  82  82
-    Cyan=6    Cyan_RGB="2AA198"    # 0;36   6  cyan      37 #00afaf  60 -35 -05   42 161 152  175  74  63
-    Green=2   Green_RGB="859900"   # 0;32   2  green     64 #5f8700  60 -20  65  133 153   0   68 100  60
+    Reset="$(tput sgr0)"
+    read -a _FG <<<$(_tput_wrapper 'setaf %d\n' {0..15})
+    read -a _BG <<<$(_tput_wrapper 'setab %d\n' {0..15})
 
-    PS1_EXIT=$(tput setaf $Red)         # color for last exit code if non-zero
-    PS1_ROOT=$(tput setaf $Orange)      # logged in as root
-    PS1_SSH=$(tput setaf $Yellow)       # hostname for SSH sessions
-    PS1_PWD=$(tput setaf $Cyan)         # PWD color
-    PS1_GIT=$(tput setaf $Blue)        # color for git branch
-    PS1_VENV=$(tput setaf $Violet)      # color for python virtual env
-    PS1_JOBS=$(tput setaf $Magenta)     # color for background jobs
-    PS1_SEP=" > "                       # separator between prompt parts
-    PS1_SEP_COLOR=""                    # is set in __update_colors
-    PS1_RST=$(tput sgr0)
+    # Color definitions (from http://ethanschoonover.com/solarized)
+    # CSI foreground   CSI background        RGB HEX               ANSI Index    ANSI Codes
+    # ---------------- --------------------- --------------------  -----------   ------------
+     Base03=${_FG[ 8]}  Base03_BG=${_BG[ 8]}  Base03_RGB="002B36"  Base03_N=8  # 1;30 brblack
+     Base02=${_FG[ 0]}  Base02_BG=${_BG[ 0]}  Base02_RGB="073642"  Base02_N=0  # 0;30 black
+     Base01=${_FG[10]}  Base01_BG=${_BG[10]}  Base01_RGB="586E75"  Base01_N=10 # 1;32 brgreen
+     Base00=${_FG[11]}  Base00_BG=${_BG[11]}  Base00_RGB="657B83"  Base00_N=11 # 1;33 bryellow
+      Base0=${_FG[12]}   Base0_BG=${_BG[12]}   Base0_RGB="839496"   Base0_N=12 # 1;34 brblue
+      Base1=${_FG[14]}   Base1_BG=${_BG[14]}   Base1_RGB="93A1A1"   Base1_N=14 # 1;36 brcyan
+      Base2=${_FG[ 7]}   Base2_BG=${_BG[ 7]}   Base2_RGB="EEE8D5"   Base2_N=7  # 0;37 white
+      Base3=${_FG[15]}   Base3_BG=${_BG[15]}   Base3_RGB="FDF6E3"   Base3_N=15 # 1;37 brwhite
+        Red=${_FG[ 1]}     Red_BG=${_BG[ 1]}     Red_RGB="DC322F"     Red_N=1  # 0;31 red
+     Orange=${_FG[ 9]}  Orange_BG=${_BG[ 9]}  Orange_RGB="CB4B16"  Orange_N=9  # 1;31 brred
+     Yellow=${_FG[ 3]}  Yellow_BG=${_BG[ 3]}  Yellow_RGB="B58900"  Yellow_N=3  # 0;33 yellow
+      Green=${_FG[ 2]}   Green_BG=${_BG[ 2]}   Green_RGB="859900"   Green_N=2  # 0;32 green
+       Cyan=${_FG[ 6]}    Cyan_BG=${_BG[ 6]}    Cyan_RGB="2AA198"    Cyan_N=6  # 0;36 cyan
+       Blue=${_FG[ 4]}    Blue_BG=${_BG[ 4]}    Blue_RGB="268BD2"    Blue_N=4  # 0;34 blue
+     Violet=${_FG[13]}  Violet_BG=${_BG[13]}  Violet_RGB="6C71C4"  Violet_N=13 # 1;35 brmagenta
+    Magenta=${_FG[ 5]} Magenta_BG=${_BG[ 5]} Magenta_RGB="D33682" Magenta_N=5  # 0;35 magenta
+
+    PS1_EXIT="$Red"      # color for last exit code if non-zero
+    PS1_ROOT="$Orange"   # logged in as root
+    PS1_SSH="$Yellow"    # hostname for SSH sessions
+    PS1_PWD="$Cyan"      # PWD color
+    PS1_GIT="$Blue"      # color for git branch
+    PS1_VENV="$Violet"   # color for python virtual env
+    PS1_JOBS="$Magenta"  # color for background jobs
+    PS1_SEP=" > "           # separator between prompt parts
+    PS1_SEP_LIGHT="$Base1"
+    PS1_SEP_DARK="$Base01"
 
     GIT_PS1_SHOWDIRTYSTATE=1
     GIT_PS1_SHOWSTASHSTATE=1
@@ -135,8 +144,10 @@ PS2="... "
 
 __ps1_set() {
     local exit=$?
-    local sep="$PS1_SEP_COLOR$PS1_SEP"
+    local sep="$PS1_SEP_DARK$PS1_SEP"
     local prompt=">>>>>>>>>>"
+
+    [ "$BACKGROUND" = "light" ] && sep="$PS1_SEP_LIGHT$PS1_SEP"
 
     local ps=()
     [ $exit -ne 0 ] && ps+=("$PS1_EXIT$exit")
@@ -149,7 +160,7 @@ __ps1_set() {
 
     local extra=""
     [ ${#ps[@]} -gt 1 ] && printf -v extra "$sep%s" "${ps[@]:1}"
-    PS1="\n${ps[0]}$extra$PS1_RST\n${prompt:0:$SHLVL} "
+    PS1="\n${ps[0]}$extra$Reset\n${prompt:0:$SHLVL} "
 } &>/dev/null
 
 ##############################################################################
@@ -254,10 +265,8 @@ _update_colors() {
 
     if [ "$BACKGROUND" = "light" ]; then
         _set_terminal_colors $Base01_RGB $Base3_RGB $Red_RGB    # fg bg cursor
-        PS1_SEP_COLOR=$(tput setaf $Base1)
     else
         _set_terminal_colors $Base1_RGB $Base03_RGB $Red_RGB    # fg bg cursor
-        PS1_SEP_COLOR=$(tput setaf $Base01)
     fi
 
     if [ -n "$TMUX" ] && [ -f "$XDG_CONFIG_HOME/tmux/tmux-colors.conf" ]; then
@@ -370,54 +379,59 @@ mkcd() { mkdir -p -- "$1" && cd -P -- "$1" || return; }
 
 # Colorized `man`
 man() {
-    local rst standout bold underline
+    local standout bold underline
 
-    rst=$(tput sgr0)
     if [ "$BACKGROUND" = "light" ]; then
-        standout=$(tput -S      <<<"$(echo -e "setaf $Base3\nsetab $Cyan")")
-        bold=$(tput -S          <<<"$(echo -e "setaf $Blue")")
-        underline=$(tput -S     <<<"$(echo -e "setaf $Base02\nsmul")")
+        standout="$Base3$Cyan_BG"
+        bold="$Blue"
+        underline="$Base02$(tput smul)"
     else
-        standout=$(tput -S      <<<"$(echo -e "setaf $Base03\nsetab $Cyan")")
-        bold=$(tput -S          <<<"$(echo -e "setaf $Yellow")")
-        underline=$(tput -S     <<<"$(echo -e "setaf $Base3\nsmul")")
+        standout="$Base03$Cyan_BG"
+        bold="$Yellow"
+        underline="$Base3$(tput smul)"
     fi
 
-    LESS_TERMCAP_so=$standout   \
-    LESS_TERMCAP_md=$bold       \
-    LESS_TERMCAP_us=$underline  \
-    LESS_TERMCAP_se=$rst        \
-    LESS_TERMCAP_me=$rst        \
-    LESS_TERMCAP_ue=$rst        \
-    GROFF_NO_SGR=1              \
+    LESS_TERMCAP_so="$standout"     \
+    LESS_TERMCAP_md="$bold"         \
+    LESS_TERMCAP_us="$underline"    \
+    LESS_TERMCAP_se="$Reset"        \
+    LESS_TERMCAP_me="$Reset"        \
+    LESS_TERMCAP_ue="$Reset"        \
+    GROFF_NO_SGR=1                  \
     command man "$@"
 }
 
 solarized() {
-    local rst name name_rgb rgb fg bg
+    local name rgb _bg n
 
-    rst=$(tput sgr0)
-    for name in Red Orange Yellow Green Cyan Blue Violet Magenta Base{0{3..0},{0..3}}
+    for name in \
+        Red Orange Yellow Green Cyan Blue Violet Magenta \
+        Base{0{3..0},{0..3}}
     do
-        name_rgb=${name}_RGB
-        i=
-        rgb=${!name_rgb}
-        fg=$(tput setaf "${!name}")
-        bg=$(tput setab  "${!name}")
-        printf "$bg%6s$rst $fg#$rgb %2d $name$rst\n" ''  "${!name}"
+        rgb=${name}_RGB _bg=${name}_BG n=${name}_N
+        printf "${!_bg}%6s$Reset ${!name}#${!rgb} %2s $name$Reset\n" '' "${!n}"
     done
+}
+
+styletest() {
+    printf "$(tput bold)This text has the bold attribute.${Reset}\n"
+    printf "$(tput dim)This text has the dim attribute.${Reset}\n"
+    printf "$(tput smso)This text has the standout (smso) attribute.${Reset}\n"
+    printf "$(tput smul)This text has the underline (smul) attribute.${Reset}\n"
+    printf "$(tput blink)This text has the blink attribute.${Reset}\n"
+    printf "$(tput rev)This text has the reverse attribute.${Reset}\n"
+    printf "$(tput invis)This text has the invisible attribute.${Reset}\n"
 }
 
 # Print all 256 colors
 colortest() {
-    local i j rst
-    rst=$(tput sgr0)
+    local i j
     for i in $(seq 0 15); do
         for j in $(seq 0 15); do
             local n=$(( 16 * i + j ))
             printf "$(tput setab $n)  %3d  " $n
         done
-        echo "$rst"
+        echo "$Reset"
     done
 }
 
