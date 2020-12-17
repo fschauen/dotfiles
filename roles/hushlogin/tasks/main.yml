@@ -1,10 +1,5 @@
-- name: Check if hushlogin exists
-  register: hushlogin_stat
-  stat:
-    path: ~/.hushlogin
-
-- name: Create hushlogin
-  when: hushlogin_stat.stat.exists == false
+- name: Make sure hushlogin exists
   file:
-    state: touch
     path: ~/.hushlogin
+    state: touch
+
