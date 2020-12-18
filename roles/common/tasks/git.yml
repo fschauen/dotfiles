@@ -1,0 +1,26 @@
+---
+- name: git | create config directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+  - ~/.config/git
+  - ~/.local/etc/git
+
+
+- name: git | deploy config
+  file:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: ~/.config/git/{{ item.dest }}
+    state: link
+    force: yes
+  loop:
+  - { src: gitconfig, dest: config }
+  - { src: gitignore, dest: ignore }
+
+
+- name: git | deploy host-specific config
+  template:
+    src: gitconfig.host.j2
+    dest: ~/.local/etc/git/config.host
+

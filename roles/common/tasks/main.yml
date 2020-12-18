@@ -1,0 +1,15 @@
+---
+- block:
+  # - import_tasks: bash.yml
+  # - import_tasks: bin.yml
+  # - import_tasks: dircolors.yml
+  # - import_tasks: git.yml
+  # - import_tasks: hushlogin.yml
+  # - import_tasks: mintty.yml
+  - import_tasks: packages.yml    # TODO
+  # - import_tasks: python.yml
+  # - import_tasks: readline.yml
+  # - import_tasks: ssh.yml
+  # - import_tasks: tmux.yml
+  # - import_tasks: vim.yml
+

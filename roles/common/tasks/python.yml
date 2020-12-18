@@ -1,0 +1,17 @@
+---
+- name: python | create config and data directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+  - ~/.config/python
+  - ~/.local/share/python  # for this history file
+
+
+- name: python | deploy startup file
+  file:
+    src: "{{ role_path }}/files/python-startup.py"
+    dest: ~/.config/python/startup.py
+    state: link
+    force: yes
+

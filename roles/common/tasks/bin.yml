@@ -1,15 +1,16 @@
-- name: Create local bin directory
+---
+- name: bin | create ~/.local/bin
   file:
     path: ~/.local/bin
     state: directory
 
 
-- name: Deploy local commands
+- name: bin | deploy local commands
   file:
     src: "{{ item }}"
     dest: ~/.local/bin/{{ item | basename }}
     state: link
     force: yes
   with_fileglob:
-  - "{{ role_path }}/files/*"
+  - "{{ role_path }}/files/bin/*"
 

@@ -1,0 +1,14 @@
+---
+- name: ssh | create config diretory
+  file:
+    path: ~/.ssh
+    state: directory
+
+
+- name: ssh | deploy config
+  file:
+    src: "{{ role_path }}/files/ssh_config"
+    dest: ~/.ssh/config
+    state: link
+    force: yes
+

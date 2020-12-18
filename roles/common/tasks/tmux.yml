@@ -1,0 +1,17 @@
+---
+- name: tmux | create config directory
+  file:
+    path: ~/.config/tmux
+    state: directory
+
+
+- name: tmux | deploy config
+  file:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: ~/.config/tmux/{{ item }}
+    state: link
+    force: yes
+  loop:
+  - tmux.conf
+  - tmux-colors.conf
+

@@ -1,23 +1,12 @@
 - name: Make myself at home :)
   hosts: dotfiles
-  vars_prompt:
-  - name: git_user
-    private: no
-    default: Fernando Schauenburg
-  - name: git_email
-    private: no
-    default: fernando@schauenburg.me
+  # vars_prompt:
+  # - name: git_user
+  #   private: no
+  #   default: Fernando Schauenburg
+  # - name: git_email
+  #   private: no
+  #   default: fernando@schauenburg.me
   roles:
-  - packages
-  - bin
-  - bash
-  - dircolors
-  - git
-  - hushlogin
-  - mintty
-  - python
-  - readline
-  - ssh
-  - tmux
-  - vim
+  - common
 

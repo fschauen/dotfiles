@@ -1,4 +1,5 @@
-- name: Create the dircolors config directory
+---
+- name: dircolors | create config directory
   file:
     path: ~/.config/dircolors
     state: directory
@@ -11,5 +12,5 @@
     state: link
     force: yes
   with_fileglob:
-  - "{{ role_path }}/files/*"
+  - "{{ role_path }}/files/dircolors/*"
 

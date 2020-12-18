@@ -1,10 +1,11 @@
-- name: Create the readline config directory
+---
+- name: readline | create config directory
   file:
     path: ~/.config/readline
     state: directory
 
 
-- name: Deploy inputrc
+- name: readline | deploy inputrc
   file:
     src: "{{ role_path }}/files/inputrc"
     dest: ~/.config/readline/inputrc

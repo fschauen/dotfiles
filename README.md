@@ -23,7 +23,7 @@ sudo apt-get install ansible
 echo -e "Host git.schauenburg.me\nUser git\nPort 587" >>~/.ssh/config
 git clone git@git.schauenburg.me:fernando/dotfiles.git $HOME/.dotfiles
 cd $HOME/.dotfiles
-ansible-playbook -i hosts.ini dotfiles.yml
+ansible-playbook -i inventory dotfiles.yml
 gpg -d --output - <(base64 -d .key) | git crypt unlock -
 ```
 
