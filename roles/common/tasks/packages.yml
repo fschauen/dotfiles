@@ -36,6 +36,7 @@
   when: ansible_facts['os_family']|lower == "darwin"
   homebrew:
     state: latest
+    update_homebrew: yes
     name:
     - bash
     - bash-completion
