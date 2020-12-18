@@ -74,8 +74,8 @@ set   viminfofile=$XDG_DATA_HOME/vim/viminfo
 set   virtualedit=block  " position the cursor anywhere in Visual Block mode
 set   wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
 set   wildignorecase    " ignore case when completing file names
-set   wildmenu          " use the menu for commandline completion
-set   wildmode=longest:full  " complete to longest common string and start menu
+set nowildmenu          " I am using list for commandline completion instead
+set   wildmode=list:longest  " list all matches and complete longest common
 set   wrap              " wrap long lines
 set   writebackup       " make a backup before overwriting a file
 
