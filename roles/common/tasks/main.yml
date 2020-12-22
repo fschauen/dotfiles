@@ -1,15 +1,100 @@
 ---
+- name: remove pre-installed bash profile
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+  - ~/.bash_logout
+  - ~/.profile
+
+
+- name: ensure existence of directories used by dotfiles
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+  - ~/.config/dircolors
+  - ~/.config/git
+  - ~/.config/mintty
+  - ~/.config/python
+  - ~/.config/readline
+  - ~/.config/tmux
+  - ~/.config/vim
+  - ~/.config/vim/autoload                      # vim plugin manager
+  - ~/.local/bin                                # local commands
+  - ~/.local/etc/git                            # local git config
+  - ~/.local/share/bash                         # for bash history
+  - ~/.local/share/bash-completion/completions  # custom bash completions
+  - ~/.local/share/less                         # less history
+  - ~/.local/share/python                       # python history
+  - ~/.local/share/vim                          # viminfo
+  - ~/.local/share/vim/plugged                  # vim plugins
+  - ~/.ssh
+
+
+- name: link dotfiles
+  file:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: yes
+  loop:
+  - { src: bashrc,              dest: ~/.bash_profile }
+  - { src: bashrc,              dest: ~/.bashrc }
+  - { src: gitconfig,           dest: ~/.config/git/config }
+  - { src: gitignore,           dest: ~/.config/git/ignore }
+  - { src: inputrc,             dest: ~/.config/readline/inputrc }
+  - { src: minttyrc,            dest: ~/.config/mintty/config }
+  - { src: plug.vim,            dest: ~/.config/vim/autoload/plug.vim }
+  - { src: python-startup.py,   dest: ~/.config/python/startup.py }
+  - { src: ssh_config,          dest: ~/.ssh/config }
+  - { src: tmux-colors.conf,    dest: ~/.config/tmux/tmux-colors.conf }
+  - { src: tmux.conf,           dest: ~/.config/tmux/tmux.conf }
+  - { src: vimrc,               dest: ~/.config/vim/vimrc }
+
+
+- name: deploy templates
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+  - src: gitconfig.host.j2
+    dest: ~/.local/etc/git/config.host
+
+
+- name: link local commands
+  file:
+    src: "{{ item }}"
+    dest: ~/.local/bin/{{ item | basename }}
+    state: link
+    force: yes
+  with_fileglob:
+  - "{{ role_path }}/files/bin/*"
+
+
+- name: link dircolors
+  file:
+    src: "{{ item }}"
+    dest: ~/.config/dircolors/{{ item | basename }}
+    state: link
+    force: yes
+  with_fileglob:
+  - "{{ role_path }}/files/dircolors/*"
+
+
 - block:
-  # - import_tasks: bash.yml
-  # - import_tasks: bin.yml
-  # - import_tasks: dircolors.yml
-  # - import_tasks: git.yml
-  # - import_tasks: hushlogin.yml
-  # - import_tasks: mintty.yml
-  - import_tasks: packages.yml    # TODO
-  # - import_tasks: python.yml
-  # - import_tasks: readline.yml
-  # - import_tasks: ssh.yml
-  # - import_tasks: tmux.yml
-  # - import_tasks: vim.yml
+  - name: hushlogin exists?
+    stat:
+      path: ~/.hushlogin
+    register: hush
+
+  - name: create hushlogin
+    when: hush.stat.exists == false
+    file:
+      path: ~/.hushlogin
+      state: touch
+
+
+- name: install vim plugins
+  shell: vim -es -u ~/.config/vim/vimrc +PlugInstall +qall
 
