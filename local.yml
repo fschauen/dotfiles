@@ -1,5 +1,5 @@
 - name: Make myself at home :)
-  hosts: dotfiles
+  hosts: all
 
   vars_prompt:
   - name: git_user
