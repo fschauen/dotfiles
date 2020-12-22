@@ -8,5 +8,5 @@
     private: no
     default: fernando@schauenburg.me
   roles:
-  - common
+  - dotfiles
 
