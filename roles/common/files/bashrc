@@ -253,11 +253,11 @@ alias dark='_update_colors dark'
 # Either ST or BEL (\a) can be used to end an OSC sequence. However, tmux
 # requires ST to end its wrapping DCS.
 if [ -n "$TMUX" ]; then
-    _OSC=$(printf "\ePtmux;\e\e]")
-    _ST=$(printf "\a\e\\")
+    _OSC=$(printf '\ePtmux;\e\e]')
+    _ST=$(printf '\a\e\\')
 else
-    _OSC=$(printf "\e]")
-    _ST=$(printf "\a")
+    _OSC=$(printf '\e]')
+    _ST=$(printf '\a')
 fi
 
 _update_colors() {
