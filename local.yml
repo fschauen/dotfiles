@@ -1,5 +1,6 @@
 - name: Make myself at home :)
   hosts: dotfiles
+
   vars_prompt:
   - name: git_user
     private: no
@@ -7,6 +8,8 @@
   - name: git_email
     private: no
     default: fernando@schauenburg.me
+
   roles:
   - dotfiles
+  - packages
 
