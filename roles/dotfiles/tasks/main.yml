@@ -95,6 +95,16 @@
       state: touch
 
 
-- name: install vim plugins
-  shell: vim -es -u ~/.config/vim/vimrc +PlugInstall +qall
+- block:
+  - name: vim plugins installed?
+    find:
+      paths: ~/.local/share/vim/plugged
+      file_type: directory
+    register: vim_plugins
+
+  - name: install vim plugins
+    when: vim_plugins.matched|int == 0
+    shell: vim -nes -u ~/.config/vim/vimrc -c 'PlugInstall | qall!'
+    register: result_vim_plugins
+    failed_when: result_vim_plugins.rc != 0
 
