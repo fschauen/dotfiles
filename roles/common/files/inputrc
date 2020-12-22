@@ -253,9 +253,9 @@ set vi-ins-mode-string "\1\e[0m\2"
 "kj":"\e"
 
 # Use typed text as the prefix for searching through commands
-"\C-j": history-search-forward
-"\C-k": history-search-backward
+Control-j: history-search-forward
+Control-k: history-search-backward
 
 # Restore this behavior from emacs mode
-"\C-l": clear-screen
+Control-l: clear-screen
 
