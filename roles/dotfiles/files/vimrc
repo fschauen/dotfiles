@@ -38,7 +38,7 @@ set nojoinspaces        " use one space after a period whe joining lines
 set   laststatus=2      " always show a status line
 set   lazyredraw        " don't redraw screen when executing macros
 set   list              " show invisible characters
-set   listchars="tab:>~,extends:>,precedes:<,trail:-"  " invisible chars
+set   listchars=tab:>~,extends:>,precedes:<,trail:-  " invisible chars
 set   modelines=0       " never use modelines
 set   number            " show line numbers
 set   nrformats-=octal  " number formats for CTRL-A & CTRL-X commands
@@ -83,8 +83,8 @@ set   writebackup       " make a backup before overwriting a file
 if has('multi_byte') && &encoding ==# 'utf-8'
 set   foldtext=VimrcFoldText()
 set   fillchars=vert:┃,fold:·
-set   showbreak=" ⤷ "   " prefix for wrapped lines
-set   listchars="tab:▷ ,extends:»,precedes:«,trail:·"  " invisible chars
+set   showbreak=⤷   " prefix for wrapped lines
+set   listchars=tab:▷\ ,extends:»,precedes:«,trail:·  " invisible chars
 endif
 " }}}
 
