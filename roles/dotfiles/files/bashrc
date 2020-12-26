@@ -377,20 +377,7 @@ tree() { command tree --dirsfirst -FI '.git|Spotlight-V100|.fseventsd' "$@"; }
 
 ltree() { tree -C "$@" | less -R; }
 
-# Combined mkdir and cd
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1" || return; }
-
-solarized() {
-    local name rgb _bg n
-
-    for name in \
-        Red Orange Yellow Green Cyan Blue Violet Magenta \
-        Base{0{3..0},{0..3}}
-    do
-        rgb=${name}_RGB _bg=${name}_BG n=${name}_N
-        printf "${!_bg}%6s$Reset ${!name}#${!rgb} %2s $name$Reset\n" '' "${!n}"
-    done
-}
 
 ##############################################################################
 # Run external customizations
