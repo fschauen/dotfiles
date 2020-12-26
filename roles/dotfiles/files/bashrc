@@ -392,16 +392,6 @@ solarized() {
     done
 }
 
-styletest() {
-    printf "$(tput bold)This text has the bold attribute.${Reset}\n"
-    printf "$(tput dim)This text has the dim attribute.${Reset}\n"
-    printf "$(tput smso)This text has the standout (smso) attribute.${Reset}\n"
-    printf "$(tput smul)This text has the underline (smul) attribute.${Reset}\n"
-    printf "$(tput blink)This text has the blink attribute.${Reset}\n"
-    printf "$(tput rev)This text has the reverse attribute.${Reset}\n"
-    printf "$(tput invis)This text has the invisible attribute.${Reset}\n"
-}
-
 ##############################################################################
 # Run external customizations
 ##############################################################################
