@@ -11,6 +11,7 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
+export BACKGROUND="dark"
 export EDITOR="vim"
 export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
 export LANG="en_US.UTF-8"
@@ -77,6 +78,9 @@ EOL
 
 unset dir
 
+stty -ixon # disable ctrl-s and ctrl-q
+command -v solarize >/dev/null && solarize
+
 ##############################################################################
 # Customize shell options & variables
 ##############################################################################
@@ -91,53 +95,25 @@ HISTSIZE=
 HISTTIMEFORMAT="[%F %T] "
 HISTFILE="$XDG_DATA_HOME/bash/history"
 
-_tput_wrapper() {
-    local fmt="$1"; shift
-    printf "$fmt" "$@" | tput -S | sed -E "s/\x1B\[/ \x1B\[/g"
-}
+Reset=$(tput sgr0)
+Base03=8 Base02=0 Base01=10 Base00=11 Base0=12 Base1=14 Base2=7 Base3=15
+Red=1 Orange=9 Yellow=3 Green=2 Cyan=6 Blue=4 Violet=13 Magenta=5
 
-# shellcheck disable=SC2034 # these variable are meant for use in shell only
-{
-    Reset="$(tput sgr0)"
-    read -a _FG <<<$(_tput_wrapper 'setaf %d\n' {0..15})
-    read -a _BG <<<$(_tput_wrapper 'setab %d\n' {0..15})
+PS1_EXIT=$(tput setaf      "$Red"    )  # color for last exit code if non-zero
+PS1_ROOT=$(tput setaf      "$Orange" )  # logged in as root
+PS1_SSH=$(tput setaf       "$Yellow" )  # hostname for SSH sessions
+PS1_PWD=$(tput setaf       "$Cyan"   )  # PWD color
+PS1_GIT=$(tput setaf       "$Blue"   )  # color for git branch
+PS1_VENV=$(tput setaf      "$Violet" )  # color for python virtual env
+PS1_JOBS=$(tput setaf      "$Magenta")  # color for background jobs
+PS1_SEP_LIGHT=$(tput setaf "$Base1"  )
+PS1_SEP_DARK=$(tput setaf  "$Base01" )
+PS1_SEP=" > "                           # separator between prompt parts
 
-    # Color definitions (from http://ethanschoonover.com/solarized)
-    # CSI foreground   CSI background        RGB HEX               ANSI Index    ANSI Codes
-    # ---------------- --------------------- --------------------  -----------   ------------
-     Base03=${_FG[ 8]}  Base03_BG=${_BG[ 8]}  Base03_RGB="002B36"  Base03_N=8  # 1;30 brblack
-     Base02=${_FG[ 0]}  Base02_BG=${_BG[ 0]}  Base02_RGB="073642"  Base02_N=0  # 0;30 black
-     Base01=${_FG[10]}  Base01_BG=${_BG[10]}  Base01_RGB="586E75"  Base01_N=10 # 1;32 brgreen
-     Base00=${_FG[11]}  Base00_BG=${_BG[11]}  Base00_RGB="657B83"  Base00_N=11 # 1;33 bryellow
-      Base0=${_FG[12]}   Base0_BG=${_BG[12]}   Base0_RGB="839496"   Base0_N=12 # 1;34 brblue
-      Base1=${_FG[14]}   Base1_BG=${_BG[14]}   Base1_RGB="93A1A1"   Base1_N=14 # 1;36 brcyan
-      Base2=${_FG[ 7]}   Base2_BG=${_BG[ 7]}   Base2_RGB="EEE8D5"   Base2_N=7  # 0;37 white
-      Base3=${_FG[15]}   Base3_BG=${_BG[15]}   Base3_RGB="FDF6E3"   Base3_N=15 # 1;37 brwhite
-        Red=${_FG[ 1]}     Red_BG=${_BG[ 1]}     Red_RGB="DC322F"     Red_N=1  # 0;31 red
-     Orange=${_FG[ 9]}  Orange_BG=${_BG[ 9]}  Orange_RGB="CB4B16"  Orange_N=9  # 1;31 brred
-     Yellow=${_FG[ 3]}  Yellow_BG=${_BG[ 3]}  Yellow_RGB="B58900"  Yellow_N=3  # 0;33 yellow
-      Green=${_FG[ 2]}   Green_BG=${_BG[ 2]}   Green_RGB="859900"   Green_N=2  # 0;32 green
-       Cyan=${_FG[ 6]}    Cyan_BG=${_BG[ 6]}    Cyan_RGB="2AA198"    Cyan_N=6  # 0;36 cyan
-       Blue=${_FG[ 4]}    Blue_BG=${_BG[ 4]}    Blue_RGB="268BD2"    Blue_N=4  # 0;34 blue
-     Violet=${_FG[13]}  Violet_BG=${_BG[13]}  Violet_RGB="6C71C4"  Violet_N=13 # 1;35 brmagenta
-    Magenta=${_FG[ 5]} Magenta_BG=${_BG[ 5]} Magenta_RGB="D33682" Magenta_N=5  # 0;35 magenta
-
-    PS1_EXIT="$Red"      # color for last exit code if non-zero
-    PS1_ROOT="$Orange"   # logged in as root
-    PS1_SSH="$Yellow"    # hostname for SSH sessions
-    PS1_PWD="$Cyan"      # PWD color
-    PS1_GIT="$Blue"      # color for git branch
-    PS1_VENV="$Violet"   # color for python virtual env
-    PS1_JOBS="$Magenta"  # color for background jobs
-    PS1_SEP=" > "           # separator between prompt parts
-    PS1_SEP_LIGHT="$Base1"
-    PS1_SEP_DARK="$Base01"
-
-    GIT_PS1_SHOWDIRTYSTATE=1
-    GIT_PS1_SHOWSTASHSTATE=1
-    GIT_PS1_SHOWUNTRACKEDFILES=1
-    GIT_PS1_SHOWUPSTREAM=verbose
-}
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWUPSTREAM=verbose
 
 PROMPT_COMMAND=__ps1_set
 PS2="... "
@@ -160,7 +136,7 @@ __ps1_set() {
 
     local extra=""
     [ ${#ps[@]} -gt 1 ] && printf -v extra "$sep%s" "${ps[@]:1}"
-    PS1="\n${ps[0]}$extra$Reset\n${prompt:0:$SHLVL} "
+    PS1="${ps[0]}$extra$Reset ${prompt:0:$SHLVL} "
 } &>/dev/null
 
 ##############################################################################
@@ -217,146 +193,8 @@ alias myip="curl -s https://ifconfig.co"
 #alias myip="curl -s https://ifconfig.me"
 #alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
-alias light='_update_colors light'
-alias dark='_update_colors dark'
-
-##############################################################################
-# Terminal color management
-##############################################################################
-
-# Useful terminal control sequences:
-#
-# Sequence  Abbrev  Description
-# -----     -----   -----------------------------
-# ESC P     DCS     Device Control String
-# ESC [     CSI     Control Sequence Introducer
-# ESC \     ST      String Terminator
-# ESC ]     OSC     Operating System Control
-#
-#
-# More info at:
-#   * https://www.xfree86.org/4.8.0/ctlseqs.html
-#   * https://vt100.net/
-#   * https://iterm2.com/utilities/imgcat
-
-# In tmux, OSC sequences can be forwarded to the underlying terminal by:
-#   * Wrapping the sequence with `DCS tmux; <sequence> ST`
-#   * Replacing ESC in <sequence> with ESC ESC.
-# Either ST or BEL (\a) can be used to end an OSC sequence. However, tmux
-# requires ST to end its wrapping DCS.
-if [ -n "$TMUX" ]; then
-    _OSC=$(printf '\ePtmux;\e\e]')
-    _ST=$(printf '\a\e\\')
-else
-    _OSC=$(printf '\e]')
-    _ST=$(printf '\a')
-fi
-
-_update_colors() {
-    export BACKGROUND="$1"
-
-    if [ "$BACKGROUND" = "light" ]; then
-        _set_terminal_colors $Base01_RGB $Base3_RGB $Red_RGB    # fg bg cursor
-    else
-        _set_terminal_colors $Base1_RGB $Base03_RGB $Red_RGB    # fg bg cursor
-    fi
-
-    if [ -n "$TMUX" ] && [ -f "$XDG_CONFIG_HOME/tmux/tmux-colors.conf" ]; then
-        tmux set-environment -g BACKGROUND "$BACKGROUND"
-        tmux source-file "$XDG_CONFIG_HOME/tmux/tmux-colors.conf"
-    fi
-
-    local ls_colors="$HOME/.config/dircolors/solarized-$BACKGROUND"
-    if type dircolors &>/dev/null && [ -f "$ls_colors" ]; then
-        eval "$(dircolors "$ls_colors")"
-    fi
-}
-
-_set_terminal_colors() {    # 1: foreground, 2: background, 3: cursor
-    if [ -n "$ITERM_SESSION_ID" ]; then # iTerm2
-        _set_iterm2_colors "$1" "$2" "$3"
-    else # assume xterm
-        _set_xterm_colors "$1" "$2" "$3"
-    fi
-}
-
-# Documentation for iTerm2 at
-# https://iterm2.com/documentation-escape-codes.html
-# under the heading "Change the color palette".
-_set_iterm2_colors() {    # 1: foreground, 2: background, 3: cursor
-    local fg="$1" bg="$2" cursor="$3"
-    local key rgb
-    while read -r key rgb; do
-        printf "%s1337;SetColors=%s=%s%s" "$_OSC" "$key" "${rgb}" "$_ST"
-    done <<EOL
-        black       $Base02_RGB
-        red         $Red_RGB
-        green       $Green_RGB
-        yellow      $Yellow_RGB
-        blue        $Blue_RGB
-        magenta     $Magenta_RGB
-        cyan        $Cyan_RGB
-        white       $Base2_RGB
-        br_black    $Base03_RGB
-        br_red      $Orange_RGB
-        br_green    $Base01_RGB
-        br_yellow   $Base00_RGB
-        br_blue     $Base0_RGB
-        br_magenta  $Violet_RGB
-        br_cyan     $Base1_RGB
-        br_white    $Base3_RGB
-        fg          $fg
-        bg          $bg
-        bold        $fg
-        selfg       $Base2_RGB
-        selbg       $Base01_RGB
-        curfg       $cursor
-        curbg       $cursor
-        link        $Cyan_RGB
-EOL
-    printf "%s1337;CursorShape=2%s" "$_OSC" "$_ST"  # set cursor shape to underline
-}
-
-# Documentation for xterm at https://www.xfree86.org/4.8.0/ctlseqs.html
-# under the heading "Operating System Controls".
-_set_xterm_colors() {    # $1 foreground, $2 background, $3 cursor
-    local fg="$1" bg="$2" cursor="$3"
-    local c rgb Ps
-    while read -r c rgb; do
-        # Send sequence OSC Ps BEL
-        # where Ps   -> 4;c;spec
-        #       c    -> index of the ANSI color to change [0..15]
-        #       spec -> RGB value of color as rgb:RR/GG/BB
-        printf "%s4;%s;rgb:%s/%s/%s%s" "$_OSC" "$c" "${rgb:0:2}"  "${rgb:2:2}" "${rgb:4:2}" "$_ST"
-    done <<EOL
-        0  $Base02_RGB
-        1  $Red_RGB
-        2  $Green_RGB
-        3  $Yellow_RGB
-        4  $Blue_RGB
-        5  $Magenta_RGB
-        6  $Cyan_RGB
-        7  $Base2_RGB
-        8  $Base03_RGB
-        9  $Orange_RGB
-        10 $Base01_RGB
-        11 $Base00_RGB
-        12 $Base0_RGB
-        13 $Violet_RGB
-        14 $Base1_RGB
-        15 $Base3_RGB
-EOL
-    while read -r Ps rgb; do
-        # Send sequence OSC Ps ; Pt BEL
-        # where Ps -> foreground (10), background (11), or cursor (12)
-        #       Pt -> RGB value of color as rgb:RR/GG/BB
-        printf "%s%s;rgb:%s/%s/%s%s" "$_OSC" "$Ps" "${rgb:0:2}"  "${rgb:2:2}" "${rgb:4:2}" "$_ST"
-    done <<EOL
-        10 $fg
-        11 $bg
-        12 $cursor
-EOL
-}
+alias dark='change_bg dark'
+alias light='change_bg light'
 
 ##############################################################################
 # Add shell functions
@@ -368,12 +206,11 @@ ltree() { tree -C "$@" | less -R; }
 
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1" || return; }
 
+change_bg() { BACKGROUND="$1"; command -v solarize >/dev/null && solarize; }
+
 ##############################################################################
 # Run external customizations
 ##############################################################################
-
-stty -ixon # disable ctrl-s and ctrl-q
-_update_colors "${BACKGROUND:-dark}"
 
 _source_extra_configs() {
     local configs=(

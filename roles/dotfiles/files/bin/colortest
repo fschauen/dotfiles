@@ -1,11 +1,30 @@
 #!/bin/sh
-# Print all 256 colors
 
-for i in $(seq 0 15); do
-    for j in $(seq 0 15); do
-        n=$(( 16 * i + j ))
-        printf '%s  %3d  ' "$(tput setab $n)" "$n"
-    done
-    printf '%s\n' "$(tput sgr0)"
-done
+print_color() {
+    printf '%s%6s%s %s#%s %2s %s%s\n'   "$(tput setab "$3")" \
+                                        '' \
+                                        "$(tput sgr0)" \
+                                        "$(tput setaf "$3")" \
+                                        "$2" \
+                                        "$3" \
+                                        "$1" \
+                                        "$(tput sgr0)"
+}
+
+print_color Base03  "002B36"  8
+print_color Base02  "073642"  0
+print_color Base01  "586E75" 10
+print_color Base00  "657B83" 11
+print_color Base0   "839496" 12
+print_color Base1   "93A1A1" 14
+print_color Base2   "EEE8D5"  7
+print_color Base3   "FDF6E3" 15
+print_color Red     "DC322F"  1
+print_color Orange  "CB4B16"  9
+print_color Yellow  "B58900"  3
+print_color Green   "859900"  2
+print_color Cyan    "2AA198"  6
+print_color Blue    "268BD2"  4
+print_color Violet  "6C71C4" 13
+print_color Magenta "D33682"  5
 

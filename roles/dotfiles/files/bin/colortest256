@@ -1,0 +1,11 @@
+#!/bin/sh
+# Print all 256 colors
+
+for i in $(seq 0 15); do
+    for j in $(seq 0 15); do
+        n=$(( 16 * i + j ))
+        printf '%s  %3d  ' "$(tput setab $n)" "$n"
+    done
+    printf '%s\n' "$(tput sgr0)"
+done
+
