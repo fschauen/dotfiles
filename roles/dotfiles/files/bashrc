@@ -402,18 +402,6 @@ styletest() {
     printf "$(tput invis)This text has the invisible attribute.${Reset}\n"
 }
 
-# Print all 256 colors
-colortest() {
-    local i j
-    for i in $(seq 0 15); do
-        for j in $(seq 0 15); do
-            local n=$(( 16 * i + j ))
-            printf "$(tput setab $n)  %3d  " $n
-        done
-        echo "$Reset"
-    done
-}
-
 ##############################################################################
 # Run external customizations
 ##############################################################################
