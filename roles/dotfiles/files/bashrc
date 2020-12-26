@@ -187,6 +187,9 @@ else
     alias lsc="/usr/bin/env CLICOLOR_FORCE=1 ls"
 fi
 
+# Use my colorman wrapper if available.
+command -v colorman >/dev/null && alias man=colorman
+
 alias ll="ls -l"
 alias lla="la -l"
 
@@ -376,30 +379,6 @@ ltree() { tree -C "$@" | less -R; }
 
 # Combined mkdir and cd
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1" || return; }
-
-# Colorized `man`
-man() {
-    local standout bold underline
-
-    if [ "$BACKGROUND" = "light" ]; then
-        standout="$Base3$Cyan_BG"
-        bold="$Blue"
-        underline="$Base02$(tput smul)"
-    else
-        standout="$Base03$Cyan_BG"
-        bold="$Yellow"
-        underline="$Base3$(tput smul)"
-    fi
-
-    LESS_TERMCAP_so="$standout"     \
-    LESS_TERMCAP_md="$bold"         \
-    LESS_TERMCAP_us="$underline"    \
-    LESS_TERMCAP_se="$Reset"        \
-    LESS_TERMCAP_me="$Reset"        \
-    LESS_TERMCAP_ue="$Reset"        \
-    GROFF_NO_SGR=1                  \
-    command man "$@"
-}
 
 solarized() {
     local name rgb _bg n
