@@ -151,16 +151,21 @@ if command -v exa >/dev/null; then
     alias lt="ls -lT"
     alias lta="ls -lTa"
     alias lsc="ls --color=always"
+    alias ltc="lt --color=always"
 elif ls --group-directories-first --color=auto &>/dev/null 2>&1; then
     # GNU ls
     alias ls="ls -hF --group-directories-first --color=auto"
     alias la="ls -A"
+    alias lt="tree --dirsfirst -FI '.git|Spotlight-V100|.fseventsd'"
     alias lsc="ls --color=always"
+    alias ltc="tree -C --dirsfirst -FI '.git'"
 else
     # BSD ls (e.g. macOS)
     alias ls="ls -hF -G"
     alias la="ls -A"
+    alias lt="tree --dirsfirst -FI '.git|Spotlight-V100|.fseventsd'"
     alias lsc="/usr/bin/env CLICOLOR_FORCE=1 ls"
+    alias ltc="tree -C --dirsfirst -FI '.git'"
 fi
 
 alias ll="ls -l"
@@ -199,10 +204,6 @@ alias light='change_bg light'
 ##############################################################################
 # Add shell functions
 ##############################################################################
-
-tree() { command tree --dirsfirst -FI '.git|Spotlight-V100|.fseventsd' "$@"; }
-
-ltree() { tree -C "$@" | less -R; }
 
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1" || return; }
 
