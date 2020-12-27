@@ -95,19 +95,19 @@ HISTSIZE=
 HISTTIMEFORMAT="[%F %T] "
 HISTFILE="$XDG_DATA_HOME/bash/history"
 
-Reset=$(tput sgr0)
 Base03=8 Base02=0 Base01=10 Base00=11 Base0=12 Base1=14 Base2=7 Base3=15
 Red=1 Orange=9 Yellow=3 Green=2 Cyan=6 Blue=4 Violet=13 Magenta=5
 
-PS1_EXIT=$(tput setaf      "$Red"    )  # color for last exit code if non-zero
-PS1_ROOT=$(tput setaf      "$Orange" )  # logged in as root
-PS1_SSH=$(tput setaf       "$Yellow" )  # hostname for SSH sessions
-PS1_PWD=$(tput setaf       "$Cyan"   )  # PWD color
-PS1_GIT=$(tput setaf       "$Blue"   )  # color for git branch
-PS1_VENV=$(tput setaf      "$Violet" )  # color for python virtual env
-PS1_JOBS=$(tput setaf      "$Magenta")  # color for background jobs
-PS1_SEP_LIGHT=$(tput setaf "$Base1"  )
-PS1_SEP_DARK=$(tput setaf  "$Base01" )
+Reset="\[$(tput sgr0)\]"
+PS1_EXIT="\[$(tput setaf      "$Red"    )\]"  # color for last exit code if non-zero
+PS1_ROOT="\[$(tput setaf      "$Orange" )\]"  # logged in as root
+PS1_SSH="\[$(tput setaf       "$Yellow" )\]"  # hostname for SSH sessions
+PS1_PWD="\[$(tput setaf       "$Cyan"   )\]"  # PWD color
+PS1_GIT="\[$(tput setaf       "$Blue"   )\]"  # color for git branch
+PS1_VENV="\[$(tput setaf      "$Violet" )\]"  # color for python virtual env
+PS1_JOBS="\[$(tput setaf      "$Magenta")\]"  # color for background jobs
+PS1_SEP_LIGHT="\[$(tput setaf "$Base1"  )\]"
+PS1_SEP_DARK="\[$(tput setaf  "$Base01" )\]"
 PS1_SEP=" > "                           # separator between prompt parts
 
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -120,9 +120,8 @@ PS2="... "
 
 __ps1_set() {
     local exit=$?
-    local sep="$PS1_SEP_DARK$PS1_SEP"
     local prompt=">>>>>>>>>>"
-
+    local sep="$PS1_SEP_DARK$PS1_SEP"
     [ "$BACKGROUND" = "light" ] && sep="$PS1_SEP_LIGHT$PS1_SEP"
 
     local ps=()
