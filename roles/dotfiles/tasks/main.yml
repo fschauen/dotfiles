@@ -13,6 +13,7 @@
     path: "{{ item }}"
     state: directory
   loop:
+  - ~/.config/alacritty
   - ~/.config/dircolors
   - ~/.config/git
   - ~/.config/mintty
@@ -39,6 +40,7 @@
     state: link
     force: yes
   loop:
+  - { src: alacritty.yml,       dest: ~/.config/alacritty/alacritty.yml }
   - { src: bashrc,              dest: ~/.bash_profile }
   - { src: bashrc,              dest: ~/.bashrc }
   - { src: gitconfig,           dest: ~/.config/git/config }
