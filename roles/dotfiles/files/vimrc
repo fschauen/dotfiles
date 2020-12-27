@@ -216,6 +216,10 @@ nnoremap <silent> <leader>l :call VimrcCycleNumbers()<CR>
 
 augroup vimrc " {{{
     autocmd!
+
+    " Make sure the background is always transparent.
+    autocmd VimEnter,Syntax,ColorScheme * highlight Normal ctermbg=NONE
+
     autocmd BufNewFile,BufRead bash_profile,bashrc,profile set filetype=sh
     autocmd BufNewFile,BufRead gitconfig set filetype=gitconfig
     autocmd BufNewFile,BufRead *.sx,*.s19 set filetype=srec
