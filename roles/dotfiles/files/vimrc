@@ -10,7 +10,7 @@ let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"
 " Options {{{
 set   autoindent        " take indent for new line from previous line
 set   autoread          " autom. read file when changed outside of Vim
-let  &background = $BACKGROUND ==# 'light' ? 'light' : 'dark'
+let  &background = $BACKGROUND ==? 'light' ? 'light' : 'dark'
 set   backspace=indent,eol,start  " sane backspace behavior
 set nobackup            " don't keep backup file after overwriting a file
 set   clipboard=unnamed " synchronize with system clipboard
@@ -80,7 +80,7 @@ set   wrap              " wrap long lines
 set   writebackup       " make a backup before overwriting a file
 
 " Overrides when UTF-8 is available
-if has('multi_byte') && &encoding ==# 'utf-8'
+if has('multi_byte') && &encoding ==? 'utf-8'
 set   fillchars=vert:┃,fold:·
 set   showbreak=⤷   " prefix for wrapped lines
 set   listchars=tab:▷\ ,extends:»,precedes:«,trail:·  " invisible chars
@@ -196,7 +196,7 @@ nnoremap <c-m> :tabnext<cr>
 
 " quickly change background
 nnoremap <leader>bg
-    \ :let &background = &background ==# 'light' ? 'dark' : 'light'<cr>
+    \ :let &background = &background ==? 'light' ? 'dark' : 'light'<cr>
 
 " turn off search highlight
 nnoremap <leader>h :nohlsearch<cr>
