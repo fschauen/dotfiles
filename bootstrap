@@ -20,14 +20,15 @@ ${XDG_CONFIG_HOME}/mintty
 ${XDG_CONFIG_HOME}/python
 ${XDG_CONFIG_HOME}/readline
 ${XDG_CONFIG_HOME}/tmux
-${XDG_CONFIG_HOME}/vim
-${XDG_CONFIG_HOME}/vim/autoload
+${XDG_CONFIG_HOME}/nvim
+${XDG_CONFIG_HOME}/nvim/autoload
 ${XDG_DATA_HOME}/bash
 ${XDG_DATA_HOME}/bash-completion/completions
 ${XDG_DATA_HOME}/less
 ${XDG_DATA_HOME}/python
-${XDG_DATA_HOME}/vim
-${XDG_DATA_HOME}/vim/plugged
+${XDG_DATA_HOME}/nvim
+${XDG_DATA_HOME}/nvim/plugged
+${XDG_DATA_HOME}/nvim/shada
 EOF
 )
 
@@ -40,11 +41,11 @@ files/gitconfig             ${XDG_CONFIG_HOME}/git/config
 files/gitignore             ${XDG_CONFIG_HOME}/git/ignore
 files/inputrc               ${XDG_CONFIG_HOME}/readline/inputrc
 files/minttyrc              ${XDG_CONFIG_HOME}/mintty/config
-files/plug.vim              ${XDG_CONFIG_HOME}/vim/autoload/plug.vim
+files/plug.vim              ${XDG_CONFIG_HOME}/nvim/autoload/plug.vim
 files/python-startup.py     ${XDG_CONFIG_HOME}/python/startup.py
 files/tmux-colors.conf      ${XDG_CONFIG_HOME}/tmux/tmux-colors.conf
 files/tmux.conf             ${XDG_CONFIG_HOME}/tmux/tmux.conf
-files/vimrc                 ${XDG_CONFIG_HOME}/vim/vimrc
+files/init.vim              ${XDG_CONFIG_HOME}/nvim/init.vim
 EOF
 )
 
@@ -172,13 +173,13 @@ task_make_logins_silent() {
     file_touch "$HOME/.hushlogin"
 }
 
-task_install_vim_plugins() {
-    heading "Install vim plugins"
-    if command -v vim >/dev/null 2>&1; then
-        warn "Installing vim plugins"
-        $DRY_RUN || vim -nes -u "$XDG_CONFIG_HOME/vim/vimrc" -c 'PlugInstall | qall!'
+task_install_nvim_plugins() {
+    heading "Install neovim plugins"
+    if command -v nvim >/dev/null 2>&1; then
+        warn "Installing neovim plugins"
+        $DRY_RUN || nvim -nes -u "$XDG_CONFIG_HOME/nvim/init.vim" -c 'PlugInstall | qall!'
     else
-        error "vim is not installed; skipping plugin installation..."
+        error "neovim is not installed; skipping plugin installation..."
     fi
 }
 
@@ -191,7 +192,7 @@ main() {
     task_link_local_commands
     task_link_dircolors
     task_make_logins_silent
-    task_install_vim_plugins
+    task_install_nvim_plugins
 }
 
 main

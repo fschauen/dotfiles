@@ -12,7 +12,7 @@ export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
 export BACKGROUND="dark"
-export EDITOR="vim"
+export EDITOR="nvim"
 export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
 export LANG="en_US.UTF-8"
 export LANGUAGE="en_US"
@@ -27,8 +27,6 @@ MANPATH="$(unset MANPATH; manpath)"
 export MANPATH
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
-# shellcheck disable=SC2016 # This expression is to be interpreted by vim, not bash.
-export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
@@ -172,7 +170,8 @@ alias lla="la -l"
 command -v colorman >/dev/null && alias man=colorman
 
 alias g='git'
-alias v='vim'
+alias v='nvim'
+alias vim='nvim'
 
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
