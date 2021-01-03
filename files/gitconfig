@@ -52,6 +52,15 @@
 [push]
     default = nothing
 
+[merge]
+    tool = vimdiff
+
+[mergetool]
+    prompt = false
+
+[mergetool "vimdiff"]
+    path = nvim
+
 [color]
     ui = auto
 
