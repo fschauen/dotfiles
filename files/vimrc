@@ -102,7 +102,7 @@ call plug#begin('$XDG_DATA_HOME/vim/plugged')
         let g:vim_markdown_conceal_code_blocks = 0
     Plug 'junegunn/rainbow_parentheses.vim'
         let g:rainbow#pairs = [['(',')'], ['[',']'], ['{','}']]
-    Plug 'kien/ctrlp.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
         let g:ctrlp_match_window = 'bottom,order:ttb'
         let g:ctrlp_switch_buffer = 0       " open files in new buffer
         let g:ctrlp_show_hidden = 1         " show hidden files
