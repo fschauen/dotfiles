@@ -1,1 +1,2 @@
-roles/dotfiles/files/ssh_config filter=git-crypt diff=git-crypt
+files/ssh_config filter=git-crypt diff=git-crypt
+
