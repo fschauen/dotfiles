@@ -11,7 +11,7 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
-export BACKGROUND="dark"
+export BACKGROUND="${BACKGROUND:-dark}"
 export EDITOR="nvim"
 export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
 export LANG="en_US.UTF-8"
@@ -75,7 +75,16 @@ if command -v brew >/dev/null 2>&1; then
 fi
 
 stty -ixon # disable ctrl-s and ctrl-q
-command -v solarize >/dev/null && solarize
+
+change_bg() {
+    BACKGROUND="$1";
+    command -v solarize &>/dev/null && solarize;
+
+    local f="$HOME/.config/dircolors/solarized-$BACKGROUND"
+    [ -f "$f" ] && type dircolors &>/dev/null && eval "$(dircolors "$f")"
+}
+export change_bg
+change_bg "$BACKGROUND"
 
 ##############################################################################
 # Customize shell options & variables
@@ -202,8 +211,6 @@ alias light='change_bg light'
 ##############################################################################
 
 mkcd() { mkdir -p -- "$1" && cd -P -- "$1" || return; }
-
-change_bg() { BACKGROUND="$1"; command -v solarize >/dev/null && solarize; }
 
 ##############################################################################
 # Run external customizations
