@@ -150,10 +150,10 @@ __ps1_set() {
 # ls:  make `ls` group directories first if supported.
 # lsc: force `ls` to use color output (e.g. for piping into `less`).
 if command -v exa >/dev/null; then
-    alias ls="exa -F --git --group-directories-first --group --links -I'.git'"
+    alias ls="exa -F --git --group-directories-first --group --links"
     alias la="ls -a"
-    alias lt="ls -lT"
-    alias lta="ls -lTa"
+    alias lt="ls -lT -I'.git'"
+    alias lta="lt -a"
     alias lsc="ls --color=always"
     alias ltc="lt --color=always"
 elif ls --group-directories-first --color=auto &>/dev/null 2>&1; then
