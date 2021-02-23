@@ -126,8 +126,8 @@ PS2="... "
 __ps1_set() {
     local exit=$?
     local prompt=">>>>>>>>>>"
-    local sep="$PS1_SEP_DARK$PS1_SEP"
-    [ "$BACKGROUND" = "light" ] && sep="$PS1_SEP_LIGHT$PS1_SEP"
+    local sep_color="$PS1_SEP_DARK"
+    [ "$BACKGROUND" = "light" ] && sep_color="$PS1_SEP_LIGHT"
 
     local ps=()
     [ $exit -ne 0 ] && ps+=("$PS1_EXIT$exit")
@@ -139,8 +139,8 @@ __ps1_set() {
     local j="\j" && [ "${j@P}" -gt 0 ] && ps+=("$PS1_JOBS${j@P} bg")
 
     local extra=""
-    [ ${#ps[@]} -gt 1 ] && printf -v extra "$sep%s" "${ps[@]:1}"
-    PS1="${ps[0]}$extra$Reset ${prompt:0:$SHLVL} "
+    [ ${#ps[@]} -gt 1 ] && printf -v extra "$sep_color$PS1_SEP%s" "${ps[@]:1}"
+    PS1="${ps[0]}$extra$sep_color ${prompt:0:$SHLVL}$Reset "
 } &>/dev/null
 
 ##############################################################################
