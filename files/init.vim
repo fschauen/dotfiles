@@ -155,9 +155,6 @@ let maplocalleader = ","
 noremap j gj
 noremap k gk
 
-" quickly exit insert mode
-inoremap jk <esc>
-
 " retain selection when indenting/unindenting in visual mode
 vnoremap > ><cr>gv
 vnoremap < <<cr>gv
