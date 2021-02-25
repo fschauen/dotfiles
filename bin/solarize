@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Solarize the terminal
 
 # Useful terminal control sequences:
@@ -127,6 +127,11 @@ main() {
     if [ -n "$TMUX" ] && [ -f "$XDG_CONFIG_HOME/tmux/tmux-colors.conf" ]; then
         tmux set-environment -g BACKGROUND "$BACKGROUND"
         tmux source-file "$XDG_CONFIG_HOME/tmux/tmux-colors.conf"
+    fi
+
+    ls_colors="$HOME/.config/dircolors/solarized-$BACKGROUND"
+    if type dircolors >/dev/null 2>&1 && [ -f "$ls_colors" ]; then
+        eval "$(dircolors "$ls_colors")"
     fi
 }
 
