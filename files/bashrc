@@ -34,7 +34,7 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 # shellcheck disable=SC1091 # /etc/profile is provided by macOS.
 [ "$(uname)" == "Darwin" ] && { PATH=""; source /etc/profile; }
 
-_prepend_path() {  # prepend $1 to variable $2 using : as separator
+_prepend_path() {  # prepend $1 to var $2 avoiding duplicates using : as separator
     if [ -d "$1" ] && [ -n "$2" ]; then
         local _path="${!2}"                     # get path variable value
         case ":$_path:" in
@@ -46,26 +46,16 @@ _prepend_path() {  # prepend $1 to variable $2 using : as separator
 }
 
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
-while read -r dir; do _prepend_path "$dir" PATH; done <<EOL
-    $LOCAL_PREFIX/bin
-    $LOCAL_PREFIX/opt/man-db/libexec/bin
-    $LOCAL_PREFIX/opt/coreutils/libexec/gnubin
-    $LOCAL_PREFIX/opt/gnu-sed/libexec/gnubin
-    $HOME/.local/bin
-EOL
-
 # Prepend custom man directories to MANPATH if they exist, so that we get
 # correct man page entries when multiple versions of a command are
 # available.
-while read -r dir; do _prepend_path "$dir" MANPATH; done <<EOL
-    $LOCAL_PREFIX/share/man
-    $LOCAL_PREFIX/opt/man-db/libexec/man
-    $LOCAL_PREFIX/opt/coreutils/libexec/gnuman
-    $LOCAL_PREFIX/opt/gnu-sed/libexec/gnuman
-    $HOME/.local/share/man
+while read -r var dir; do _prepend_path "$dir" "$var"; done <<EOL
+    PATH    $LOCAL_PREFIX/bin
+    MANPATH $LOCAL_PREFIX/share/man
+    PATH    $HOME/.local/bin
+    MANPATH $HOME/.local/share/man
 EOL
-
-unset dir _prepend_path
+unset var dir _prepend_path
 
 # This check has to be done after PATH manipulation above so we can find brew.
 if command -v brew >/dev/null 2>&1; then
