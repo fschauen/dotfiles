@@ -32,7 +32,7 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 #   See: https://superuser.com/a/583502
 # shellcheck disable=SC2123 # PATH is being intentionally manipulated here.
 # shellcheck disable=SC1091 # /etc/profile is provided by macOS.
-[ "$(uname)" == "Darwin" ] && { PATH=""; source /etc/profile; }
+[ "$(uname -s)" == "Darwin" ] && { PATH=""; source /etc/profile; }
 
 _prepend_path() {  # prepend $1 to var $2 avoiding duplicates using : as separator
     if [ -d "$1" ] && [ -n "$2" ]; then
