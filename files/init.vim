@@ -45,7 +45,6 @@ set   splitright        " new window is put right of the current one
 set noswapfile          " don't use swap files
 set   tabstop=4         " tabs are 4 spaces
 set   textwidth=79      " maximum width for text being inserted
-set   timeout timeoutlen=1000 ttimeoutlen=100  " timeout on mappings & key codes
 set   virtualedit=block  " position the cursor anywhere in Visual Block mode
 set   wildignore=*.o,*.obj,*.pyc,*.exe,*.so,*.dll
 set   wildignorecase    " ignore case when completing file names
