@@ -40,8 +40,8 @@ fi
 # under the heading "Change the color palette".
 set_iterm2_colors() {  # 1: foreground, 2: background, 3: cursor
     while read -r key rgb; do
-        printf "%s1337;SetColors=%s=%s%s" "$_OSC" "$key" "${rgb}" "$_ST"
-    done <<EOL
+        printf "%s1337;SetColors=%s=%s%s" "$_OSC" "$key" "$rgb" "$_ST"
+    done <<EOF
         black       $Base02
         red         $Red
         green       $Green
@@ -66,20 +66,20 @@ set_iterm2_colors() {  # 1: foreground, 2: background, 3: cursor
         curfg       $3
         curbg       $3
         link        $Cyan
-EOL
+EOF
     printf "%s1337;CursorShape=2%s" "$_OSC" "$_ST"  # set cursor shape to underline
 }
 
 # Documentation for xterm at https://www.xfree86.org/4.8.0/ctlseqs.html
 # under the heading "Operating System Controls".
 set_xterm_colors() {    # $1 foreground, $2 background, $3 cursor
-    while read -r c rgb; do
-        # Send sequence OSC Ps BEL
-        # where Ps   -> 4;c;spec
-        #       c    -> index of the ANSI color to change [0..15]
-        #       spec -> RGB value of color as rgb:RR/GG/BB
-        printf "%s4;%s;rgb:%s/%s/%s%s" "$_OSC" "$c" "${rgb:0:2}"  "${rgb:2:2}" "${rgb:4:2}" "$_ST"
-    done <<EOL
+    # Send sequence OSC Ps BEL
+    # where Ps   -> 4;c;spec
+    #       c    -> index of the ANSI color to change [0..15]
+    #       spec -> RGB value of color as rgb:RR/GG/BB
+    awk -v osc="$_OSC" -v st="$_ST" -v ORS="" \
+        '{print osc "4;" $1 ";rgb:" substr($2,1,2) "/" substr($2,3,2) "/" substr($2,5,2) st}' \
+        <<EOF
         0  $Base02
         1  $Red
         2  $Green
@@ -96,17 +96,17 @@ set_xterm_colors() {    # $1 foreground, $2 background, $3 cursor
         13 $Violet
         14 $Base1
         15 $Base3
-EOL
-    while read -r Ps rgb; do
-        # Send sequence OSC Ps ; Pt BEL
-        # where Ps -> foreground (10), background (11), or cursor (12)
-        #       Pt -> RGB value of color as rgb:RR/GG/BB
-        printf "%s%s;rgb:%s/%s/%s%s" "$_OSC" "$Ps" "${rgb:0:2}"  "${rgb:2:2}" "${rgb:4:2}" "$_ST"
-    done <<EOL
+EOF
+    # Send sequence OSC Ps ; Pt BEL
+    # where Ps -> foreground (10), background (11), or cursor (12)
+    #       Pt -> RGB value of color as rgb:RR/GG/BB
+    awk -v osc="$_OSC" -v st="$_ST" -v ORS="" \
+        '{print osc $1 ";rgb:" substr($2,1,2) "/" substr($2,3,2) "/" substr($2,5,2) st}' \
+        <<EOF
         10 $1
         11 $2
         12 $3
-EOL
+EOF
 }
 
 set_terminal_colors() {  # 1: foreground, 2: background, 3: cursor
