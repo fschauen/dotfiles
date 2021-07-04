@@ -20,29 +20,16 @@
 #   violet     bold magenta
 
 [alias]
-    a       = add
-    aa      = add --all
-    b       = branch
-    ba      = branch --all
-    bav     = branch --all --verbose
-    bd      = branch --delete
     cm      = commit --verbose
     co      = checkout
-    cob     = checkout -b
-    d       = diff
-    dc      = diff --cached
-    dt      = difftool
-    ff      = merge --ff-only
     l       = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar'
     ln      = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar %C(auto)by %C(bold magenta)%an <%ae>'
     la      = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar' --all
     lna     = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar %C(auto)by %C(bold magenta)%an <%ae>' --all
     ll      = log --graph --decorate --stat
     lla     = log --graph --decorate --stat --all
-    pom     = push origin master
     s       = status --short
     ss      = status
-    sub     = submodule
 
 [core]
     excludesfile    = ~/.config/git/ignore
