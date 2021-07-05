@@ -33,6 +33,7 @@ EOF
 )
 
 DOTFILES=$(cat <<EOF
+files/xcompose              ${HOME}/.XCompose
 files/bashrc                ${HOME}/.bash_profile
 files/bashrc                ${HOME}/.bashrc
 files/ssh_config            ${HOME}/.ssh/config

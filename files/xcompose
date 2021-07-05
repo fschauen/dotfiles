@@ -1,0 +1,81 @@
+﻿# Compose key mappings for compose(5), see https://wiki.debian.org/XCompose.
+#
+# Key sequences have the following form:
+#
+# <Multi_key> <key>… : "resulting text"
+#
+# All key names must be enclosed in <angle brackets>.
+# The first key must be <Multi_key>.
+# The remaining keys can be single characters, like <a>, <B>, <7>,
+# <.>, <@>, or from the following list:
+#
+#     Up, Down, Left, Right (the arrow keys), space, exclam, quotedbl,
+#     numbersign, dollar, percent, ampersand, apostrophe, parenleft,
+#     parenright, asterisk, plus, comma, minus, period, slash, colon,
+#     semicolon, less, equal, greater, at, bracketleft, backslash,
+#     bracketright, asciicircum, underscore, grave, braceleft, bar,
+#     braceright, asciitilde.
+
+# include "%L"
+
+# Various tests
+# <Multi_key> <t> <f> : "(ﾉಥ益ಥ）ﾉ彡┻━┻"  # Table flip like a boss
+# <Multi_key> <l> <f> : "( ͡° ͜ʖ ͡°)"        # Lenny face
+# <Multi_key> <s> <f> : "¯\\_(ツ)_/¯"     # Shrug face
+
+# Superscript lowercase letters
+<Multi_key> <^> <^> <a> : "ᵃ"  # Superscript a
+<Multi_key> <^> <^> <b> : "ᵇ"  # Superscript b
+<Multi_key> <^> <^> <c> : "ᶜ"  # Superscript c
+<Multi_key> <^> <^> <d> : "ᵈ"  # Superscript d
+<Multi_key> <^> <^> <e> : "ᵉ"  # Superscript e
+<Multi_key> <^> <^> <f> : "ᶠ"  # Superscript f
+<Multi_key> <^> <^> <g> : "ᵍ"  # Superscript g
+<Multi_key> <^> <^> <h> : "ʰ"  # Superscript h
+<Multi_key> <^> <^> <i> : "ⁱ"  # Superscript i
+<Multi_key> <^> <^> <j> : "ʲ"  # Superscript j
+<Multi_key> <^> <^> <k> : "ᵏ"  # Superscript k
+<Multi_key> <^> <^> <l> : "ˡ"  # Superscript l
+<Multi_key> <^> <^> <m> : "ᵐ"  # Superscript m
+<Multi_key> <^> <^> <n> : "ⁿ"  # Superscript n
+<Multi_key> <^> <^> <o> : "ᵒ"  # Superscript o
+<Multi_key> <^> <^> <p> : "ᵖ"  # Superscript p
+# <Multi_key> <^> <^> <q> : ""  # Superscript q (character to be published)
+<Multi_key> <^> <^> <r> : "ʳ"  # Superscript r
+<Multi_key> <^> <^> <s> : "ˢ"  # Superscript s
+<Multi_key> <^> <^> <t> : "ᵗ"  # Superscript t
+<Multi_key> <^> <^> <u> : "ᵘ"  # Superscript u
+<Multi_key> <^> <^> <v> : "ᵛ"  # Superscript v
+<Multi_key> <^> <^> <w> : "ʷ"  # Superscript w
+<Multi_key> <^> <^> <x> : "ˣ"  # Superscript x
+<Multi_key> <^> <^> <y> : "ʸ"  # Superscript y
+<Multi_key> <^> <^> <z> : "ᶻ"  # Superscript z
+
+# Superscript uppercase letters
+<Multi_key> <^> <^> <A> : "ᴬ"  # Superscript A
+<Multi_key> <^> <^> <B> : "ᴮ"  # Superscript B
+# <Multi_key> <^> <^> <C> : ""  # Superscript C (character to be punblished)
+<Multi_key> <^> <^> <D> : "ᴰ"  # Superscript D
+<Multi_key> <^> <^> <E> : "ᴱ"  # Superscript E
+# <Multi_key> <^> <^> <F> : ""  # Superscript F (character to be punblished)
+<Multi_key> <^> <^> <G> : "ᴳ"  # Superscript G
+<Multi_key> <^> <^> <H> : "ᴴ"  # Superscript H
+<Multi_key> <^> <^> <I> : "ᴵ"  # Superscript I
+<Multi_key> <^> <^> <J> : "ᴶ"  # Superscript J
+<Multi_key> <^> <^> <K> : "ᴷ"  # Superscript K
+<Multi_key> <^> <^> <L> : "ᴸ"  # Superscript L
+<Multi_key> <^> <^> <M> : "ᴹ"  # Superscript M
+<Multi_key> <^> <^> <N> : "ᴺ"  # Superscript N
+<Multi_key> <^> <^> <O> : "ᴼ"  # Superscript O
+<Multi_key> <^> <^> <P> : "ᴾ"  # Superscript P
+# <Multi_key> <^> <^> <Q> : ""  # Superscript Q (character to be punblished)
+<Multi_key> <^> <^> <R> : "ᴿ"  # Superscript R
+# <Multi_key> <^> <^> <S> : ""  # Superscript S (character to be punblished)
+<Multi_key> <^> <^> <T> : "ᵀ"  # Superscript T
+<Multi_key> <^> <^> <U> : "ᵁ"  # Superscript U
+<Multi_key> <^> <^> <V> : "ⱽ"  # Superscript V
+<Multi_key> <^> <^> <W> : "ᵂ"  # Superscript W
+# <Multi_key> <^> <^> <X> : ""  # Superscript X (character to be punblished)
+# <Multi_key> <^> <^> <Y> : ""  # Superscript Y (character to be punblished)
+# <Multi_key> <^> <^> <Z> : ""  # Superscript Z (character to be punblished)
+
