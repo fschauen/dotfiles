@@ -23,10 +23,13 @@ export LESSHISTFILE="$XDG_DATA_HOME/less/history"
 export LESSHISTSIZE=1000
 export LOCAL_CONFIG="$HOME/.local/etc"
 export LOCAL_PREFIX="/usr/local"
-MANPATH="$(unset MANPATH; manpath)"
-export MANPATH
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
+
+if command -v manpath >/dev/null 2>&1; then
+    MANPATH="$(unset MANPATH; manpath)"
+    export MANPATH
+fi
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
