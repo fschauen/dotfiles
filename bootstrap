@@ -9,6 +9,8 @@ XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
+DOTFILES_DIR="$(dirname "$(realpath "$0")")"
+
 DIRS=$(cat <<EOF
 ${HOME}/.local/bin
 ${HOME}/.local/etc/git
@@ -88,6 +90,20 @@ file_touch() {  # Make sure file $1 exists (content is irrelevant).
     fi
 }
 
+prune_link() {  # Remove $1 if it's a broken link to a dotfile script.
+    if [ -h "$1" ]; then  # it's a symbolic link
+        target="$(readlink "$1")"
+        case "$target" in
+            "$DOTFILES_DIR/bin/"*)  # it points into dotfiles bin
+                if [ ! -e "$1" ]; then  # target of the link missing
+                    warn "pruning $1 -> $target"
+                    $DRY_RUN || rm -f "$1"
+                fi
+                ;;
+        esac
+    fi
+}
+
 file_link() {  # Make sure $1 is a link to $2.
     target="$(realpath "$2")"
     if [ "$(readlink "$1")" = "$target" ]; then
@@ -155,7 +171,14 @@ EOF
     file_content "$HOME/.local/etc/git/config.host" "$temp_git"
 }
 
-task_link_local_commands() {
+task_prune_broken_bin() {
+    heading "Prune broken links to commands"
+    for cmd in $HOME/.local/bin/*; do
+        prune_link "$cmd"
+    done
+}
+
+task_link_local_bin() {
     heading "Link local commands"
     for cmd in bin/*; do
         file_link "$HOME/.local/bin/$(basename "$cmd")" "$cmd"
@@ -185,12 +208,14 @@ task_install_nvim_plugins() {
 }
 
 main() {
+    $DRY_RUN && warn "Dry run: no changes will actually be made."
     task_gather_user_info
     task_remove_bash_profile
     task_ensure_directories
     task_link_dotfiles
     task_deploy_templates
-    task_link_local_commands
+    task_prune_broken_bin
+    task_link_local_bin
     task_link_dircolors
     task_make_logins_silent
     task_install_nvim_plugins
