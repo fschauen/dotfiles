@@ -168,22 +168,12 @@ fi
 alias ll="ls -l"
 alias lla="la -l"
 
-alias g='git'
-alias v='nvim'
-alias vim='nvim'
-
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias fgrep="fgrep --color=auto"
 
 alias dark='change_bg dark'
 alias light='change_bg light'
-
-##############################################################################
-# Add shell functions
-##############################################################################
-
-mkcd() { mkdir -p -- "$1" && cd -P -- "$1" || return; }
 
 ##############################################################################
 # Run external customizations
@@ -198,6 +188,5 @@ _source_extra_configs() {
     local f
     for f in ${configs[@]}; do [ -f "$f" ] && source "$f"; done
 }
-_source_extra_configs
+_source_extra_configs || true
 
-true
