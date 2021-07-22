@@ -71,7 +71,7 @@ stty -ixon # disable ctrl-s and ctrl-q
 
 change_bg() {
     BACKGROUND="$1";
-    command -v solarize &>/dev/null && solarize;
+    command -v ,solarize &>/dev/null && ,solarize;
 
     local f="$HOME/.config/dircolors/solarized-$BACKGROUND"
     [ -f "$f" ] && type dircolors &>/dev/null && eval "$(dircolors "$f")"
