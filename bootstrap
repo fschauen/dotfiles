@@ -147,7 +147,7 @@ task_ensure_directories() {
 task_link_dotfiles() {
     heading "Link dotfiles"
     echo "$DOTFILES" | while read -r dest src; do
-        file_link "$src" "$dest"
+        file_link "$src" "$DOTFILES_DIR/$dest"
     done
 }
 
@@ -180,14 +180,14 @@ task_prune_broken_bin() {
 
 task_link_local_bin() {
     heading "Link local commands"
-    for cmd in bin/*; do
+    for cmd in "$DOTFILES_DIR/bin/"*; do
         file_link "$HOME/.local/bin/$(basename "$cmd")" "$cmd"
     done
 }
 
 task_link_dircolors() {
     heading "Link dircolors"
-    for f in dircolors/*; do
+    for f in "$DOTFILES_DIR/dircolors/"*; do
         file_link "$XDG_CONFIG_HOME/dircolors/$(basename "$f")" "$f"
     done
 }
