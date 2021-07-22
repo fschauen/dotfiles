@@ -168,9 +168,6 @@ fi
 alias ll="ls -l"
 alias lla="la -l"
 
-# Use my colorman wrapper if available.
-command -v colorman >/dev/null && alias man=colorman
-
 alias g='git'
 alias v='nvim'
 alias vim='nvim'
