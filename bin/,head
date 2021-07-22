@@ -1,0 +1,4 @@
+#!/bin/sh
+# Head as much as fits on screen
+exec head -n $(echo "$(tput lines) - 5" | bc) "$@"
+

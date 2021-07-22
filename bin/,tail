@@ -1,0 +1,4 @@
+#!/bin/sh
+# Tail as much as fits on screen
+exec tail -n $(echo "$(tput lines) - 5" | bc) "$@"
+

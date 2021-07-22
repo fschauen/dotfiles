@@ -1,0 +1,9 @@
+#!/bin/sh
+# A few options to get public IP address on command line. The dig solution
+# below using the OpenDNS resolver doesn't work when connected to
+# ExpressVPN because all DNS requests are handled by the ExpressVPN DNS
+# servers and the OpenDNS DNS resolver is blocked.
+exec curl -s https://ifconfig.co
+#exec curl -s https://ifconfig.me
+#exec dig +short myip.opendns.com @resolver1.opendns.com
+

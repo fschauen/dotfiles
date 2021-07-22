@@ -175,23 +175,6 @@ alias vim='nvim'
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias fgrep="fgrep --color=auto"
-alias path='echo $PATH | tr -s ":" "\n"'
-alias mpath='echo $MANPATH | tr -s ":" "\n"'
-
-alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/tmux.conf"'
-
-# Head and tail as much as fits on screen
-alias head='head -n $((${LINES:-15}-5))'
-alias tail='tail -n $((${LINES:-15}-5))'
-
-# A few options to get public IP address on command line. The dig solution
-# below using the OpenDNS resolver doesn't work when connected to
-# ExpressVPN because all DNS requests are handled by the ExpressVPN DNS
-# servers and the OpenDNS DNS resolver is blocked.
-alias ipinfo="curl -s ipinfo.io"
-alias myip="curl -s https://ifconfig.co"
-#alias myip="curl -s https://ifconfig.me"
-#alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 alias dark='change_bg dark'
 alias light='change_bg light'
