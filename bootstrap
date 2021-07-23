@@ -15,6 +15,7 @@ DIRS=$(cat <<EOF
 ${HOME}/.local/bin
 ${HOME}/.local/etc/git
 ${HOME}/.jupyter/custom
+${HOME}/.jupyter/nbconfig
 ${HOME}/.ssh
 ${XDG_CONFIG_HOME}/alacritty
 ${XDG_CONFIG_HOME}/dircolors
@@ -40,6 +41,7 @@ files/xcompose              ${HOME}/.XCompose
 files/bashrc                ${HOME}/.bash_profile
 files/bashrc                ${HOME}/.bashrc
 files/jupyter_custom.js     ${HOME}/.jupyter/custom/custom.js
+files/jupyter_notebook.json ${HOME}/.jupyter/nbconfig/notebook.json
 files/ssh_config            ${HOME}/.ssh/config
 files/alacritty.yml         ${XDG_CONFIG_HOME}/alacritty/alacritty.yml
 files/gitconfig             ${XDG_CONFIG_HOME}/git/config
