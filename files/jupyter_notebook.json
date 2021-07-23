@@ -2,5 +2,10 @@
   "Notebook": {
     "Header": false,
     "Toolbar": false
+  },
+  "CodeCell": {
+    "cm_config": {
+      "lineNumbers": true
+    }
   }
 }
