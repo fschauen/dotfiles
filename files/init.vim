@@ -76,8 +76,9 @@ call plug#begin('$XDG_DATA_HOME/nvim/plugged')
     Plug 'altercation/vim-colors-solarized'
     Plug 'bronson/vim-trailing-whitespace'
     Plug 'elzr/vim-json'
-        " Make numbers and booleans stand out, important because of the
-        " concealment used by vim-json.
+        " Disable quote concealling.
+        let g:vim_json_syntax_conceal = 0
+        " Make numbers and booleans stand out.
         highlight link jsonBraces   Text
         highlight link jsonNumber   Identifier
         highlight link jsonBoolean  Identifier
