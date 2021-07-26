@@ -22,11 +22,11 @@
 # Either ST or BEL (\a) can be used to end an OSC sequence. However, tmux
 # requires ST to end its wrapping DCS.
 if [ -n "$TMUX" ]; then
-    _OSC=$(printf '\ePtmux;\e\e]')
-    _ST=$(printf '\a\e\\')
+    OSC=$(printf '\ePtmux;\e\e]')
+    ST=$(printf '\a\e\\')
 else
-    _OSC=$(printf '\e]')
-    _ST=$(printf '\a')
+    OSC=$(printf '\e]')
+    ST=$(printf '\a')
 fi
 
 # Color definitions (from http://ethanschoonover.com/solarized)
@@ -40,7 +40,7 @@ fi
 # under the heading "Change the color palette".
 set_iterm2_colors() {  # 1: foreground, 2: background, 3: cursor
     while read -r key rgb; do
-        printf "%s1337;SetColors=%s=%s%s" "$_OSC" "$key" "$rgb" "$_ST"
+        printf "%s1337;SetColors=%s=%s%s" "$OSC" "$key" "$rgb" "$ST"
     done <<EOF
         black       $Base02
         red         $Red
@@ -67,7 +67,7 @@ set_iterm2_colors() {  # 1: foreground, 2: background, 3: cursor
         curbg       $3
         link        $Cyan
 EOF
-    printf "%s1337;CursorShape=2%s" "$_OSC" "$_ST"  # set cursor shape to underline
+    printf "%s1337;CursorShape=2%s" "$OSC" "$ST"  # set cursor shape to underline
 }
 
 # Documentation for xterm at https://www.xfree86.org/4.8.0/ctlseqs.html
@@ -77,7 +77,7 @@ set_xterm_colors() {    # $1 foreground, $2 background, $3 cursor
     # where Ps   -> 4;c;spec
     #       c    -> index of the ANSI color to change [0..15]
     #       spec -> RGB value of color as rgb:RR/GG/BB
-    awk -v osc="$_OSC" -v st="$_ST" -v ORS="" \
+    awk -v osc="$OSC" -v st="$ST" -v ORS="" \
         '{print osc "4;" $1 ";rgb:" substr($2,1,2) "/" substr($2,3,2) "/" substr($2,5,2) st}' \
         <<EOF
         0  $Base02
@@ -100,7 +100,7 @@ EOF
     # Send sequence OSC Ps ; Pt BEL
     # where Ps -> foreground (10), background (11), or cursor (12)
     #       Pt -> RGB value of color as rgb:RR/GG/BB
-    awk -v osc="$_OSC" -v st="$_ST" -v ORS="" \
+    awk -v osc="$OSC" -v st="$ST" -v ORS="" \
         '{print osc $1 ";rgb:" substr($2,1,2) "/" substr($2,3,2) "/" substr($2,5,2) st}' \
         <<EOF
         10 $1
