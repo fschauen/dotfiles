@@ -35,7 +35,7 @@ set   shiftwidth=0      " use 'tabstop' spaces for (auto)indent step
 set   shortmess+=I      " don't show the intro message when starting Vim
 set   showbreak="-> "   " prefix for wrapped lines
 set   showmatch         " briefly jump to matching bracket if insert one
-set noshowmode          " don't show mode (using airline instead)
+set noshowmode          " don't show mode (shown in statusline instead)
 set   sidescrolloff=3   " min. number of columns to left and right of cursor
 set   smartcase         " case sensitive search if pattern has uppercase chars
 set   smartindent       " use smart autoindenting
@@ -99,22 +99,17 @@ call plug#begin('$XDG_DATA_HOME/nvim/plugged')
         \   'active': {
         \       'left': [
         \           [ 'mode', 'paste' ],
-        \           [ 'gitbranch', 'readonly', 'modified' ],
+        \           [ 'readonly', 'modified' ],
         \           [ 'relativepath' ],
         \       ],
         \       'right': [
         \           [ 'lineinfo' ],
-        \           [ 'percent' ],
+        \           [ 'percent_total' ],
         \           [ 'filetype', 'fileencoding',  'fileformat' ],
         \       ]
         \   },
-        \   'component_function': {
-        \       'gitbranch': 'gitbranch#name',
-        \   },
-        \   'subseparator': {
-        \       'left': '',
-        \       'right': '|',
-        \   },
+        \   'component': { 'percent_total': '%3p%%×%L' },
+        \   'subseparator': { 'left': '', 'right': '|' },
         \ }
     Plug 'vim-scripts/srec.vim'
         highlight link srecStart        Comment
