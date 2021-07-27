@@ -11,7 +11,6 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
-export BACKGROUND="${BACKGROUND:-dark}"
 export EDITOR="nvim"
 export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
 export LANG="en_US.UTF-8"
@@ -69,16 +68,6 @@ fi
 
 stty -ixon # disable ctrl-s and ctrl-q
 
-change_bg() {
-    BACKGROUND="$1";
-    command -v ,solarize &>/dev/null && ,solarize;
-
-    local f="$HOME/.config/dircolors/solarized-$BACKGROUND"
-    [ -f "$f" ] && type dircolors &>/dev/null && eval "$(dircolors "$f")"
-}
-export change_bg
-change_bg "$BACKGROUND"
-
 ##############################################################################
 # Customize shell options & variables
 ##############################################################################
@@ -104,8 +93,7 @@ PS1_PWD="\[$(tput setaf       "$Cyan"   )\]"  # PWD color
 PS1_GIT="\[$(tput setaf       "$Blue"   )\]"  # color for git branch
 PS1_VENV="\[$(tput setaf      "$Violet" )\]"  # color for python virtual env
 PS1_JOBS="\[$(tput setaf      "$Magenta")\]"  # color for background jobs
-PS1_SEP_LIGHT="\[$(tput setaf "$Base1"  )\]"
-PS1_SEP_DARK="\[$(tput setaf  "$Base01" )\]"
+PS1_SEP_COLOR="\[$(tput setaf  "$Base01" )\]"
 PS1_SEP=" > "                           # separator between prompt parts
 
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -119,8 +107,7 @@ PS2="... "
 __ps1_set() {
     local exit=$?
     local prompt=">>>>>>>>>>"
-    local sep_color="$PS1_SEP_DARK"
-    [ "$BACKGROUND" = "light" ] && sep_color="$PS1_SEP_LIGHT"
+    local sep_color="$PS1_SEP_COLOR"
 
     local ps=()
     [ $exit -ne 0 ] && ps+=("$PS1_EXIT$exit")
@@ -171,9 +158,6 @@ alias lla="la -l"
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias fgrep="fgrep --color=auto"
-
-alias dark='change_bg dark'
-alias light='change_bg light'
 
 ##############################################################################
 # Run external customizations

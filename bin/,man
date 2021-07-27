@@ -19,15 +19,9 @@ Blue=4
 Violet=13
 Magenta=5
 
-if [ "$BACKGROUND" = "light" ]; then
-    standout=$( printf '%s\n' "setaf $Base3" "setab $Cyan"  | tput -S)
-    bold=$(     printf '%s\n' "setaf $Blue"                 | tput -S)
-    underline=$(printf '%s\n' "setaf $Base02" "smul"        | tput -S)
-else
-    standout=$( printf '%s\n' "setaf $Base03" "setab $Cyan" | tput -S)
-    bold=$(     printf '%s\n' "setaf $Yellow"               | tput -S)
-    underline=$(printf '%s\n' "setaf $Base3" "smul"         | tput -S)
-fi
+standout=$( printf '%s\n' "setaf $Base03" "setab $Cyan" | tput -S)
+bold=$(     printf '%s\n' "setaf $Yellow"               | tput -S)
+underline=$(printf '%s\n' "setaf $Base3" "smul"         | tput -S)
 
 exec env \
     LESS_TERMCAP_so="$standout"     \

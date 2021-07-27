@@ -18,7 +18,6 @@ ${HOME}/.jupyter/custom
 ${HOME}/.jupyter/nbconfig
 ${HOME}/.ssh
 ${XDG_CONFIG_HOME}/alacritty
-${XDG_CONFIG_HOME}/dircolors
 ${XDG_CONFIG_HOME}/git
 ${XDG_CONFIG_HOME}/mintty
 ${XDG_CONFIG_HOME}/python
@@ -50,7 +49,6 @@ files/inputrc               ${XDG_CONFIG_HOME}/readline/inputrc
 files/minttyrc              ${XDG_CONFIG_HOME}/mintty/config
 files/plug.vim              ${XDG_CONFIG_HOME}/nvim/autoload/plug.vim
 files/python-startup.py     ${XDG_CONFIG_HOME}/python/startup.py
-files/tmux-colors.conf      ${XDG_CONFIG_HOME}/tmux/tmux-colors.conf
 files/tmux.conf             ${XDG_CONFIG_HOME}/tmux/tmux.conf
 files/init.vim              ${XDG_CONFIG_HOME}/nvim/init.vim
 EOF
@@ -189,13 +187,6 @@ task_link_local_bin() {
     done
 }
 
-task_link_dircolors() {
-    heading "Link dircolors"
-    for f in "$DOTFILES_DIR/dircolors/"*; do
-        file_link "$XDG_CONFIG_HOME/dircolors/$(basename "$f")" "$f"
-    done
-}
-
 task_make_logins_silent() {
     heading "Make logins silent"
     file_touch "$HOME/.hushlogin"
@@ -220,7 +211,6 @@ main() {
     task_deploy_templates
     task_prune_broken_bin
     task_link_local_bin
-    task_link_dircolors
     task_make_logins_silent
     task_install_nvim_plugins
 }

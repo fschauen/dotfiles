@@ -4,7 +4,6 @@ if $XDG_DATA_HOME == "" | let $XDG_DATA_HOME="~/.local/share" | endif
 if $LOCAL_CONFIG == "" | let $LOCAL_CONFIG="~/.local/etc" | endif
 
 " Options {{{
-let  &background = $BACKGROUND ==? 'light' ? 'light' : 'dark'
 set   backspace=indent,eol,start  " sane backspace behavior
 set nobackup            " don't keep backup file after overwriting a file
 set   clipboard=unnamed " synchronize with system clipboard
@@ -197,9 +196,6 @@ nnoremap <silent> <leader>l :call VimrcCycleNumbers()<CR>
 
 augroup vimrc " {{{
     autocmd!
-
-    " Make sure the background is always transparent.
-    autocmd VimEnter,Syntax,ColorScheme * highlight Normal ctermbg=NONE
 
     autocmd BufNewFile,BufRead bash_profile,bashrc,profile set filetype=sh
     autocmd BufNewFile,BufRead gitconfig set filetype=gitconfig
