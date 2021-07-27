@@ -1,0 +1,111 @@
+#!/usr/bin/env python3
+from __future__ import annotations  # needed until Python 3.10
+from collections import namedtuple
+from textwrap import indent
+
+RGB = namedtuple('RGB', 'red green blue')
+
+class Color(namedtuple('Color', 'name hexa index termcolor rgb')):
+    @property
+    def is_bright(self): return self.index > 7
+
+
+def alacritty_format(data, prefix='  '):
+    return '\n'.join(
+        f"{key + ':':16} '0x{value.hexa.lower()}'    # {value.name}"
+        if isinstance(value, Color)
+        else '\n'.join((
+            f'{key}:',
+            indent(alacritty_format(value, prefix), prefix)
+        ))
+        for key, value in data.items()
+    )
+
+
+def alacritty_gen_config(colors, fg, bg, cursor):
+    return alacritty_format({
+        'colors': {
+            'primary': { 'foreground': colors[fg], 'background': colors[bg] },
+            'cursor': { 'text': colors[cursor], 'cursor': colors[cursor] },
+            'normal': {
+                c.termcolor: c
+                for c in colors.values()
+                if not c.is_bright
+            },
+            'bright': {
+                c.termcolor[2:]: c
+                for c in colors.values()
+                if c.is_bright
+            },
+        }
+    })
+
+
+def mintty_format(name, color):
+    color_str = ','.join(map(str, color.rgb))
+    return f'{name}={color_str}'
+
+
+def mintty_gen_config(colors, fg, bg, cursor):
+    return '\n'.join((
+        mintty_format('ForegroundColour', colors[fg]),
+        mintty_format('BackgroundColour', colors[bg]),
+        mintty_format('CursorColour', colors[cursor]),
+        *(
+            mintty_format(c.termcolor.title(), c)
+            for c in colors.values()
+            if not c.is_bright
+        ),
+        *(
+            mintty_format('Bold' + c.termcolor[2:].title(), c)
+            for c in colors.values()
+            if c.is_bright
+        ),
+    ))
+
+
+SOLARIZED_DARK = dict(fg='Base1', bg='Base03', cursor='Red')
+SOLARIZED_LIGHT = dict(fg='Base01', bg='Base3', cursor='Red')
+SOLARIZED = {c.name: c for c in (
+    Color('Base03',  '002B36',  8, 'brblack',   RGB(  0,  43,  54)),
+    Color('Base02',  '073642',  0, 'black',     RGB(  7,  54,  66)),
+    Color('Base01',  '586E75', 10, 'brgreen',   RGB( 88, 110, 117)),
+    Color('Base00',  '657B83', 11, 'bryellow',  RGB(101, 123, 131)),
+    Color('Base0',   '839496', 12, 'brblue',    RGB(131, 148, 150)),
+    Color('Base1',   '93A1A1', 14, 'brcyan',    RGB(147, 161, 161)),
+    Color('Base2',   'EEE8D5',  7, 'white',     RGB(238, 232, 213)),
+    Color('Base3',   'FDF6E3', 15, 'brwhite',   RGB(253, 246, 227)),
+    Color('Yellow',  'B58900',  3, 'yellow',    RGB(181, 137,   0)),
+    Color('Orange',  'CB4B16',  9, 'brred',     RGB(203,  75,  22)),
+    Color('Red',     'DC322F',  1, 'red',       RGB(220,  50,  47)),
+    Color('Magenta', 'D33682',  5, 'magenta',   RGB(211,  54, 130)),
+    Color('Violet',  '6C71C4', 13, 'brmagenta', RGB(108, 113, 196)),
+    Color('Blue',    '268BD2',  4, 'blue',      RGB( 38, 139, 210)),
+    Color('Cyan',    '2AA198',  6, 'cyan',      RGB( 42, 161, 152)),
+    Color('Green',   '859900',  2, 'green',     RGB(133, 153,   0)),
+)}
+
+
+if __name__ == '__main__':
+    import argparse
+
+    generators = {
+        'alacritty': alacritty_gen_config,
+        'mintty': mintty_gen_config
+    }
+
+    parser = argparse.ArgumentParser(description='Generate terminal themes.')
+    parser.add_argument('-t', '--terminal',
+                        required=True,
+                        choices=generators.keys(),
+                        help='which terminal to generate theme for')
+    parser.add_argument('-l', '--light',
+                        dest='light', action='store_true',
+                        help='use light background (default: False, use dark)')
+
+    args = parser.parse_args()
+    theme = SOLARIZED_LIGHT if args.light else SOLARIZED_DARK
+    generate = generators[args.terminal]
+
+    print(generate(SOLARIZED, **theme))
+
