@@ -281,6 +281,34 @@ font:
   #
   #indexed_colors: []
 
+# Colors (Solarized Dark)
+colors:
+    primary:
+      foreground:      '0x93a1a1'    # Base1
+      background:      '0x002b36'    # Base03
+    cursor:
+      text:            '0xdc322f'    # Red
+      cursor:          '0xdc322f'    # Red
+    normal:
+      black:           '0x073642'    # Base02
+      white:           '0xeee8d5'    # Base2
+      yellow:          '0xb58900'    # Yellow
+      red:             '0xdc322f'    # Red
+      magenta:         '0xd33682'    # Magenta
+      blue:            '0x268bd2'    # Blue
+      cyan:            '0x2aa198'    # Cyan
+      green:           '0x859900'    # Green
+    bright:
+      black:           '0x002b36'    # Base03
+      green:           '0x586e75'    # Base01
+      yellow:          '0x657b83'    # Base00
+      blue:            '0x839496'    # Base0
+      cyan:            '0x93a1a1'    # Base1
+      white:           '0xfdf6e3'    # Base3
+      red:             '0xcb4b16'    # Orange
+      magenta:         '0x6c71c4'    # Violet
+
+
 # Bell
 #
 # The bell is rung every time the BEL control character is received.
