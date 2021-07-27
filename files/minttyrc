@@ -1,8 +1,8 @@
-BoldAsFont=no
+BoldAsFont=yes
 Charset=UTF-8
 Columns=130
 CtrlAltIsAltGr=yes
-CursorType=underscore
+CursorType=line
 Font=Source Code Pro Medium
 FontHeight=9
 FontWeight=400
