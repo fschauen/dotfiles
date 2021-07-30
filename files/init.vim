@@ -19,7 +19,7 @@ set   foldnestmax=10  " limit nested folds to 10 levels
 set   formatlistpat="^\s*\(\d\+[\]:.)}\t ]\|[-*]\|\[[ x]\]\|([ x])\)\s*"
 set   formatoptions-=t  " don't auto-wrap on 'textwidth'
 set   formatoptions+=c  " do auto-wrap comments on 'textwidth'
-set   formatoptions+=j  " remove comment leader when joining lings
+set   formatoptions+=j  " remove comment leader when joining lines
 set   formatoptions+=n  " recognize and indent lists automatically
 set   hidden            " hide abandoned buffers
 set   ignorecase        " ignore case when searching (see 'smartcase' below)
