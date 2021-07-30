@@ -92,24 +92,28 @@ call plug#begin('$XDG_DATA_HOME/nvim/plugged')
         let g:ctrlp_show_hidden = 1         " show hidden files
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'tpope/vim-commentary'
-    Plug 'itchyny/vim-gitbranch'
     Plug 'itchyny/lightline.vim'
         let g:lightline = {
         \   'colorscheme': 'solarized',
         \   'active': {
-        \       'left': [
-        \           [ 'mode', 'paste' ],
-        \           [ 'readonly', 'modified' ],
-        \           [ 'relativepath' ],
-        \       ],
-        \       'right': [
-        \           [ 'lineinfo' ],
-        \           [ 'percent_total' ],
-        \           [ 'filetype', 'fileencoding',  'fileformat' ],
-        \       ]
+        \       'left': [['mode','paste'],[],['path']],
+        \       'right': [['percent'],['lineinfo'],['ro','modified','ft','fenc','ff']],
         \   },
-        \   'component': { 'percent_total': '%3p%%×%L' },
-        \   'subseparator': { 'left': '', 'right': '|' },
+        \   'inactive': {
+        \       'left': [['paste','ro','modified'],['path']],
+        \       'right': [['percent'],['lineinfo'],['ro','modified']],
+        \   },
+        \   'component': {
+        \       'fenc':     '%{&fenc!=#""?&fenc:&enc}',
+        \       'ff':       '%{&ff}',
+        \       'ft':       '%{&ft!=#""?&ft:"?"}',
+        \       'modified': '%m',
+        \       'paste':    '%{&paste?"PASTE":""}',
+        \       'path':     '%f',
+        \       'percent':  '%3p%%×%L',
+        \       'ro':       '%r',
+        \   },
+        \   'subseparator': { 'left': '', 'right': '' },
         \ }
     Plug 'vim-scripts/srec.vim'
         highlight link srecStart        Comment
