@@ -191,6 +191,12 @@ nnoremap <leader>w :FixWhitespace<cr>
 
 " cycle through line numbering modes
 nnoremap <silent> <leader>l :call VimrcCycleNumbers()<CR>
+
+" move lines up and down
+nnoremap <A-j> :move .+1<cr>
+nnoremap <A-k> :move .-2<cr>
+vnoremap <A-j> :move '>+1<cr>gv
+vnoremap <A-k> :move '<-2<cr>gv
 " }}}"
 
 augroup vimrc " {{{
