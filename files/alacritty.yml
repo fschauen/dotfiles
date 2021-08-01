@@ -287,7 +287,7 @@ colors:
       foreground:      '0x93a1a1'    # Base1
       background:      '0x002b36'    # Base03
     cursor:
-      text:            '0xdc322f'    # Red
+      text:            '0x93a1a1'    # Base1
       cursor:          '0xdc322f'    # Red
     normal:
       black:           '0x073642'    # Base02
