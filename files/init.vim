@@ -23,6 +23,7 @@ set   formatoptions+=j  " remove comment leader when joining lines
 set   formatoptions+=n  " recognize and indent lists automatically
 set   hidden            " hide abandoned buffers
 set   ignorecase        " ignore case when searching (see 'smartcase' below)
+let  &inccommand='split' " show command partial results
 set nojoinspaces        " use one space after a period whe joining lines
 set   lazyredraw        " don't redraw screen when executing macros
 set   list              " show invisible characters
