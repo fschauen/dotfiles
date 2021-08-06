@@ -1,7 +1,22 @@
 #!/bin/sh
 set -eu
 
-DRY_RUN=false
+usage() {
+    echo "Usage: $(basename $0) [-h] [-f]"
+    echo ""
+    echo "  -h  print this help and exit"
+    echo "  -f  modify filesystem rather than dry run"
+}
+
+DRY_RUN=true
+while getopts 'fh' opt; do
+    case "$opt" in
+        f) DRY_RUN=false;;
+        h) usage; exit 0;;
+        *) usage; exit 1;;
+    esac
+done
+
 DEFAULT_GIT_USER="Fernando Schauenburg"
 DEFAULT_GIT_EMAIL="fernando@schauenburg.me"
 
