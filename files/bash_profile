@@ -1,0 +1,6 @@
+#!/bin/bash
+# Called by bash (1) on for login shells. Execute ~/.profile if present and
+# ~/.bashrc if shell is interactive.
+[ -f "${HOME}/.profile" ] && source "${HOME}/.profile"
+[[ "$-" == *i* ]] && [ -f "${HOME}/.bashrc" ] && source "${HOME}/.bashrc"
+

@@ -25,6 +25,7 @@ ${XDG_CONFIG_HOME}/readline
 ${XDG_CONFIG_HOME}/tmux
 ${XDG_CONFIG_HOME}/nvim
 ${XDG_CONFIG_HOME}/nvim/autoload
+${XDG_CONFIG_HOME}/shell
 ${XDG_DATA_HOME}/bash
 ${XDG_DATA_HOME}/bash-completion/completions
 ${XDG_DATA_HOME}/less
@@ -37,10 +38,11 @@ EOF
 
 DOTFILES=$(cat <<EOF
 files/xcompose              ${HOME}/.XCompose
-files/bashrc                ${HOME}/.bash_profile
 files/bashrc                ${HOME}/.bashrc
+files/bash_profile          ${HOME}/.bash_profile
 files/jupyter_custom.js     ${HOME}/.jupyter/custom/custom.js
 files/jupyter_notebook.json ${HOME}/.jupyter/nbconfig/notebook.json
+files/profile               ${HOME}/.profile
 files/ssh_config            ${HOME}/.ssh/config
 files/alacritty.yml         ${XDG_CONFIG_HOME}/alacritty/alacritty.yml
 files/gitconfig             ${XDG_CONFIG_HOME}/git/config
@@ -51,6 +53,8 @@ files/plug.vim              ${XDG_CONFIG_HOME}/nvim/autoload/plug.vim
 files/python-startup.py     ${XDG_CONFIG_HOME}/python/startup.py
 files/tmux.conf             ${XDG_CONFIG_HOME}/tmux/tmux.conf
 files/init.vim              ${XDG_CONFIG_HOME}/nvim/init.vim
+files/aliases.sh            ${XDG_CONFIG_HOME}/shell/aliases.sh
+files/solarized.sh          ${XDG_CONFIG_HOME}/shell/solarized.sh
 EOF
 )
 
@@ -136,7 +140,7 @@ task_gather_user_info() {
 
 task_remove_bash_profile() {
     heading "Remove pre-installed bash profile"
-    for f in .bash_logout .profile; do
+    for f in .bash_logout; do
         file_absent "$HOME/$f"
     done
 }
