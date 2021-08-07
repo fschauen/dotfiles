@@ -1,0 +1,8 @@
+#!/bin/zsh
+# Set up zsh for interactive use (options, prompt, aliases, etc.)
+
+stty -ixon # disable ctrl-s and ctrl-q
+
+[ -f "${XDG_CONFIG_HOME}/shell/aliases.sh" ] && source "${XDG_CONFIG_HOME}/shell/aliases.sh"
+[ -f "${XDG_CONFIG_HOME}/shell/solarized.sh" ] && source "${XDG_CONFIG_HOME}/shell/solarized.sh"
+

@@ -23,38 +23,40 @@ export LOCAL_CONFIG="$HOME/.local/etc"
 export LOCAL_PREFIX="/usr/local"
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
-
-if command -v manpath >/dev/null 2>&1; then
-    MANPATH="$(unset MANPATH; manpath)"
-    export MANPATH
-fi
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
-[ "$(uname -s)" == "Darwin" ] && { PATH=""; source /etc/profile; }
-
-_prepend_path() {  # prepend $1 to var $2 avoiding duplicates using : as separator
-    if [ -d "$1" ] && [ -n "$2" ]; then
-        local _path="${!2}"                     # get path variable value
-        case ":$_path:" in
-            *":$1:"*) :;;                       # dir already in path, noop (:)
-            *) _path="$1${_path:+:}$_path";;    # prepend (adding : if not empty)
-        esac
-        printf -v "$2" "%s" "$_path"            # write back to path variable
-    fi
-}
+[ "$(uname -s)" = "Darwin" ] && { PATH=""; source /etc/profile; }
 
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
+while read -r dir; do
+    case ":${PATH:=$dir}:" in
+        *:"$dir":*) ;;
+        *) PATH="$dir:$PATH" ;;
+    esac
+done <<EOL
+    $LOCAL_PREFIX/bin
+    $HOME/.local/bin
+EOL
+export PATH
+
 # Prepend custom man directories to MANPATH if they exist, so that we get
 # correct man page entries when multiple versions of a command are
 # available.
-while read -r var dir; do _prepend_path "$dir" "$var"; done <<EOL
-    PATH    $LOCAL_PREFIX/bin
-    MANPATH $LOCAL_PREFIX/share/man
-    PATH    $HOME/.local/bin
-    MANPATH $HOME/.local/share/man
+[ command -v manpath >/dev/null 2>&1 ] && MANPATH="$(unset MANPATH; manpath)"
+while read -r dir; do
+    case ":${MANPATH:=$dir}:" in
+        *:"$dir":*) ;;
+        *) MANPATH="$dir:$MANPATH" ;;
+    esac
+done <<EOL
+    $LOCAL_PREFIX/share/man
+    $HOME/.local/share/man
 EOL
-unset var dir _prepend_path
+export MANPATH
+
+unset dir
 
 # This check has to be done after PATH manipulation above so we can find brew.
 if command -v brew >/dev/null 2>&1; then
