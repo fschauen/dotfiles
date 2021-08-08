@@ -1,7 +1,7 @@
 #!/bin/bash
 # Set up bash for interactive use (options, prompt, aliases, etc.)
 
-stty -ixon # disable ctrl-s and ctrl-q
+stty stop undef # Prevent ctrl-s from freezing the terminal.
 
 shopt -s cdspell checkwinsize globstar histappend nocaseglob
 set -o noclobber    # Prevent overwriting files with output redirection.
