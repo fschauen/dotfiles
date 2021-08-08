@@ -63,6 +63,15 @@ export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
+# Make man pages pretty
+export LESS_TERMCAP_so="$(printf '%s\n' "setaf $Base03" "setab $Cyan" | tput -S)"
+export LESS_TERMCAP_md="$(printf '%s\n' "setaf $Yellow" | tput -S)"
+export LESS_TERMCAP_us="$(printf '%s\n' "setaf $Base3" 'smul' | tput -S)"
+export LESS_TERMCAP_se="$Reset"
+export LESS_TERMCAP_me="$Reset"
+export LESS_TERMCAP_ue="$Reset"
+export GROFF_NO_SGR=1
+
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502
 [ "$(uname -s)" = "Darwin" ] && { PATH=""; source /etc/profile; }
