@@ -5,12 +5,6 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
-if command -v nvim >/dev/null 2>&1; then
-    export EDITOR="nvim"
-else
-    export EDITOR="vim"
-fi
-
 export INPUTRC="$XDG_CONFIG_HOME/readline/inputrc"
 export LANG="en_US.UTF-8"
 export LANGUAGE="en_US"
@@ -58,7 +52,15 @@ export MANPATH
 
 unset dir
 
-# This check has to be done after PATH manipulation above so we can find brew.
+# These checks habe to be done after PATH manipulation above so we can find
+# installed programs if they are in the added paths.
+
+if command -v nvim >/dev/null 2>&1; then
+    export EDITOR="nvim"
+else
+    export EDITOR="vim"
+fi
+
 if command -v brew >/dev/null 2>&1; then
     LOCAL_PREFIX="$(brew --prefix)"
     export HOMEBREW_NO_ANALYTICS=1
