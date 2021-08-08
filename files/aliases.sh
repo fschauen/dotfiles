@@ -36,6 +36,8 @@ alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias fgrep="fgrep --color=auto"
 
+alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
+
 if command -v nvim >/dev/null 2>&1; then
     alias vim="nvim"
     alias vimdiff="nvim -d"
