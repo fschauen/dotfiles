@@ -53,13 +53,6 @@ EOF
 )
 
 DOTFILES=$(cat <<EOF
-files/xcompose              ${HOME}/.XCompose
-files/bashrc                ${HOME}/.bashrc
-files/bash_profile          ${HOME}/.bash_profile
-files/jupyter_custom.js     ${HOME}/.jupyter/custom/custom.js
-files/jupyter_notebook.json ${HOME}/.jupyter/nbconfig/notebook.json
-files/profile.sh            ${HOME}/.zshenv
-files/ssh_config            ${HOME}/.ssh/config
 files/alacritty.yml         ${XDG_CONFIG_HOME}/alacritty/alacritty.yml
 files/gitconfig             ${XDG_CONFIG_HOME}/git/config
 files/gitignore             ${XDG_CONFIG_HOME}/git/ignore
@@ -72,6 +65,13 @@ files/init.vim              ${XDG_CONFIG_HOME}/nvim/init.vim
 files/aliases.sh            ${XDG_CONFIG_HOME}/shell/aliases.sh
 files/profile.sh            ${XDG_CONFIG_HOME}/shell/profile.sh
 files/zshrc                 ${XDG_CONFIG_HOME}/zsh/.zshrc
+files/xcompose              ${HOME}/.XCompose
+files/bashrc                ${HOME}/.bashrc
+files/bash_profile          ${HOME}/.bash_profile
+files/jupyter_custom.js     ${HOME}/.jupyter/custom/custom.js
+files/jupyter_notebook.json ${HOME}/.jupyter/nbconfig/notebook.json
+files/profile.sh            ${HOME}/.zshenv
+files/ssh_config            ${HOME}/.ssh/config
 EOF
 )
 
