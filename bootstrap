@@ -52,26 +52,27 @@ ${XDG_DATA_HOME}/nvim/shada
 EOF
 )
 
+FILES="$DOTFILES_DIR/files"
 DOTFILES=$(cat <<EOF
-${XDG_CONFIG_HOME}/alacritty/alacritty.yml  files/alacritty.yml
-${XDG_CONFIG_HOME}/git/config               files/gitconfig
-${XDG_CONFIG_HOME}/git/ignore               files/gitignore
-${XDG_CONFIG_HOME}/readline/inputrc         files/inputrc
-${XDG_CONFIG_HOME}/mintty/config            files/minttyrc
-${XDG_CONFIG_HOME}/nvim/autoload/plug.vim   files/plug.vim
-${XDG_CONFIG_HOME}/python/startup.py        files/python-startup.py
-${XDG_CONFIG_HOME}/tmux/tmux.conf           files/tmux.conf
-${XDG_CONFIG_HOME}/nvim/init.vim            files/init.vim
-${XDG_CONFIG_HOME}/shell/aliases.sh         files/aliases.sh
-${XDG_CONFIG_HOME}/shell/profile.sh         files/profile.sh
-${XDG_CONFIG_HOME}/zsh/.zshrc               files/zshrc
-${HOME}/.XCompose                           files/xcompose
-${HOME}/.bashrc                             files/bashrc
-${HOME}/.bash_profile                       files/bash_profile
-${HOME}/.jupyter/custom/custom.js           files/jupyter_custom.js
-${HOME}/.jupyter/nbconfig/notebook.json     files/jupyter_notebook.json
-${HOME}/.zshenv                             files/profile.sh
-${HOME}/.ssh/config                         files/ssh_config
+${XDG_CONFIG_HOME}/alacritty/alacritty.yml  $FILES/alacritty.yml
+${XDG_CONFIG_HOME}/git/config               $FILES/gitconfig
+${XDG_CONFIG_HOME}/git/ignore               $FILES/gitignore
+${XDG_CONFIG_HOME}/readline/inputrc         $FILES/inputrc
+${XDG_CONFIG_HOME}/mintty/config            $FILES/minttyrc
+${XDG_CONFIG_HOME}/nvim/autoload/plug.vim   $FILES/plug.vim
+${XDG_CONFIG_HOME}/python/startup.py        $FILES/python-startup.py
+${XDG_CONFIG_HOME}/tmux/tmux.conf           $FILES/tmux.conf
+${XDG_CONFIG_HOME}/nvim/init.vim            $FILES/init.vim
+${XDG_CONFIG_HOME}/shell/aliases            $FILES/aliases.sh
+${XDG_CONFIG_HOME}/shell/profile            $FILES/profile.sh
+${XDG_CONFIG_HOME}/zsh/.zshrc               $FILES/zshrc
+${HOME}/.XCompose                           $FILES/xcompose
+${HOME}/.bashrc                             $FILES/bashrc
+${HOME}/.bash_profile                       $FILES/bash_profile
+${HOME}/.jupyter/custom/custom.js           $FILES/jupyter_custom.js
+${HOME}/.jupyter/nbconfig/notebook.json     $FILES/jupyter_notebook.json
+${HOME}/.zprofile                           ${XDG_CONFIG_HOME}/shell/profile
+${HOME}/.ssh/config                         $FILES/ssh_config
 EOF
 )
 
@@ -170,7 +171,7 @@ task_ensure_directories() {
 task_link_dotfiles() {
     heading "Link dotfiles"
     echo "$DOTFILES" | while read -r src dest; do
-        file_link "$src" "$DOTFILES_DIR/$dest"
+        file_link "$src" "$dest"
     done
 }
 

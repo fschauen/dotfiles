@@ -13,7 +13,7 @@ HISTSIZE=
 HISTTIMEFORMAT="[%F %T] "
 HISTFILE="$XDG_DATA_HOME/bash/history"
 
-[ -f "${XDG_CONFIG_HOME}/shell/aliases.sh" ] && source "${XDG_CONFIG_HOME}/shell/aliases.sh"
+[ -f "${XDG_CONFIG_HOME}/shell/aliases" ] && source "${XDG_CONFIG_HOME}/shell/aliases"
 
 Reset="\[$(tput sgr0)\]"
 PS1_EXIT="\[$(tput setaf      "$Red"    )\]"  # color for last exit code if non-zero
