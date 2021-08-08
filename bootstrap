@@ -71,7 +71,6 @@ files/tmux.conf             ${XDG_CONFIG_HOME}/tmux/tmux.conf
 files/init.vim              ${XDG_CONFIG_HOME}/nvim/init.vim
 files/aliases.sh            ${XDG_CONFIG_HOME}/shell/aliases.sh
 files/profile.sh            ${XDG_CONFIG_HOME}/shell/profile.sh
-files/solarized.sh          ${XDG_CONFIG_HOME}/shell/solarized.sh
 files/zshrc                 ${XDG_CONFIG_HOME}/zsh/.zshrc
 EOF
 )
