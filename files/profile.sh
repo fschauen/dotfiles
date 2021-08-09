@@ -47,7 +47,7 @@ export PATH
 # Prepend custom man directories to MANPATH if they exist, so that we get
 # correct man page entries when multiple versions of a command are
 # available.
-[ command -v manpath >/dev/null 2>&1 ] && MANPATH="$(unset MANPATH; manpath)"
+command -v manpath >/dev/null 2>&1 && MANPATH="$(unset MANPATH; manpath)"
 while read -r dir; do
     case ":${MANPATH:=$dir}:" in
         *:"$dir":*) ;;
