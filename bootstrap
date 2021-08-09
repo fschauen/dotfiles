@@ -127,7 +127,7 @@ prune_link() {  # Remove $1 if it's a broken link to a dotfile script.
 }
 
 file_link() {  # Make sure $1 is a link to $2.
-    target="$(realpath "$2")"
+    target="$(realpath -s "$2")"
     if [ "$(readlink "$1")" = "$target" ]; then
         info "OK: $1"
     else
