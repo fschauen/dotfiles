@@ -16,3 +16,18 @@ HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 HISTSIZE=1000000
 SAVEHIST=1000000
 
+# Use vi mode for line editing.
+bindkey -v
+
+# Use beam cursor on each new prompt
+precmd() { echo -ne '\e[5 q'; }
+
+# Switch cursor shape depending on editing mode.
+zle-keymap-select() {
+    case $KEYMAP in
+        vicmd)      echo -ne '\e[1 q';;  # block cursor for command mode
+        viins|main) echo -ne '\e[5 q';;  # beam cursor for insert mode
+    esac
+}
+zle -N zle-keymap-select
+
