@@ -9,3 +9,8 @@ unset f
 
 stty stop undef # Prevent ctrl-s from freezing the terminal.
 
+# Save a lot of history in the cache directory.
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+HISTSIZE=1000000
+SAVEHIST=1000000
+

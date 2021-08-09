@@ -30,6 +30,7 @@ ${HOME}/.local/etc/git
 ${HOME}/.jupyter/custom
 ${HOME}/.jupyter/nbconfig
 ${HOME}/.ssh
+${XDG_CACHE_HOME}/zsh
 ${XDG_CONFIG_HOME}/alacritty
 ${XDG_CONFIG_HOME}/git
 ${XDG_CONFIG_HOME}/mintty
