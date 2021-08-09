@@ -31,6 +31,10 @@ zle-keymap-select() {
 }
 zle -N zle-keymap-select
 
+# Search through history in insert mode.
+bindkey -M viins '^j' history-beginning-search-forward
+bindkey -M viins '^k' history-beginning-search-backward
+
 # Restore some common and useful emacs mode shortcut.
 bindkey -M viins '^a' vi-beginning-of-line
 bindkey -M viins '^e' vi-end-of-line
