@@ -2,8 +2,8 @@
 # Set up zsh for interactive use (options, prompt, aliases, etc.)
 
 while read -r f; do [ -f "$f" ] && source "$f"; done <<EOL
-    "${XDG_CONFIG_HOME}/shell/aliases"
-    "${XDG_CONFIG_HOME}/shell/solarized"
+    ${XDG_CONFIG_HOME}/shell/aliases
+    ${XDG_CONFIG_HOME}/shell/solarized
 EOL
 unset f
 
