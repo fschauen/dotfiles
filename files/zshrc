@@ -1,7 +1,11 @@
 #!/bin/zsh
 # Set up zsh for interactive use (options, prompt, aliases, etc.)
 
-stty stop undef # Prevent ctrl-s from freezing the terminal.
+while read -r f; do [ -f "$f" ] && source "$f"; done <<EOL
+    "${XDG_CONFIG_HOME}/shell/aliases"
+    "${XDG_CONFIG_HOME}/shell/solarized"
+EOL
+unset f
 
-[ -f "${XDG_CONFIG_HOME}/shell/aliases" ] && source "${XDG_CONFIG_HOME}/shell/aliases"
+stty stop undef # Prevent ctrl-s from freezing the terminal.
 

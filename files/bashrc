@@ -1,6 +1,12 @@
 #!/bin/bash
 # Set up bash for interactive use (options, prompt, aliases, etc.)
 
+while read -r f; do [ -f "$f" ] && source "$f"; done <<EOL
+    ${XDG_CONFIG_HOME}/shell/aliases
+    ${XDG_CONFIG_HOME}/shell/solarized
+EOL
+unset f
+
 stty stop undef # Prevent ctrl-s from freezing the terminal.
 
 shopt -s cdspell checkwinsize globstar histappend nocaseglob
@@ -12,8 +18,6 @@ HISTFILESIZE=
 HISTSIZE=
 HISTTIMEFORMAT="[%F %T] "
 HISTFILE="$XDG_DATA_HOME/bash/history"
-
-[ -f "${XDG_CONFIG_HOME}/shell/aliases" ] && source "${XDG_CONFIG_HOME}/shell/aliases"
 
 Reset="\[$(tput sgr0)\]"
 PS1_EXIT="\[$(tput setaf      "$Red"    )\]"  # color for last exit code if non-zero
