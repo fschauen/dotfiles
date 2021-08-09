@@ -7,7 +7,8 @@ while read -r f; do [ -f "$f" ] && source "$f"; done <<EOL
 EOL
 unset f
 
-stty stop undef # Prevent ctrl-s from freezing the terminal.
+# Prevent ctrl-s from freezing the terminal.
+stty stop undef
 
 shopt -s cdspell checkwinsize globstar histappend nocaseglob
 set -o noclobber    # Prevent overwriting files with output redirection.
@@ -19,6 +20,7 @@ HISTSIZE=
 HISTTIMEFORMAT="[%F %T] "
 HISTFILE="$XDG_DATA_HOME/bash/history"
 
+# Prompt configuration.
 Reset="\[$(tput sgr0)\]"
 PS1_EXIT="\[$(tput setaf      "$Red"    )\]"  # color for last exit code if non-zero
 PS1_ROOT="\[$(tput setaf      "$Orange" )\]"  # logged in as root
@@ -57,11 +59,12 @@ __ps1_set() {
     PS1="${ps[0]}$extra$sep_color ${prompt:0:$SHLVL}$Reset "
 } &>/dev/null
 
+# Source extra configurations if available.
 _source_extra_configs() {
     local configs=(
         /usr/local/etc/profile.d/bash_completion.sh
         /usr/share/bash-completion/bash_completion
-        $LOCAL_CONFIG/bash/*
+        $HOME/.local/etc/bash/*
     )
     local f
     for f in ${configs[@]}; do [ -f "$f" ] && source "$f"; done
