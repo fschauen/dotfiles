@@ -35,10 +35,10 @@ zle -N zle-keymap-select
 zstyle ':completion:*' menu select
 #autoload -U compinit && compinit
 
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
+# bindkey -M menuselect 'h' vi-backward-char
+# bindkey -M menuselect 'k' vi-up-line-or-history
+# bindkey -M menuselect 'l' vi-forward-char
+# bindkey -M menuselect 'j' vi-down-line-or-history
 
 # Search through history in insert mode.
 bindkey -M viins '^j' history-beginning-search-forward
