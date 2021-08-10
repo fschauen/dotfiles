@@ -75,5 +75,5 @@
     required = true
 
 [include]
-    path = ~/.local/etc/git/config.host     # host-specific (from template)
+    path = ~/.local/etc/git/config.user     # user name & e-mail (from template)
     path = ~/.local/etc/git/config          # optional manual configurations

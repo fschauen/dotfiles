@@ -3,16 +3,16 @@
 
 # Source additional configurations if available.
 while read -r f; do [ -f "$f" ] && source "$f"; done <<EOL
-    ${XDG_CONFIG_HOME}/shell/aliases
-    ${XDG_CONFIG_HOME}/shell/solarized
+    $ZDOTDIR/aliases
+    $ZDOTDIR/solarized
 EOL
 unset f
 
 # Prevent ctrl-s from freezing the terminal.
 stty stop undef
 
-# Save a lot of history in the cache directory.
-HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+# Save a lot of history.
+HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
 HISTSIZE=1000000
 SAVEHIST=1000000
 
