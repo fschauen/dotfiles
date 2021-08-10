@@ -21,15 +21,16 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # Make man pages pretty
-Reset="$(tput sgr0)"
+rst="$(tput sgr0)"
 export LESS_TERMCAP_md="$(printf '%s\n' 'setaf 3' | tput -S)"
 export LESS_TERMCAP_mb="$LESS_TERMCAP_md"
-export LESS_TERMCAP_me="$Reset"
+export LESS_TERMCAP_me="$rst"
 export LESS_TERMCAP_us="$(printf '%s\n' 'setaf 7' 'smul' | tput -S)"
-export LESS_TERMCAP_ue="$Reset"
+export LESS_TERMCAP_ue="$rst"
 export LESS_TERMCAP_so="$(printf '%s\n' 'setaf 4' 'setab 0' | tput -S)"
-export LESS_TERMCAP_se="$Reset"
+export LESS_TERMCAP_se="$rst"
 export GROFF_NO_SGR=1
+unset rst
 
 # Prevent path_helper from messing with the PATH when starting tmux.
 #   See: https://superuser.com/a/583502

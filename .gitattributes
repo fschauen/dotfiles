@@ -1,2 +1,2 @@
-files/ssh_config filter=git-crypt diff=git-crypt
+ssh/ssh_config filter=git-crypt diff=git-crypt
 
