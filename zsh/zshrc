@@ -16,6 +16,9 @@ HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
 HISTSIZE=1000000
 SAVEHIST=1000000
 
+# Basic prompt.
+PS1="%~ > "
+
 # Use vi mode for line editing.
 bindkey -v
 
