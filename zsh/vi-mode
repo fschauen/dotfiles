@@ -1,0 +1,35 @@
+#!/bin/zsh
+
+# Use vi mode for line editing.
+bindkey -v
+export KEYTIMEOUT=1
+
+set_cursor_shape() {
+    if [ -n ITERM_SESSION_ID ]; then
+        local block='\e]1337;CursorShape=0\a'
+        local bar='\e]1337;CursorShape=1\a'
+        local underline='\e]1337;CursorShape=2\a'
+    else
+        local block='\e[1 q' beam='\e[3 q' underline='\e[5 q'
+    fi
+
+    case "$1" in
+        block)      echo -ne "$block"     ;;
+        bar)        echo -ne "$bar"       ;;
+        underline)  echo -ne "$underline" ;;
+    esac
+}
+
+# Switch cursor shape depending on editing mode.
+zle-keymap-select() {
+    case $KEYMAP in
+        vicmd)      set_cursor_shape block ;;
+        viins|main) set_cursor_shape bar   ;;
+    esac
+}
+zle -N zle-keymap-select
+
+# Start new prompts with bar shaped cursor.
+zle-line-init() { set_cursor_shape bar; }
+zle -N zle-line-init
+
