@@ -1,0 +1,68 @@
+#!/bin/zsh
+autoload -U promptinit; promptinit
+prompt spaceship
+
+SPACESHIP_PROMPT_ORDER=(
+    user host dir git venv jobs exec_time
+    line_sep
+    exit_code char
+)
+
+# TODO get rid of bold in prompt
+
+sep='> '  # TODO change separator color: make it less contrast
+SPACESHIP_USER_PREFIX="$sep"
+SPACESHIP_USER_SUFFIX=""
+SPACESHIP_USER_SHOW=true
+SPACESHIP_USER_COLOR=3  # yellow
+SPACESHIP_USER_COLOR_ROOT=1  # red
+
+SPACESHIP_HOST_PREFIX="@"  # TODO make this yellow
+SPACESHIP_HOST_SHOW=true
+SPACESHIP_HOST_SHOW_FULL=false
+SPACESHIP_HOST_COLOR_SSH=3  # yellow
+
+SPACESHIP_DIR_PREFIX="$sep"
+SPACESHIP_DIR_TRUNC=4
+SPACESHIP_DIR_TRUNC_PREFIX="…/"
+SPACESHIP_DIR_TRUNC_REPO=false
+SPACESHIP_DIR_COLOR=6  # cyan
+SPACESHIP_DIR_LOCK_SYMBOL=" "
+SPACESHIP_DIR_LOCK_COLOR=9  # orange
+
+SPACESHIP_GIT_PREFIX="$sep"
+SPACESHIP_GIT_STATUS_PREFIX=' '
+SPACESHIP_GIT_STATUS_SUFFIX=''
+SPACESHIP_GIT_STATUS_COLOR=4  # blue
+SPACESHIP_GIT_BRANCH_PREFIX=''
+SPACESHIP_GIT_BRANCH_COLOR=4  # blue
+
+SPACESHIP_VENV_PREFIX="$sep"  # TODO add 'venv: ' prefix keeping violet color
+SPACESHIP_VENV_COLOR=13  # violet
+
+SPACESHIP_JOBS_PREFIX="$sep"  # TODO add ' bg' suffix keeping magenta color
+SPACESHIP_JOBS_SYMBOL=''
+SPACESHIP_JOBS_COLOR=5  # magenta
+SPACESHIP_JOBS_AMOUNT_THRESHOLD=0
+
+SPACESHIP_EXEC_TIME_PREFIX="$sep"
+SPACESHIP_EXEC_TIME_COLOR=7  # base2
+SPACESHIP_EXEC_TIME_ELAPSED=2
+
+SPACESHIP_EXIT_CODE_SHOW=true
+SPACESHIP_EXIT_CODE_PREFIX=''
+SPACESHIP_EXIT_CODE_SYMBOL=''
+SPACESHIP_EXIT_CODE_COLOR=1  # red
+
+SPACESHIP_CHAR_SYMBOL="$sep"
+SPACESHIP_CHAR_COLOR_SUCCESS=
+SPACESHIP_CHAR_COLOR_FAILURE=
+SPACESHIP_CHAR_COLOR_SECONDARY=
+
+# Remove prompt boldness.
+# https://github.com/spaceship-prompt/spaceship-prompt/issues/426#issuecomment-576036367
+() {
+  local z=$'\0'
+  PROMPT='${${${$(spaceship_prompt)//\%\%/'$z'}//\%B}//'$z'/%%}'
+}
+
