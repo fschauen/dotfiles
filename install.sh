@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -e
 
 export DOTFILES="$(dirname "$(realpath "$0")")"
 
