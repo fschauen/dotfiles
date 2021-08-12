@@ -5,7 +5,6 @@
 while read -r f; do [ -f "$f" ] && source "$f"; done <<EOL
     $ZDOTDIR/aliases
     $ZDOTDIR/prompt
-    $ZDOTDIR/solarized
     $ZDOTDIR/vi-mode
 EOL
 unset f

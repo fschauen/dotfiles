@@ -1,68 +1,199 @@
 #!/bin/zsh
-autoload -U promptinit; promptinit
-prompt spaceship
 
-SPACESHIP_PROMPT_ORDER=(
-    user host dir git venv jobs exec_time
-    line_sep
-    exit_code char
-)
+base03=8 base02=0 base01=10 base00=11 base0=12 base1=14 base2=7   base3=15
+red=1    orange=9 yellow=3  green=2   cyan=6   blue=4   violet=13 magenta=5
 
-# TODO get rid of bold in prompt
+PROMPT_SECTIONS=()
+PROMPT_SEPARATOR="%{%F{$base01}%} ❯ %{%f%}"
 
-sep='> '  # TODO change separator color: make it less contrast
-SPACESHIP_USER_PREFIX="$sep"
-SPACESHIP_USER_SUFFIX=""
-SPACESHIP_USER_SHOW=true
-SPACESHIP_USER_COLOR=3  # yellow
-SPACESHIP_USER_COLOR_ROOT=1  # red
-
-SPACESHIP_HOST_PREFIX="@"  # TODO make this yellow
-SPACESHIP_HOST_SHOW=true
-SPACESHIP_HOST_SHOW_FULL=false
-SPACESHIP_HOST_COLOR_SSH=3  # yellow
-
-SPACESHIP_DIR_PREFIX="$sep"
-SPACESHIP_DIR_TRUNC=4
-SPACESHIP_DIR_TRUNC_PREFIX="…/"
-SPACESHIP_DIR_TRUNC_REPO=false
-SPACESHIP_DIR_COLOR=6  # cyan
-SPACESHIP_DIR_LOCK_SYMBOL=" "
-SPACESHIP_DIR_LOCK_COLOR=9  # orange
-
-SPACESHIP_GIT_PREFIX="$sep"
-SPACESHIP_GIT_STATUS_PREFIX=' '
-SPACESHIP_GIT_STATUS_SUFFIX=''
-SPACESHIP_GIT_STATUS_COLOR=4  # blue
-SPACESHIP_GIT_BRANCH_PREFIX=''
-SPACESHIP_GIT_BRANCH_COLOR=4  # blue
-
-SPACESHIP_VENV_PREFIX="$sep"  # TODO add 'venv: ' prefix keeping violet color
-SPACESHIP_VENV_COLOR=13  # violet
-
-SPACESHIP_JOBS_PREFIX="$sep"  # TODO add ' bg' suffix keeping magenta color
-SPACESHIP_JOBS_SYMBOL=''
-SPACESHIP_JOBS_COLOR=5  # magenta
-SPACESHIP_JOBS_AMOUNT_THRESHOLD=0
-
-SPACESHIP_EXEC_TIME_PREFIX="$sep"
-SPACESHIP_EXEC_TIME_COLOR=7  # base2
-SPACESHIP_EXEC_TIME_ELAPSED=2
-
-SPACESHIP_EXIT_CODE_SHOW=true
-SPACESHIP_EXIT_CODE_PREFIX=''
-SPACESHIP_EXIT_CODE_SYMBOL=''
-SPACESHIP_EXIT_CODE_COLOR=1  # red
-
-SPACESHIP_CHAR_SYMBOL="$sep"
-SPACESHIP_CHAR_COLOR_SUCCESS=
-SPACESHIP_CHAR_COLOR_FAILURE=
-SPACESHIP_CHAR_COLOR_SECONDARY=
-
-# Remove prompt boldness.
-# https://github.com/spaceship-prompt/spaceship-prompt/issues/426#issuecomment-576036367
-() {
-  local z=$'\0'
-  PROMPT='${${${$(spaceship_prompt)//\%\%/'$z'}//\%B}//'$z'/%%}'
+render() {  # $1: optional color, $2...: contents
+    if [[ -n $2 ]] {
+        PROMPT_SECTIONS+="%{%F{$1}%}${@[2,-1]}%{%f%}"
+    } else {
+        PROMPT_SECTIONS+="$1"
+    }
 }
 
+render_prompt() {
+    setopt localoptions shortloops
+
+    PROMPT_SECTIONS=()
+    for s in exit_code user_host pwd git venv jobs exec_time; { render_$s }
+
+    echo
+    echo ${(pj.$PROMPT_SEPARATOR.)PROMPT_SECTIONS}
+    printf '❯%.0s' {1..$SHLVL}
+    print ' '
+}
+
+render_exit_code() {
+    if (($PROMPT_EXIT_CODE != 0)) {
+        if ((PROMPT_EXIT_CODE > 128 && PROMPT_EXIT_CODE < 160 )) {
+            render $base00 $(kill -l $PROMPT_EXIT_CODE)
+        } else {
+            render $red "%{%B%}✘ $PROMPT_EXIT_CODE%{%b%}"
+        }
+    }
+}
+
+render_user_host() {
+    local sep="%{%F{$base01}%}@%{%f%}"
+    local parts=()
+
+    # username in orange if root, yellow if otherwise relevant
+    if [[ $UID == 0 ]] {
+        parts+="%{%F{$orange}%}%n%{%f%}"
+    } elif [[ $LOGNAME != $USER ]] || [[ -n $SSH_CONNECTION ]] {
+        parts+="%{%F{$yellow}%}%n%{%f%}"
+    }
+
+    # hostname in yellow if relevant
+    [[ -n $SSH_CONNECTION ]] && parts+="%{%F{$yellow}%}%m%{%f%}"
+
+    (($#parts)) && render "${(pj:$sep:)parts}"
+}
+
+render_pwd() {
+    render $cyan '%~'  # TODO add RO if now write permission
+}
+
+# TODO add stash?
+# TODO add action?
+render_git() {
+    local gitstatus  # local swallows git's exit code if not on its own line
+    gitstatus=$(command git status --porcelain -b 2>/dev/null) || return
+
+    # Sort through the status of files.
+    local untracked=0 dirty=0 staged=0 conflicts=0 branch_line=''
+    {
+        while IFS='' read -r line || [[ -n $line ]] {
+            case $line in
+                \#\#*) branch_line=$line;;
+                \?\?*) ((untracked++));;
+                AA*|DD*|U?*|?U*) ((conflicts++));;
+                *)
+                    [[ ${line:0:1} =~ '[MADRC]' ]] && ((staged++))
+                    [[ ${line:1:1} =~ '[MADRC]' ]] && ((dirty++))
+                    ;;
+            esac
+        } <<<$gitstatus
+    }
+
+    # Find out branch and upstream.
+    local branch='' upstream='' ahead=0 behind=0
+    {
+        local fields=(${(s:...:)${branch_line#\#\# }})
+        branch=$fields[1]
+        local tracking=$fields[2]
+
+        if [[ $branch == *'Initial commit on'* ]] \
+        || [[ $branch == *'No commits yet on'* ]] {
+            # Branch name is last word in these possible branch lines:
+            #   ## Initial commit on <branch>
+            #   ## No commits yet on <branch>
+            branch=(${${(s: :)branch}[-1]})
+
+        } elif [[ $branch == *'no branch'* ]] {
+            # Dettached HEAD (also if a tag is checked out), branch line:
+            #   ## HEAD (no branch)
+            local tag=$(git describe --tags --exact-match 2>/dev/null)
+            if [[ -n $tag ]] {
+                branch="⚑$tag"
+            } else {
+                branch="#$(git rev-parse --short HEAD)"
+            }
+
+        } elif (($#fields > 1)) {
+            # There is a tracking branch. Possibilites:
+            #   ## <branch>...<upstream>
+            #   ## <branch>...<upstream> [ahead 1]
+            #   ## <branch>...<upstream> [behind 1]
+            #   ## <branch>...<upstream> [ahead 1, behind 1]
+            tracking=(${(s: [:)${tracking%]}})
+            upstream=$tracking[1]
+            if (($#tracking > 1)) {
+                for e in ${(s:, :)tracking[2]}; {
+                    if [[ $e == 'ahead '* ]]  { ahead=${e:6}  }
+                    if [[ $e == 'behind '* ]] { behind=${e:7} }
+                }
+            }
+        }
+    }
+
+    local color=$blue trackinfo='' state=''
+    {
+        local attention=()
+        (($conflicts > 0 )) && attention+="%{%B%F{$red}%}$conflicts!%{%b%f%}"
+        (($untracked > 0 )) && attention+="%{%F{$base2}%}$untracked?%{%f%}"
+
+        local changes=()
+        (($staged > 0)) && changes+="%{%F{$green}%}+$staged%{%f%}"
+        (($dirty > 0 )) && changes+="%{%F{$orange}%}$dirty✶%{%f%}"
+
+        if (($#attention > 0 || $#changes > 0)) {
+            local sep="%{%F{$base01}%}|%{%f%}"
+            local state_array=(${(j: :)attention} ${(pj:$sep:)changes})
+            state=${(j: :)state_array}
+        }
+
+        local extra=()
+        (($ahead > 0 ))  && extra+="↑$ahead"
+        (($behind > 0 )) && extra+="%{%F{$cyan}%}↓$behind%{%f%}"
+        (($#extra > 0))  && trackinfo="(${(j::)extra}%{%F{$color}%})%{%f%}"
+    }
+
+    local gitinfo=("$branch$trackinfo" $state)
+    render $color ${(j: :)gitinfo}
+}
+
+render_venv() {
+    [[ -n $VIRTUAL_ENV ]] && render $violet $VIRTUAL_ENV:t  # venv if active
+}
+
+render_jobs() {
+    (($PROMPT_JOB_COUNT > 0)) && render $magenta '%j bg'  # background jobs if any
+}
+
+render_exec_time() {
+    (($PROMPT_EXEC_TIME > 5)) && {  # last command execution time if over 5s
+        local components=(
+            "$((PROMPT_EXEC_TIME / 60 / 60 / 24))d"    # days
+            "$((PROMPT_EXEC_TIME / 60 / 60 % 24))h"    # hours
+            "$((PROMPT_EXEC_TIME / 60 % 60))m"         # minutes
+            "$((PROMPT_EXEC_TIME % 60))s"              # seconds
+        )
+        render $base01 ${components:#0*}  # only keep non-zero parts
+    }
+}
+
+# Hook triggered when a command is about to be executed.
+prompt_preexec_hook() {
+    PROMPT_EXEC_START=$EPOCHSECONDS
+}
+
+# Hook triggered right before the prompt is drawn.
+prompt_precmd_hook() {
+    PROMPT_EXIT_CODE=$?  # this needs to be captured before anything else runs
+
+    local stop=$EPOCHSECONDS
+    local start=${PROMPT_EXEC_START:-$stop}
+    PROMPT_EXEC_TIME=$((stop - start))
+    unset PROMPT_EXEC_START  # needed because preexec is not always called
+
+    local job_count='%j'; PROMPT_JOB_COUNT=${(%)job_count}
+}
+
+prompt_setup() {
+    setopt NO_PROMPT_BANG PROMPT_CR PROMPT_PERCENT PROMPT_SP PROMPT_SUBST
+    export PROMPT_EOL_MARK=''  # don't show % when a partial line is preserved
+
+    zmodload zsh/datetime   # so that $EPOCHSECONDS is available
+
+    autoload -Uz add-zsh-hook
+    add-zsh-hook precmd prompt_precmd_hook
+    add-zsh-hook preexec prompt_preexec_hook
+
+    PS1='$(render_prompt)'
+}
+
+prompt_setup
