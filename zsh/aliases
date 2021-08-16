@@ -29,17 +29,20 @@ else
         ltc="tree -C --dirsfirst -FI '.git'"
 fi
 
-alias ll="ls -l"
-alias lla="la -l"
+alias \
+    ll="ls -l" \
+    lla="la -l"
 
-alias grep="grep --color=auto"
-alias egrep="egrep --color=auto"
-alias fgrep="fgrep --color=auto"
+alias \
+    grep="grep --color=auto" \
+    egrep="egrep --color=auto" \
+    fgrep="fgrep --color=auto"
 
 alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 
 if command -v nvim >/dev/null 2>&1; then
-    alias vim="nvim"
-    alias vimdiff="nvim -d"
+    alias \
+        vim="nvim"
+        vimdiff="nvim -d"
 fi
 
