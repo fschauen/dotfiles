@@ -259,7 +259,6 @@ deploy_zsh() {
     link "$DOTFILES/zsh/zshrc" "$ZDOTDIR/.zshrc"
     link "$DOTFILES/zsh/aliases" "$ZDOTDIR/aliases"
     link "$DOTFILES/zsh/prompt" "$ZDOTDIR/prompt"
-    link "$DOTFILES/zsh/solarized" "$ZDOTDIR/solarized"
     link "$DOTFILES/zsh/vi-mode" "$ZDOTDIR/vi-mode"
 }
 
