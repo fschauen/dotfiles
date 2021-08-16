@@ -284,7 +284,7 @@ font:
 # Colors (Solarized Dark)
 colors:
     primary:
-      foreground:      '0x93a1a1'    # Base1
+      foreground:      '0x839496'    # Base0
       background:      '0x002b36'    # Base03
     cursor:
       text:            '0x93a1a1'    # Base1

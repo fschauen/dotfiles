@@ -64,8 +64,8 @@ def mintty_gen_config(colors, fg, bg, cursor):
     ))
 
 
-SOLARIZED_DARK = dict(fg='Base1', bg='Base03', cursor='Red')
-SOLARIZED_LIGHT = dict(fg='Base01', bg='Base3', cursor='Red')
+SOLARIZED_DARK = dict(fg='Base0', bg='Base03', cursor='Red')
+SOLARIZED_LIGHT = dict(fg='Base00', bg='Base3', cursor='Red')
 SOLARIZED = {c.name: c for c in (
     Color('Base03',  '002B36',  8, 'brblack',   RGB(  0,  43,  54)),
     Color('Base02',  '073642',  0, 'black',     RGB(  7,  54,  66)),
