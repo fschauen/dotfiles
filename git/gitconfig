@@ -2,32 +2,32 @@
 #
 #   Solarized  Git/ANSI
 #   ---------  --------
-#   base03     bold black
-#   base02     black
-#   base01     bold green
-#   base00     bold yellow
-#   base0      bold blue
-#   base1      bold cyan
-#   base2      white
-#   base3      bold white
-#   red        red
-#   green      green
-#   blue       blue
-#   magenta    magenta
-#   yellow     yellow
-#   cyan       cyan
-#   orange     bold red
-#   violet     bold magenta
+#   base03        8
+#   base02        0
+#   base01       10
+#   base00       11
+#   base0        12
+#   base1        14
+#   base2         7
+#   base3        15
+#   red           1
+#   green         2
+#   blue          4
+#   magenta       5
+#   yellow        3
+#   cyan          6
+#   orange        9
+#   violet       13
 
 [alias]
     cm      = commit --verbose
     co      = checkout
-    l       = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar'
-    ln      = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar %C(auto)by %C(bold magenta)%an <%ae>'
-    la      = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar' --all
-    lna     = log --graph --format='%C(auto)%h%d %s %C(cyan)%ar %C(auto)by %C(bold magenta)%an <%ae>' --all
+    l       = log --graph --format='%C(auto)%h%d %s %C(10)%ar'
+    ln      = log --graph --format='%C(auto)%h%d %s %C(10)%ar %C(auto)by %C(10)%an<%ae>'
     ll      = log --graph --decorate --stat
-    lla     = log --graph --decorate --stat --all
+    la      = l --all
+    lna     = ln --all
+    lla     = ll --all
     s       = status --short
     ss      = status
 
