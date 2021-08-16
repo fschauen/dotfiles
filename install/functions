@@ -37,10 +37,6 @@ ok()        { printf '%s ' "${green}OK:${rst}" "$@";    printf '\n'; }
 warn()      { printf '%s ' "${yellow}$@${rst}";         printf '\n'; }
 error()     { printf '%s ' "${red}$@${rst}";            printf '\n'; }
 
-is_installed() {
-    command -v nvim >/dev/null 2>&1
-}
-
 greeting() {
     dry_run && info "Dry run: no changes will be made to filesytem (use -f to override)."
     info "Deploying with git user $yellow${GIT_USER:-$DEFAULT_GIT_USER} <${GIT_EMAIL:-$DEFAULT_GIT_EMAIL}>$rst"
@@ -52,32 +48,23 @@ greeting() {
 
 # Make sure directory $1 exists.
 ensure_directory() {
-    if [ -d "$1" ]; then
-        ok "$1/"
-    else
-        warn "creating $1/"
-        dry_run || mkdir -p "$1/"
-    fi
+    [ -d "$1" ] && { ok "$1/"; return; }
+    warn "creating $1/"
+    dry_run || mkdir -p "$1/"
 }
 
 # Make sure file $1 does not exist.
 remove_file() {
-    if [ ! -f "$1" ]; then
-        ok "$1"
-    else
-        warn "removing $1"
-        dry_run || rm "$1"
-    fi
+    [ ! -f "$1" ] && { ok "$1"; return; }
+    warn "removing $1"
+    dry_run || rm "$1"
 }
 
 # Make sure file $1 exists (content is irrelevant).
 touch_file() {
-    if [ -f "$1" ]; then
-        ok "$1"
-    else
-        warn "creating $1"
-        dry_run || touch "$1"
-    fi
+    [ -f "$1" ] && { ok "$1"; return; }
+    warn "creating $1"
+    dry_run || touch "$1"
 }
 
 # Remove $1 if it's a broken link to a dotfile script.
@@ -98,23 +85,17 @@ prune_cmd() {
 # Make sure $2 is a link to $1.
 link() {
     target="$(realpath -s "$1")"
-    if [ "$(readlink "$2")" = "$target" ]; then
-        ok "$2"
-    else
-        warn "linking $2 -> $target"
-        dry_run || ln -sf "$target" "$2"
-    fi
+    [ "$(readlink "$2")" = "$target" ] && { ok "$2"; return; }
+    warn "linking $2 -> $target"
+    dry_run || ln -sf "$target" "$2"
 }
 
 # Ensure $1 and $2 contents are equal, updating $1 if needed.
 equal_content() {
-    if diff "$1" "$2" >/dev/null 2>&1; then
-        ok "$1"
-    else
-        warn "overwriting $1 with $2:"
-        cat "$2"
-        dry_run || cp -f "$2" "$1"
-    fi
+    diff "$1" "$2" >/dev/null 2>&1 && { ok "$1"; return; }
+    warn "overwriting $1 with $2:"
+    cat "$2"
+    dry_run || cp -f "$2" "$1"
 }
 
 ###############################################################################
@@ -197,7 +178,7 @@ deploy_nvim() {
     link "$DOTFILES/nvim/plug.vim" "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
     link "$DOTFILES/nvim/init.vim" "$XDG_CONFIG_HOME/nvim/init.vim"
 
-    if is_installed nvim; then
+    if command -v nvim >/dev/null 2>&1; then
         warn "installing neovim plugins..."
         dry_run || nvim -nes -u "$XDG_CONFIG_HOME/nvim/init.vim" -c 'PlugInstall | qall!'
     else
