@@ -31,6 +31,7 @@ set   listchars=tab:>~,extends:>,precedes:<,trail:-  " invisible chars
 set   modelines=0       " never use modelines
 set   number            " show line numbers
 set   nrformats-=octal  " number formats for CTRL-A & CTRL-X commands
+set   relativenumber    " start off with realtive line numbers
 set   scrolloff=3       " minimum number of lines above and below cursor
 set   shiftwidth=0      " use 'tabstop' spaces for (auto)indent step
 set   shortmess+=I      " don't show the intro message when starting Vim
