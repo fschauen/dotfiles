@@ -6,7 +6,7 @@ if $LOCAL_CONFIG == "" | let $LOCAL_CONFIG="~/.local/etc" | endif
 " Options {{{
 set   backspace=indent,eol,start  " sane backspace behavior
 set nobackup            " don't keep backup file after overwriting a file
-set   clipboard=unnamed " synchronize with system clipboard
+set   clipboard=unnamedplus " synchronize with system clipboard
 set   colorcolumn=+1    " highlight column after 'textwidth'
 set   cursorline        " highlight the line of the cursor
 set   diffopt=filler,vertical   " make side-by-side diffs better
