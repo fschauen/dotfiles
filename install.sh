@@ -194,7 +194,10 @@ deploy_jupyter() {
 deploy_mintty() {
     heading 'mintty'
     ensure_directory "$XDG_CONFIG_HOME/mintty"
+    ensure_directory "$XDG_CONFIG_HOME/mintty/themes"
     link "$DOTFILES/mintty/minttyrc" "$XDG_CONFIG_HOME/mintty/config"
+    link "$DOTFILES/mintty/solarized-dark" "$XDG_CONFIG_HOME/mintty/themes/solarized-dark"
+    link "$DOTFILES/mintty/solarized-light" "$XDG_CONFIG_HOME/mintty/themes/solarized-light"
 }
 
 deploy_misc() {
