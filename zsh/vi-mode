@@ -5,18 +5,19 @@ bindkey -v
 export KEYTIMEOUT=1
 
 set_cursor_shape() {
-    if [ -n ITERM_SESSION_ID ]; then
-        local block='\e]1337;CursorShape=0\a'
-        local bar='\e]1337;CursorShape=1\a'
-        local underline='\e]1337;CursorShape=2\a'
-    else
-        local block='\e[1 q' beam='\e[3 q' underline='\e[5 q'
-    fi
+    local block='\e[1 q'        # blinking block
+    local underline='\e[3 q'    # blinking underline, 4 for steady
+    local bar='\e[5 q'          # blinkind bar, 6 for steady
+    if [[ -n $ITERM_SESSION_ID ]] {
+        block='\e]1337;CursorShape=0\a'
+        bar='\e]1337;CursorShape=1\a'
+        underline='\e]1337;CursorShape=2\a'
+    }
 
     case "$1" in
-        block)      echo -ne "$block"     ;;
-        bar)        echo -ne "$bar"       ;;
-        underline)  echo -ne "$underline" ;;
+        block)      echo -n $block     ;;
+        bar)        echo -n $bar       ;;
+        underline)  echo -n $underline ;;
     esac
 }
 
@@ -30,6 +31,6 @@ zle-keymap-select() {
 zle -N zle-keymap-select
 
 # Start new prompts with bar shaped cursor.
-zle-line-init() { set_cursor_shape bar; }
+zle-line-init() { set_cursor_shape bar }
 zle -N zle-line-init
 
