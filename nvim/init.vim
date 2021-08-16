@@ -178,8 +178,8 @@ nnoremap <c-m> :tabnext<cr>
 nnoremap <leader>bg
     \ :let &background = &background ==? 'light' ? 'dark' : 'light'<cr>
 
-" turn off search highlight
-nnoremap <leader>h :nohlsearch<cr>
+" toggle search highlight
+nnoremap <leader>h :set hlsearch!<cr>
 
 " toggle NERDTree
 nnoremap <leader>n :NERDTreeToggle<cr>
