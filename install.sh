@@ -2,36 +2,263 @@
 set -e
 
 export DOTFILES="$(dirname "$(realpath "$0")")"
-
-. "$DOTFILES/zsh/zshenv"
-. "$DOTFILES/install/functions"
-
-DRY_RUN=yes
-while getopts 'fh' opt; do case "$opt" in
-    f) DRY_RUN= ;;
-    h) usage; exit 0;;
-    *) usage; exit 1;;
-esac done
-
 export DEFAULT_GIT_USER="Fernando Schauenburg"
 export DEFAULT_GIT_EMAIL="fernando@schauenburg.me"
 
-# Oportunity to set GIT_USER and GIT_EMAIL
-[ -f "$DOTFILES/install/config" ] && . "$DOTFILES/install/config"
+. "$DOTFILES/zsh/zshenv"
+[ -f "$DOTFILES/config" ] && . "$DOTFILES/config"
 
-greeting
-deploy_alacritty
-deploy_bash
-deploy_bin
-deploy_git
-deploy_jupyter
-deploy_mintty
-deploy_misc
-deploy_nvim
-deploy_python
-deploy_readline
-deploy_ssh
-deploy_tmux
-deploy_x11
-deploy_zsh
+main() {
+    DRY_RUN=yes
+    while getopts 'fh' opt; do case "$opt" in
+        f) DRY_RUN= ;;
+        h) usage; exit 0;;
+        *) usage; exit 1;;
+    esac done
+
+    greeting
+    deploy_alacritty
+    deploy_bash
+    deploy_bin
+    deploy_git
+    deploy_jupyter
+    deploy_mintty
+    deploy_misc
+    deploy_nvim
+    deploy_python
+    deploy_readline
+    deploy_ssh
+    deploy_tmux
+    deploy_x11
+    deploy_zsh
+}
+
+###############################################################################
+# Helper Functions
+###############################################################################
+
+if [ -t 1 ]; then
+    rst=$(tput      sgr0)
+    red=$(tput      setaf  1)
+    green=$(tput    setaf  2)
+    yellow=$(tput   setaf  3)
+    blue=$(tput     setaf  4)
+    magenta=$(tput  setaf  5)
+    cyan=$(tput     setaf  6)
+else
+    rst=''
+    red=''
+    green=''
+    yellow=''
+    blue=''
+    magenta=''
+    cyan=''
+fi
+
+dry_run() { [ -n "$DRY_RUN" ]; }
+
+usage() {
+    echo "Usage: $(basename $0) [-h] [-f]"
+    echo ""
+    echo "  -h  print this help and exit"
+    echo "  -f  modify filesystem rather than dry run"
+}
+
+heading()   { printf '%s\n' "${blue}=====  $1  ==========${rst}"; }
+info()      { printf '%s ' "$@";                        printf '\n'; }
+ok()        { printf '%s ' "${green}OK:${rst}" "$@";    printf '\n'; }
+warn()      { printf '%s ' "${yellow}$@${rst}";         printf '\n'; }
+error()     { printf '%s ' "${red}$@${rst}";            printf '\n'; }
+
+greeting() {
+    dry_run && info "Dry run: no changes will be made to filesytem (use -f to override)."
+    info "Deploying with git user $yellow${GIT_USER:-$DEFAULT_GIT_USER} <${GIT_EMAIL:-$DEFAULT_GIT_EMAIL}>$rst"
+    [ -t 0 ] && {
+        info "Press ENTER to continue (CTRL-C to cancel)..."
+        read k
+    }
+}
+
+# Make sure directory $1 exists.
+ensure_directory() {
+    [ -d "$1" ] && { ok "$1/"; return; }
+    warn "creating $1/"
+    dry_run || mkdir -p "$1/"
+}
+
+# Make sure file $1 does not exist.
+remove_file() {
+    [ ! -f "$1" ] && { ok "$1"; return; }
+    warn "removing $1"
+    dry_run || rm "$1"
+}
+
+# Make sure file $1 exists (content is irrelevant).
+touch_file() {
+    [ -f "$1" ] && { ok "$1"; return; }
+    warn "creating $1"
+    dry_run || touch "$1"
+}
+
+# Remove $1 if it's a broken link to a dotfile script.
+prune_cmd() {
+    if [ -h "$1" ]; then  # it's a symbolic link...
+        target="$(readlink "$1")"
+        case "$target" in
+            "$DOTFILES/bin/"*)  # ... pointing into dotfiles bin
+                if [ ! -e "$1" ]; then  # target of the link missing
+                    warn "removing stale link $1 -> $target"
+                    dry_run || rm -f "$1"
+                fi
+                ;;
+        esac
+    fi
+}
+
+# Make sure $2 is a link to $1.
+link() {
+    target="$(realpath -s "$1")"
+    [ "$(readlink "$2")" = "$target" ] && { ok "$2"; return; }
+    warn "linking $2 -> $target"
+    dry_run || ln -sf "$target" "$2"
+}
+
+# Ensure $1 and $2 contents are equal, updating $1 if needed.
+equal_content() {
+    diff "$1" "$2" >/dev/null 2>&1 && { ok "$1"; return; }
+    warn "overwriting $1 with $2:"
+    cat "$2"
+    dry_run || cp -f "$2" "$1"
+}
+
+###############################################################################
+# Configuration Deployments
+###############################################################################
+
+deploy_alacritty() {
+    heading 'alacritty'
+    ensure_directory "$XDG_CONFIG_HOME/alacritty"
+    link "$DOTFILES/alacritty/alacritty.yml" "$XDG_CONFIG_HOME/alacritty/alacritty.yml"
+}
+
+deploy_bash() {
+    heading 'bash'
+    for f in .bash_logout .profile; do remove_file "$HOME/$f"; done
+    ensure_directory "$XDG_DATA_HOME/bash"  # for history
+    ensure_directory "$XDG_DATA_HOME/bash-completion/completions"
+    link "$DOTFILES/bash/bashrc" "${HOME}/.bashrc"
+    link "$DOTFILES/bash/bash_profile" "${HOME}/.bash_profile"
+}
+
+deploy_bin() {
+    heading 'bin'
+    ensure_directory "$HOME/.local/bin"
+    for cmd in $HOME/.local/bin/*; do prune_cmd "$cmd"; done
+    for cmd in "$DOTFILES/bin/"*; do
+        link "$cmd" "$HOME/.local/bin/$(basename "$cmd")"
+    done
+}
+
+deploy_git() {
+    heading 'git'
+    ensure_directory "$XDG_CONFIG_HOME/git"
+    ensure_directory "${HOME}/.local/etc/git"
+    link "$DOTFILES/git/gitconfig" "$XDG_CONFIG_HOME/git/config"
+    link "$DOTFILES/git/gitignore" "$XDG_CONFIG_HOME/git/ignore"
+
+    temp_git="$(mktemp)"
+    cat >"$temp_git" <<EOF
+#         *************************************
+#         *       DO NOT EDIT THIS FILE       *
+#         *************************************
+#
+# This file was generated by the bootstrap script and any changes will be
+# overwritten the next time it is run. For local settings, use this instead:
+#
+#   ~/.local/etc/git/config
+#
+EOF
+    git config -f "$temp_git" user.name "${GIT_USER:-$DEFAULT_GIT_USER}"
+    git config -f "$temp_git" user.email "${GIT_EMAIL:-$DEFAULT_GIT_EMAIL}"
+    equal_content "$HOME/.local/etc/git/config.user" "$temp_git"
+}
+
+deploy_jupyter() {
+    heading 'jupyter'
+    ensure_directory "${HOME}/.jupyter/custom"
+    ensure_directory "${HOME}/.jupyter/nbconfig"
+    link "$DOTFILES/jupyter/custom.js" "${HOME}/.jupyter/custom/custom.js"
+    link "$DOTFILES/jupyter/notebook.json" "${HOME}/.jupyter/nbconfig/notebook.json"
+}
+
+deploy_mintty() {
+    heading 'mintty'
+    ensure_directory "$XDG_CONFIG_HOME/mintty"
+    link "$DOTFILES/mintty/minttyrc" "$XDG_CONFIG_HOME/mintty/config"
+}
+
+deploy_misc() {
+    heading 'miscelaneous'
+    ensure_directory "$XDG_DATA_HOME/less"  # for history
+    touch_file "$HOME/.hushlogin"
+}
+
+deploy_nvim() {
+    heading 'nvim'
+    ensure_directory "$XDG_CONFIG_HOME/nvim/autoload"
+    ensure_directory "$XDG_DATA_HOME/nvim/plugged"
+    ensure_directory "$XDG_DATA_HOME/nvim/shada"
+    link "$DOTFILES/nvim/plug.vim" "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
+    link "$DOTFILES/nvim/init.vim" "$XDG_CONFIG_HOME/nvim/init.vim"
+
+    if command -v nvim >/dev/null 2>&1; then
+        warn "installing neovim plugins..."
+        dry_run || nvim -nes -u "$XDG_CONFIG_HOME/nvim/init.vim" -c 'PlugInstall | qall!'
+    else
+        error "neovim is not installed; skipping plugin installation..."
+    fi
+}
+
+deploy_python() {
+    heading 'python'
+    ensure_directory "$XDG_CONFIG_HOME/python"
+    ensure_directory "$XDG_DATA_HOME/python"  # for history
+    link "$DOTFILES/python/startup.py" "$XDG_CONFIG_HOME/python/startup.py"
+}
+
+deploy_readline() {
+    heading 'readline'
+    ensure_directory "$XDG_CONFIG_HOME/readline"
+    link "$DOTFILES/readline/inputrc" "$XDG_CONFIG_HOME/readline/inputrc"
+}
+
+deploy_ssh() {
+    heading 'ssh'
+    ensure_directory "${HOME}/.ssh"
+    link "$DOTFILES/ssh/ssh_config" "${HOME}/.ssh/config"
+}
+
+deploy_tmux() {
+    ensure_directory "$XDG_CONFIG_HOME/tmux"
+    link "$DOTFILES/tmux/tmux.conf" "$XDG_CONFIG_HOME/tmux/tmux.conf"
+}
+
+deploy_x11() {
+    heading 'X11'
+    link "$DOTFILES/x11/xcompose" ${HOME}/.XCompose
+}
+
+deploy_zsh() {
+    heading 'zsh'
+    ensure_directory "$ZDOTDIR"
+    ensure_directory "$XDG_DATA_HOME/zsh"  # for history
+    link "$DOTFILES/zsh/zshenv" "$HOME/.zshenv"
+    link "$DOTFILES/zsh/zshrc" "$ZDOTDIR/.zshrc"
+    link "$DOTFILES/zsh/aliases" "$ZDOTDIR/aliases"
+    link "$DOTFILES/zsh/prompt" "$ZDOTDIR/prompt"
+    link "$DOTFILES/zsh/solarized" "$ZDOTDIR/solarized"
+    link "$DOTFILES/zsh/vi-mode" "$ZDOTDIR/vi-mode"
+}
+
+main "$@"
 
