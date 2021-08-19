@@ -186,6 +186,7 @@ prompt_precmd_hook() {
 prompt_setup() {
     setopt NO_PROMPT_BANG PROMPT_CR PROMPT_PERCENT PROMPT_SP PROMPT_SUBST
     export PROMPT_EOL_MARK=''  # don't show % when a partial line is preserved
+    export VIRTUAL_ENV_DISABLE_PROMPT=1  # we're doing it ourselves
 
     zmodload zsh/datetime   # so that $EPOCHSECONDS is available
 
