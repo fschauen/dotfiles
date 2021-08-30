@@ -175,6 +175,9 @@ nnoremap <c-l> <c-w>l
 nnoremap <c-n> :tabprevious<cr>
 nnoremap <c-m> :tabnext<cr>
 
+" show list of buffers and prepare to switch
+nnoremap <leader>bf :ls<CR>:b<Space>
+
 " quickly change background
 nnoremap <leader>bg
     \ :let &background = &background ==? 'light' ? 'dark' : 'light'<cr>
