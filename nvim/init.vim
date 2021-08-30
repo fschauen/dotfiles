@@ -132,21 +132,6 @@ call plug#end()
 silent! colorscheme solarized
 " }}}
 
-" Functions {{{
-
-" Cycle through relativenumber + number, number (only), and no numbering.
-function! VimrcCycleNumbers() abort
-  if exists('+relativenumber')
-    execute {
-          \ '00': 'set relativenumber   | set number',
-          \ '01': 'set norelativenumber | set number',
-          \ '10': 'set norelativenumber | set nonumber',
-          \ '11': 'set norelativenumber | set number' }[&number . &relativenumber]
-  else
-    set number! " No relative numbering, just toggle numbers on and off.
-  endif
-endfunction
-
 " Mappings {{{
 let mapleader = "\<space>"
 let maplocalleader = ","
@@ -195,7 +180,9 @@ nnoremap <leader>p :RainbowParentheses!!<cr>
 nnoremap <leader>w :FixWhitespace<cr>
 
 " cycle through line numbering modes
-nnoremap <silent> <leader>l :call VimrcCycleNumbers()<CR>
+nnoremap <leader>ln :set nonumber norelativenumber<CR>
+nnoremap <leader>ll :set number norelativenumber<CR>
+nnoremap <leader>lr :set number relativenumber<CR>
 
 " move lines up and down
 nnoremap <A-j> :move .+1<cr>
