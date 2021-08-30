@@ -98,22 +98,22 @@ call plug#begin('$XDG_DATA_HOME/nvim/plugged')
         let g:lightline = {
         \   'colorscheme': 'solarized',
         \   'active': {
-        \       'left': [['mode','paste'],[],['path']],
-        \       'right': [['percent'],['lineinfo'],['ro','modified','ft','fenc','ff']],
+        \       'left': [['mode','paste'],[],['ro','modified','path']],
+        \       'right': [['percent'],['lineinfo'],['ft','fenc','ff']],
         \   },
         \   'inactive': {
-        \       'left': [['paste','ro','modified'],['path']],
-        \       'right': [['percent'],['lineinfo'],['ro','modified']],
+        \       'left': [['paste'],['ro','modified','path']],
+        \       'right': [['percent'],['lineinfo']],
         \   },
         \   'component': {
         \       'fenc':     '%{&fenc!=#""?&fenc:&enc}',
         \       'ff':       '%{&ff}',
         \       'ft':       '%{&ft!=#""?&ft:"?"}',
-        \       'modified': '%m',
+        \       'modified': '%M',
         \       'paste':    '%{&paste?"PASTE":""}',
         \       'path':     '%f',
         \       'percent':  '%3p%%×%L',
-        \       'ro':       '%r',
+        \       'ro':       '%R',
         \   },
         \   'subseparator': { 'left': '', 'right': '' },
         \ }
