@@ -1,7 +1,6 @@
 if $XDG_CONFIG_HOME == "" | let $XDG_CONFIG_HOME="~/.config" | endif
 if $XDG_CACHE_HOME == "" | let $XDG_CACHE_HOME="~/.cache" | endif
 if $XDG_DATA_HOME == "" | let $XDG_DATA_HOME="~/.local/share" | endif
-if $LOCAL_CONFIG == "" | let $LOCAL_CONFIG="~/.local/etc" | endif
 
 " Options {{{
 set   backspace=indent,eol,start  " sane backspace behavior
@@ -209,10 +208,4 @@ augroup vimrc " {{{
 
     autocmd BufWritePost init.vim source %
 augroup END " }}}
-
-for extra_vimrc in expand("$LOCAL_CONFIG/nvim/*", v:false, v:true)
-    if filereadable(extra_vimrc)
-        exec "source " . extra_vimrc
-    endif
-endfor
 
