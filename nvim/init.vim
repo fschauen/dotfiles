@@ -4,6 +4,7 @@ if $XDG_DATA_HOME == "" | let $XDG_DATA_HOME="~/.local/share" | endif
 
 " Options {{{
 set   backspace=indent,eol,start  " sane backspace behavior
+set   background=dark   " always use dark background
 set nobackup            " don't keep backup file after overwriting a file
 set   clipboard=unnamedplus " synchronize with system clipboard
 set   colorcolumn=+1    " highlight column after 'textwidth'
