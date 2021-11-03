@@ -26,12 +26,4 @@ zstyle ':completion:*' menu select
 # bindkey -M menuselect 'l' vi-forward-char
 # bindkey -M menuselect 'j' vi-down-line-or-history
 
-# Search through history in insert mode.
-bindkey -M viins '^j' history-beginning-search-forward
-bindkey -M viins '^k' history-beginning-search-backward
-
-# Restore some common and useful emacs mode shortcut.
-bindkey -M viins '^a' vi-beginning-of-line
-bindkey -M viins '^e' vi-end-of-line
-bindkey -M viins '^l' clear-screen
 

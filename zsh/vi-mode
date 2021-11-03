@@ -34,3 +34,12 @@ zle -N zle-keymap-select
 zle-line-init() { set_cursor_shape bar }
 zle -N zle-line-init
 
+# Search through history in insert mode.
+bindkey -M viins '^j' history-beginning-search-forward
+bindkey -M viins '^k' history-beginning-search-backward
+
+# Restore some common and useful emacs mode shortcut.
+bindkey -M viins '^a' vi-beginning-of-line
+bindkey -M viins '^e' vi-end-of-line
+bindkey -M viins '^l' clear-screen
+
