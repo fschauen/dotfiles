@@ -18,7 +18,7 @@ set   foldenable        " enable folding
 set   foldlevelstart=100  " start with all folds open
 set   foldmethod=syntax  " fold based on syntax by default
 set   foldnestmax=10  " limit nested folds to 10 levels
-set   formatlistpat="^\s*\(\d\+[\]:.)}\t ]\|[-*]\|\[[ x]\]\|([ x])\)\s*"
+let  &formatlistpat='^\s*\(\d\+[\]:.)}\t ]\|[-+*]\|[\[(][ x][\])]\)\s*'
 set   formatoptions-=t  " don't auto-wrap on 'textwidth'...
 set   formatoptions+=c  " ... but do it within comnment blocks.
 set   formatoptions+=r  " insert comment leader when pressing Enter...
