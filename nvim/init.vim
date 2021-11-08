@@ -74,7 +74,7 @@ set shada=h,'100,<1000,s1000,/1000,:1000,n$XDG_DATA_HOME/nvim/shada/main.shada
 if has('multi_byte') && &encoding ==? 'utf-8'
 set   fillchars=vert:┃,fold:·
 set   showbreak=⤷   " prefix for wrapped lines
-set   listchars=tab:▷\ ,extends:»,precedes:«,trail:·  " invisible chars
+set   listchars=tab:»\ ,extends:…,precedes:…,trail:·,conceal:┊,eol:↲
 endif
 " }}}
 
@@ -136,6 +136,9 @@ call plug#begin('$XDG_DATA_HOME/nvim/plugged')
 call plug#end()
 
 silent! colorscheme solarized
+highlight NonText cterm=NONE ctermfg=10     " subtle EOL symbols
+highlight Whitespace cterm=NONE ctermfg=9   " orange listchars
+
 " }}}
 
 " Mappings {{{
