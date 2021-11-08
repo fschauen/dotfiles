@@ -19,10 +19,14 @@ set   foldlevelstart=100  " start with all folds open
 set   foldmethod=syntax  " fold based on syntax by default
 set   foldnestmax=10  " limit nested folds to 10 levels
 set   formatlistpat="^\s*\(\d\+[\]:.)}\t ]\|[-*]\|\[[ x]\]\|([ x])\)\s*"
-set   formatoptions-=t  " don't auto-wrap on 'textwidth'
-set   formatoptions+=c  " do auto-wrap comments on 'textwidth'
-set   formatoptions+=j  " remove comment leader when joining lines
+set   formatoptions-=t  " don't auto-wrap on 'textwidth'...
+set   formatoptions+=c  " ... but do it within comnment blocks.
+set   formatoptions+=r  " insert comment leader when pressing Enter...
+set   formatoptions-=o  " but not when openine a new line with o & O.
+set   formatoptions+=q  " allow formatting of comments with gq
+set   formatoptions-=a  " don't auto-format every time text is inserted
 set   formatoptions+=n  " recognize and indent lists automatically
+set   formatoptions+=j  " remove comment leader when joining lines
 set   hidden            " hide abandoned buffers
 set   ignorecase        " ignore case when searching (see 'smartcase' below)
 let  &inccommand='split' " show command partial results
