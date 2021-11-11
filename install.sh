@@ -217,7 +217,8 @@ deploy_nvim() {
     link "$DOTFILES/nvim/init.lua" "$XDG_CONFIG_HOME/nvim/init.lua"
 
     ensure_directory "$XDG_CONFIG_HOME/nvim/viml"
-    for f in nvim/viml/*; do
+    ensure_directory "$XDG_CONFIG_HOME/nvim/lua/fs"
+    for f in nvim/viml/* nvim/lua/fs/*; do
         link "$DOTFILES/$f" "$XDG_CONFIG_HOME/$f"
     done
     unset f
