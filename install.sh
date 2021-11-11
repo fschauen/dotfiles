@@ -216,6 +216,12 @@ deploy_nvim() {
     link "$DOTFILES/nvim/init.vim" "$XDG_CONFIG_HOME/nvim/old.vim"
     link "$DOTFILES/nvim/init.lua" "$XDG_CONFIG_HOME/nvim/init.lua"
 
+    ensure_directory "$XDG_CONFIG_HOME/nvim/viml"
+    for f in nvim/viml/*; do
+        link "$DOTFILES/$f" "$XDG_CONFIG_HOME/$f"
+    done
+    unset f
+
     if command -v nvim >/dev/null 2>&1; then
         warn "installing neovim plugins..."
         dry_run || nvim -nes -u "$XDG_CONFIG_HOME/nvim/init.vim" -c 'PlugInstall | qall!'
