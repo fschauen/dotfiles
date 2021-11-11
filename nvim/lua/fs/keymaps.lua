@@ -1,79 +1,76 @@
+local M = function(mode, lhs, rhs, opts)
+    local merged_opts = vim.tbl_extend('keep', opts or {}, { noremap = true })
+    local map = { mode = mode, lhs = lhs, rhs = rhs, opts = merged_opts }
+    map.remap  = function() map.opts.noremap = false; return map end
+    map.silent = function() map.opts.silent  = true;  return map end
+    map.expr   = function() map.opts.expr    = true;  return map end
+    map.unique = function() map.opts.unique  = true;  return map end
+    map.nowait = function() map.opts.nowait  = true;  return map end
+    map.script = function() map.opts.script  = true;  return map end
+    return map
+end
+
+local register = function(maps)
+    for _, m in ipairs(maps) do
+        vim.api.nvim_set_keymap(m.mode, m.lhs, m.rhs, m.opts)
+    end
+end
+
 vim.g.mapleader = ' '
 
--- better navigation for wrapped lines
-vim.cmd([[noremap j gj]])
-vim.cmd([[noremap k gk]])
+register {
+    -- better navigation for wrapped lines
+    M('n', 'j', 'gj'),
+    M('n', 'k', 'gk'),
 
--- retain selection when indenting/unindenting in visual mode
-vim.cmd([[vnoremap > ><cr>gv]])
-vim.cmd([[vnoremap < <<cr>gv]])
+    -- retain selection when indenting/unindenting in visual mode
+    M('v', '>', '><cr>gv'),
+    M('v', '<', '<<cr>gv'),
 
--- easier window navigation
-vim.cmd([[nnoremap <c-j> <c-w>j]])
-vim.cmd([[nnoremap <c-k> <c-w>k]])
-vim.cmd([[nnoremap <c-h> <c-w>h]])
-vim.cmd([[nnoremap <c-l> <c-w>l]])
+    -- easier window navigation
+    M('n', '<c-j>', '<c-w>j'),
+    M('n', '<c-k>', '<c-w>k'),
+    M('n', '<c-h>', '<c-w>h'),
+    M('n', '<c-l>', '<c-w>l'),
 
--- window resizing
-vim.cmd([[nnoremap <Up>     <cmd>resize +1<cr>]])
-vim.cmd([[nnoremap <Down>   <cmd>resize -1<cr>]])
-vim.cmd([[nnoremap <Left>   <cmd>vertical resize -1<cr>]])
-vim.cmd([[nnoremap <Right>  <cmd>vertical resize +1<cr>]])
+    -- window resizing
+    M('n', '<Up>',    '<cmd>resize +1<cr>'),
+    M('n', '<Down>',  '<cmd>resize -1<cr>'),
+    M('n', '<Left>',  '<cmd>vertical resize -1<cr>'),
+    M('n', '<Right>', '<cmd>vertical resize +1<cr>'),
 
--- easier tab navigation
-vim.cmd([[nnoremap <silent> <c-n> :tabprevious<cr>]])
-vim.cmd([[nnoremap <silent> <c-m> :tabnext<cr>]])
+    -- easier tab navigation
+    M('n', '<c-n>', ':tabprevious<cr>').silent(),
+    M('n', '<c-m>', ':tabnext<cr>'    ).silent(),
 
--- move lines up and down
-vim.cmd([[nnoremap <silent> <A-j>      :move .+1<cr>==]])
-vim.cmd([[nnoremap <silent> <A-k>      :move .-2<cr>==]])
-vim.cmd([[vnoremap <silent> <A-j>      :move '>+1<cr>gv=gv]])
-vim.cmd([[vnoremap <silent> <A-k>      :move '<-2<cr>gv=gv]])
-vim.cmd([[inoremap <silent> <A-j> <esc>:move .+1<cr>==gi]])
-vim.cmd([[inoremap <silent> <A-k> <esc>:move .-2<cr>==gi]])
+    -- move lines up and down
+    M('n', '<A-j>',       [[:move .+1<cr>==]]     ).silent(),
+    M('n', '<A-k>',       [[:move .-2<cr>==]]     ).silent(),
+    M('v', '<A-j>',       [[:move '>+1<cr>gv=gv]] ).silent(),
+    M('v', '<A-k>',       [[:move '<-2<cr>gv=gv]] ).silent(),
+    M('i', '<A-j>',  [[<esc>:move .+1<cr>==gi]]   ).silent(),
+    M('i', '<A-k>',  [[<esc>:move .-2<cr>==gi]]   ).silent(),
 
--- cycle through line numbering modes
-vim.cmd([[nnoremap <silent> <leader>ln :set nonumber norelativenumber<CR>]])
-vim.cmd([[nnoremap <silent> <leader>ll :set number norelativenumber<CR>]])
-vim.cmd([[nnoremap <silent> <leader>lr :set number relativenumber<CR>]])
+    -- cycle through line numbering modes
+    M('n', '<leader>ln', ':set nonumber norelativenumber<CR>' ).silent(),
+    M('n', '<leader>ll', ':set number norelativenumber<CR>'   ).silent(),
+    M('n', '<leader>lr', ':set number relativenumber<CR>'     ).silent(),
 
--- show list of buffers and prepare to switch
-vim.cmd([[nnoremap <leader>bf :ls<CR>:b<Space>]])
+    -- show list of buffers and prepare to switch
+    M('n', '<leader>bf', ':ls<CR>:b<Space>'),
 
--- quickly change background
-vim.cmd([[nnoremap <leader>bg :let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]])
+    -- quickly change background
+    M('n', '<leader>bg', [[:let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]]),
 
--- toggle search highlight
-vim.cmd([[nnoremap <leader>h :set hlsearch!<cr>]])
+    -- toggle search highlight
+    M('n', '<leader>h', ':set hlsearch!<cr>'),
 
--- toggle NERDTree
-vim.cmd([[nnoremap <leader>n :NERDTreeToggle<cr>]])
+    -- toggle NERDTree
+    M('n', '<leader>n', ':NERDTreeToggle<cr>'),
 
--- toggle rainbow parens
-vim.cmd([[nnoremap <leader>p :RainbowParentheses!!<cr>]])
+    -- toggle rainbow parens
+    M('n', '<leader>p', ':RainbowParentheses!!<cr>'),
 
--- fix whitespace
-vim.cmd([[nnoremap <leader>w :FixWhitespace<cr>]])
-
-
--- " Double leader key for toggling visual-line mode
--- nmap <Leader><Leader> V
--- xmap <Leader><Leader> <Esc>
-
--- " Toggle fold
--- nnoremap <CR> za
-
--- nnoremap Q q
--- nnoremap gQ @q
-
--- " Start new line from any cursor position in insert-mode
--- inoremap <S-Return> <C-o>o
-
--- " Change current word in a repeatable manner
--- nnoremap <Leader>cn *``cgn
--- nnoremap <Leader>cN *``cgN
-
--- " Change the current word in insertmode.
--- "   Auto places you into the spot where you can start typing to change it.
--- nnoremap <c-w><c-r> :%s/<c-r><c-w>//g<left><left>
-
+    -- fix whitespace
+    M('n', '<leader>w', ':FixWhitespace<cr>'),
+}
