@@ -213,14 +213,10 @@ deploy_nvim() {
     ensure_directory "$XDG_DATA_HOME/nvim/shada"
     remove_file "$XDG_CONFIG_HOME/nvim/init.vim"
     link "$DOTFILES/nvim/plug.vim" "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
-    link "$DOTFILES/nvim/init.vim" "$XDG_CONFIG_HOME/nvim/old.vim"
     link "$DOTFILES/nvim/init.lua" "$XDG_CONFIG_HOME/nvim/init.lua"
 
-    ensure_directory "$XDG_CONFIG_HOME/nvim/viml"
     ensure_directory "$XDG_CONFIG_HOME/nvim/lua/fs"
-    for f in nvim/viml/* nvim/lua/fs/*; do
-        link "$DOTFILES/$f" "$XDG_CONFIG_HOME/$f"
-    done
+    for f in nvim/lua/fs/*; do link "$DOTFILES/$f" "$XDG_CONFIG_HOME/$f"; done
     unset f
 
     if command -v nvim >/dev/null 2>&1; then
