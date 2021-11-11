@@ -211,8 +211,10 @@ deploy_nvim() {
     ensure_directory "$XDG_CONFIG_HOME/nvim/autoload"
     ensure_directory "$XDG_DATA_HOME/nvim/plugged"
     ensure_directory "$XDG_DATA_HOME/nvim/shada"
+    remove_file "$XDG_CONFIG_HOME/nvim/init.vim"
     link "$DOTFILES/nvim/plug.vim" "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
-    link "$DOTFILES/nvim/init.vim" "$XDG_CONFIG_HOME/nvim/init.vim"
+    link "$DOTFILES/nvim/init.vim" "$XDG_CONFIG_HOME/nvim/old.vim"
+    link "$DOTFILES/nvim/init.lua" "$XDG_CONFIG_HOME/nvim/init.lua"
 
     if command -v nvim >/dev/null 2>&1; then
         warn "installing neovim plugins..."
