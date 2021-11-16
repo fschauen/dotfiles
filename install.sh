@@ -208,20 +208,21 @@ deploy_misc() {
 
 deploy_nvim() {
     heading 'nvim'
-    ensure_directory "$XDG_CONFIG_HOME/nvim/autoload"
-    ensure_directory "$XDG_DATA_HOME/nvim/plugged"
-    ensure_directory "$XDG_DATA_HOME/nvim/shada"
     remove_file "$XDG_CONFIG_HOME/nvim/init.vim"
-    link "$DOTFILES/nvim/plug.vim" "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
+    ensure_directory "$XDG_DATA_HOME/nvim/shada"
     link "$DOTFILES/nvim/init.lua" "$XDG_CONFIG_HOME/nvim/init.lua"
 
     ensure_directory "$XDG_CONFIG_HOME/nvim/lua/fs"
     for f in nvim/lua/fs/*; do link "$DOTFILES/$f" "$XDG_CONFIG_HOME/$f"; done
     unset f
 
+    ensure_directory "$XDG_CONFIG_HOME/nvim/after/plugin"
+    for f in nvim/after/plugin/*; do link "$DOTFILES/$f" "$XDG_CONFIG_HOME/$f"; done
+    unset f
+
     if command -v nvim >/dev/null 2>&1; then
         warn "installing neovim plugins..."
-        dry_run || nvim -nes -u "$XDG_CONFIG_HOME/nvim/init.vim" -c 'PlugInstall | qall!'
+        dry_run || nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
     else
         error "neovim is not installed; skipping plugin installation..."
     fi
