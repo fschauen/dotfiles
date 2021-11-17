@@ -18,7 +18,6 @@ main() {
 
     greeting
     deploy_alacritty
-    deploy_bash
     deploy_bin
     deploy_git
     deploy_jupyter
@@ -139,15 +138,6 @@ deploy_alacritty() {
     heading 'alacritty'
     ensure_directory "$XDG_CONFIG_HOME/alacritty"
     link "$DOTFILES/alacritty/alacritty.yml" "$XDG_CONFIG_HOME/alacritty/alacritty.yml"
-}
-
-deploy_bash() {
-    heading 'bash'
-    for f in .bash_logout .profile; do remove_file "$HOME/$f"; done
-    ensure_directory "$XDG_DATA_HOME/bash"  # for history
-    ensure_directory "$XDG_DATA_HOME/bash-completion/completions"
-    link "$DOTFILES/bash/bashrc" "${HOME}/.bashrc"
-    link "$DOTFILES/bash/bash_profile" "${HOME}/.bash_profile"
 }
 
 deploy_bin() {

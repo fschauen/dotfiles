@@ -1,8 +1,0 @@
-#!/bin/bash
-# Called by bash (1) on for login shells.
-# Source:
-#   1. copy environment from zsh
-#   2. ~/.bashrc if shell is interactive.
-[ -f "$ZDOTDIR/zshenv" ] && source "$ZDOTDIR/zshenv"
-[[ "$-" == *i* ]] && [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
-
