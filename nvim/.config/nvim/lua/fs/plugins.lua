@@ -3,8 +3,27 @@ local g = vim.g
 local plugins = function(use)
     use 'wbthomason/packer.nvim'
 
+    -- Visuals ----------------------------------------------------------------
+
     use 'altercation/vim-colors-solarized'
+    use 'itchyny/lightline.vim'
+    use { 'scrooloose/nerdtree', cmd = 'NERDTreeToggle' }
+    use 'junegunn/rainbow_parentheses.vim'
+        vim.g['rainbow#pairs'] = { {'(',')'}, {'[',']'}, {'{','}'} }
+    use 'ctrlpvim/ctrlp.vim'
+        g.ctrlp_match_window  = 'bottom,order:ttb'
+        g.ctrlp_switch_buffer = 0   -- open files in new buffer
+        g.ctrlp_show_hidden   = 1   -- show hidden files
+
+
+    -- Editing ----------------------------------------------------------------
+
     use 'bronson/vim-trailing-whitespace'
+    use 'godlygeek/tabular'
+    use 'tpope/vim-commentary'
+
+    -- Filetypes --------------------------------------------------------------
+
     use 'elzr/vim-json'
             -- Disable quote concealling.
             g.vim_json_syntax_conceal = 0
@@ -15,22 +34,10 @@ local plugins = function(use)
                 highlight link jsonBoolean  Identifier
                 highlight link jsonNull     Identifier
             ]])
-
-    use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
         g.vim_markdown_conceal_code_blocks = 0
-
-    use 'junegunn/rainbow_parentheses.vim'
-        vim.g['rainbow#pairs'] = { {'(',')'}, {'[',']'}, {'{','}'} }
-
-    use 'ctrlpvim/ctrlp.vim'
-        g.ctrlp_match_window  = 'bottom,order:ttb'
-        g.ctrlp_switch_buffer = 0   -- open files in new buffer
-        g.ctrlp_show_hidden   = 1   -- show hidden files
-
-    use { 'scrooloose/nerdtree', cmd = 'NERDTreeToggle' }
-    use 'tpope/vim-commentary'
-    use 'itchyny/lightline.vim'
+    use 'keith/swift.vim'
+    use 'chr4/nginx.vim'
     use 'vim-scripts/srec.vim'
         vim.cmd([[
             highlight link srecStart        Comment
@@ -42,8 +49,6 @@ local plugins = function(use)
             highlight link srecChecksum     Type
         ]])
 
-    use 'keith/swift.vim'
-    use 'chr4/nginx.vim'
 
     vim.cmd([[
         silent! colorscheme solarized
