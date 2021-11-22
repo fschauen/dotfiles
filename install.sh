@@ -1,9 +1,9 @@
 #!/bin/sh
 set -e
 
-export DOTFILES="$(dirname "$(realpath "$0")")"
-export DEFAULT_GIT_USER="Fernando Schauenburg"
-export DEFAULT_GIT_EMAIL="fernando@schauenburg.me"
+DOTFILES="$(dirname "$(realpath "$0")")"
+DEFAULT_GIT_USER="Fernando Schauenburg"
+DEFAULT_GIT_EMAIL="fernando@schauenburg.me"
 
 [ -f "$DOTFILES/config" ] && . "$DOTFILES/config"
 
