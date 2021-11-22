@@ -144,12 +144,12 @@ prune_cmd() {
     fi
 }
 
-# Make sure $2 is a link to $1.
+# Make sure $1 is a (relative) symlink to $2.
 link() {
-    target="$(realpath -s "$1")"
-    [ "$(readlink "$2")" = "$target" ] && { ok "$2"; return; }
-    change "LINK $2 -> $target"
-    dry_run || ln -sf "$target" "$2"
+    target="$(python -c "import os; print os.path.relpath('$2','$(dirname $1)')")"
+    [ "$(readlink "$1")" = "$target" ] && { ok "$1 -> $target"; return; }
+    change "LINK $1 -> $target"
+    dry_run || ln -sf "$target" "$1"
 }
 
 # Ensure $1 and $2 contents are equal, updating $1 if needed.
@@ -162,10 +162,6 @@ equal_content() {
     dry_run || cp -f "$2" "$1"
 }
 
-relative_path() {
-    python -c "import os.path; print os.path.relpath('$1','${2:-$PWD}')"
-}
-
 deploy() {
     find "$1" -type f | while read src; do
         src_dir="$(dirname "$src")"
@@ -175,7 +171,7 @@ deploy() {
         filename="$(basename "$src")"
         [ "$filename" = '.keep' ] && continue
 
-        link "$src" "$dest_dir/$filename"
+        link "$dest_dir/$filename" "$src"
     done
 }
 
