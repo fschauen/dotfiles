@@ -1,3 +1,5 @@
+local g = vim.g
+
 local plugins = function(use)
     use 'wbthomason/packer.nvim'
 
@@ -5,7 +7,7 @@ local plugins = function(use)
     use 'bronson/vim-trailing-whitespace'
     use 'elzr/vim-json'
             -- Disable quote concealling.
-            vim.g.vim_json_syntax_conceal = 0
+            g.vim_json_syntax_conceal = 0
             -- Make numbers and booleans stand out.
             vim.cmd([[
                 highlight link jsonBraces   Text
@@ -16,15 +18,15 @@ local plugins = function(use)
 
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
-        vim.g.vim_markdown_conceal_code_blocks = 0
+        g.vim_markdown_conceal_code_blocks = 0
 
     use 'junegunn/rainbow_parentheses.vim'
         vim.g['rainbow#pairs'] = { {'(',')'}, {'[',']'}, {'{','}'} }
 
     use 'ctrlpvim/ctrlp.vim'
-        vim.g.ctrlp_match_window  = 'bottom,order:ttb'
-        vim.g.ctrlp_switch_buffer = 0   -- open files in new buffer
-        vim.g.ctrlp_show_hidden   = 1   -- show hidden files
+        g.ctrlp_match_window  = 'bottom,order:ttb'
+        g.ctrlp_switch_buffer = 0   -- open files in new buffer
+        g.ctrlp_show_hidden   = 1   -- show hidden files
 
     use { 'scrooloose/nerdtree', cmd = 'NERDTreeToggle' }
     use 'tpope/vim-commentary'
