@@ -162,16 +162,13 @@ equal_content() {
     dry_run || cp -f "$2" "$1"
 }
 
+# Deploy package by creating subdirs and symlinks to dotfiles.
 deploy() {
-    find "$1" -type f | while read src; do
-        src_dir="$(dirname "$src")"
-        dest_dir="$HOME${src_dir##"$1"}"
-        ensure_directory "$dest_dir"
-
-        filename="$(basename "$src")"
-        [ "$filename" = '.keep' ] && continue
-
-        link "$dest_dir/$filename" "$src"
+    package="$1"
+    find "$package" -type f | while read dotfile; do
+        link="$HOME/${dotfile##"$package"/}"
+        ensure_directory "$(dirname "$link")"
+        [ "$(basename "$dotfile")" = '.keep' ] || link "$link" "$dotfile"
     done
 }
 
