@@ -167,7 +167,7 @@ relative_path() {
 }
 
 deploy() {
-    find "$1" -type f -print0 | while read -d $'\0' src; do
+    find "$1" -type f | while read src; do
         src_dir="$(dirname "$src")"
         dest_dir="$HOME${src_dir##"$1"}"
         ensure_directory "$dest_dir"
