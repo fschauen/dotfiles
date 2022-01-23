@@ -15,6 +15,9 @@ make_autocmds {
         { 'BufNewFile,BufRead', 'gitconfig', 'set filetype=gitconfig' },
         { 'BufNewFile,BufRead', '*.sx,*.s19', 'set filetype=srec' },
         { 'BufNewFile,BufRead', 'Vagrantfile', 'set filetype=ruby' },
+        -- Make it possible to use `gf` to jump to my configuration modules.
+        { 'BufNewFile,BufRead', 'init.lua',
+          "setlocal path+=~/.config/nvim/lua includeexpr=substitute(v:fname,'\\\\.','/','g')"},
     },
     filetypes = {
         { 'FileType', 'gitcommit', 'setlocal textwidth=72' },
