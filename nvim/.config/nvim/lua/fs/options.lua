@@ -1,5 +1,5 @@
--- vim.cmd('let &t_8f = "\\e[38:2:%lu:%lu:%lum"')
--- vim.cmd('let &t_8b = "\\e[48:2:%lu:%lu:%lum"')
+vim.cmd([[let &t_8f = "\<ESC>[38:2:%lu:%lu:%lum"]])
+vim.cmd([[let &t_8b = "\<ESC>[48:2:%lu:%lu:%lum"]])
 
 local set_options = function(options)
     local opt = vim.opt
