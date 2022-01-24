@@ -1,30 +1,73 @@
 #!/bin/sh
 
-print_color() {
-    printf '%s%6s%s %s#%s %2s %s%s\n'   "$(tput setab "$3")" \
-                                        '' \
-                                        "$(tput sgr0)" \
-                                        "$(tput setaf "$3")" \
-                                        "$2" \
-                                        "$3" \
-                                        "$1" \
-                                        "$(tput sgr0)"
+print_name() {
+    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
+    printf '\e[%sm%s %-8s\e[0m' "$fg" "$hex" "$name"
 }
 
-print_color Base03  "002B36"  8
-print_color Base02  "073642"  0
-print_color Base01  "586E75" 10
-print_color Base00  "657B83" 11
-print_color Base0   "839496" 12
-print_color Base1   "93A1A1" 14
-print_color Base2   "EEE8D5"  7
-print_color Base3   "FDF6E3" 15
-print_color Red     "DC322F"  1
-print_color Orange  "CB4B16"  9
-print_color Yellow  "B58900"  3
-print_color Green   "859900"  2
-print_color Cyan    "2AA198"  6
-print_color Blue    "268BD2"  4
-print_color Violet  "6C71C4" 13
-print_color Magenta "D33682"  5
+print_16colors() {
+    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
+    printf '\e[%sm    \e[0m \e[%sm%-4s\e[0m' \
+        "$bg" \
+        "$fg" \
+        "[${fg}m"
+}
+
+print_256colors() {
+    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
+    printf '\e[48;5;%sm    \e[0m \e[38;5;%sm%-9s\e[0m' \
+        "$index" \
+        "$index" \
+        "[38;5;${index}m"
+}
+
+print_rgb() {
+    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
+    printf '\e[48;2;%sm    \e[0m \e[38;2;%sm%-18s\e[0m' \
+        "$rgb" \
+        "$rgb" \
+        "[38;2;${rgb}m"
+}
+
+print_terminfo() {
+    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
+    printf '%s    %s %s%-13s' \
+        "$(tput setab "$index")" \
+        "$(tput sgr0)" \
+        "$(tput setaf "$index")" \
+        "tput setaf $index"
+}
+
+print_color() {
+    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
+    padding='  '
+    print_name "$@"
+    printf '%s' "$padding"
+    print_16colors "$@"
+    printf '%s' "$padding"
+    print_256colors "$@"
+    printf '%s' "$padding"
+    print_rgb "$@"
+    printf '%s' "$padding"
+    print_terminfo "$@"
+    printf '\n'
+}
+
+#           name    hex       index   fg     bg    rgb
+print_color Base03  '002b36'  8       90    100    '0;43;54'
+print_color Base02  '073642'  0       30     40    '7;54;66'
+print_color Base01  '586e75' 10       92    102    '88;110;117'
+print_color Base00  '657b83' 11       93    103    '101;123;131'
+print_color Base0   '839496' 12       94    104    '131;148;150'
+print_color Base1   '93a1a1' 14       96    106    '147;161;161'
+print_color Base2   'eee8d5'  7       37     47    '238;232;213'
+print_color Base3   'fdf6e3' 15       97    107    '253;246;227'
+print_color Red     'dc322f'  1       31     41    '220;50;47'
+print_color Orange  'cb4b16'  9       91    101    '203;75;22'
+print_color Yellow  'b58900'  3       33     43    '181;137;0'
+print_color Green   '859900'  2       32     42    '133;153;0'
+print_color Cyan    '2aa198'  6       36     46    '42;161;152'
+print_color Blue    '268bd2'  4       34     44    '38;139;210'
+print_color Violet  '6c71c4' 13       95    105    '108;113;196'
+print_color Magenta 'd33682'  5       35     45    '211;54;130'
 
