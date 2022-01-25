@@ -71,6 +71,9 @@ register {
     -- toggle rainbow parens
     M('n', '<leader>p', ':RainbowParentheses!!<cr>'),
 
+    -- edit init.lua
+    M('n', '<leader>v', ':e $MYVIMRC<cr>'),
+
     -- fix whitespace
     M('n', '<leader>w', ':FixWhitespace<cr>'),
 }
