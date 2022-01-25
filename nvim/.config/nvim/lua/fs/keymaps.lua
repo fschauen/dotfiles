@@ -62,6 +62,10 @@ register {
     -- quickly change background
     M('n', '<leader>bg', [[:let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]]),
 
+    -- use fugitive
+    M('n', '<leader>gg',        ':G<cr>'),
+    M('n', '<leader>g<space>',  ':G '),
+
     -- disable highlight until next search
     M('n', '<leader>h', ':nohlsearch<cr>'),
 

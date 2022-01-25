@@ -22,6 +22,9 @@ local plugins = function(use)
     use 'godlygeek/tabular'
     use 'tpope/vim-commentary'
 
+    -- git     ----------------------------------------------------------------
+    use 'tpope/vim-fugitive'
+
     -- Filetypes --------------------------------------------------------------
 
     use 'elzr/vim-json'
