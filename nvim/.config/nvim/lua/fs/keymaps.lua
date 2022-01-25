@@ -62,8 +62,8 @@ register {
     -- quickly change background
     M('n', '<leader>bg', [[:let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]]),
 
-    -- toggle search highlight
-    M('n', '<leader>h', ':set hlsearch!<cr>'),
+    -- disable highlight until next search
+    M('n', '<leader>h', ':nohlsearch<cr>'),
 
     -- toggle NERDTree
     M('n', '<leader>n', ':NERDTreeToggle<cr>'),
