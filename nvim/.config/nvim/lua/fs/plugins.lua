@@ -6,7 +6,9 @@ local plugins = function(use)
     -- Visuals ----------------------------------------------------------------
 
     use 'altercation/vim-colors-solarized'
-    use 'itchyny/lightline.vim'
+
+    use 'nvim-lualine/lualine.nvim'
+
     use { 'scrooloose/nerdtree', cmd = 'NERDTreeToggle' }
     use 'junegunn/rainbow_parentheses.vim'
         vim.g['rainbow#pairs'] = { {'(',')'}, {'[',']'}, {'{','}'} }
