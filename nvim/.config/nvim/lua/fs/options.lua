@@ -16,6 +16,7 @@ set_options {
     lazyredraw  = true,           -- don't redraw screen during macros
     modelines   = 0,              -- never use modelines
     fileformats = 'unix,mac,dos', -- prioritize unix <EOL> format
+    pastetoggle = '<F20>',        -- toggle paste with P on Moonlander
 
     swapfile    = false,          -- don't use swap files
     writebackup = true,           -- Make a backup before writing a file...
