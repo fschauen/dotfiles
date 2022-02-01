@@ -7,7 +7,10 @@ local plugins = function(use)
 
     use 'altercation/vim-colors-solarized'
 
-    use 'nvim-lualine/lualine.nvim'
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    }
 
     use { 'scrooloose/nerdtree', cmd = 'NERDTreeToggle' }
     use 'junegunn/rainbow_parentheses.vim'

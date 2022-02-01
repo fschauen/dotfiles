@@ -23,38 +23,34 @@ else
     }
 end
 
-local percent_lines = '%3p%%×%L'
+local progress = { '%3p%%×%L %3l:%-2v', padding = { left = 0, right = 1 } }
 local relative_path = { 'filename', path = 1 }
-local git_diff = {
-    'diff',
-    diff_color = {
-        added    = { fg = colors.green }, modified = { fg = colors.yellow },
-        removed  = { fg = colors.red },
-    },
-}
+local encoding = function ()
+    local fenc = vim.opt.fileencoding:get()
+    if fenc ~= '' then
+        return fenc
+    end
+    return vim.opt.encoding:get()
+end
+local fileformat = { 'fileformat', padding = { left = 0, right = 1} }
 
 require('lualine').setup {
     options = {
-        icons_enabled = false,
+        icons_enabled = true,
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
-        disabled_filetypes = {},
-        always_divide_middle = true,
         theme = {
             normal = {
-                a = { fg = colors.base03, bg = colors.blue,     },
-                b = { fg = colors.base03, bg = colors.base00    },
+                a = { fg = colors.base03, bg = colors.blue, gui='bold' },
+                b = { fg = colors.base2,  bg = colors.base00    },
                 c = { fg = colors.base1,  bg = colors.base02    },
-                -- x == c
-                -- y == b
-                z = { fg = colors.base03,  bg = colors.base0    },
             },
-            insert  = { a = { fg = colors.base03, bg = colors.green,    } },
-            visual  = { a = { fg = colors.base03, bg = colors.magenta,  } },
-            replace = { a = { fg = colors.base03, bg = colors.red,      } },
+            insert  = { a = { fg = colors.base03, bg = colors.green,   gui = 'bold' } },
+            visual  = { a = { fg = colors.base03, bg = colors.magenta, gui = 'bold' } },
+            replace = { a = { fg = colors.base03, bg = colors.red,     gui = 'bold' } },
             inactive = {
-                a = { fg = colors.base00, bg = colors.base02,   },
-                b = { fg = colors.base00, bg = colors.base02    },
+                a = { fg = colors.base1,  bg = colors.base00    },
+                b = { fg = colors.base0,  bg = colors.base01    },
                 c = { fg = colors.base00, bg = colors.base02    },
             },
         },
@@ -69,24 +65,69 @@ require('lualine').setup {
                 cond = function() return vim.opt.paste:get() end
             },
         },
-        lualine_b = { 'diagnostics' },
+        lualine_b = { 'diagnostics', 'branch' },
         lualine_c = { relative_path },
-        lualine_x = { 'branch', git_diff },
-        lualine_y = { 'filetype', 'encoding', 'fileformat' },
-        lualine_z = { 'location', percent_lines },
-
+        lualine_x = { 'filetype' },
+        lualine_y = { encoding, fileformat },
+        lualine_z = { progress },
     },
+
     inactive_sections = {
         lualine_a = {},
-        lualine_b = {},
+        lualine_b = { 'diagnostics', 'branch' },
         lualine_c = { relative_path },
-        lualine_x = { 'branch', git_diff },
-        lualine_y = { 'filetype', 'encoding', 'fileformat' },
-        lualine_z = { 'location', percent_lines },
+        lualine_x = { 'filetype' },
+        lualine_y = { encoding, fileformat },
+        lualine_z = { progress },
     },
-
-    tabline = {},
 
     extensions = { 'fugitive', 'quickfix' }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
