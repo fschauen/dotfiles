@@ -78,3 +78,8 @@
     path = ~/.local/etc/git/config.user     # user name & e-mail (from template)
     path = ~/.local/etc/git/config          # optional manual configurations
 
+# Overrides for my dotfiles directory to make sure I never commit with the
+# wrong e-mail address.
+[includeIf "gitdir:~/.dotfiles/"]
+    path = ~/.config/git/dotfiles
+
