@@ -23,7 +23,11 @@ else
   }
 end
 
-local progress = { '%3p%%×%L %3l:%-2v', padding = { left = 0, right = 1 } }
+local paste = {
+  function() return 'P' end,
+  color = { fg = colors.base3, bg = colors.yellow, gui = 'bold' },
+  cond = function() return vim.opt.paste:get() end
+}
 local relative_path = { 'filename', path = 1 }
 local encoding = function ()
   local fenc = vim.opt.fileencoding:get()
@@ -33,6 +37,7 @@ local encoding = function ()
   return vim.opt.encoding:get()
 end
 local fileformat = { 'fileformat', padding = { left = 0, right = 1} }
+local progress = { '%3p%%×%L %3l:%-2v', padding = { left = 0, right = 1 } }
 
 require('lualine').setup {
     options = {
@@ -57,14 +62,7 @@ require('lualine').setup {
     },
 
     sections = {
-      lualine_a = {
-        'mode',
-        {
-          function() return 'PASTE' end,
-          color = { bg = colors.yellow },
-          cond = function() return vim.opt.paste:get() end
-        },
-      },
+      lualine_a = { 'mode', paste },
       lualine_b = { 'diagnostics', 'branch' },
       lualine_c = { relative_path },
       lualine_x = { 'filetype' },
