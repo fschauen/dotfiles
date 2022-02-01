@@ -11,8 +11,6 @@ end
 
 make_autocmds {
   buffers = {
-    { 'BufNewFile,BufRead', 'bash_profile,bashrc,profile', 'set filetype=sh' },
-    { 'BufNewFile,BufRead', 'gitconfig', 'set filetype=gitconfig' },
     { 'BufNewFile,BufRead', '*.sx,*.s19', 'set filetype=srec' },
     { 'BufNewFile,BufRead', 'Vagrantfile', 'set filetype=ruby' },
     -- Make it possible to use `gf` to jump to my configuration modules.
