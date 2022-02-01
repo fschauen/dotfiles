@@ -11,8 +11,6 @@ end
 
 make_autocmds {
   buffers = {
-    { 'BufNewFile,BufRead', '*.sx,*.s19', 'set filetype=srec' },
-    { 'BufNewFile,BufRead', 'Vagrantfile', 'set filetype=ruby' },
     -- Make it possible to use `gf` to jump to my configuration modules.
     { 'BufNewFile,BufRead', 'init.lua',
     "setlocal path+=~/.config/nvim/lua includeexpr=substitute(v:fname,'\\\\.','/','g')"},
