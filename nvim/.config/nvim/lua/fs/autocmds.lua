@@ -19,12 +19,6 @@ make_autocmds {
     { 'BufNewFile,BufRead', 'init.lua',
     "setlocal path+=~/.config/nvim/lua includeexpr=substitute(v:fname,'\\\\.','/','g')"},
   },
-  filetypes = {
-    { 'FileType', 'gitcommit', 'setlocal textwidth=72' },
-    { 'FileType', 'gitcommit,markdown,text', 'setlocal formatoptions+=t spell' },
-    { 'FileType', 'python', 'setlocal foldmethod=indent foldignore=' },
-    { 'FileType', 'vim', 'set foldmethod=marker' },
-  },
   windows = {
     -- Disable cursorline when entering Insert mode (but remember it)...
     { 'InsertEnter', '*', 'let g:stored_cursorline=&cursorline | set nocursorline' },
