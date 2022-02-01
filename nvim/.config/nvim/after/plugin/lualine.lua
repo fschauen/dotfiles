@@ -74,7 +74,7 @@ require('lualine').setup {
       lualine_a = {},
       lualine_b = { 'diagnostics', 'branch' },
       lualine_c = { relative_path },
-      lualine_x = { 'filetype' },
+      lualine_x = { { 'filetype', colored = false } },
       lualine_y = { encoding, fileformat },
       lualine_z = { progress },
     },
