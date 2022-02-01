@@ -62,22 +62,9 @@ register {
   -- quickly change background
   M('n', '<leader>bg', [[:let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]]),
 
-  -- use fugitive
-  M('n', '<leader>gg',        ':G<cr>'),
-  M('n', '<leader>g<space>',  ':G '),
-
   -- disable highlight until next search
   M('n', '<leader>h', ':nohlsearch<cr>'),
 
-  -- toggle NERDTree
-  M('n', '<leader>n', ':NERDTreeToggle<cr>'),
-
-  -- toggle rainbow parens
-  M('n', '<leader>p', ':RainbowParentheses!!<cr>'),
-
   -- edit init.lua
   M('n', '<leader>v', ':e $MYVIMRC<cr>'),
-
-  -- fix whitespace
-  M('n', '<leader>w', ':FixWhitespace<cr>'),
 }
