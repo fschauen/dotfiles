@@ -79,7 +79,7 @@ nvim_extras() {
     heading 'nvim plugins'
     if command -v nvim >/dev/null 2>&1; then
         dry_run || {
-            change "installing neovim plugins..."
+            warn "installing neovim plugins..."
             nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
         }
     else
@@ -121,15 +121,21 @@ usage() {
 
 heading()   { printf '%s\n' "${blue}=====  $1  ==========${rst}"; }
 info()      { printf '%s ' "$@";                            printf '\n'; }
-ok()        { printf '%s ' "${green}OK:${rst}" "$@";        printf '\n'; }
-change()    { printf '%s ' "${yellow}CHANGE:${rst}" "$@";   printf '\n'; }
 warn()      { printf '%s ' "${yellow}$@${rst}";             printf '\n'; }
 error()     { printf '%s ' "${red}$@${rst}";                printf '\n'; }
+
+log() {
+    case "$1" in
+        OK|ok) color=$green;;
+        *) color=$yellow;;
+    esac
+    printf '%s%-*s%s %s\n'  "$color"  6  "$1:"  "$rst"  "$2"
+}
 
 # Make sure directory $1 exists.
 ensure_directory() {
     [ -d "$1" ] && return
-    change "MKDIR $1/"
+    log MKDIR "$1/"
     dry_run || mkdir -p "$1/"
 }
 
@@ -140,7 +146,7 @@ prune_cmd() {
         case "$target" in
             "$DOTFILES/bin/"*)  # ... pointing into dotfiles bin
                 if [ ! -e "$1" ]; then  # target of the link missing
-                    change "UNLINK (stale) $1 -> $target"
+                    log UNLINK "(stale) $1 -> $target"
                     dry_run || rm -f "$1"
                 fi
                 ;;
@@ -151,19 +157,25 @@ prune_cmd() {
 # Make sure $1 is a (relative) symlink to $2.
 link() {
     target="$(python -c "import os; print os.path.relpath('$2','$(dirname $1)')")"
-    [ "$(readlink "$1")" = "$target" ] && { ok "$1 -> $target"; return; }
-    change "LINK $1 -> $target"
-    dry_run || ln -sf "$target" "$1"
+    if [ "$(readlink "$1")" = "$target" ]; then
+        log OK "$1 -> $target"
+    else
+        log LINK "$1 -> $target"
+        dry_run || ln -sf "$target" "$1"
+    fi
 }
 
 # Ensure $1 and $2 contents are equal, updating $1 if needed.
 equal_content() {
-    diff "$1" "$2" >/dev/null 2>&1 && { ok "$1"; return; }
-    change "OVERWRITE $1 with $2:"
-    echo "$cyan"
-    cat "$2"
-    echo "$rst"
-    dry_run || cp -f "$2" "$1"
+    if diff "$1" "$2" >/dev/null 2>&1; then
+        log OK "$1"
+    else
+        log OVERWRITE "$1 with $2:"
+        echo "$cyan"
+        cat "$2"
+        echo "$rst"
+        dry_run || cp -f "$2" "$1"
+    fi
 }
 
 # Deploy package by creating subdirs and symlinks to dotfiles.
