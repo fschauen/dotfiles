@@ -37,6 +37,10 @@ vmap { '<A-k>',       [[:move '<-2<cr>gv=gv]], { silent = true } }
 imap { '<A-j>',  [[<esc>:move .+1<cr>==gi]]  , { silent = true } }
 imap { '<A-k>',  [[<esc>:move .-2<cr>==gi]]  , { silent = true } }
 
+-- move to begin/end of line in insert mode
+imap { '<c-a>', '<c-o>^' }
+imap { '<c-e>', '<c-o>$' }
+
 -- cycle through line numbering modes
 nmap { '<leader>ln', '<cmd>set nonumber norelativenumber<CR>' , { silent = true } }
 nmap { '<leader>ll', '<cmd>set number norelativenumber<CR>'   , { silent = true } }
