@@ -47,6 +47,7 @@ while read -r dir; do
         *) PATH="$dir:$PATH" ;;
     esac
 done <<EOL
+    $LOCAL_PREFIX/opt/findutils/libexec/gnubin
     $LOCAL_PREFIX/bin
     $HOME/.local/bin
 EOL
@@ -62,6 +63,7 @@ while read -r dir; do
         *) MANPATH="$dir:$MANPATH" ;;
     esac
 done <<EOL
+    $LOCAL_PREFIX/opt/findutils/libexec/gnuman
     $LOCAL_PREFIX/share/man
     $HOME/.local/share/man
 EOL
