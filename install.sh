@@ -3,10 +3,10 @@ set -e
 
 DOTFILES="$(dirname "$(realpath "$0")")"
 TARGET="$HOME"
-DEFAULT_GIT_USER="Fernando Schauenburg"
-DEFAULT_GIT_EMAIL="fernando@schauenburg.me"
 
-[ -f "$DOTFILES/config" ] && . "$DOTFILES/config"
+[ -f "$DOTFILES/config.local" ] && . "$DOTFILES/config.local"
+GIT_USER="${GIT_USER:-Fernando Schauenburg}"
+GIT_EMAIL="${GIT_EMAIL:-fernando@schauenburg.me}"
 
 main() {
     DRY_RUN=yes
@@ -27,14 +27,13 @@ main() {
 greeting() {
     dry_run && {
         warn "Performing dry run (use -f to actually make changes)."
-        warn ""
+        warn
     }
 
-    git_info="${GIT_USER:-$DEFAULT_GIT_USER} <${GIT_EMAIL:-$DEFAULT_GIT_EMAIL}>"
     info "Deploying dotfiles:"
     info "  Source: $cyan$DOTFILES$rst"
     info "  Taget: $cyan$TARGET$rst"
-    info "  Git user: $cyan$git_info$rst"
+    info "  Git user: $cyan$GIT_USER <$GIT_EMAIL>$rst"
 
     [ -t 0 ] && {
         info
@@ -72,8 +71,8 @@ git_extras() {
 #   ~/.local/etc/git/config
 #
 EOF
-    git config -f "$temp_git" user.name "${GIT_USER:-$DEFAULT_GIT_USER}"
-    git config -f "$temp_git" user.email "${GIT_EMAIL:-$DEFAULT_GIT_EMAIL}"
+    git config -f "$temp_git" user.name "${GIT_USER}"
+    git config -f "$temp_git" user.email "${GIT_EMAIL}"
     equal_content "$TARGET/.local/etc/git/config.user" "$temp_git"
 }
 
