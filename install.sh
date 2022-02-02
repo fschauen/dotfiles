@@ -9,9 +9,9 @@ GIT_USER="${GIT_USER:-Fernando Schauenburg}"
 GIT_EMAIL="${GIT_EMAIL:-fernando@schauenburg.me}"
 
 main() {
-    DRY_RUN=yes
+    IS_DRY_RUN=yes
     while getopts 'fht:' opt; do case "$opt" in
-        f) DRY_RUN= ;;
+        f) unset IS_DRY_RUN;;
         t) TARGET="$OPTARG";;
         h) usage; exit 0;;
         *) usage; exit 1;;
@@ -110,7 +110,7 @@ else
     cyan=''
 fi
 
-dry_run() { [ -n "$DRY_RUN" ]; }
+dry_run() { [ -n "$IS_DRY_RUN" ]; }
 
 usage() {
     echo "Usage: $(basename $0) [-h] [-f] [-t <target>]"
