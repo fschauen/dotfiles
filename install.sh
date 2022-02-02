@@ -43,16 +43,15 @@ greeting() {
 }
 
 deploy_packages() {
-    for f in *; do
-        [ -d "$f" ] && {
-            heading "$f"
-            deploy "$f"
-        }
+    for item in "$DOTFILES"/*; do
+        [ ! -d "$item" ] && continue
+        heading "${item#$DOTFILES/}"
+        deploy "$item"
     done
 }
 
 bin_extras() {
-    heading 'stale ~/.local/bin commands'
+    heading "stale $TARGET/.local/bin commands"
     for cmd in $TARGET/.local/bin/*; do prune_cmd "$cmd"; done;
 }
 
