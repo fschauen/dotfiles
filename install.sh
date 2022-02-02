@@ -2,6 +2,7 @@
 set -e
 
 DOTFILES="$(dirname "$(realpath "$0")")"
+TARGET="$HOME"
 DEFAULT_GIT_USER="Fernando Schauenburg"
 DEFAULT_GIT_EMAIL="fernando@schauenburg.me"
 
@@ -9,8 +10,9 @@ DEFAULT_GIT_EMAIL="fernando@schauenburg.me"
 
 main() {
     DRY_RUN=yes
-    while getopts 'fh' opt; do case "$opt" in
+    while getopts 'fht:' opt; do case "$opt" in
         f) DRY_RUN= ;;
+        t) TARGET="$OPTARG";;
         h) usage; exit 0;;
         *) usage; exit 1;;
     esac done
@@ -29,9 +31,13 @@ greeting() {
     }
 
     git_info="${GIT_USER:-$DEFAULT_GIT_USER} <${GIT_EMAIL:-$DEFAULT_GIT_EMAIL}>"
-    info "Deploying with git user $cyan$git_info$rst"
+    info "Deploying dotfiles:"
+    info "  Source: $cyan$DOTFILES$rst"
+    info "  Taget: $cyan$TARGET$rst"
+    info "  Git user: $cyan$git_info$rst"
 
     [ -t 0 ] && {
+        info
         info "Press ENTER to continue (CTRL-C to cancel)..."
         read k
     }
@@ -48,7 +54,7 @@ deploy_packages() {
 
 bin_extras() {
     heading 'stale ~/.local/bin commands'
-    for cmd in $HOME/.local/bin/*; do prune_cmd "$cmd"; done;
+    for cmd in $TARGET/.local/bin/*; do prune_cmd "$cmd"; done;
 }
 
 
@@ -68,7 +74,7 @@ git_extras() {
 EOF
     git config -f "$temp_git" user.name "${GIT_USER:-$DEFAULT_GIT_USER}"
     git config -f "$temp_git" user.email "${GIT_EMAIL:-$DEFAULT_GIT_EMAIL}"
-    equal_content "$HOME/.local/etc/git/config.user" "$temp_git"
+    equal_content "$TARGET/.local/etc/git/config.user" "$temp_git"
 }
 
 nvim_extras() {
@@ -108,10 +114,11 @@ fi
 dry_run() { [ -n "$DRY_RUN" ]; }
 
 usage() {
-    echo "Usage: $(basename $0) [-h] [-f]"
+    echo "Usage: $(basename $0) [-h] [-f] [-t <target>]"
     echo ""
     echo "  -h  print this help and exit"
     echo "  -f  modify filesystem rather than dry run"
+    echo "  -t  set <target> directory (default: \$HOME)"
 }
 
 heading()   { printf '%s\n' "${blue}=====  $1  ==========${rst}"; }
@@ -165,7 +172,7 @@ equal_content() {
 deploy() {
     package="$1"
     find "$package" -type f | while read dotfile; do
-        link="$HOME/${dotfile##"$package"/}"
+        link="$TARGET/${dotfile##"$package"/}"
         ensure_directory "$(dirname "$link")"
         [ "$(basename "$dotfile")" = '.keep' ] || link "$link" "$dotfile"
     done
