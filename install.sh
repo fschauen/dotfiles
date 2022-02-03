@@ -53,6 +53,7 @@ stow_packages() {
         nvim        \
         python      \
         readline    \
+        shell       \
         ssh         \
         tmux        \
         x11         \

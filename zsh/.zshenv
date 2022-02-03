@@ -36,53 +36,15 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
     unset rst
 }
 
-# Prevent path_helper from messing with the PATH when starting tmux.
-#   See: https://superuser.com/a/583502
-[ "$(uname -s)" = "Darwin" ] && { PATH=""; source /etc/profile; }
-
-# Add custom bin dirs to PATH if they exist and are not already in PATH.
-while read -r dir; do
-    case ":${PATH:=$dir}:" in
-        *:"$dir":*) ;;
-        *) PATH="$dir:$PATH" ;;
-    esac
-done <<EOL
-    $LOCAL_PREFIX/opt/findutils/libexec/gnubin
-    $LOCAL_PREFIX/bin
-    $HOME/.local/bin
-EOL
-export PATH
-
-# Prepend custom man directories to MANPATH if they exist, so that we get
-# correct man page entries when multiple versions of a command are
-# available.
-command -v manpath >/dev/null 2>&1 && MANPATH="$(unset MANPATH; manpath)"
-while read -r dir; do
-    case ":${MANPATH:=$dir}:" in
-        *:"$dir":*) ;;
-        *) MANPATH="$dir:$MANPATH" ;;
-    esac
-done <<EOL
-    $LOCAL_PREFIX/opt/findutils/libexec/gnuman
-    $LOCAL_PREFIX/share/man
-    $HOME/.local/share/man
-EOL
-export MANPATH
-
-unset dir
-
-# These checks habe to be done after PATH manipulation above so we can find
-# installed programs if they are in the added paths.
-
-if command -v nvim >/dev/null 2>&1; then
-    export EDITOR="nvim"
-else
-    export EDITOR="vim"
-fi
-
-if command -v brew >/dev/null 2>&1; then
-    LOCAL_PREFIX="$(brew --prefix)"
-    export HOMEBREW_NO_ANALYTICS=1
-    export HOMEBREW_NO_AUTO_UPDATE=1
-fi
+# Add custom directories to PATH and MANPATH.
+#
+# On MacOS, we skip it here because these relevant files are sourced in order
+# by zsh on startup ($ZDOTDIR defaults to $HOME if not set):
+#
+#   $ZDOTDIR/.zshenv     <-- This file.
+#   /etc/zprofile        <-- On MacOS this sources /usr/libexec/path_helper,
+#                            which would undo what we do here.
+#   $ZDOTDIR/.zshrc      <-- So we defer our PATH manipulation to this file.
+#
+[ "$(uname -s)" = "Darwin" ] || source "$XDG_CONFIG_HOME/shell/path.sh"
 
