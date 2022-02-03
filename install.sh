@@ -18,10 +18,9 @@ main() {
     esac done
 
     greeting
-    deploy_packages
-    bin_extras
-    git_extras
-    nvim_extras
+    stow_packages
+    git_user_config
+    nvim_plugins
 }
 
 greeting() {
@@ -32,8 +31,8 @@ greeting() {
 
     info "Deploying dotfiles:"
     info "  Source: $cyan$DOTFILES$rst"
-    info "  Taget: $cyan$TARGET$rst"
-    info "  Git user: $cyan$GIT_USER <$GIT_EMAIL>$rst"
+    info "  Target: $cyan$TARGET$rst"
+    info "  Git user: $yellow$GIT_USER <$GIT_EMAIL>$rst"
 
     [ -t 0 ] && {
         info
@@ -42,22 +41,28 @@ greeting() {
     }
 }
 
-deploy_packages() {
-    for item in "$DOTFILES"/*; do
-        [ ! -d "$item" ] && continue
-        heading "${item#$DOTFILES/}"
-        deploy "$item"
-    done
+stow_packages() {
+    heading 'stow packages'
+    stow -v${IS_DRY_RUN:+n} --no-folding -d "$DOTFILES" -t "$TARGET" \
+        alacritty   \
+        bin         \
+        git         \
+        jupyter     \
+        mintty      \
+        misc        \
+        nvim        \
+        python      \
+        readline    \
+        ssh         \
+        tmux        \
+        x11         \
+        zsh         \
+        2>&1 | sed -E -e "s/^([^:]+:)/$yellow\1$rst/" -e "s/=>/$blue=>$rst/"
 }
 
-bin_extras() {
-    heading "stale $TARGET/.local/bin commands"
-    for cmd in $TARGET/.local/bin/*; do prune_cmd "$cmd"; done;
-}
-
-
-git_extras() {
+git_user_config() {
     heading 'git user configuration'
+    config_file="$TARGET/.local/etc/git/config.user"
     temp_git="$(mktemp)"
     cat >"$temp_git" <<EOF
 #         *************************************
@@ -72,10 +77,17 @@ git_extras() {
 EOF
     git config -f "$temp_git" user.name "${GIT_USER}"
     git config -f "$temp_git" user.email "${GIT_EMAIL}"
-    equal_content "$TARGET/.local/etc/git/config.user" "$temp_git"
+
+    diff "$config_file" "$temp_git" >/dev/null 2>&1 || {
+        echo "${yellow}OVERWRITE:$rst $config_file with $temp_git:"
+        echo "$cyan"
+        cat "$temp_git"
+        echo "$rst"
+        dry_run || cp -f "$temp_git" "$config_file"
+    }
 }
 
-nvim_extras() {
+nvim_plugins() {
     heading 'nvim plugins'
     if command -v nvim >/dev/null 2>&1; then
         dry_run || {
@@ -123,69 +135,5 @@ heading()   { printf '%s\n' "${blue}=====  $1  ==========${rst}"; }
 info()      { printf '%s ' "$@";                            printf '\n'; }
 warn()      { printf '%s ' "${yellow}$@${rst}";             printf '\n'; }
 error()     { printf '%s ' "${red}$@${rst}";                printf '\n'; }
-
-log() {
-    case "$1" in
-        OK|ok) color=$green;;
-        *) color=$yellow;;
-    esac
-    printf '%s%-*s%s %s\n'  "$color"  6  "$1:"  "$rst"  "$2"
-}
-
-# Make sure directory $1 exists.
-ensure_directory() {
-    [ -d "$1" ] && return
-    log MKDIR "$1/"
-    dry_run || mkdir -p "$1/"
-}
-
-# Remove $1 if it's a broken link to a dotfile script.
-prune_cmd() {
-    if [ -h "$1" ]; then  # it's a symbolic link...
-        target="$(readlink "$1")"
-        case "$target" in
-            "$DOTFILES/bin/"*)  # ... pointing into dotfiles bin
-                if [ ! -e "$1" ]; then  # target of the link missing
-                    log UNLINK "(stale) $1 -> $target"
-                    dry_run || rm -f "$1"
-                fi
-                ;;
-        esac
-    fi
-}
-
-# Make sure $1 is a (relative) symlink to $2.
-link() {
-    target="$(python -c "import os; print os.path.relpath('$2','$(dirname $1)')")"
-    if [ "$(readlink "$1")" = "$target" ]; then
-        log OK "$1 -> $target"
-    else
-        log LINK "$1 -> $target"
-        dry_run || ln -sf "$target" "$1"
-    fi
-}
-
-# Ensure $1 and $2 contents are equal, updating $1 if needed.
-equal_content() {
-    if diff "$1" "$2" >/dev/null 2>&1; then
-        log OK "$1"
-    else
-        log OVERWRITE "$1 with $2:"
-        echo "$cyan"
-        cat "$2"
-        echo "$rst"
-        dry_run || cp -f "$2" "$1"
-    fi
-}
-
-# Deploy package by creating subdirs and symlinks to dotfiles.
-deploy() {
-    package="$1"
-    find "$package" -type f | while read dotfile; do
-        link="$TARGET/${dotfile##"$package"/}"
-        ensure_directory "$(dirname "$link")"
-        [ "$(basename "$dotfile")" = '.keep' ] || link "$link" "$dotfile"
-    done
-}
 
 main "$@"
