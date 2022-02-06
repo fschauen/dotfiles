@@ -46,7 +46,8 @@ alias ez="$EDITOR $ZDOTDIR/.zshrc"
 
 if command -v nvim >/dev/null 2>&1; then
     alias \
-        vim="nvim"
+        v="nvim" \
+        vim="nvim" \
         vimdiff="nvim -d"
 fi
 
