@@ -37,7 +37,7 @@ local encoding = function ()
   return vim.opt.encoding:get()
 end
 local fileformat = { 'fileformat', padding = { left = 0, right = 1} }
-local progress = { '%3p%%×%L %3l:%-2v', padding = { left = 0, right = 1 } }
+local progress = '%3l/%L｜%-2v'  -- line / total ｜column
 
 require('lualine').setup {
     options = {
