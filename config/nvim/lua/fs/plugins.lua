@@ -3,13 +3,11 @@ local plugins = function(use)
 
     -- Visuals ----------------------------------------------------------------
     use 'altercation/vim-colors-solarized'
-    use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
+    use 'kyazdani42/nvim-web-devicons'
+    use 'nvim-lualine/lualine.nvim'
 
     -- Navigation -------------------------------------------------------------
-    use { 'scrooloose/nerdtree', cmd = 'NERDTreeToggle' }
+    use 'kyazdani42/nvim-tree.lua'
     use 'junegunn/rainbow_parentheses.vim'
     use 'ctrlpvim/ctrlp.vim'
 
