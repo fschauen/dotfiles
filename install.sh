@@ -17,12 +17,22 @@ main() {
         *) usage; exit 1;;
     esac done
 
+    check_dependencies
     greeting
     make_dirs
     stow_home
     link_config
     git_user_config
     nvim_plugins
+}
+
+check_dependencies() {
+    for cmd in stow readlink; do
+        if ! command -v "$cmd" >/dev/null 2>&1; then
+            error "Dependency \`$cmd\` not found."
+            exit 1
+        fi
+    done
 }
 
 greeting() {
