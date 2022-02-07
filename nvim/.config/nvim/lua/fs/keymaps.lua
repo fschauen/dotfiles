@@ -55,6 +55,9 @@ nmap { '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' :
 -- disable highlight until next search
 nmap { '<leader>h', '<cmd>nohlsearch<cr>' }
 
--- edit init.lua
-nmap { '<leader>v', '<cmd>e $MYVIMRC<cr>' }
+-- edit configuration files
+nmap { '<leader>eg', '<cmd>tabedit ~/.config/git/config<cr>' }
+nmap { '<leader>et', '<cmd>tabedit ~/.config/tmux/tmux.conf<cr>' }
+nmap { '<leader>ev', '<cmd>tabedit ~/.config/nvim/init.lua<cr>' }
+nmap { '<leader>ez', '<cmd>tabedit ~/.config/zsh/.zshrc<cr>' }
 
