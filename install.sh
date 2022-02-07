@@ -36,11 +36,11 @@ greeting() {
     info "  Target: $cyan$TARGET$rst"
     info "  Git user: $yellow$GIT_USER <$GIT_EMAIL>$rst"
 
-    [ -t 0 ] && {
+    if [ -t 0 -a -t 1 ]; then
         info
         info "Press ENTER to continue (CTRL-C to cancel)..."
         read k
-    }
+    fi
 }
 
 make_dirs() {
