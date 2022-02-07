@@ -18,7 +18,9 @@ main() {
     esac done
 
     greeting
-    stow_packages
+    make_dirs
+    stow_home
+    link_config
     git_user_config
     nvim_plugins
 }
@@ -41,24 +43,45 @@ greeting() {
     }
 }
 
-stow_packages() {
-    heading 'stow packages'
-    stow -v${IS_DRY_RUN:+n} --no-folding -d "$DOTFILES" -t "$TARGET" \
-        alacritty   \
-        bin         \
-        git         \
-        jupyter     \
-        mintty      \
-        misc        \
-        nvim        \
-        python      \
-        readline    \
-        shell       \
-        ssh         \
-        tmux        \
-        x11         \
-        zsh         \
-        2>&1 | sed -E -e "s/^([^:]+:)/$yellow\1$rst/" -e "s/=>/$blue=>$rst/"
+make_dirs() {
+    heading 'create auxiliary directories'
+    while read item; do
+        dir="$TARGET/$item"
+        if [ ! -d "$dir" ]; then
+            echo "${yellow}MKDIR:$rst $dir"
+            dry_run || mkdir -p "$dir"
+        fi
+    done <<EOF
+.local/share/less/
+.local/share/python/
+.local/share/nvim/shada/
+.local/share/zsh/
+.local/etc/git/
+EOF
+}
+
+link_config() {
+    heading 'link .config directory'
+
+    link="$TARGET/.config"
+    dotfiles_config="$DOTFILES/config"
+    backup="$TARGET/old_dot_config"
+
+    if [ "$(readlink "$link")" != "$dotfiles_config" ]; then
+        if [ -d "$link" ]; then
+            echo "${red}WARNING:$rst moving existing '$link' to '$backup'"
+            dry_run || mv "$link" "$backup"
+        fi
+
+        echo "${yellow}LINK:$rst $link $blue=>$rst $dotfiles_config"
+        dry_run || ln -s "$dotfiles_config" "$link"
+    fi
+}
+
+stow_home() {
+    heading 'stow home directory'
+    stow -v${IS_DRY_RUN:+n} --no-folding -d "$DOTFILES" -t "$TARGET" home 2>&1 \
+        | sed -E -e "s/^([^:]+:)/$yellow\1$rst/" -e "s/=>/$blue=>$rst/"
 }
 
 git_user_config() {
