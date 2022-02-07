@@ -91,7 +91,10 @@ link_config() {
 stow_home() {
   heading 'stow home directory'
   stow -v${IS_DRY_RUN:+n} --no-folding -d "$DOTFILES" -t "$TARGET" home 2>&1 \
-    | sed -E -e "s/^([^:]+:)/$yellow\1$rst/" -e "s/=>/$blue=>$rst/"
+    | sed -E \
+      -e "s/^(WARNING:)/$red\1$rst/" \
+      -e "s/^([^:]+:)/$yellow\1$rst/" \
+      -e "s/=>/$blue=>$rst/"
 }
 
 git_user_config() {
