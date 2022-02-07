@@ -113,7 +113,12 @@ EOF
     git config -f "$temp_git" user.email "${GIT_EMAIL}"
 
     if ! diff "$config_file" "$temp_git" >/dev/null 2>&1; then
-        echo "${yellow}OVERWRITE:$rst $config_file with $temp_git:"
+        if [ -f "$config_file" ]; then
+            action=OVERWRITE
+        else
+            action=CREATE
+        fi
+        echo "$yellow$action:$rst $config_file with contents of $temp_git:"
         echo "$cyan"
         cat "$temp_git"
         echo "$rst"
