@@ -18,6 +18,9 @@
 [push]
     default = nothing
 
+[pull]
+    ff = only
+
 [merge]
     tool = vimdiff
 
