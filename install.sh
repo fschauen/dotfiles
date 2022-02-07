@@ -102,13 +102,13 @@ EOF
     git config -f "$temp_git" user.name "${GIT_USER}"
     git config -f "$temp_git" user.email "${GIT_EMAIL}"
 
-    diff "$config_file" "$temp_git" >/dev/null 2>&1 || {
+    if ! diff "$config_file" "$temp_git" >/dev/null 2>&1; then
         echo "${yellow}OVERWRITE:$rst $config_file with $temp_git:"
         echo "$cyan"
         cat "$temp_git"
         echo "$rst"
         dry_run || cp -f "$temp_git" "$config_file"
-    }
+    fi
 }
 
 nvim_plugins() {
