@@ -1,2 +1,3 @@
 config.local
 config/nvim/plugin/packer_compiled.lua
+config/zsh/.zcompdump
