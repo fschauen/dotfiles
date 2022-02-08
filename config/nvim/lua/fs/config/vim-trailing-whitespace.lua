@@ -1,4 +1,4 @@
-local nmap = require'fs.keymap'.nmap
+local nmap = require'fs.util.keymap'.nmap
 
 local config = function()
   -- fix whitespace

@@ -1,6 +1,6 @@
 vim.bo.tabstop = 2
 
-local nmap = require 'fs.keymap'.buffer_nmap
+local nmap = require 'fs.util.keymap'.buffer_nmap
 
 -- execute the current line
 nmap { '<leader>x', [[<cmd>call luaeval(getline("."))<cr>]] }

@@ -1,4 +1,4 @@
-local nmap = require'fs.keymap'.buffer_nmap
+local nmap = require'fs.util.keymap'.buffer_nmap
 
 local setup = function()
   -- Disable concealling on italic, bold, etc.

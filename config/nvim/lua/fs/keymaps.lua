@@ -1,4 +1,4 @@
-local keymap = require 'fs.keymap'
+local keymap = require 'fs.util.keymap'
 local nmap = keymap.nmap
 local imap = keymap.imap
 local vmap = keymap.vmap
