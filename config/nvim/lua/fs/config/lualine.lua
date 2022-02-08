@@ -12,7 +12,7 @@ local Table = {
 
 local colors = require'fs.colors'.colors()
 
-local function theme()
+local theme = (function()
   local active = {
     a = Table:new { fg = colors.base03, bg = colors.base1  },
     b = Table:new { fg = colors.base03, bg = colors.base00 },
@@ -46,7 +46,7 @@ local function theme()
       c = inactive.c,
     },
   }
-end
+end)()
 
 local parts = {
   paste = {
@@ -92,13 +92,13 @@ local sections = Table:new {
   lualine_z = { parts.progress },
 }
 
-local function setup()
+local config = function()
   require('lualine').setup {
     options = {
       icons_enabled = true,
       component_separators = { left = '', right = '' },
       section_separators = { left = '', right = '' },
-      theme = theme(),
+      theme = theme,
     },
 
     sections = sections:override {
@@ -111,5 +111,4 @@ local function setup()
   }
 end
 
-setup()
-
+return { config = config }

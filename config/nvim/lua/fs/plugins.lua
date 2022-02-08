@@ -4,27 +4,56 @@ local plugins = function(use)
     -- Visuals ----------------------------------------------------------------
     use 'altercation/vim-colors-solarized'
     use 'kyazdani42/nvim-web-devicons'
-    use 'nvim-lualine/lualine.nvim'
+    use {
+      'nvim-lualine/lualine.nvim',
+      config = [[require'fs.config.lualine'.config()]]
+    }
 
     -- Navigation -------------------------------------------------------------
-    use 'kyazdani42/nvim-tree.lua'
-    use 'junegunn/rainbow_parentheses.vim'
-    use 'ctrlpvim/ctrlp.vim'
+    use {
+      'kyazdani42/nvim-tree.lua',
+      config = [[require'fs.config.nvim-tree'.config()]],
+    }
+    use {
+      'junegunn/rainbow_parentheses.vim',
+      config = [[require'fs.config.rainbow_parentheses'.config()]],
+    }
+    use {
+      'ctrlpvim/ctrlp.vim',
+      setup = [[require'fs.config.ctrlp'.setup()]],
+    }
 
     -- Editing ----------------------------------------------------------------
-    use 'bronson/vim-trailing-whitespace'
+    use {
+      'bronson/vim-trailing-whitespace',
+      config = [[require'fs.config.vim-trailing-whitespace'.config()]],
+    }
     use 'godlygeek/tabular'
     use 'tpope/vim-commentary'
 
     -- git --------------------------------------------------------------------
-    use 'tpope/vim-fugitive'
+    use {
+      'tpope/vim-fugitive',
+      config = [[require'fs.config.vim-fugitive'.config()]],
+    }
 
     -- Filetypes --------------------------------------------------------------
-    use 'elzr/vim-json'
-    use 'plasticboy/vim-markdown'
+    use {
+      'elzr/vim-json',
+      setup = [[require'fs.config.vim-json'.setup()]],
+      config = [[require'fs.config.vim-json'.config()]],
+    }
+    use {
+      'plasticboy/vim-markdown',
+      setup = [[require'fs.config.vim-markdown'.setup()]],
+      config = [[require'fs.config.vim-markdown'.config()]],
+    }
     use 'keith/swift.vim'
     use 'chr4/nginx.vim'
-    use 'vim-scripts/srec.vim'
+    use {
+      'vim-scripts/srec.vim',
+      config = [[require'fs.config.srec'.config()]],
+    }
 
     vim.cmd([[
         silent! colorscheme solarized

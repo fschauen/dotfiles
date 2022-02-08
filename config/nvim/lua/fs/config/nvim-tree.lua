@@ -1,7 +1,5 @@
 local nmap = require'fs.keymap'.nmap
-
-nmap { '<c-n>',     '<cmd>NvimTreeToggle<cr>' }
-nmap { '<leader>n', '<cmd>NvimTreeFindFileToggle<cr>' }
+local colors = require'fs.colors'.colors()
 
 -- helper to set vim.g options that will be moved to setup() later
 local function set_globals(tbl)
@@ -11,7 +9,15 @@ local function set_globals(tbl)
   end
 end
 
-set_globals {
+local function highlight(group, color)
+  if vim.opt.termguicolors:get() then
+    vim.cmd(vim.fn.printf('highlight %s guifg=%s', group, color))
+  else
+    vim.cmd(vim.fn.printf('highlight %s ctermfg=%d', group, color))
+  end
+end
+
+local global_opts ={
   add_trailing = 1,       -- add trailing / to folders
   group_empty = 1,        -- folders that contain only one folder are grouped
   indent_markers = 1,     -- show indent markers
@@ -23,9 +29,8 @@ set_globals {
   },
 }
 
-require'nvim-tree'.setup {
+local nvim_tree_config = {
   auto_close = true,      -- close vim if tree is the last window
-  update_cwd = true,      -- refresh tree on DirChanged
 
   git = {
     ignore = false,       -- don't hide files from .gitignore
@@ -41,23 +46,21 @@ require'nvim-tree'.setup {
   },
 }
 
+local config = function()
+  require'nvim-tree'.setup(nvim_tree_config)
 
-local function highlight(group, color)
-  if vim.opt.termguicolors:get() then
-    vim.cmd(vim.fn.printf('highlight %s guifg=%s', group, color))
-  else
-    vim.cmd(vim.fn.printf('highlight %s ctermfg=%d', group, color))
-  end
+  highlight('NvimTreeSpecialFile'  , colors.base2  )
+  highlight('NvimTreeIndentMarker' , colors.base01 )
+  highlight('NvimTreeGitStaged'    , colors.green  )
+  highlight('NvimTreeGitRenamed'   , colors.yellow )
+  highlight('NvimTreeGitNew'       , colors.yellow )
+  highlight('NvimTreeGitDirty'     , colors.yellow )
+  highlight('NvimTreeGitDeleted'   , colors.orange )
+  highlight('NvimTreeGitMerge'     , colors.red    )
+
+  nmap { '<c-n>',     '<cmd>NvimTreeToggle<cr>' }
+  nmap { '<leader>n', '<cmd>NvimTreeFindFileToggle<cr>' }
 end
 
-local C = require'fs.colors'.colors()
-
-highlight('NvimTreeSpecialFile'  , C.base2  )
-highlight('NvimTreeIndentMarker' , C.base01 )
-highlight('NvimTreeGitStaged'    , C.green  )
-highlight('NvimTreeGitRenamed'   , C.yellow )
-highlight('NvimTreeGitNew'       , C.yellow )
-highlight('NvimTreeGitDirty'     , C.yellow )
-highlight('NvimTreeGitDeleted'   , C.orange )
-highlight('NvimTreeGitMerge'     , C.red    )
+return { config = config }
 
