@@ -2,11 +2,14 @@ local plugins = function(use)
     use 'wbthomason/packer.nvim'
 
     -- Visuals ----------------------------------------------------------------
-    use 'altercation/vim-colors-solarized'
+    use {
+      'altercation/vim-colors-solarized',
+      config = [[require'fs.config.vim-colors-solarized'.config()]],
+    }
     use 'kyazdani42/nvim-web-devicons'
     use {
       'nvim-lualine/lualine.nvim',
-      config = [[require'fs.config.lualine'.config()]]
+      config = [[require'fs.config.lualine'.config()]],
     }
 
     -- Navigation -------------------------------------------------------------
@@ -54,12 +57,6 @@ local plugins = function(use)
       'vim-scripts/srec.vim',
       config = [[require'fs.config.srec'.config()]],
     }
-
-    vim.cmd([[
-        silent! colorscheme solarized
-        highlight NonText cterm=NONE ctermfg=10     " subtle EOL symbols
-        highlight Whitespace cterm=NONE ctermfg=9   " orange listchars
-    ]])
 end
 
 local packer = function()
