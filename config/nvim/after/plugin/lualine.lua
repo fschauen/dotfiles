@@ -1,82 +1,115 @@
-local paste = {
-  function() return 'P' end,
-  color = { fg = base3, bg = yellow, gui = 'bold' },
-  cond = function() return vim.opt.paste:get() end
-}
+local Table = {
+  new = function (self, tbl)
+    tbl = setmetatable(tbl or {}, self)
+    self.__index = self
+    return tbl
+  end,
 
-local relative_path = {
-  'filename',
-  path = 1  -- 0: just filenane, 1: realtive path, 2: absolute path
-}
-
-local encoding = function ()
-  local fenc = vim.opt.fileencoding:get()
-  if fenc ~= '' then
-    return fenc
+  override = function(self, tbl)
+    return vim.tbl_extend('force', self, tbl)
   end
-  return vim.opt.encoding:get()
+}
+
+local colors = require'fs.colors'.colors()
+
+local function theme()
+  local active = {
+    a = Table:new { fg = colors.base03, bg = colors.base1  },
+    b = Table:new { fg = colors.base03, bg = colors.base00 },
+    c = Table:new { fg = colors.base1,  bg = colors.base02 },
+  }
+
+  local inactive = {
+    a =           { fg = colors.base0,  bg = colors.base00 },
+    b =           { fg = colors.base0,  bg = colors.base01 },
+    c =           { fg = colors.base01, bg = colors.base02 },
+  }
+
+  return {
+    normal = {
+      a = active.a:override { bg = colors.blue },
+      b = active.b,
+      c = active.c,
+    },
+    insert = {
+      a = active.a:override { bg = colors.green },
+    },
+    visual = {
+      a = active.a:override { bg = colors.magenta },
+    },
+    replace = {
+      a = active.a:override { bg = colors.red },
+    },
+    inactive = {
+      a = inactive.a,
+      b = inactive.b,
+      c = inactive.c,
+    },
+  }
 end
 
--- let padding when using icons leaves too much space
-local fileformat = { 'fileformat', padding = { left = 0, right = 1}}
+local parts = {
+  paste = {
+    function()
+      return ''
+    end,
+    color = { fg = colors.base03, bg = colors.yellow, gui = 'bold' },
+    cond = function()
+      return vim.opt.paste:get()
+    end
+  },
 
-local progress = '%3l/%L｜%-2v'  -- line / total ｜column
+  relative_path = {
+    'filename',
+    path = 1  -- 0: just filenane, 1: realtive path, 2: absolute path
+  },
 
-local C = require'fs.colors'.colors()
+  encoding = function ()
+    local fenc = vim.opt.fileencoding:get()
+    if fenc ~= '' then
+      return fenc
+    end
+    return vim.opt.encoding:get()
+  end,
 
-require('lualine').setup {
-  options = {
-    icons_enabled = true,
-    component_separators = { left = '', right = '' },
-    section_separators = { left = '', right = '' },
-    theme = {
-      normal = {
-        a = { fg = C.base03, bg = C.blue        },
-        b = { fg = C.base03, bg = C.base00      },
-        c = { fg = C.blue,   bg = C.base02      },
-        x = { fg = C.base1,  bg = C.base02      },
-      },
-      insert = {
-        a = { fg = C.base03, bg = C.green       },
-        c = { fg = C.green,  bg = C.base02      },
-        x = { fg = C.base1,  bg = C.base02      },
-      },
-      visual = {
-        a = { fg = C.base03,  bg = C.magenta    },
-        c = { fg = C.magenta, bg = C.base02     },
-        x = { fg = C.base1,   bg = C.base02     },
-      },
-      replace = {
-        a = { fg = C.base03, bg = C.red         },
-        c = { fg = C.red,    bg = C.base02      },
-        x = { fg = C.base1,  bg = C.base02      },
-      },
-      inactive = {
-        a = { fg = C.base1,  bg = C.base00      },
-        b = { fg = C.base0,  bg = C.base01      },
-        c = { fg = C.base01, bg = C.base02      },
-      },
+  fileformat = {
+    'fileformat',
+    padding = {
+      left = 0,   -- otherise too sparse with icons
+      right = 1,
     },
   },
 
-  sections = {
-    lualine_a = { 'mode', paste },
-    lualine_b = { 'diagnostics', 'branch' },
-    lualine_c = { relative_path },
-    lualine_x = { 'filetype' },
-    lualine_y = { encoding, fileformat },
-    lualine_z = { progress },
-  },
-
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = { 'diagnostics', 'branch' },
-    lualine_c = { relative_path },
-    lualine_x = { { 'filetype', colored = false } },
-    lualine_y = { encoding, fileformat },
-    lualine_z = { progress },
-  },
-
-  extensions = { 'fugitive', 'quickfix' }
+  progress = '%3l/%L,%-2v',  -- line / total ｜column
 }
+
+local sections = Table:new {
+  lualine_a = {},
+  lualine_b = { 'branch' },
+  lualine_c = { parts.relative_path },
+  lualine_x = { 'diagnostics', 'filetype' },
+  lualine_y = { parts.encoding, parts.fileformat },
+  lualine_z = { parts.progress },
+}
+
+local function setup()
+  require('lualine').setup {
+    options = {
+      icons_enabled = true,
+      component_separators = { left = '', right = '' },
+      section_separators = { left = '', right = '' },
+      theme = theme(),
+    },
+
+    sections = sections:override {
+      lualine_a = { 'mode', parts.paste },
+    },
+
+    inactive_sections = sections,
+
+    extensions = { 'fugitive', 'quickfix' }
+  }
+end
+
+setup()
 
