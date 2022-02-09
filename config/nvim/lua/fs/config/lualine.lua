@@ -107,7 +107,11 @@ local config = function()
 
     inactive_sections = sections,
 
-    extensions = { 'fugitive', 'quickfix' }
+    extensions = {
+      'fugitive',
+      'quickfix',
+      'nvim-tree',
+    }
   }
 end
 
