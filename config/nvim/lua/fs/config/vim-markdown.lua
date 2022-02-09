@@ -1,4 +1,4 @@
-local nmap = require'fs.util'.buffer_nmap
+local nmap = require'fs.util'.buf_nmap
 
 local setup = function()
   -- Disable concealling on italic, bold, etc.

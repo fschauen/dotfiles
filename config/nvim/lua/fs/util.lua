@@ -10,11 +10,11 @@ local buf_map = function(mode, lhs, rhs, opts)
   vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts)
 end
 
-M.nmap        = function(tbl) map('n', tbl[1], tbl[2], tbl[3]) end
-M.imap        = function(tbl) map('i', tbl[1], tbl[2], tbl[3]) end
-M.vmap        = function(tbl) map('v', tbl[1], tbl[2], tbl[3]) end
-M.buffer_nmap = function(tbl) buf_map('n', tbl[1], tbl[2], tbl[3]) end
-M.buffer_imap = function(tbl) buf_map('i', tbl[1], tbl[2], tbl[3]) end
+M.nmap     = function(tbl) map('n', tbl[1], tbl[2], tbl[3]) end
+M.imap     = function(tbl) map('i', tbl[1], tbl[2], tbl[3]) end
+M.vmap     = function(tbl) map('v', tbl[1], tbl[2], tbl[3]) end
+M.buf_nmap = function(tbl) buf_map('n', tbl[1], tbl[2], tbl[3]) end
+M.buf_imap = function(tbl) buf_map('i', tbl[1], tbl[2], tbl[3]) end
 
 M.colors = function(gui)
   if gui or vim.opt.termguicolors:get() then
