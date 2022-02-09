@@ -71,6 +71,7 @@ set_options {
   sidescrolloff  = 3,       -- min. # of columns to left and right of cursor
   list           = true,    -- show invisible characters
   listchars      = {
+    eol = '↲',
     tab = '» ',
     extends = '…',
     precedes = '…',
