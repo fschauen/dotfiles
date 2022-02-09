@@ -25,9 +25,9 @@ nmap { '<Down>',  '<cmd>resize -1<cr>' }
 nmap { '<Left>',  '<cmd>vertical resize -1<cr>' }
 nmap { '<Right>', '<cmd>vertical resize +1<cr>' }
 
--- easier tab navigation
-nmap { '+', '<cmd>tabprevious<cr>', { silent = true } }
-nmap { '-', '<cmd>tabnext<cr>'    , { silent = true } }
+-- easy tab navigation
+nmap { '<leader>.', '<cmd>tabnext<cr>',     { silent = true } }
+nmap { '<leader>,', '<cmd>tabprevious<cr>', { silent = true } }
 
 -- move lines up and down
 nmap { '<A-j>',       [[:move .+1<cr>==]]    , { silent = true } }
