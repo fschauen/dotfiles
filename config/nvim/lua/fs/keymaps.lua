@@ -59,5 +59,6 @@ nmap { '<leader>h', '<cmd>nohlsearch<cr>' }
 nmap { '<leader>eg', '<cmd>tabedit ~/.config/git/config<cr>' }
 nmap { '<leader>et', '<cmd>tabedit ~/.config/tmux/tmux.conf<cr>' }
 nmap { '<leader>ev', '<cmd>tabedit ~/.config/nvim/init.lua<cr>' }
+nmap { '<leader>es', '<cmd>tabedit ~/.config/nvim/spell/en.utf-8.add<cr>' }
 nmap { '<leader>ez', '<cmd>tabedit ~/.config/zsh/.zshrc<cr>' }
 
