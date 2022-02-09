@@ -1,3 +1,3 @@
-local nmap = require 'fs.util.keymap'.buffer_nmap
+local nmap = require 'fs.util'.buffer_nmap
 nmap { 'q', '<cmd>q<cr>' }
 

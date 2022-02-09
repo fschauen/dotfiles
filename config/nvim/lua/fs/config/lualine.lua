@@ -10,7 +10,7 @@ local Table = {
   end
 }
 
-local colors = require'fs.util.color'.colors()
+local colors = require'fs.util'.colors()
 
 local theme = (function()
   local active = {

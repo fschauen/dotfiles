@@ -1,7 +1,7 @@
-local keymap = require 'fs.util.keymap'
-local nmap = keymap.nmap
-local imap = keymap.imap
-local vmap = keymap.vmap
+local util = require 'fs.util'
+local nmap = util.nmap
+local imap = util.imap
+local vmap = util.vmap
 
 vim.g.mapleader = ' '
 

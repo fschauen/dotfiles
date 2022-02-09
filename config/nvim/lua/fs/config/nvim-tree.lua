@@ -1,5 +1,5 @@
-local nmap = require'fs.util.keymap'.nmap
-local colors = require'fs.util.color'.colors()
+local nmap = require'fs.util'.nmap
+local colors = require'fs.util'.colors()
 
 -- helper to set vim.g options that will be moved to setup() later
 local function set_globals(tbl)
