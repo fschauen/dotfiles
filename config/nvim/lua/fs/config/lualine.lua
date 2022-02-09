@@ -80,7 +80,20 @@ local parts = {
     },
   },
 
-  progress = '%3l/%L,%-2v',  -- line / total ｜column
+  location = '%L𝓁 %3l:%-2v',
+
+  progress = {
+    function()
+      local chars = { '█', '▇', '▆', '▅', '▄', '▃', '▂', '▁', ' ' }
+      local current, total = vim.fn.line '.', vim.fn.line '$'
+      return chars[math.ceil(#chars * current / total)]
+    end,
+    padding = 0,
+    color = {
+      fg = theme.normal.b.bg,
+      bg = theme.normal.c.bg,
+    },
+  },
 }
 
 local sections = Table:new {
@@ -89,7 +102,7 @@ local sections = Table:new {
   lualine_c = { parts.relative_path },
   lualine_x = { 'diagnostics', 'filetype' },
   lualine_y = { parts.encoding, parts.fileformat },
-  lualine_z = { parts.progress },
+  lualine_z = { parts.location },
 }
 
 local config = function()
@@ -103,6 +116,7 @@ local config = function()
 
     sections = sections:override {
       lualine_a = { 'mode', parts.paste },
+      lualine_y = { parts.encoding, parts.fileformat, parts.progress },
     },
 
     inactive_sections = sections,
