@@ -41,6 +41,10 @@ imap { '<A-k>',  [[<esc>:move .-2<cr>==gi]]  , { silent = true } }
 imap { '<c-a>', '<c-o>^' }
 imap { '<c-e>', '<c-o>$' }
 
+-- navigate items in quickfix list
+nmap { '<leader>j', '<cmd>cnext<cr>',     { silent = true } }
+nmap { '<leader>k', '<cmd>cprevious<cr>', { silent = true } }
+
 -- cycle through line numbering modes
 nmap { '<leader>ln', '<cmd>set nonumber norelativenumber<CR>' , { silent = true } }
 nmap { '<leader>ll', '<cmd>set number norelativenumber<CR>'   , { silent = true } }
