@@ -67,6 +67,9 @@ local plugins = function(use)
     'vim-scripts/srec.vim',
     config = function() require'fs.config.srec'.config() end,
   }
+
+  -- Misc -------------------------------------------------------------------
+  use 'milisims/nvim-luaref'
 end
 
 local packer = function()
