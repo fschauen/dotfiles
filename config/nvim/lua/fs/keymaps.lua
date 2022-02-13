@@ -50,6 +50,9 @@ nmap { '<leader>ln', '<cmd>set nonumber norelativenumber<CR>' , { silent = true 
 nmap { '<leader>ll', '<cmd>set number norelativenumber<CR>'   , { silent = true } }
 nmap { '<leader>lr', '<cmd>set number relativenumber<CR>'     , { silent = true } }
 
+-- show/hide listchars
+nmap { '<leader>sl', '<cmd>set list!<CR>', { silent = true } }
+
 -- show list of buffers and prepare to switch
 nmap { '<leader>bf', '<cmd>ls<CR>:b<Space>' }
 
