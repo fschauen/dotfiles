@@ -1,4 +1,7 @@
-local nmap = require'fs.util'.nmap
+local util = require'fs.util'
+local nmap = util.nmap
+local colors = util.colors()
+local highlight = util.highlight
 
 local toggle = function()
   if vim.o.colorcolumn == '' then
@@ -11,7 +14,7 @@ end
 local config = function()
   require'virt-column'.setup { char = '│' }
 
-  vim.cmd [[highlight VirtColumn cterm=NONE ctermfg=0]]
+  highlight('VirtColumn') { fg = colors.base02, attrs = 'NONE' }
 
   nmap { '<leader>sc', '<cmd>lua require"fs.config.virt-column".toggle()<cr>' }
 end

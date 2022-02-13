@@ -1,11 +1,14 @@
-local nmap = require'fs.util'.nmap
+local util = require'fs.util'
+local nmap = util.nmap
+local colors = util.colors()
+local highlight = util.highlight
 
 local config = function()
   vim.g.indent_blankline_enabled = false
 
   require'indent_blankline'.setup()
 
-  vim.cmd [[highlight IndentBlanklineChar ctermfg=10]]
+  highlight('IndentBlanklineChar') { fg = colors.base01 }
 
   nmap { '<leader>si', '<cmd>:IndentBlanklineToggle<cr>' }
 end

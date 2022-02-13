@@ -1,12 +1,16 @@
+local util = require'fs.util'
+local C = util.colors()
+local highlight = util.highlight
+
 local config = function()
-  vim.cmd [[
-    silent! colorscheme solarized
-    highlight Normal ctermbg=NONE               " transparent background
-    highlight NonText cterm=NONE ctermfg=10     " subtle EOL symbols
-    highlight Whitespace cterm=NONE ctermfg=9   " orange listchars
-    highlight SpellBad ctermfg=3                " yellow spelling mistakes
-    highlight QuickFixLine ctermfg=3 ctermbg=0  " yellow selected quickfix item
-  ]]
+  vim.cmd [[silent! colorscheme solarized]]
+
+  highlight('Normal')       { bg = 'NONE' }                   -- transparent background
+  highlight('NonText')      { fg = C.base02, attrs = 'NONE' } -- subtle EOL symbols
+  highlight('Whitespace')   { fg = C.orange }                 -- listchars
+  highlight('SpellBad')     { fg = C.yellow }
+  highlight('QuickFixLine') { fg = C.yellow, bg = C.base02 }  -- selected quickfix item
+  highlight('CursorLineNr') { fg = C.yellow, attrs = 'NONE' } -- current line number
 end
 
 return { config = config }

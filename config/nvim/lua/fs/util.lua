@@ -57,5 +57,21 @@ M.colors = function(gui)
   }
 end
 
+-- Usage example:
+--  highlight('Test2') { fg = C.yellow, bg = C.base02 }
+M.highlight = function(name)
+  return function(tbl)
+    local kind = vim.opt.termguicolors:get() and 'gui' or 'cterm'
+
+    local parts = {}
+    for k, v in pairs(tbl) do
+      if k == 'attrs' then k = '' end
+      table.insert(parts, kind .. k .. '=' .. v)
+    end
+
+    vim.cmd('highlight ' .. name .. ' ' .. vim.fn.join(parts, ' '))
+  end
+end
+
 return M
 

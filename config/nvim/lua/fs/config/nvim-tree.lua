@@ -1,19 +1,13 @@
-local nmap = require'fs.util'.nmap
-local colors = require'fs.util'.colors()
+local util = require'fs.util'
+local nmap = util.nmap
+local colors = util.colors()
+local highlight = util.highlight
 
 -- helper to set vim.g options that will be moved to setup() later
 local function set_globals(tbl)
   local g = vim.g
   for k, v in pairs(tbl) do
     g['nvim_tree_' .. k] = v
-  end
-end
-
-local function highlight(group, color)
-  if vim.opt.termguicolors:get() then
-    vim.cmd(vim.fn.printf('highlight %s guifg=%s', group, color))
-  else
-    vim.cmd(vim.fn.printf('highlight %s ctermfg=%d', group, color))
   end
 end
 
@@ -24,7 +18,7 @@ local global_opts ={
   git_hl = 1,             -- enable highlight based on git attributes
 
   icons = {
-    default = '',        -- defailt icon for files
+    default = '',        -- default icon for files
     symlink = '',        -- default icon for symlinks
   },
 }
@@ -49,14 +43,14 @@ local nvim_tree_config = {
 local config = function()
   require'nvim-tree'.setup(nvim_tree_config)
 
-  highlight('NvimTreeSpecialFile'  , colors.base2  )
-  highlight('NvimTreeIndentMarker' , colors.base01 )
-  highlight('NvimTreeGitStaged'    , colors.green  )
-  highlight('NvimTreeGitRenamed'   , colors.yellow )
-  highlight('NvimTreeGitNew'       , colors.yellow )
-  highlight('NvimTreeGitDirty'     , colors.yellow )
-  highlight('NvimTreeGitDeleted'   , colors.orange )
-  highlight('NvimTreeGitMerge'     , colors.red    )
+  highlight('NvimTreeSpecialFile')  { fg = colors.base2  }
+  highlight('NvimTreeIndentMarker') { fg = colors.base01 }
+  highlight('NvimTreeGitStaged')    { fg = colors.green  }
+  highlight('NvimTreeGitRenamed')   { fg = colors.yellow }
+  highlight('NvimTreeGitNew')       { fg = colors.yellow }
+  highlight('NvimTreeGitDirty')     { fg = colors.yellow }
+  highlight('NvimTreeGitDeleted')   { fg = colors.orange }
+  highlight('NvimTreeGitMerge')     { fg = colors.red    }
 
   nmap { '<c-n>',     '<cmd>NvimTreeToggle<cr>' }
   nmap { '<leader>n', '<cmd>NvimTreeFindFileToggle<cr>' }
