@@ -11,37 +11,35 @@ local function set_globals(tbl)
   end
 end
 
-local global_opts ={
-  add_trailing = 1,       -- add trailing / to folders
-  group_empty = 1,        -- folders that contain only one folder are grouped
-  indent_markers = 1,     -- show indent markers
-  git_hl = 1,             -- enable highlight based on git attributes
-
-  icons = {
-    default = '',        -- default icon for files
-    symlink = '',        -- default icon for symlinks
-  },
-}
-
-local nvim_tree_config = {
-  auto_close = true,      -- close vim if tree is the last window
-
-  git = {
-    ignore = false,       -- don't hide files from .gitignore
-  },
-
-  view = {
-    width = 35,           -- a little wider than the default 30
-  },
-
-  filters = {
-    dotfiles = false,     -- show files starting with a .
-    custom = { '.git' },  -- don't show .git directory
-  },
-}
-
 local config = function()
-  require'nvim-tree'.setup(nvim_tree_config)
+  set_globals {
+    add_trailing = 1,       -- add trailing / to folders
+    group_empty = 1,        -- folders that contain only one folder are grouped
+    indent_markers = 1,     -- show indent markers
+    git_hl = 1,             -- enable highlight based on git attributes
+
+    icons = {
+      default = '',        -- default icon for files
+      symlink = '',        -- default icon for symlinks
+    },
+  }
+
+  require'nvim-tree'.setup {
+    auto_close = true,      -- close vim if tree is the last window
+
+    git = {
+      ignore = false,       -- don't hide files from .gitignore
+    },
+
+    view = {
+      width = 35,           -- a little wider than the default 30
+    },
+
+    filters = {
+      dotfiles = false,     -- show files starting with a .
+      custom = { '.git' },  -- don't show .git directory
+    },
+  }
 
   highlight('NvimTreeSpecialFile')  { fg = colors.base2  }
   highlight('NvimTreeIndentMarker') { fg = colors.base01 }
