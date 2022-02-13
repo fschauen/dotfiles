@@ -13,7 +13,7 @@ local config = function()
 
   vim.cmd [[highlight VirtColumn cterm=NONE ctermfg=0]]
 
-  nmap { '<leader>cc', '<cmd>lua require"fs.config.virt-column".toggle()<cr>' }
+  nmap { '<leader>sc', '<cmd>lua require"fs.config.virt-column".toggle()<cr>' }
 end
 
 return { config = config, toggle = toggle }
