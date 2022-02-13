@@ -13,6 +13,10 @@ local plugins = function(use)
       'nvim-lualine/lualine.nvim',
       config = function() require'fs.config.lualine'.config() end,
     }
+    use {
+      'lukas-reineke/virt-column.nvim',
+      config = function() require'fs.config.virt-column'.config() end,
+    }
 
     -- Navigation -------------------------------------------------------------
     use {
