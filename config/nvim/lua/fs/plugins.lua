@@ -1,6 +1,8 @@
 local plugins = function(use)
     use 'wbthomason/packer.nvim'
 
+    use 'nvim-lua/plenary.nvim'
+
     -- Visuals ----------------------------------------------------------------
     use {
       'altercation/vim-colors-solarized',
