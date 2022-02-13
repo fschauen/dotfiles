@@ -17,6 +17,10 @@ local plugins = function(use)
       'lukas-reineke/virt-column.nvim',
       config = function() require'fs.config.virt-column'.config() end,
     }
+    use {
+      'lukas-reineke/indent-blankline.nvim',
+      config = function() require'fs.config.indent-blankline'.config() end,
+    }
 
     -- Navigation -------------------------------------------------------------
     use {
