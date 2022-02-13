@@ -97,8 +97,17 @@ diff.update_status = update_status
 local filetype = require'lualine.components.filetype':extend()
 filetype.update_status = update_status
 
+local window_is_at_least = function(width)
+  return function()
+    return vim.fn.winwidth(0) > width
+  end
+end
+
+local window_is_wide   = window_is_at_least(80)
+local window_is_medium = window_is_at_least(50)
+
 local parts = {
-  split = function() return '%=' end,
+  split = { function() return '%=' end, padding = 0 },
 
   mode = function()
     local code = vim.api.nvim_get_mode().mode
@@ -113,7 +122,11 @@ local parts = {
     end
   },
 
-  branch = { 'branch', icon = '' },
+  branch = {
+    'branch',
+    icon = '',
+    cond = window_is_wide,
+  },
 
   diff = {
     diff,
@@ -123,15 +136,35 @@ local parts = {
       removed  = { fg = colors.orange },
     },
     padding = 0,
+    cond = window_is_wide,
   },
 
   path = function()
-    return vim.fn.pathshorten(vim.fn.fnamemodify(vim.fn.expand('%'), ':p'))
+    local path = vim.api.nvim_buf_get_name(0)
+    local filename = vim.fn.fnamemodify(path, ':~:.')
+
+    if window_is_wide() then
+      return filename
+    elseif window_is_medium() then
+      return vim.fn.pathshorten(filename)
+    end
+
+    return vim.fn.fnamemodify(filename, ':t')  -- only tail
   end,
+  -- function()
+  --   return vim.fn.pathshorten(vim.fn.fnamemodify(vim.fn.expand('%'), ':p'))
+  -- end,
 
-  filetype = filetype,
+  filetype = {
+    filetype,
+    cond = window_is_medium,
+  },
 
-  fileformat = { 'fileformat', padding = { left = 0, right = 1 } },
+  fileformat = {
+    'fileformat',
+    padding = { left = 0, right = 1 },
+    cond = window_is_medium,
+  },
 
   progress = {
     function()
@@ -144,6 +177,7 @@ local parts = {
       fg = theme.normal.b.bg,
       bg = theme.normal.c.bg,
     },
+    cond = window_is_wide,
   },
 
   location = '%3l:%-2v',
