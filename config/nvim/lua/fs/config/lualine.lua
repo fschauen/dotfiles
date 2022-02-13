@@ -81,7 +81,7 @@ local parts = {
     icon = '',
   },
 
-  diff = {
+  diff= {
     diff,
     diff_color = {
       added    = { fg = colors.green },
@@ -95,27 +95,32 @@ local parts = {
 
   filetype = filetype,
 
-  location = '%3l:%-2v',
+  fileformat = {
+    'fileformat',
+    padding = { left = 0, right = 1 },
+  },
 
   progress = {
     function()
-      local chars = { '█', '▇', '▆', '▅', '▄', '▃', '▂', '▁', ' ' }
+      local chars = { '', '', '', '', '', '', '', '', '', '', '', '', '', '', '' }
       local current, total = vim.fn.line '.', vim.fn.line '$'
       return chars[math.ceil(#chars * current / total)]
     end,
-    padding = 0,
+    padding = { left = 0, right = 1 },
     color = {
       fg = theme.normal.b.bg,
       bg = theme.normal.c.bg,
     },
   },
+
+  location = '%3l:%-2v',
 }
 
 local sections = Table:new {
   lualine_a = {},
   lualine_b = {},
   lualine_c = { parts.branch, parts.diff, parts.split, parts.path },
-  lualine_x = { 'diagnostics', parts.filetype, 'fileformat' },
+  lualine_x = { 'diagnostics', parts.filetype, parts.fileformat, parts.progress },
   lualine_y = { parts.location },
   lualine_z = {},
 }
