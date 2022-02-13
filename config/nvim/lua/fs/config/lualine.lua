@@ -48,6 +48,44 @@ local theme = (function()
   }
 end)()
 
+local MODE_MAP = {
+  ['n']    = 'Normal ',
+  ['no']   = 'O-Pend ',
+  ['nov']  = 'O-Pend ',
+  ['noV']  = 'O-Pend ',
+  ['no'] = 'O-Pend ',
+  ['niI']  = 'Normal ',
+  ['niR']  = 'Normal ',
+  ['niV']  = 'Normal ',
+  ['nt']   = 'Normal ',
+  ['v']    = 'Visual ',
+  ['vs']   = 'Visual ',
+  ['V']    = 'V-Line ',
+  ['Vs']   = 'V-Line ',
+  ['']   = 'V-Block',
+  ['s']  = 'V-Block',
+  ['s']    = 'Select ',
+  ['S']    = 'S-Line ',
+  ['']   = 'S-Block',
+  ['i']    = 'Insert ',
+  ['ic']   = 'Insert ',
+  ['ix']   = 'Insert ',
+  ['R']    = 'Replace',
+  ['Rc']   = 'Replace',
+  ['Rx']   = 'Replace',
+  ['Rv']   = 'V-Repl ',
+  ['Rvc']  = 'V-Repl ',
+  ['Rvx']  = 'V-Repl ',
+  ['c']    = 'Command',
+  ['cv']   = '  Ex   ',
+  ['ce']   = '  Ex   ',
+  ['r']    = 'Replace',
+  ['rm']   = '  More ',
+  ['r?']   = 'Confirm',
+  ['!']    = ' Shell ',
+  ['t']    = ' Term  ',
+}
+
 local update_status = function(self, is_focused)
   self.options.colored = is_focused
   return self.super.update_status(self, is_focused)
@@ -59,14 +97,13 @@ diff.update_status = update_status
 local filetype = require'lualine.components.filetype':extend()
 filetype.update_status = update_status
 
-local path = function()
-  return vim.fn.pathshorten(vim.fn.fnamemodify(vim.fn.expand('%'), ':p'))
-end
-
 local parts = {
   split = function() return '%=' end,
 
-  mode = 'mode',
+  mode = function()
+    local code = vim.api.nvim_get_mode().mode
+    return MODE_MAP[code] or code
+  end,
 
   paste = {
     function() return '' end,
@@ -76,12 +113,9 @@ local parts = {
     end
   },
 
-  branch = {
-    'branch',
-    icon = '',
-  },
+  branch = { 'branch', icon = '' },
 
-  diff= {
+  diff = {
     diff,
     diff_color = {
       added    = { fg = colors.green },
@@ -91,14 +125,13 @@ local parts = {
     padding = 0,
   },
 
-  path = path,
+  path = function()
+    return vim.fn.pathshorten(vim.fn.fnamemodify(vim.fn.expand('%'), ':p'))
+  end,
 
   filetype = filetype,
 
-  fileformat = {
-    'fileformat',
-    padding = { left = 0, right = 1 },
-  },
+  fileformat = { 'fileformat', padding = { left = 0, right = 1 } },
 
   progress = {
     function()
