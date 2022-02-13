@@ -15,13 +15,13 @@ local colors = require'fs.util'.colors()
 local theme = (function()
   local active = {
     a = Table:new { fg = colors.base03, bg = colors.base1  },
-    b = Table:new { fg = colors.base03, bg = colors.base00 },
+    b = Table:new { fg = colors.base03, bg = colors.base0 },
     c = Table:new { fg = colors.base1,  bg = colors.base02 },
   }
 
   local inactive = {
-    a =           { fg = colors.base0,  bg = colors.base00 },
-    b =           { fg = colors.base0,  bg = colors.base01 },
+    a =           { fg = colors.base02, bg = colors.base00 },
+    b =           { fg = colors.base02, bg = colors.base01 },
     c =           { fg = colors.base01, bg = colors.base02 },
   }
 
@@ -48,39 +48,54 @@ local theme = (function()
   }
 end)()
 
+local update_status = function(self, is_focused)
+  self.options.colored = is_focused
+  return self.super.update_status(self, is_focused)
+end
+
+local diff = require'lualine.components.diff':extend()
+diff.update_status = update_status
+
+local filetype = require'lualine.components.filetype':extend()
+filetype.update_status = update_status
+
+local path = function()
+  return vim.fn.pathshorten(vim.fn.fnamemodify(vim.fn.expand('%'), ':p'))
+end
+
 local parts = {
+  split = function() return '%=' end,
+
+  mode = 'mode',
+
   paste = {
-    function()
-      return ''
-    end,
+    function() return '' end,
     color = { fg = colors.base03, bg = colors.yellow, gui = 'bold' },
     cond = function()
       return vim.opt.paste:get()
     end
   },
 
-  relative_path = {
-    'filename',
-    path = 1  -- 0: just filenane, 1: realtive path, 2: absolute path
+  branch = {
+    'branch',
+    icon = '',
   },
 
-  encoding = function ()
-    local fenc = vim.opt.fileencoding:get()
-    if fenc ~= '' then
-      return fenc
-    end
-    return vim.opt.encoding:get()
-  end,
-
-  fileformat = {
-    'fileformat',
-    padding = {
-      left = 0,   -- otherise too sparse with icons
-      right = 1,
+  diff = {
+    diff,
+    diff_color = {
+      added    = { fg = colors.green },
+      modified = { fg = colors.yellow },
+      removed  = { fg = colors.orange },
     },
+    padding = 0,
   },
 
-  location = '%L𝓁 %3l:%-2v',
+  path = path,
+
+  filetype = filetype,
+
+  location = '%3l:%-2v',
 
   progress = {
     function()
@@ -98,11 +113,11 @@ local parts = {
 
 local sections = Table:new {
   lualine_a = {},
-  lualine_b = { 'branch' },
-  lualine_c = { parts.relative_path },
-  lualine_x = { 'diagnostics', 'filetype' },
-  lualine_y = { parts.encoding, parts.fileformat },
-  lualine_z = { parts.location },
+  lualine_b = {},
+  lualine_c = { parts.branch, parts.diff, parts.split, parts.path },
+  lualine_x = { 'diagnostics', parts.filetype, 'fileformat' },
+  lualine_y = { parts.location },
+  lualine_z = {},
 }
 
 local config = function()
@@ -114,10 +129,7 @@ local config = function()
       theme = theme,
     },
 
-    sections = sections:override {
-      lualine_a = { 'mode', parts.paste },
-      lualine_y = { parts.encoding, parts.fileformat, parts.progress },
-    },
+    sections = sections:override { lualine_a = { parts.mode, parts.paste } },
 
     inactive_sections = sections,
 
