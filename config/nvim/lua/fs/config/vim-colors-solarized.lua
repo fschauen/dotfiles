@@ -29,6 +29,16 @@ local additional_highlights = {
   NvimTreeGitDirty     = { fg = C.yellow },
   NvimTreeGitDeleted   = { fg = C.orange },
   NvimTreeGitMerge     = { fg = C.red    },
+
+  -- Colors for 'nvim-telescope/telescope.nvim':
+  TelescopeBorder         = { fg = C.base01 },
+  TelescopeTitle          = { fg = C.base1 },
+  TelescopePromptPrefix   = { fg = C.red },
+  TelescopePromptCounter  = { fg = C.base1 },
+  TelescopeMatching       = { fg = C.red },
+  TelescopeSelection      = { fg = C.base2, bg = C.base02, attrs = 'NONE' },
+  TelescopeMultiSelection = { fg = C.blue },
+  TelescopeMultiIcon      = { fg = C.blue },
 }
 
 local config = function()
