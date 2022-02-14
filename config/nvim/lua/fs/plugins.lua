@@ -28,12 +28,12 @@ local plugins = function(use)
 
   -- Navigation -------------------------------------------------------------
   use {
-    'kyazdani42/nvim-tree.lua',
-    config = function() require'fs.config.nvim-tree'.config() end,
+    'nvim-telescope/telescope.nvim',
+    config = function() require'fs.config.telescope'.config() end,
   }
   use {
-    'ctrlpvim/ctrlp.vim',
-    setup = function() require'fs.config.ctrlp'.setup() end,
+    'kyazdani42/nvim-tree.lua',
+    config = function() require'fs.config.nvim-tree'.config() end,
   }
 
   -- Editing ----------------------------------------------------------------
