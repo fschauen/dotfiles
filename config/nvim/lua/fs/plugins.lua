@@ -21,15 +21,15 @@ local plugins = function(use)
     'lukas-reineke/indent-blankline.nvim',
     config = function() require'fs.config.indent-blankline'.config() end,
   }
+  use {
+    'junegunn/rainbow_parentheses.vim',
+    config = function() require'fs.config.rainbow_parentheses'.config() end,
+  }
 
   -- Navigation -------------------------------------------------------------
   use {
     'kyazdani42/nvim-tree.lua',
     config = function() require'fs.config.nvim-tree'.config() end,
-  }
-  use {
-    'junegunn/rainbow_parentheses.vim',
-    config = function() require'fs.config.rainbow_parentheses'.config() end,
   }
   use {
     'ctrlpvim/ctrlp.vim',
