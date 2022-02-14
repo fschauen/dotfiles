@@ -38,8 +38,9 @@ local plugins = function(use)
 
   -- Editing ----------------------------------------------------------------
   use {
-    'bronson/vim-trailing-whitespace',
-    config = function() require'fs.config.vim-trailing-whitespace'.config() end,
+    'ntpeters/vim-better-whitespace',
+    setup = function() require'fs.config.vim-better-whitespace'.setup() end,
+    config = function() require'fs.config.vim-better-whitespace'.config() end,
   }
   use 'godlygeek/tabular'
   use 'tpope/vim-commentary'
