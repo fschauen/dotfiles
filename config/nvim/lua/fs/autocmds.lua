@@ -17,9 +17,11 @@ make_autocmds {
   },
   windows = {
     -- Disable cursorline when entering Insert mode (but remember it)...
-    { 'InsertEnter', '*', 'let g:stored_cursorline=&cursorline | set nocursorline' },
+    { 'InsertEnter', '*',
+      [[let w:had_cursorline=&cursorline | set nocursorline]] },
     -- ...and re-enable when leaving if it had been set before.
-    { 'InsertLeave', '*', 'let &cursorline=g:stored_cursorline' },
+    { 'InsertLeave', '*',
+      [[if exists('w:had_cursorline') | let &cursorline=w:had_cursorline | endif]] },
   },
   yank = {
     -- Briefly highlight yanked text.
