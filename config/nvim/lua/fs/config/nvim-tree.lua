@@ -1,7 +1,4 @@
-local util = require'fs.util'
-local nmap = util.nmap
-local colors = util.colors()
-local highlight = util.highlight
+local nmap = require'fs.util'.nmap
 
 -- helper to set vim.g options that will be moved to setup() later
 local function set_globals(tbl)
@@ -40,15 +37,6 @@ local config = function()
       custom = { '.git' },  -- don't show .git directory
     },
   }
-
-  highlight('NvimTreeSpecialFile')  { fg = colors.base2  }
-  highlight('NvimTreeIndentMarker') { fg = colors.base01 }
-  highlight('NvimTreeGitStaged')    { fg = colors.green  }
-  highlight('NvimTreeGitRenamed')   { fg = colors.yellow }
-  highlight('NvimTreeGitNew')       { fg = colors.yellow }
-  highlight('NvimTreeGitDirty')     { fg = colors.yellow }
-  highlight('NvimTreeGitDeleted')   { fg = colors.orange }
-  highlight('NvimTreeGitMerge')     { fg = colors.red    }
 
   nmap { '<c-n>',     '<cmd>NvimTreeToggle<cr>' }
   nmap { '<leader>n', '<cmd>NvimTreeFindFileToggle<cr>' }

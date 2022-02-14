@@ -1,7 +1,4 @@
-local util = require'fs.util'
-local nmap = util.nmap
-local colors = util.colors()
-local highlight = util.highlight
+local nmap = require'fs.util'.nmap
 
 local setup = function()
   vim.g.better_whitespace_filetypes_blacklist = {
@@ -10,8 +7,6 @@ local setup = function()
 end
 
 local config = function()
-  highlight('ExtraWhitespace') { fg = colors.orange, bg = colors.orange }
-
   -- fix whitespace
   nmap { '<leader>w', '<cmd>StripWhitespace<cr>' }
 
