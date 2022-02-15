@@ -30,12 +30,12 @@ nmap { '<leader>.', '<cmd>tabnext<cr>',     { silent = true } }
 nmap { '<leader>,', '<cmd>tabprevious<cr>', { silent = true } }
 
 -- move lines up and down
-nmap { '<A-j>',       [[:move .+1<cr>==]]    , { silent = true } }
-nmap { '<A-k>',       [[:move .-2<cr>==]]    , { silent = true } }
-vmap { '<A-j>',       [[:move '>+1<cr>gv=gv]], { silent = true } }
-vmap { '<A-k>',       [[:move '<-2<cr>gv=gv]], { silent = true } }
-imap { '<A-j>',  [[<esc>:move .+1<cr>==gi]]  , { silent = true } }
-imap { '<A-k>',  [[<esc>:move .-2<cr>==gi]]  , { silent = true } }
+nmap { '<c-a-j>',       [[:move .+1<cr>==]]    , { silent = true } }
+nmap { '<c-a-k>',       [[:move .-2<cr>==]]    , { silent = true } }
+vmap { '<c-a-j>',       [[:move '>+1<cr>gv=gv]], { silent = true } }
+vmap { '<c-a-k>',       [[:move '<-2<cr>gv=gv]], { silent = true } }
+imap { '<c-a-j>',  [[<esc>:move .+1<cr>==gi]]  , { silent = true } }
+imap { '<c-a-k>',  [[<esc>:move .-2<cr>==gi]]  , { silent = true } }
 
 -- move to begin/end of line in insert mode
 imap { '<c-a>', '<c-o>^' }
