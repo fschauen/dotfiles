@@ -16,13 +16,16 @@ local config = function()
         height = 0.99,
 
         horizontal = {
-          preview_width = 0.5,
-          preview_cutoff = 100,
+          preview_width = 0.6,
+          preview_cutoff = 133,
         },
 
         vertical = {
-          preview_height = 0.5,
-          preview_cutoff = 30,
+          preview_height = 0.4,
+        },
+
+        flex = {
+          flip_columns = 133,
         },
       },
 
