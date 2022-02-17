@@ -2,8 +2,48 @@ local util = require 'fs.util'
 local nmap = util.nmap
 
 local actions = require 'telescope.actions'
+local builtin = require 'telescope.builtin'
 
-local config = function()
+local M = {}
+
+M.find_buffers = function()
+  builtin.buffers { prompt_title = ' BUFFERS ' }
+end
+
+M.find_commits = function()
+  builtin.git_commits { prompt_title = ' GIT COMMITS ' }
+end
+
+M.find_dotfiles = function()
+  builtin.find_files {
+    prompt_title = ' dotfiles',
+    cwd = '~/.dotfiles',
+  }
+end
+
+M.find_files = function()
+  builtin.find_files { prompt_title = ' FILES ' }
+end
+
+M.find_help = function()
+  builtin.help_tags { prompt_title = ' HELP TAGS ' }
+end
+
+M.find_manpages = function()
+  builtin.man_pages { prompt_title = ' MAN PAGES ' }
+end
+
+M.find_options = function()
+  builtin.vim_options {
+    prompt_title = ' NVIM OPTIONS ',
+    layout_config = {
+      width = 0.75,
+      height = 0.8,
+    }
+  }
+end
+
+M.config = function()
   require'telescope'.setup {
     defaults = {
       prompt_prefix = '❯ ',
@@ -12,20 +52,20 @@ local config = function()
       layout_strategy = 'flex',
       layout_config = {
         anchor = 'center',
-        width = 0.99,
-        height = 0.99,
+        width = 0.92,
+        height = 0.95,
+
+        flex = {
+          flip_columns = 130,
+        },
 
         horizontal = {
-          preview_width = 0.6,
-          preview_cutoff = 133,
+          preview_width = 0.5,
+          preview_cutoff = 130,
         },
 
         vertical = {
-          preview_height = 0.4,
-        },
-
-        flex = {
-          flip_columns = 133,
+          preview_height = 0.5,
         },
       },
 
@@ -38,14 +78,14 @@ local config = function()
     },
   }
 
-  nmap { '<leader>fb', [[<cmd>lua require'fs.telescope'.find_buffers()<cr>]] }
-  nmap { '<leader>fc', [[<cmd>lua require'fs.telescope'.find_commits()<cr>]] }
-  nmap { '<leader>fd', [[<cmd>lua require'fs.telescope'.find_dotfiles()<cr>]] }
-  nmap { '<leader>ff', [[<cmd>lua require'fs.telescope'.find_files()<cr>]] }
-  nmap { '<leader>fh', [[<cmd>lua require'fs.telescope'.find_help()<cr>]] }
-  nmap { '<leader>fm', [[<cmd>lua require'fs.telescope'.find_manpages()<cr>]] }
-  nmap { '<leader>fo', [[<cmd>lua require'fs.telescope'.find_options()<cr>]] }
+  nmap { '<leader>fb', [[<cmd>lua require'fs.config.telescope'.find_buffers()<cr>]] }
+  nmap { '<leader>fc', [[<cmd>lua require'fs.config.telescope'.find_commits()<cr>]] }
+  nmap { '<leader>fd', [[<cmd>lua require'fs.config.telescope'.find_dotfiles()<cr>]] }
+  nmap { '<leader>ff', [[<cmd>lua require'fs.config.telescope'.find_files()<cr>]] }
+  nmap { '<leader>fh', [[<cmd>lua require'fs.config.telescope'.find_help()<cr>]] }
+  nmap { '<leader>fm', [[<cmd>lua require'fs.config.telescope'.find_manpages()<cr>]] }
+  nmap { '<leader>fo', [[<cmd>lua require'fs.config.telescope'.find_options()<cr>]] }
 end
 
-return { config = config }
+return M
 
