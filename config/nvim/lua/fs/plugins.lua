@@ -4,41 +4,33 @@ local plugins = function(use)
   use 'nvim-lua/plenary.nvim'
 
   -- Visuals ----------------------------------------------------------------
-  use {
-    'altercation/vim-colors-solarized',
+  use { 'altercation/vim-colors-solarized',
     config = function() require'fs.config.vim-colors-solarized'.config() end,
   }
   use 'kyazdani42/nvim-web-devicons'
-  use {
-    'nvim-lualine/lualine.nvim',
+  use { 'nvim-lualine/lualine.nvim',
     config = function() require'fs.config.lualine'.config() end,
   }
-  use {
-    'lukas-reineke/virt-column.nvim',
+  use { 'lukas-reineke/virt-column.nvim',
     config = function() require'fs.config.virt-column'.config() end,
   }
-  use {
-    'lukas-reineke/indent-blankline.nvim',
+  use { 'lukas-reineke/indent-blankline.nvim',
     config = function() require'fs.config.indent-blankline'.config() end,
   }
-  use {
-    'junegunn/rainbow_parentheses.vim',
+  use { 'junegunn/rainbow_parentheses.vim',
     config = function() require'fs.config.rainbow_parentheses'.config() end,
   }
 
   -- Navigation -------------------------------------------------------------
-  use {
-    'nvim-telescope/telescope.nvim',
+  use { 'nvim-telescope/telescope.nvim',
     config = function() require'fs.config.telescope'.config() end,
   }
-  use {
-    'kyazdani42/nvim-tree.lua',
+  use { 'kyazdani42/nvim-tree.lua',
     config = function() require'fs.config.nvim-tree'.config() end,
   }
 
   -- Editing ----------------------------------------------------------------
-  use {
-    'ntpeters/vim-better-whitespace',
+  use { 'ntpeters/vim-better-whitespace',
     setup = function() require'fs.config.vim-better-whitespace'.setup() end,
     config = function() require'fs.config.vim-better-whitespace'.config() end,
   }
@@ -46,26 +38,22 @@ local plugins = function(use)
   use 'tpope/vim-commentary'
 
   -- git --------------------------------------------------------------------
-  use {
-    'tpope/vim-fugitive',
+  use { 'tpope/vim-fugitive',
     config = function() require'fs.config.vim-fugitive'.config() end,
   }
 
   -- Filetypes --------------------------------------------------------------
-  use {
-    'elzr/vim-json',
+  use { 'elzr/vim-json',
     setup = function() require'fs.config.vim-json'.setup() end,
     config = function() require'fs.config.vim-json'.config() end,
   }
-  use {
-    'plasticboy/vim-markdown',
+  use { 'plasticboy/vim-markdown',
     setup = function() require'fs.config.vim-markdown'.setup() end,
     config = function() require'fs.config.vim-markdown'.config() end,
   }
   use 'keith/swift.vim'
   use 'chr4/nginx.vim'
-  use {
-    'vim-scripts/srec.vim',
+  use { 'vim-scripts/srec.vim',
     config = function() require'fs.config.srec'.config() end,
   }
 
