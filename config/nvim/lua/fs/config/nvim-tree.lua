@@ -22,8 +22,6 @@ local config = function()
   }
 
   require'nvim-tree'.setup {
-    auto_close = true,      -- close vim if tree is the last window
-
     git = {
       ignore = false,       -- don't hide files from .gitignore
     },
