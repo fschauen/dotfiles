@@ -15,10 +15,11 @@ local additional_highlights = {
   ExtraWhitespace = { fg = C.orange, bg = C.orange },
 
   -- Indentation guids, from 'lukas-reineke/indent-blankline.nvim':
-  IndentBlanklineChar = { fg = C.base01 },
+  IndentBlanklineChar = { fg = C.base01, bg = 'NONE' },
 
   -- Virtual colorcolumn, from 'lukas-reineke/virt-column.nvim':
-  VirtColumn = { fg = C.base02, bg = C.base03, attrs = 'NONE' },
+  VirtColumn = { fg = C.base02, bg = 'NONE', attrs = 'NONE' },
+  ColorColumn = { bg = 'NONE' },  -- otherwise this is visible behind VirtColumn
 
   -- Colors for 'kyazdani42/nvim-tree.lua':
   NvimTreeSpecialFile  = { fg = C.base2  },
