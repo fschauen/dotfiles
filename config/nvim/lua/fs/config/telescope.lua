@@ -7,35 +7,35 @@ local builtin = require 'telescope.builtin'
 local M = {}
 
 M.find_buffers = function()
-  builtin.buffers { prompt_title = ' BUFFERS ' }
+  builtin.buffers { prompt_title = ' ﬘ Find buffers ' }
 end
 
 M.find_commits = function()
-  builtin.git_commits { prompt_title = ' GIT COMMITS ' }
+  builtin.git_commits { prompt_title = '  Find git commits ' }
 end
 
 M.find_dotfiles = function()
   builtin.find_files {
-    prompt_title = ' dotfiles',
+    prompt_title = '  Find dotfiles ',
     cwd = '~/.dotfiles',
   }
 end
 
 M.find_files = function()
-  builtin.find_files { prompt_title = ' FILES ' }
+  builtin.find_files { prompt_title = '  Find files  ' }
 end
 
 M.find_help = function()
-  builtin.help_tags { prompt_title = ' HELP TAGS ' }
+  builtin.help_tags { prompt_title = ' ﬤ Find help tags ' }
 end
 
 M.find_manpages = function()
-  builtin.man_pages { prompt_title = ' MAN PAGES ' }
+  builtin.man_pages { prompt_title = '  Find man pages ' }
 end
 
 M.find_options = function()
   builtin.vim_options {
-    prompt_title = ' NVIM OPTIONS ',
+    prompt_title = '  Find nvim options ',
     layout_config = {
       width = 0.75,
       height = 0.8,
