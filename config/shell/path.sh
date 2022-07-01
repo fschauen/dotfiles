@@ -13,6 +13,7 @@
 
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
 while read -r dir; do
+  [ -d "$dir" ] || continue # skip if directory doesn't exist
   case ":${PATH:=$dir}:" in
     *:"$dir":*) ;;          # already in PATH -> ignore
     *) PATH="$dir:$PATH" ;; # not yet in PATH -> prepend it
@@ -32,6 +33,7 @@ export PATH
 # available.
 command -v manpath >/dev/null 2>&1 && MANPATH="$(unset MANPATH; manpath)"
 while read -r dir; do
+  [ -d "$dir" ] || continue # skip if directory doesn't exist
   case ":${MANPATH:=$dir}:" in
     *:"$dir":*) ;;                # already in MANPATH -> ignore
     *) MANPATH="$dir:$MANPATH" ;; # not yet in MANPATH -> prepend it
