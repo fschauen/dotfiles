@@ -14,8 +14,8 @@
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
 while read -r dir; do
   case ":${PATH:=$dir}:" in
-    *:"$dir":*) ;;
-    *) PATH="$dir:$PATH" ;;
+    *:"$dir":*) ;;          # already in PATH -> ignore
+    *) PATH="$dir:$PATH" ;; # not yet in PATH -> prepend it
   esac
 done <<EOL
   $LOCAL_PREFIX/bin
@@ -33,8 +33,8 @@ export PATH
 command -v manpath >/dev/null 2>&1 && MANPATH="$(unset MANPATH; manpath)"
 while read -r dir; do
   case ":${MANPATH:=$dir}:" in
-    *:"$dir":*) ;;
-    *) MANPATH="$dir:$MANPATH" ;;
+    *:"$dir":*) ;;                # already in MANPATH -> ignore
+    *) MANPATH="$dir:$MANPATH" ;; # not yet in MANPATH -> prepend it
   esac
 done <<EOL
   $LOCAL_PREFIX/share/man
