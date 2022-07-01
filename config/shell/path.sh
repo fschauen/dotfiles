@@ -13,17 +13,17 @@
 
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
 while read -r dir; do
-    case ":${PATH:=$dir}:" in
-        *:"$dir":*) ;;
-        *) PATH="$dir:$PATH" ;;
-    esac
+  case ":${PATH:=$dir}:" in
+    *:"$dir":*) ;;
+    *) PATH="$dir:$PATH" ;;
+  esac
 done <<EOL
-    $LOCAL_PREFIX/bin
-    $LOCAL_PREFIX/opt/curl/bin
-    $LOCAL_PREFIX/opt/findutils/libexec/gnubin
-    $LOCAL_PREFIX/opt/gnu-sed/libexec/gnubin
-    $LOCAL_PREFIX/opt/coreutils/libexec/gnubin
-    $HOME/.local/bin
+  $LOCAL_PREFIX/bin
+  $LOCAL_PREFIX/opt/curl/bin
+  $LOCAL_PREFIX/opt/findutils/libexec/gnubin
+  $LOCAL_PREFIX/opt/gnu-sed/libexec/gnubin
+  $LOCAL_PREFIX/opt/coreutils/libexec/gnubin
+  $HOME/.local/bin
 EOL
 export PATH
 
@@ -32,17 +32,17 @@ export PATH
 # available.
 command -v manpath >/dev/null 2>&1 && MANPATH="$(unset MANPATH; manpath)"
 while read -r dir; do
-    case ":${MANPATH:=$dir}:" in
-        *:"$dir":*) ;;
-        *) MANPATH="$dir:$MANPATH" ;;
-    esac
+  case ":${MANPATH:=$dir}:" in
+    *:"$dir":*) ;;
+    *) MANPATH="$dir:$MANPATH" ;;
+  esac
 done <<EOL
-    $LOCAL_PREFIX/share/man
-    $LOCAL_PREFIX/opt/curl/share/man
-    $LOCAL_PREFIX/opt/findutils/libexec/gnuman
-    $LOCAL_PREFIX/opt/gnu-sed/libexec/gnuman
-    $LOCAL_PREFIX/opt/coreutils/libexec/gnuman
-    $HOME/.local/share/man
+  $LOCAL_PREFIX/share/man
+  $LOCAL_PREFIX/opt/curl/share/man
+  $LOCAL_PREFIX/opt/findutils/libexec/gnuman
+  $LOCAL_PREFIX/opt/gnu-sed/libexec/gnuman
+  $LOCAL_PREFIX/opt/coreutils/libexec/gnuman
+  $HOME/.local/share/man
 EOL
 export MANPATH
 
@@ -52,13 +52,13 @@ unset dir
 # installed programs if they are in the added paths.
 
 if command -v nvim >/dev/null 2>&1; then
-    export EDITOR="nvim"
+  export EDITOR="nvim"
 else
-    export EDITOR="vim"
+  export EDITOR="vim"
 fi
 
 if command -v brew >/dev/null 2>&1; then
-    export HOMEBREW_NO_ANALYTICS=1
-    export HOMEBREW_NO_AUTO_UPDATE=1
+  export HOMEBREW_NO_ANALYTICS=1
+  export HOMEBREW_NO_AUTO_UPDATE=1
 fi
 
