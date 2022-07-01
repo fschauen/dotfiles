@@ -12,6 +12,8 @@ R = function(name)
   return require(name)
 end
 
+vim.g.mapleader = ' '
+
 require 'fs.disable_builtin'
 require 'fs.options'
 require 'fs.plugins'

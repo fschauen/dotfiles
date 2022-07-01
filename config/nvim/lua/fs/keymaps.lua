@@ -3,8 +3,6 @@ local nmap = util.nmap
 local imap = util.imap
 local vmap = util.vmap
 
-vim.g.mapleader = ' '
-
 -- better navigation for wrapped lines
 nmap { 'j', 'gj' }
 nmap { 'k', 'gk' }
