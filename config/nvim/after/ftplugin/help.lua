@@ -1,3 +1,3 @@
-local nmap = require 'fs.util'.buf_nmap
-nmap { 'q', '<cmd>q<cr>' }
+local nmap = require 'fs.util'.nmap
+nmap { 'q', '<cmd>q<cr>', { buffer = true } }
 

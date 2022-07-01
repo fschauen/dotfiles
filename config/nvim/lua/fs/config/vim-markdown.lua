@@ -1,4 +1,4 @@
-local nmap = require'fs.util'.buf_nmap
+local nmap = require'fs.util'.nmap
 
 local setup = function()
   -- Disable concealling on italic, bold, etc.
@@ -13,9 +13,9 @@ local setup = function()
 end
 
 local config = function()
-  nmap { '<leader>+', '<cmd>.,.HeaderIncrease<cr>' }
-  nmap { '<leader>=', '<cmd>.,.HeaderIncrease<cr>' }
-  nmap { '<leader>-', '<cmd>.,.HeaderDecrease<cr>' }
+  nmap { '<leader>+', '<cmd>.,.HeaderIncrease<cr>', { buffer = true } }
+  nmap { '<leader>=', '<cmd>.,.HeaderIncrease<cr>', { buffer = true } }
+  nmap { '<leader>-', '<cmd>.,.HeaderDecrease<cr>', { buffer = true } }
 end
 
 return { setup = setup, config = config }
