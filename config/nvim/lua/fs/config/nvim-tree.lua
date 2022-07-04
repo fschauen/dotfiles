@@ -1,26 +1,6 @@
 local nmap = require'fs.util'.nmap
 
--- helper to set vim.g options that will be moved to setup() later
-local function set_globals(tbl)
-  local g = vim.g
-  for k, v in pairs(tbl) do
-    g['nvim_tree_' .. k] = v
-  end
-end
-
 local config = function()
-  set_globals {
-    add_trailing = 1,       -- add trailing / to folders
-    group_empty = 1,        -- folders that contain only one folder are grouped
-    indent_markers = 1,     -- show indent markers
-    git_hl = 1,             -- enable highlight based on git attributes
-
-    icons = {
-      default = '',        -- default icon for files
-      symlink = '',        -- default icon for symlinks
-    },
-  }
-
   require'nvim-tree'.setup {
     git = {
       ignore = false,       -- don't hide files from .gitignore
@@ -33,6 +13,15 @@ local config = function()
     filters = {
       dotfiles = false,     -- show files starting with a .
       custom = { '.git' },  -- don't show .git directory
+    },
+
+    renderer = {
+      add_trailing = true,  -- add trailing / to folders
+      group_empty = true,   -- folders that contain only one folder are grouped
+      highlight_git = true, -- enable highlight based on git attributes
+      indent_markers = {
+        enable = true,      -- show indent markers
+      },
     },
   }
 
