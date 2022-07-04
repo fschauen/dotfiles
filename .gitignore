@@ -1,3 +1,8 @@
+# The reason for having .git/ here is to make sure Telescope in neovim doesn't
+# search inside the .git/ directory. This works because Telescope respects
+# .gitignore.
+.git/
+
 config.local
 config/nvim/plugin/packer_compiled.lua
 config/zsh/.zcompdump

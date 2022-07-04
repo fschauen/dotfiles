@@ -18,6 +18,7 @@ M.find_dotfiles = function()
   builtin.find_files {
     prompt_title = '  Find dotfiles ',
     cwd = '~/.dotfiles',
+    hidden = true,
   }
 end
 
