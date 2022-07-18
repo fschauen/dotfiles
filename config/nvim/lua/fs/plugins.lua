@@ -1,4 +1,13 @@
-local plugins = function(use)
+local packer = function()
+  local path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+  if vim.fn.empty(vim.fn.glob(path)) > 0 then
+    local url = 'https://github.com/wbthomason/packer.nvim'
+    vim.fn.system({'git', 'clone', '--depth', '1', url, path})
+  end
+  return require('packer')
+end
+
+return packer().startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use 'nvim-lua/plenary.nvim'
@@ -59,16 +68,5 @@ local plugins = function(use)
 
   -- Misc -------------------------------------------------------------------
   use 'milisims/nvim-luaref'
-end
-
-local packer = function()
-  local path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  if vim.fn.empty(vim.fn.glob(path)) > 0 then
-    local url = 'https://github.com/wbthomason/packer.nvim'
-    vim.fn.system({'git', 'clone', '--depth', '1', url, path})
-  end
-  return require('packer')
-end
-
-return packer().startup(plugins)
+end)
 
