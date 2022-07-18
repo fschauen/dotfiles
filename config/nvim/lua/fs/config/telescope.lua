@@ -31,7 +31,10 @@ M.find_help = function()
 end
 
 M.find_manpages = function()
-  builtin.man_pages { prompt_title = '  Find man pages ' }
+  builtin.man_pages {
+    prompt_title = '  Find man pages ',
+    sections = { 'ALL' },
+  }
 end
 
 M.find_options = function()
