@@ -72,7 +72,7 @@ return packer().startup(function(use)
 
   use {
     'nvim-lualine/lualine.nvim',
-    config = function() require'fs.config.lualine'.config() end,
+    config = function() require'fs.lualine'.config() end,
   }
 
   use {
@@ -122,7 +122,7 @@ return packer().startup(function(use)
 
   use {
     'nvim-telescope/telescope.nvim',
-    config = function() require'fs.config.telescope'.config() end,
+    config = function() require'fs.telescope'.config() end,
   }
 
   use {
