@@ -62,9 +62,6 @@ return packer().startup(function(use)
   }
   use 'keith/swift.vim'
   use 'chr4/nginx.vim'
-  use { 'vim-scripts/srec.vim',
-    config = function() require'fs.config.srec'.config() end,
-  }
 
   -- Misc -------------------------------------------------------------------
   use 'milisims/nvim-luaref'
