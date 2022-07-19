@@ -82,13 +82,13 @@ M.config = function()
     },
   }
 
-  nmap { '<leader>fb', [[<cmd>lua require'fs.config.telescope'.find_buffers()<cr>]] }
-  nmap { '<leader>fc', [[<cmd>lua require'fs.config.telescope'.find_commits()<cr>]] }
-  nmap { '<leader>fd', [[<cmd>lua require'fs.config.telescope'.find_dotfiles()<cr>]] }
-  nmap { '<leader>ff', [[<cmd>lua require'fs.config.telescope'.find_files()<cr>]] }
-  nmap { '<leader>fh', [[<cmd>lua require'fs.config.telescope'.find_help()<cr>]] }
-  nmap { '<leader>fm', [[<cmd>lua require'fs.config.telescope'.find_manpages()<cr>]] }
-  nmap { '<leader>fo', [[<cmd>lua require'fs.config.telescope'.find_options()<cr>]] }
+  nmap { '<leader>fb', [[<cmd>lua require'fs.telescope'.find_buffers()<cr>]] }
+  nmap { '<leader>fc', [[<cmd>lua require'fs.telescope'.find_commits()<cr>]] }
+  nmap { '<leader>fd', [[<cmd>lua require'fs.telescope'.find_dotfiles()<cr>]] }
+  nmap { '<leader>ff', [[<cmd>lua require'fs.telescope'.find_files()<cr>]] }
+  nmap { '<leader>fh', [[<cmd>lua require'fs.telescope'.find_help()<cr>]] }
+  nmap { '<leader>fm', [[<cmd>lua require'fs.telescope'.find_manpages()<cr>]] }
+  nmap { '<leader>fo', [[<cmd>lua require'fs.telescope'.find_options()<cr>]] }
 end
 
 return M
