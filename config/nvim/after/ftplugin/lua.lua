@@ -1,11 +1,19 @@
 vim.bo.tabstop = 2
 
-local nmap = require 'fs.util'.nmap
 local buffer = { buffer = true }
 
--- execute the current line
-nmap { '<leader>x', [[<cmd>call luaeval(getline("."))<cr>]], buffer }
+local exec_current_lua_line = function()
+  vim.fn.luaeval(vim.fn.getline('.'))
+end
 
--- save and execute the current file
-nmap { '<leader><leader>x', '<cmd>silent write | luafile %<cr>', buffer }
+local exec_current_lua_selection = function()
+  local selection = { vim.fn.line('v'), vim.fn.line('.') }
+  local first, last = vim.fn.min(selection), vim.fn.max(selection)
+  local code = vim.fn.join(vim.fn.getline(first, last), '\n')
+  loadstring(code)()
+end
+
+vim.keymap.set('n', '<leader>x', exec_current_lua_line, buffer)
+vim.keymap.set('x', '<leader>x', exec_current_lua_selection, buffer)
+vim.keymap.set('n', '<leader><leader>x', '<cmd>write | luafile %<cr>', buffer)
 
