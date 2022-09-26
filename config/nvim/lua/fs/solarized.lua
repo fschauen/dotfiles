@@ -18,58 +18,98 @@ M.setup = function()
   local G          = colorbuddy.groups
   local S          = colorbuddy.styles
 
-  -- Color.new('base03' , '#002b36')
-  Color.new('base03' , '#002028')
-  Color.new('base02' , '#073642')
-  Color.new('base01' , '#586e75')
-  Color.new('base00' , '#657b83')
-  Color.new('base0'  , '#839496')
-  Color.new('base1'  , '#93a1a1')
-  Color.new('base2'  , '#eee8d5')
-  Color.new('base3'  , '#fdf6e3')
-  Color.new('yellow' , '#b58900')
-  Color.new('orange' , '#cb4b16')
-  Color.new('red'    , '#dc322f')
-  Color.new('magenta', '#d33682')
-  Color.new('violet' , '#6c71c4')
-  Color.new('blue'   , '#268bd2')
-  Color.new('cyan'   , '#2aa198')
-  -- Color.new('green'  , '#859900')
-  Color.new('green'  , '#719e07')
+  -- Color Definitions
+  local color_definitions = require('fs.util').colors(true)
+  for name, rgb in pairs(color_definitions) do
+    Color.new(name, rgb)
+  end
 
-  Color.new('bg'           , C.base03)
+  Color.new('bg', C.base04)
 
-  Group.new('Error'        , C.red)
-  Group.new('Warning'      , C.yellow)
-  Group.new('Information'  , C.blue)
-  Group.new('Hint'         , C.cyan)
+  -- Standard Groups
+  Group.new('Normal'      , C.base0, C.NONE, S.NONE)  -- normal text
+  Group.new('NormalNC'    , G.Normal)                 -- normal text in non-current windows
 
-  Group.new('Normal'      , C.base0  , C.NONE  , S.NONE)
-  Group.new('NormalNC'    , G.Normal)
-  Group.new('Comment'     , C.base01 , C.NONE  , S.NONE)
-  Group.new('Constant'    , C.cyan   , C.NONE  , S.NONE)
-  Group.new('Identifier'  , C.blue   , C.NONE  , S.NONE)
+  Group.new('Comment'     , C.base01, C.NONE, S.NONE) -- any comment
 
-  Group.new('Statement'   , C.green  , C.NONE  , S.NONE)
-  Group.new('PreProc'     , C.orange , C.NONE  , S.NONE)
-  Group.new('Type'        , C.yellow , C.NONE  , S.NONE)
-  Group.new('Special'     , C.red    , C.NONE  , S.NONE)
-  Group.new('Underlined'  , C.violet , C.NONE  , S.NONE)
-  Group.new('Ignore'      , C.NONE   , C.NONE  , S.NONE)
-  Group.new('Error'       , C.red    , C.NONE  , S.NONE)
-  Group.new('TODO'        , C.magenta, C.NONE  , S.bold)
+  Group.new('Constant'    , C.cyan, C.NONE, S.NONE)  -- any constant
+  Group.new('String'      , G.Constant)  -- a string constant: "this is a string"
+  Group.new('Character'   , G.Constant)  -- a character constant: 'c', '\n'
+  Group.new('Number'      , G.Constant)  -- a number constant: 234, 0xff
+  Group.new('Boolean'     , G.Constant)  -- a boolean constant: TRUE, false
+  Group.new('Float'       , G.Constant)  -- a floating point constant: 2.3e10
 
-  Group.new('SpecialKey'  , C.base00 , C.base02, S.bold)
-  Group.new('NonText'     , C.base02 , C.NONE  , S.NONE)
-  Group.new('StatusLine'  , C.base1  , C.base02, S.reverse)
-  Group.new('StatusLineNC', C.base00 , C.base02, S.reverse)
-  Group.new('Visual'      , C.base01 , C.base03, S.reverse)
-  Group.new('Directory'   , C.blue   , C.NONE  , S.NONE)
-  Group.new('ErrorMsg'    , C.red    , C.NONE  , S.reverse)
+  Group.new('Identifier'  , C.blue, C.NONE, S.NONE)
+  Group.new('Function'    , G.Identifier)
+
+  Group.new('Statement'   , C.yellow, C.NONE, S.NONE) -- any statement
+  Group.new('Conditional' , G.Statement)  -- if, then, else, endif, switch, etc.
+  Group.new('Repeat'      , G.Statement)  -- for, do, while, etc.
+  Group.new('Label'       , G.Statement)  -- case, default, etc.
+  Group.new('Operator'    , G.Statement)  -- "sizeof", "+", "*", etc.
+  Group.new('Keyword'     , G.Statement)  -- any other keyword
+  Group.new('Exception'   , G.Statement)  -- try, catch, throw
+
+  Group.new('PreProc'     , C.orange, C.NONE, S.NONE) -- generic Preprocessor
+  Group.new('Include'     , G.PreProc)  -- preprocessor #include
+  Group.new('Define'      , G.PreProc)  -- preprocessor #define
+  Group.new('Macro'       , G.PreProc)  -- same as Define
+  Group.new('PreCondit'   , G.PreProc)  -- preprocessor #if, #else, #endif, etc.
+
+  Group.new('Type'        , C.yellow, C.NONE, S.NONE) -- int, long, char, etc.
+  Group.new('StorageClass', G.Statement)  -- static, register, volatile, etc.
+  Group.new('Structure'   , G.Statement)  -- struct, union, enum, etc.
+  Group.new('Typedef'     , G.Statement)  -- A typedef
+
+  Group.new('Special'       , C.red    , C.NONE  , S.NONE) -- any special symbol
+  Group.new('SpecialChar'   , G.Special)  -- special character in a constant
+  Group.new('Tag'           , G.Special)  -- you can use CTRL-] on this
+  Group.new('Delimiter'     , G.Special)  -- character that needs attention
+  Group.new('SpecialComment', G.Special)  -- special things inside a comment
+  Group.new('Debug'         , G.Special)  -- debugging statements
+
+  Group.new('Underlined'    , C.violet , C.NONE  , S.NONE)
+  Group.new('Ignore'        , C.NONE   , C.NONE  , S.NONE)
+  Group.new('Todo'          , C.magenta, C.NONE  , S.bold)
+  Group.new('Error'         , C.red    , C.NONE  , S.NONE)
+  Group.new('Warning'       , C.yellow)
+  Group.new('Information'   , C.blue)
+  Group.new('Hint'          , C.cyan)
+
+  -- Additional Groups
+  Group.new('StatusLine'  , C.base1 , C.base02, S.reverse)
+  Group.new('StatusLineNC', C.base00, C.base02, S.reverse)
+  Group.new('Visual'      , C.base01, C.bg    , S.reverse)
+
+  Group.new('SpecialKey'  , C.base00, C.base02, S.bold)
+  Group.new('SignColumn'  , C.base0 , C.NONE  , S.NONE)
+  Group.new('Conceal'     , C.blue  , C.NONE  , S.NONE)
+  Group.new('Cursor'      , C.bg    , C.base0, S.NONE)
+  Group.new('TermCursorNC', C.bg    , C.base01)
+  Group.link('lCursor'    , G.Cursor)
+  Group.link('TermCursor' , G.Cursor)
+
+  Group.new('LineNr'      , C.base02, C.NONE, S.NONE)
+  Group.new('CursorLine'  , C.NONE,   C.base02, S.NONE)
+  Group.new('CursorLineNr', C.base00, C.NONE, S.NONE)
 
   Group.new('IncSearch'   , C.orange , C.NONE  , S.standout)
   Group.new('Search'      , C.yellow , C.NONE  , S.reverse)
 
+  Group.new('DiffAdd'     , C.green  , C.NONE, S.NONE)
+  Group.new('DiffChange'  , C.yellow , C.NONE, S.NONE)
+  Group.new('DiffDelete'  , C.red    , C.NONE, S.NONE)
+  Group.new('DiffText'    , C.blue   , C.NONE, S.NONE)
+  Group.link('diffAdded'  , G.DiffAdd)
+  Group.link('diffRemoved', G.DiffDelete)
+  Group.link('diffLine'   , G.Identifier)
+
+  Group.new('SpellBad'    , C.orange, C.NONE, S.undercurl)
+  Group.new('SpellCap'    , C.violet, C.NONE, S.undercurl)
+  Group.new('SpellRare'   , C.cyan  , C.NONE, S.undercurl)
+  Group.new('SpellLocal'  , C.yellow, C.NONE, S.undercurl)
+
+  Group.new('ErrorMsg'    , G.Error)
   Group.new('MoreMsg'     , C.blue   , C.NONE  , S.NONE)
   Group.new('ModeMsg'     , C.blue   , C.NONE  , S.NONE)
   Group.new('Question'    , C.cyan   , C.NONE  , S.bold)
@@ -77,22 +117,15 @@ M.setup = function()
   Group.new('Title'       , C.orange , C.NONE  , S.bold)
   Group.new('VisualNOS'   , C.NONE   , C.base02, S.reverse)
   Group.new('WarningMsg'  , C.red    , C.NONE  , S.NONE)
-  Group.new('WildMenu'    , C.base2  , C.base02, S.reverse)
-  Group.new('Folded'      , C.base0  , C.base02, S.bold     , C.base03)
-  Group.new('FoldColumn'  , C.base0  , C.base02, S.NONE)
+  Group.new('WildMenu'    , C.base2  , C.base02, S.NONE)
+  Group.new('Folded'      , C.blue   , C.bg    , S.NONE)
+  Group.new('FoldColumn'  , C.blue   , C.bg    , S.NONE)
 
-  Group.new('DiffAdd'     , C.green  , C.base02, S.bold     , C.green)
-  Group.new('DiffChange'  , C.yellow , C.base02, S.bold     , C.yellow)
-  Group.new('DiffDelete'  , C.red    , C.base02, S.bold)
-  Group.new('DiffText'    , C.blue   , C.base02, S.bold     , C.blue)
+  Group.new('Directory'   , C.blue   , C.NONE  , S.NONE)
 
-  Group.new('SignColumn'  , C.base0  , C.NONE  , S.NONE)
-  Group.new('Conceal'     , C.blue   , C.NONE  , S.NONE)
-
-  Group.new('SpellBad'    , C.NONE   , C.NONE  , S.undercurl, C.red)
-  Group.new('SpellCap'    , C.NONE   , C.NONE  , S.undercurl, C.violet)
-  Group.new('SpellRare'   , C.NONE   , C.NONE  , S.undercurl, C.cyan)
-  Group.new('SpellLocal'  , C.NONE   , C.NONE  , S.undercurl, C.yellow)
+  Group.new('NonText'     , C.base02 , C.NONE  , S.NONE)  -- subtle EOL symbols
+  Group.new('Whitespace'  , C.orange , C.NONE  , S.NONE)  -- listchars
+  Group.new('QuickFixLine', C.yellow , C.base02, S.NONE)  -- selected quickfix item
 
   -- pum (popup menu)
   Group.new('Pmenu', G.Normal, C.base02, S.NONE) -- popup menu normal item
@@ -100,36 +133,11 @@ M.setup = function()
   Group.new('PmenuSbar', C.base02, C.NONE, S.reverse)
   Group.new('PmenuThumb', C.base0, C.NONE, S.reverse)
 
-  -- be nice for this float border to be cyan if active
-  Group.new('FloatBorder', C.base02)
-
-  Group.new('TabLine', C.base0, C.base02, S.NONE, C.base0)
-  Group.new('TabLineFill', C.base0, C.base02)
-  Group.new('TabLineSel', C.yellow, C.bg)
-
-  Group.new('LineNr', C.base01, C.NONE, S.NONE)
-  Group.new('CursorLine', C.NONE, C.base02, S.NONE, C.base1)
-  Group.new('CursorLineNr', C.NONE, C.NONE, S.NONE, C.base1)
-  Group.new('ColorColumn', C.NONE, C.base02, S.NONE)
-  Group.new('Cursor', C.base03, C.base0, S.NONE)
-  Group.link('lCursor', G.Cursor)
-  Group.link('TermCursor', G.Cursor)
-  Group.new('TermCursorNC', C.base03, C.base01)
+  Group.new('TabLine'    , C.base0 , C.base02 , S.NONE)
+  Group.new('TabLineFill', C.base0 , C.base02)
+  Group.new('TabLineSel' , C.yellow, C.bg)
 
   Group.new('MatchParen', C.red, C.base01, S.bold)
-
-  Group.new('GitGutterAdd', C.green)
-  Group.new('GitGutterChange', C.yellow)
-  Group.new('GitGutterDelete', C.red)
-  Group.new('GitGutterChangeDelete', C.red)
-
-  Group.new('GitSignsAddLn', C.green)
-  Group.new('GitSignsAddNr', C.green)
-  Group.new('GitSignsChangeLn', C.yellow)
-  Group.new('GitSignsChangeNr', C.yellow)
-  Group.new('GitSignsDeleteLn', C.red)
-  Group.new('GitSignsDeleteNr', C.red)
-  Group.link('GitSignsCurrentLineBlame', G.Comment)
 
   -- vim highlighting
   Group.link('vimVar', G.Identifier)
@@ -153,157 +161,78 @@ M.setup = function()
   Group.new('vimHiLink', C.blue)
   Group.new('vimGroup', C.blue, C.NONE, S.underline + S.bold)
 
-  Group.new('gitcommitSummary', C.green)
-  Group.new('gitcommitComment', C.base01, C.NONE, S.italic)
-  Group.link('gitcommitUntracked', G.gitcommitComment)
-  Group.link('gitcommitDiscarded', G.gitcommitComment)
-  Group.new('gitcommitSelected', G.gitcommitComment)
-  Group.new('gitcommitUnmerged', C.green, C.NONE, S.bold)
-  Group.new('gitcommitOnBranch', C.base01, C.NONE, S.bold)
-  Group.new('gitcommitBranch', C.magenta, C.NONE, S.bold)
-  Group.link('gitcommitNoBranch', G.gitcommitBranch)
-  Group.new('gitcommitDiscardedType', C.red)
-  Group.new('gitcommitSelectedType', C.green)
-  Group.new('gitcommitHeader', C.base01)
-  Group.new('gitcommitUntrackedFile', C.cyan)
-  Group.new('gitcommitDiscardedFile', C.red)
-  Group.new('gitcommitSelectedFile', C.green)
-  Group.new('gitcommitUnmergedFile', C.yellow)
-  Group.new('gitcommitFile', C.base0)
+  -- git highlighting
+  Group.new('gitcommitSummary'        , C.green)
+  Group.link('gitcommitComment'       , G.Comment)
+  Group.link('gitcommitUntracked'     , G.gitcommitComment)
+  Group.link('gitcommitDiscarded'     , G.gitcommitComment)
+  Group.link('gitcommitSelected'      , G.gitcommitComment)
+  Group.link('gitcommitOnBranch'      , G.gitcommitComment)
+
+  Group.new('gitcommitBranch'         , C.blue , C.base02, S.NONE)
+  Group.link('gitcommitNoBranch'      , G.gitcommitBranch)
+
+  Group.new('gitcommitHeader'         , C.base01)
+  Group.new('gitcommitFile'           , C.base0)
+
+  Group.new('gitcommitSelectedType'   , C.green)
+  Group.link('gitcommitSelectedFile'  , G.gitcommitSelectedType)
+  Group.link('gitcommitSelectedArrow' , G.gitCommitSelectedFile)
+
+  Group.new('gitcommitDiscardedType'  , C.orange)
+  Group.link('gitcommitDiscardedFile' , G.gitcommitDiscardedType)
   Group.link('gitcommitDiscardedArrow', G.gitCommitDiscardedFile)
-  Group.link('gitcommitSelectedArrow', G.gitCommitSelectedFile)
-  Group.link('gitcommitUnmergedArrow', G.gitCommitUnmergedFile)
 
-  Group.link('diffAdded', G.Statement)
-  Group.link('diffLine', G.Identifier)
+  Group.new('gitcommitUntrackedFile'  , C.cyan)
 
-  Group.new('NeomakeErrorSign', C.orange)
-  Group.new('NeomakeWarningSign', C.yellow)
-  Group.new('NeomakeMessageSign', C.cyan)
-  Group.new('NeomakeNeomakeInfoSign', C.green)
+  Group.new('gitcommitUnmerged'       , C.yellow, C.NONE, S.NONE)
+  Group.new('gitcommitUnmergedFile'   , C.red)
+  Group.link('gitcommitUnmergedArrow' , G.gitCommitUnmergedFile)
 
-  Group.new('CmpItemKind', C.green, C.NONE, S.NONE)
-  Group.new('CmpItemMenu', G.NormalNC, C.bg, S.NONE)
-  -- Group.new('CmpItemAbbr', C.base0, C.bg, S.NONE)
-  -- Group.new('CmpItemAbbrMatch', C.base0, C.bg, S.NONE)
-  Group.new("CmpItemKindText", C.base3, C.NONE, S.NONE)
-  Group.new("CmpItemKindMethod", C.green, C.NONE, S.NONE)
-  Group.new("CmpItemKindFunction", C.blue, C.NONE, S.NONE)
-  Group.new("CmpItemKindConstructor", C.orange, C.NONE, S.NONE)
-  Group.new("CmpItemKindField", C.yellow, C.NONE, S.NONE)
-  Group.new("CmpItemKindVariable", C.orange, C.NONE, S.NONE)
-  Group.new("CmpitemKindClass", C.yellow, C.NONE, S.NONE)
-  Group.new("CmpItemKindInterface", C.yellow, C.NONE, S.NONE)
-  Group.new("CmpItemKindModule", C.green, C.NONE, S.NONE)
-  Group.new("CmpItemKindProperty", C.green, C.NONE, S.NONE)
-  Group.new("CmpItemKindUnit", C.orange, C.NONE, S.NONE)
-  Group.new("CmpItemKindValue", C.cyan, C.NONE, S.NONE)
-  Group.new("CmpItemKindEnum", C.yellow, C.NONE, S.NONE)
-  Group.new("CmpItemKindKeyword", C.green, C.NONE, S.NONE)
-  Group.new("CmpItemKindSnippet", C.magenta, C.NONE, S.NONE)
-  Group.new("CmpItemKindColor", C.magenta, C.NONE, S.NONE)
-  Group.new("CmpItemKindFile", C.violet, C.NONE, S.NONE)
-  Group.new("CmpItemKindReference", C.violet, C.NONE, S.NONE)
-  Group.new("CmpItemKindFolder", C.violet, C.NONE, S.NONE)
-  Group.new("CmpItemKindEnumMember", C.cyan, C.NONE, S.NONE)
-  Group.new("CmpItemKindConstant", C.cyan, C.NONE, S.NONE)
-  Group.new("CmpItemKindStruct", C.yellow, C.NONE, S.NONE)
-  Group.new("CmpItemKindEvent", C.orange, C.NONE, S.NONE)
-  Group.new("CmpItemKindOperator", C.cyan, C.NONE, S.NONE)
-  Group.new("CmpItemKindTypeParameter", C.orange, C.NONE, S.NONE)
+  Group.new('GitGutterAdd', C.green)
+  Group.new('GitGutterChange', C.yellow)
+  Group.new('GitGutterDelete', C.red)
+  Group.new('GitGutterChangeDelete', C.red)
 
-  Group.new('LspSagaCodeActionTitle', C.green)
-  Group.new('LspSagaBorderTitle', C.yellow, C.NONE, S.bold)
-  Group.new('LspSagaDiagnosticHeader', C.yellow)
-  Group.new('ProviderTruncateLine', C.base02)
-  Group.new('LspSagaShTruncateLine', G.ProviderTruncateLine)
-  Group.new('LspSagaDocTruncateLine', G.ProviderTruncateLine)
-  Group.new('LspSagaCodeActionTruncateLine', G.ProviderTruncateLine)
-  Group.new('LspSagaHoverBorder', C.cyan)
-  Group.new('LspSagaRenameBorder', G.LspSagaHoverBorder)
-  Group.new('LSPSagaDiagnosticBorder', G.LspSagaHoverBorder)
-  Group.new('LspSagaSignatureHelpBorder', G.LspSagaHoverBorder)
-  Group.new('LspSagaCodeActionBorder', G.LspSagaHoverBorder)
-  Group.new('LspSagaLspFinderBorder', G.LspSagaHoverBorder)
-  Group.new('LspSagaFloatWinBorder', G.LspSagaHoverBorder)
-  Group.new('LspSagaSignatureHelpBorder', G.LspSagaHoverBorder)
-  Group.new('LspSagaDefPreviewBorder', G.LspSagaHoverBorder)
-  Group.new('LspSagaAutoPreviewBorder', G.LspSagaHoverBorder)
-  Group.new('LspFloatWinBorder', G.LspSagaHoverBorder)
-  Group.new('LspLinesDiagBorder', G.LspSagaHoverBorder)
-  Group.new('LspSagaFinderSelection', C.green, C.NONE, S.bold)
-  --Group.new('SagaShadow', C.base02)
+  Group.new('GitSignsAddLn', C.green)
+  Group.new('GitSignsAddNr', C.green)
+  Group.new('GitSignsChangeLn', C.yellow)
+  Group.new('GitSignsChangeNr', C.yellow)
+  Group.new('GitSignsDeleteLn', C.red)
+  Group.new('GitSignsDeleteNr', C.red)
+  Group.link('GitSignsCurrentLineBlame', G.Comment)
 
-  Group.new('TelescopeMatching', C.orange, G.Special, G.Special, G.Special)
-  Group.new('TelescopeBorder', C.base01) -- float border not quite dark enough, maybe that needs to change?
-  Group.new('TelescopePromptBorder', C.cyan) -- active border lighter for clarity
-  Group.new('TelescopeTitle', G.Normal) -- separate them from the border a little, but not make them pop
-  Group.new('TelescopePromptPrefix', G.Normal) -- default is G.Identifier
-  Group.link('TelescopeSelection', G.CursorLine)
-  Group.new('TelescopeSelectionCaret', C.cyan)
+  -- Plugin: 'ntpeters/vim-better-whitespace'
+  Group.new('ExtraWhitespace', C.orange, C.orange) -- trailing whitespace
 
-  Group.new('NeogitDiffAddHighlight', C.blue, C.red)
-  Group.new('NeogitDiffDeleteHighlight', C.blue, C.red)
-  Group.new('NeogitHunkHeader', G.Normal, C.base02)
-  Group.new('NeogitHunkHeaderHighlight', G.Normal, C.red)
-  Group.new('NeogitDiffContextHighlight', C.base2, C.base02)
-  Group.new('NeogitCommandText', G.Normal)
-  Group.new('NeogitCommandTimeText', G.Normal)
-  Group.new('NeogitCommandCodeNormal', G.Normal)
-  Group.new('NeogitCommandCodeError', G.Error)
-  Group.new('NeogitNotificationError', G.Error, C.NONE)
-  Group.new('NeogitNotificationInfo', G.Information, C.NONE)
-  Group.new('NeogitNotificationWarning', G.Warning, C.NONE)
+  -- Plugin: 'lukas-reineke/indent-blankline.nvim'
+  Group.new('IndentBlanklineChar', C.base02, C.NONE) -- indentation guides
 
-  -- seblj/nvim-tabline
-  Group.new('TabLineSeparatorActive', C.cyan)
-  Group.link('TabLineModifiedSeparatorActive', G.TablineSeparatorActive)
+  -- Plugin: 'lukas-reineke/virt-column.nvim'
+  Group.new('VirtColumn' , C.base02, C.NONE, S.NONE)  -- virtual column
+  Group.new('ColorColumn', C.NONE  , C.NONE, S.NONE)  -- otherwise this is visible behind VirtColumn
 
-  -- kevinhwang91/nvim-bqf
-  Group.new('BqfPreviewBorder', C.base01)
-  Group.new('BqfSign', C.cyan)
+  -- Plugin: 'kyazdani42/nvim-tree.lua'
+  Group.new('NvimTreeSpecialFile' , C.base2 , C.NONE, S.NONE)
+  Group.new('NvimTreeIndentMarker', C.base01, C.NONE, S.NONE)
+  Group.new('NvimTreeGitStaged'   , C.green , C.NONE, S.NONE)
+  Group.new('NvimTreeGitRenamed'  , C.yellow, C.NONE, S.NONE)
+  Group.new('NvimTreeGitNew'      , C.yellow, C.NONE, S.NONE)
+  Group.new('NvimTreeGitDirty'    , C.yellow, C.NONE, S.NONE)
+  Group.new('NvimTreeGitDeleted'  , C.orange, C.NONE, S.NONE)
+  Group.new('NvimTreeGitMerge'    , C.red   , C.NONE, S.NONE)
 
-  -- Primeagen/harpoon
-  Group.new("HarpoonBorder", C.cyan)
-  Group.new("HarpoonWindow", G.Normal)
-
-  Group.new("NvimTreeFolderIcon", C.blue)
-
-  -- phaazon/hop.nvim
-  Group.link('HopNextKey', G.IncSearch)
-  Group.link('HopNextKey1', G.IncSearch)
-  Group.link('HopNextKey2', G.IncSearch)
-
-  function M.translate(group)
-    if vim.fn.has("nvim-0.6.0") == 0 then return group end
-
-    if not string.match(group, "^LspDiagnostics") then return group end
-
-    local translated = group
-    translated = string.gsub(translated, "^LspDiagnosticsDefault", "Diagnostic")
-    translated = string.gsub(translated, "^LspDiagnostics", "Diagnostic")
-    translated = string.gsub(translated, "Warning$", "Warn")
-    translated = string.gsub(translated, "Information$", "Info")
-    return translated
-  end
-
-  local lspColors = {
-    Error       = G.Error,
-    Warning     = G.Warning,
-    Information = G.Information,
-    Hint        = G.Hint,
-  }
-  for _, lsp in pairs({ "Error", "Warning", "Information", "Hint" }) do
-    local lspGroup = Group.new(M.translate("LspDiagnosticsDefault" .. lsp), lspColors[lsp])
-    Group.link(M.translate("LspDiagnosticsVirtualText" .. lsp), lspGroup)
-    Group.new(M.translate("LspDiagnosticsUnderline" .. lsp), C.NONE, C.NONE, S.undercurl, lspColors[lsp])
-  end
-
-  for _, name in pairs({ "LspReferenceText", "LspReferenceRead", "LspReferenceWrite" }) do
-    Group.link(M.translate(name), G.CursorLine)
-  end
-
-  return M
+  -- Plugin: 'nvim-telescope/telescope.nvim'
+  Group.new('TelescopeBorder'        , C.base01, C.NONE, S.NONE)
+  Group.new('TelescopePromptBorder'  , C.base1 , C.NONE, S.NONE)
+  Group.new('TelescopeTitle'         , C.base1 , C.NONE, S.NONE)
+  Group.new('TelescopePromptPrefix'  , C.red   , C.NONE, S.NONE)
+  Group.new('TelescopePromptCounter' , C.base1 , C.NONE, S.NONE)
+  Group.new('TelescopeMatching'      , C.red   , C.NONE, S.NONE)
+  Group.new('TelescopeSelection'     , C.base2 , C.NONE, S.NONE)
+  Group.new('TelescopeMultiSelection', C.blue  , C.NONE, S.NONE)
+  Group.new('TelescopeMultiIcon'     , C.blue  , C.NONE, S.NONE)
 end
 
 return M
+
