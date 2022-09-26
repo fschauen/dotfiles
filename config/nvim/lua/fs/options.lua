@@ -66,7 +66,8 @@ set_options {
   wrap           = false,   -- don't wrap long lines initially
   textwidth      = 79,      -- maximum width for text being inserted
   colorcolumn    = '+1',    -- highlight column after 'textwidth'
-  cursorline     = true,    -- highlight the line of the cursor
+  cursorline     = true,    -- highlight the line of the cursor...
+  cursorlineopt  = 'number',-- ...but only the line number
   showbreak      = '⤷ ',    -- prefix for wrapped lines
   scrolloff      = 3,       -- min. # of lines above and below cursor
   sidescrolloff  = 3,       -- min. # of columns to left and right of cursor
