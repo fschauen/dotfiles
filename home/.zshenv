@@ -48,3 +48,12 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 #
 [ "$(uname -s)" = "Darwin" ] || source "$XDG_CONFIG_HOME/shell/path.sh"
 
+# Set $DISPLAY if running in WSL
+#
+# How to configure Windows Firewall for Xserver: https://skeptric.com/wsl2-xserver/
+# How to check if running in WSL: https://stackoverflow.com/a/61014411
+if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
+  export DISPLAY=$(awk '/nameserver/ {print $2; exit}' /etc/resolv.conf 2>/dev/null):0.0
+  export LIBGL_ALWAYS_INDIRECT=1
+fi
+
