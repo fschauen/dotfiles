@@ -7,6 +7,7 @@ M.vmap = function(tbl) vim.keymap.set('v', tbl[1], tbl[2], tbl[3]) end
 M.colors = function(gui)
   if gui or vim.opt.termguicolors:get() then
     return {
+      base04  = "#002028",
       base03  = "#002b36",
       base02  = "#073642",
       base01  = "#586e75",
@@ -22,10 +23,11 @@ M.colors = function(gui)
       violet  = "#6c71c4",
       blue    = "#268bd2",
       cyan    = "#2aa198",
-      green   = "#859900",
+      green   = "#719e07",  -- original: #859900
     }
   end
   return {
+    base04  =  8,
     base03  =  8,
     base02  =  0,
     base01  = 10,

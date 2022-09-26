@@ -15,14 +15,14 @@ local colors = require'fs.util'.colors()
 local theme = (function()
   local active = {
     a = Table:new { fg = colors.base03, bg = colors.base1  },
-    b = Table:new { fg = colors.base03, bg = colors.base0 },
+    b = Table:new { fg = colors.base03, bg = colors.base0  },
     c = Table:new { fg = colors.base1,  bg = colors.base02 },
   }
 
   local inactive = {
     a =           { fg = colors.base02, bg = colors.base00 },
     b =           { fg = colors.base02, bg = colors.base01 },
-    c =           { fg = colors.base01, bg = colors.base02 },
+    c =           { fg = colors.base01, bg = colors.base03 },
   }
 
   return {
