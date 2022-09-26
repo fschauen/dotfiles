@@ -62,5 +62,14 @@ M.highlight = function(group, highlights)
   vim.cmd(cmd)
 end
 
+M.syntax_stack = function()
+  local line = vim.fn.line('.')
+  local col = vim.fn.col('.')
+  if vim.fn.exists("*synstack") then
+    local ids = vim.fn.synstack(line, col)
+    P(vim.fn.map(ids, 'synIDattr(v:val, "name")'))
+  end
+end
+
 return M
 
