@@ -1,10 +1,6 @@
 local cmd = vim.cmd
 local fn = vim.fn
 
-local defaults = {
-  comment_italics = true,
-}
-
 local M = {
   Color = require('colorbuddy.init').Color,
   colors = require('colorbuddy.init').colors,
@@ -13,23 +9,9 @@ local M = {
   styles = require('colorbuddy.init').styles,
 }
 
-M.setup = function(opts)
-  if not opts then opts = {} end
+M.setup = function()
+  cmd [[ packadd! colorbuddy.nvim ]]
 
-  for k, v in pairs(defaults) do
-    if opts[k] == nil then opts[k] = v end
-  end
-
-  -- typos are annoying
-  for k, _ in pairs(opts) do
-    if defaults[k] == nil then print("solarized: unknown setting: ", k) end
-  end
-
-  cmd([[
-  packadd! colorbuddy.nvim
-  ]])
-
-  -- only needed to clear when not the default colorscheme
   if vim.g.colors_name then
     vim.cmd("hi clear")
   end
@@ -73,7 +55,7 @@ M.setup = function(opts)
   Group.new('Normal', colors.base0, colors.NONE, styles.NONE)
   Group.new('NormalNC', colors.base0:dark(), colors.NONE, styles.NONE)
 
-  Group.new('Comment', colors.base01, colors.none, opts.comment_italics and styles.italic or styles.NONE)
+  Group.new('Comment', colors.base01, colors.none, styles.NONE)
   Group.new('Constant', colors.cyan, colors.none, styles.NONE)
   -- Any variable name, function or class name
   Group.new('Identifier', colors.blue, colors.none, styles.NONE)
