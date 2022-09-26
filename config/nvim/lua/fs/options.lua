@@ -59,6 +59,7 @@ set_options {
       + '1',  -- don't break lines after a one letter word but rather before it
 
   -- Appearance
+  termguicolors  = true,    -- use "gui" :higlight instead of "cterm"
   showmode       = false,   -- don't show mode (shown in statusline instead)
   relativenumber = true,    -- Start off with realtive line numbers...
   number         = true,    -- ...but real number for current line.
