@@ -89,9 +89,9 @@ M.setup = function()
   Group.link('lCursor'    , G.Cursor)
   Group.link('TermCursor' , G.Cursor)
 
-  Group.new('LineNr'      , C.base02, C.NONE, S.NONE)
+  Group.new('LineNr'      , C.base01, C.NONE, S.NONE)
   Group.new('CursorLine'  , C.NONE,   C.base02, S.NONE)
-  Group.new('CursorLineNr', C.base00, C.NONE, S.NONE)
+  Group.new('CursorLineNr', C.base2, C.NONE, S.NONE)
 
   Group.new('IncSearch'   , C.orange , C.NONE  , S.standout)
   Group.new('Search'      , C.yellow , C.NONE  , S.reverse)
