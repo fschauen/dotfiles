@@ -25,13 +25,15 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # a pty $TERM is not set).
 [ -n "$TERM" ] && {
     rst="$(tput sgr0)"
-    export LESS_TERMCAP_md="$(printf '%s\n' 'setaf 3' | tput -S)"
-    export LESS_TERMCAP_mb="$LESS_TERMCAP_md"
-    export LESS_TERMCAP_me="$rst"
-    export LESS_TERMCAP_us="$(printf '%s\n' 'setaf 7' 'smul' | tput -S)"
-    export LESS_TERMCAP_ue="$rst"
-    export LESS_TERMCAP_so="$(printf '%s\n' 'setaf 4' 'setab 0' | tput -S)"
-    export LESS_TERMCAP_se="$rst"
+    LESS_TERMCAP_md="$(printf '%s\n' 'setaf 3' | tput -S)"
+    LESS_TERMCAP_mb="$LESS_TERMCAP_md"
+    LESS_TERMCAP_me="$rst"
+    LESS_TERMCAP_us="$(printf '%s\n' 'setaf 7' 'smul' | tput -S)"
+    LESS_TERMCAP_ue="$rst"
+    LESS_TERMCAP_so="$(printf '%s\n' 'setaf 4' 'setab 0' | tput -S)"
+    LESS_TERMCAP_se="$rst"
+    export LESS_TERMCAP_md LESS_TERMCAP_mb LESS_TERMCAP_me
+    export LESS_TERMCAP_us LESS_TERMCAP_ue LESS_TERMCAP_so LESS_TERMCAP_se
     export GROFF_NO_SGR=1
     unset rst
 }
@@ -46,7 +48,8 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 #                            which would undo what we do here.
 #   $ZDOTDIR/.zshrc      <-- So we defer our PATH manipulation to this file.
 #
-[ "$(uname -s)" = "Darwin" ] || source "$XDG_CONFIG_HOME/shell/path.sh"
+# shellcheck disable=SC1090
+[ "$(uname -s)" = "Darwin" ] || . "$XDG_CONFIG_HOME/shell/path.sh"
 
 # Set $DISPLAY if running in WSL and an Xserver is reachable
 #
