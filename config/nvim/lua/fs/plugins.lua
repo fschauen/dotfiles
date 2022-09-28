@@ -143,8 +143,8 @@ return packer().startup(function(use)
     'tpope/vim-fugitive',
 
     config = function()
-      vim.keymap.set('n', '<leader>gg',       '<cmd>G<cr>')
-      vim.keymap.set('n', '<leader>g<space>', ':G ')
+      vim.keymap.set('n', '<leader>gs', '<cmd>below Git<cr>')
+      vim.keymap.set('n', '<leader>gb', '<cmd>Git blame<cr>')
     end,
   }
 
