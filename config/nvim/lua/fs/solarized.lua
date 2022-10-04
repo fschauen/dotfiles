@@ -24,10 +24,11 @@ M.setup = function()
     Color.new(name, rgb)
   end
 
+  Color.new('fg', C.base0)
   Color.new('bg', C.base04)
 
   -- Standard Groups
-  Group.new('Normal'      , C.base0, C.NONE, S.NONE)  -- normal text
+  Group.new('Normal'      , C.fg, C.NONE, S.NONE)     -- normal text
   Group.new('NormalNC'    , G.Normal)                 -- normal text in non-current windows
 
   Group.new('Comment'     , C.base01, C.NONE, S.NONE) -- any comment
@@ -201,6 +202,54 @@ M.setup = function()
   Group.new('GitSignsDeleteLn', C.red)
   Group.new('GitSignsDeleteNr', C.red)
   Group.link('GitSignsCurrentLineBlame', G.Comment)
+
+  -- Markdown
+  Group.new('markdownH1'                  , C.yellow)
+  Group.link('markdownH2'                 , G.markdownH1)
+  Group.link('markdownH3'                 , G.markdownH1)
+  Group.link('markdownH4'                 , G.markdownH1)
+  Group.link('markdownH5'                 , G.markdownH1)
+  Group.link('markdownH6'                 , G.markdownH1)
+  Group.new('markdownHeadingRule'         , C.yellow, C.none, S.bold)
+  Group.link('markdownHeadingDelimiter'   , G.markdownHeadingRule)
+  Group.link('markdownH1Delimiter'        , G.markdownHeadingDelimiter)
+  Group.link('markdownH2Delimiter'        , G.markdownHeadingDelimiter)
+  Group.link('markdownH3Delimiter'        , G.markdownHeadingDelimiter)
+  Group.link('markdownH4Delimiter'        , G.markdownHeadingDelimiter)
+  Group.link('markdownH5Delimiter'        , G.markdownHeadingDelimiter)
+  Group.link('markdownH6Delimiter'        , G.markdownHeadingDelimiter)
+
+  Group.new('markdownListMarker'          , C.base2)
+  Group.link('markdownOrderedListMarker'  , G.markdownListMarker)
+  Group.link('markdownBlockquote'         , G.markdownListMarker)
+  Group.link('markdownRule'               , G.Comment)
+
+  Group.new('markdownItalic'              , C.base1, C.none, S.italic)
+  Group.new('markdownBold'                , C.base1, C.none, S.bold)
+  Group.new('markdownBoldItalic'          , C.base1, C.none, S.bold + S.italic)
+  Group.new('markdownCode'                , C.orange)
+  Group.link('markdownCodeBlock'          , G.markdownCode)
+  Group.link('markdownItalicDelimiter'    , G.Comment)
+  Group.link('markdownBoldDelimiter'      , G.Comment)
+  Group.link('markdownBoldItalicDelimiter', G.Comment)
+  Group.link('markdownCodeDelimiter'      , G.Comment)
+
+  Group.new('markdownFootnote'            , C.cyan)
+  Group.link('markdownFootnoteDefinition' , G.markdownFootnote)
+
+  Group.new('markdownLinkText'            , C.blue)
+  Group.link('markdownId'                 , G.Comment)
+  Group.link('markdownUrl'                , G.Comment)
+  Group.new('markdownUrlTitle'            , C.cyan)
+
+  Group.link('markdownLinkTextDelimiter'  , G.Comment)
+  Group.link('markdownIdDelimiter'        , G.Comment)
+  Group.link('markdownLinkDelimiter'      , G.Comment)
+  Group.link('markdownUrlTitleDelimiter'  , G.Comment)
+  Group.link('markdownIdDeclaration'      , G.markdownLinkText)
+
+  Group.link('markdownEscape'             , G.Special)
+  Group.link('markdownError'              , G.Error)
 
   -- Plugin: 'ntpeters/vim-better-whitespace'
   Group.new('ExtraWhitespace', C.orange, C.orange) -- trailing whitespace
