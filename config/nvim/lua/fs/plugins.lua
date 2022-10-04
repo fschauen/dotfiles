@@ -169,29 +169,6 @@ return packer().startup(function(use)
     end,
   }
 
-  use {
-    'plasticboy/vim-markdown',
-
-    setup = function()
-      -- Disable concealling on italic, bold, etc.
-      vim.g.vim_markdown_conceal = 0
-
-      -- Disable concealling on code blocks.
-      vim.g.vim_markdown_conceal_code_blocks = 0
-
-      -- Automatic insertion of bullets is buggy, so disable it.
-      vim.g.vim_markdown_auto_insert_bullets = 0
-      vim.g.vim_markdown_new_list_item_indent = 0
-    end,
-
-    config = function()
-      local buf = { buffer = true }
-      vim.keymap.set('n', '<leader>+', '<cmd>.,.HeaderIncrease<cr>', buf)
-      vim.keymap.set('n', '<leader>=', '<cmd>.,.HeaderIncrease<cr>', buf)
-      vim.keymap.set('n', '<leader>-', '<cmd>.,.HeaderDecrease<cr>', buf)
-    end,
-  }
-
   use 'keith/swift.vim'
 
   use 'chr4/nginx.vim'
