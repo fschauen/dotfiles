@@ -144,7 +144,9 @@ return packer().startup(function(use)
     end,
 
     config = function()
-      vim.cmd [[AddTabularPattern first_comma /^[^,]*\zs,/l0c1l0]]
+      vim.cmd [[ AddTabularPattern! first_comma /^[^,]*\zs,/ ]]
+      vim.cmd [[ AddTabularPattern! first_colon /^[^:]*\zs:/ ]]
+      vim.cmd [[ AddTabularPattern! first_equal /^[^=]*\zs=/ ]]
     end,
   }
 
