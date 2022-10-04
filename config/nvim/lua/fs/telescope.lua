@@ -23,6 +23,10 @@ M.find_files = function()
   builtin.find_files { prompt_title = '  Find files  ' }
 end
 
+M.find_grep = function()
+  builtin.live_grep { prompt_title = ' 🔍 Grep ' }
+end
+
 M.find_help = function()
   builtin.help_tags { prompt_title = ' ﬤ Find help tags ' }
 end
@@ -88,6 +92,7 @@ M.config = function()
   nmap { '<leader>fc', [[<cmd>lua require'fs.telescope'.find_commits()<cr>]] }
   nmap { '<leader>fd', [[<cmd>lua require'fs.telescope'.find_dotfiles()<cr>]] }
   nmap { '<leader>ff', [[<cmd>lua require'fs.telescope'.find_files()<cr>]] }
+  nmap { '<leader>fg', [[<cmd>lua require'fs.telescope'.find_grep()<cr>]] }
   nmap { '<leader>fh', [[<cmd>lua require'fs.telescope'.find_help()<cr>]] }
   nmap { '<leader>fk', [[<cmd>lua require'fs.telescope'.find_keymaps()<cr>]] }
   nmap { '<leader>fm', [[<cmd>lua require'fs.telescope'.find_manpages()<cr>]] }
