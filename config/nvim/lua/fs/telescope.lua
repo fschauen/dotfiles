@@ -20,7 +20,7 @@ M.find_dotfiles = function()
 end
 
 M.find_files = function()
-  builtin.find_files { prompt_title = '  Find files  ' }
+  builtin.find_files { prompt_title = '   Find files ' }
 end
 
 M.find_grep = function()
@@ -32,12 +32,12 @@ M.find_help = function()
 end
 
 M.find_keymaps = function()
-  builtin.keymaps { prompt_title = '⟼  Find Keymaps ' }
+  builtin.keymaps { prompt_title = '   Find keymaps ' }
 end
 
 M.find_manpages = function()
   builtin.man_pages {
-    prompt_title = '  Find man pages ',
+    prompt_title = '   Find man pages ',
     sections = { 'ALL' },
   }
 end
