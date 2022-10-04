@@ -1,7 +1,6 @@
-local util = require 'fs.util'
-local nmap = util.nmap
-local imap = util.imap
-local vmap = util.vmap
+local nmap = function(tbl) vim.keymap.set('n', tbl[1], tbl[2], tbl[3]) end
+local imap = function(tbl) vim.keymap.set('i', tbl[1], tbl[2], tbl[3]) end
+local vmap = function(tbl) vim.keymap.set('v', tbl[1], tbl[2], tbl[3]) end
 
 -- better navigation for wrapped lines
 nmap { 'j', 'gj' }
