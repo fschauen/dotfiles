@@ -136,6 +136,13 @@ return packer().startup(function(use)
   use {
     'godlygeek/tabular',
 
+    setup = function()
+      -- This function is intentionally empty. If I don't have a setup()
+      -- function, somehow packer calls config() BEFORE the plugin is loaded
+      -- and therefore the command AddTabularPattern still doesn't exist and
+      -- config() throws errors on nvim startup.
+    end,
+
     config = function()
       vim.cmd [[AddTabularPattern first_comma /^[^,]*\zs,/l0c1l0]]
     end,
