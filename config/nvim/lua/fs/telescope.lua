@@ -1,6 +1,3 @@
-local util = require 'fs.util'
-local nmap = util.nmap
-
 local actions = require 'telescope.actions'
 local builtin = require 'telescope.builtin'
 
@@ -28,6 +25,10 @@ end
 
 M.find_help = function()
   builtin.help_tags { prompt_title = ' ﬤ Find help tags ' }
+end
+
+M.find_keymaps = function()
+  builtin.keymaps { prompt_title = '⟼  Find Keymaps ' }
 end
 
 M.find_manpages = function()
@@ -82,11 +83,13 @@ M.config = function()
     },
   }
 
+  local nmap = require 'fs.util'.nmap
   nmap { '<leader>fb', [[<cmd>lua require'fs.telescope'.find_buffers()<cr>]] }
   nmap { '<leader>fc', [[<cmd>lua require'fs.telescope'.find_commits()<cr>]] }
   nmap { '<leader>fd', [[<cmd>lua require'fs.telescope'.find_dotfiles()<cr>]] }
   nmap { '<leader>ff', [[<cmd>lua require'fs.telescope'.find_files()<cr>]] }
   nmap { '<leader>fh', [[<cmd>lua require'fs.telescope'.find_help()<cr>]] }
+  nmap { '<leader>fk', [[<cmd>lua require'fs.telescope'.find_keymaps()<cr>]] }
   nmap { '<leader>fm', [[<cmd>lua require'fs.telescope'.find_manpages()<cr>]] }
   nmap { '<leader>fo', [[<cmd>lua require'fs.telescope'.find_options()<cr>]] }
 end
