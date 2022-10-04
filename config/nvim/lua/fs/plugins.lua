@@ -133,7 +133,13 @@ return packer().startup(function(use)
     end,
   }
 
-  use 'godlygeek/tabular'
+  use {
+    'godlygeek/tabular',
+
+    config = function()
+      vim.cmd [[AddTabularPattern first_comma /^[^,]*\zs,/l0c1l0]]
+    end,
+  }
 
   use 'tpope/vim-commentary'
 
