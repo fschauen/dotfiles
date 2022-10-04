@@ -1,3 +1,6 @@
+local ok, telescope = pcall(require, 'telescope')
+if not ok then return end
+
 local actions = require 'telescope.actions'
 local builtin = require 'telescope.builtin'
 
@@ -50,7 +53,7 @@ local find_options = function()
   }
 end
 
-require('telescope').setup {
+telescope.setup {
   defaults = {
     prompt_prefix = '❯ ',
     selection_caret = '➔ ',

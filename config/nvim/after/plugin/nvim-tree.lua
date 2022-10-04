@@ -1,4 +1,7 @@
-require('nvim-tree').setup {
+local ok, plugin = pcall(require, 'nvim-tree')
+if not ok then return end
+
+plugin.setup {
   git = {
     ignore = false,       -- don't hide files from .gitignore
   },
