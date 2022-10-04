@@ -192,7 +192,7 @@ local sections = Table:new {
   lualine_z = {},
 }
 
-local config = function()
+local setup = function()
   require('lualine').setup {
     options = {
       icons_enabled = true,
@@ -213,4 +213,4 @@ local config = function()
   }
 end
 
-return { config = config }
+return { setup = setup }
