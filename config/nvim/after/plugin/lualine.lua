@@ -198,25 +198,22 @@ local sections = Table:new {
   lualine_z = {},
 }
 
-local setup = function()
-  require('lualine').setup {
-    options = {
-      icons_enabled = true,
-      component_separators = { left = '', right = '' },
-      section_separators = { left = '', right = '' },
-      theme = theme,
-    },
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
+    theme = theme,
+  },
 
-    sections = sections:override { lualine_a = { parts.mode, parts.paste } },
+  sections = sections:override { lualine_a = { parts.mode, parts.paste } },
 
-    inactive_sections = sections,
+  inactive_sections = sections,
 
-    extensions = {
-      'fugitive',
-      'quickfix',
-      'nvim-tree',
-    }
+  extensions = {
+    'fugitive',
+    'quickfix',
+    'nvim-tree',
   }
-end
+}
 
-return { setup = setup }
