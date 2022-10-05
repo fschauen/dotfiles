@@ -11,8 +11,8 @@ plugin.setup {
   },
 
   filters = {
-    dotfiles = false,     -- show files starting with a .
-    custom = { '.git' },  -- don't show .git directory
+    dotfiles = false,         -- show files starting with a .
+    custom = { '^\\.git' },   -- don't show .git directory
   },
 
   renderer = {
