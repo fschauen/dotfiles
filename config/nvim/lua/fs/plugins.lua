@@ -17,6 +17,9 @@ vim.g.better_whitespace_filetypes_blacklist = {
 
 vim.g.vim_json_syntax_conceal = 0   -- Disable quote concealling.
 
+vim.g.VM_leader = '\\'
+vim.g.VM_silent_exit = 1
+
 return packer().startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'nvim-lua/plenary.nvim'
@@ -37,6 +40,7 @@ return packer().startup(function(use)
   use 'ntpeters/vim-better-whitespace'
   use 'godlygeek/tabular'
   use 'tpope/vim-commentary'
+  use 'mg979/vim-visual-multi'
 
   -- git --------------------------------------------------------------------
   use 'tpope/vim-fugitive'

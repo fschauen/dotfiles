@@ -122,6 +122,12 @@ local parts = {
     end
   },
 
+  visual_multi = function()
+    local ok, infos = pcall(vim.fn.VMInfos)
+    if not ok or not infos.status then return '' end
+    return infos.current .. '/' .. infos.total .. ' ' .. infos.status
+  end,
+
   branch = {
     'branch',
     icon = '',
@@ -185,7 +191,7 @@ local parts = {
 
 local sections = Table:new {
   lualine_a = {},
-  lualine_b = {},
+  lualine_b = { parts.visual_multi },
   lualine_c = { parts.branch, parts.diff, parts.split, parts.path },
   lualine_x = { 'diagnostics', parts.filetype, parts.fileformat, parts.progress },
   lualine_y = { parts.location },
