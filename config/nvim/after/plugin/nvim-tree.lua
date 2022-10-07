@@ -25,6 +25,6 @@ plugin.setup {
   },
 }
 
-vim.keymap.set('n', '<leader>tt', '<cmd>NvimTreeToggle<cr>')
-vim.keymap.set('n', '<leader>tf', '<cmd>NvimTreeFindFileToggle<cr>')
+vim.keymap.set('n', '<leader>nn', '<cmd>NvimTreeToggle<cr>')
+vim.keymap.set('n', '<leader>nf', '<cmd>NvimTreeFindFileToggle<cr>')
 

@@ -40,10 +40,16 @@ packer.startup(function(use)
   use 'ntpeters/vim-better-whitespace'
   use 'godlygeek/tabular'
   use 'tpope/vim-commentary'
-  use 'mg979/vim-visual-multi'
+  -- use 'mg979/vim-visual-multi'
 
   -- git --------------------------------------------------------------------
   use 'tpope/vim-fugitive'
+
+  -- Treesitter -------------------------------------------------------------
+  use 'nvim-treesitter/nvim-treesitter'
+  use 'nvim-treesitter/nvim-treesitter-refactor'
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
+  use 'nvim-treesitter/playground'
 
   -- Filetypes --------------------------------------------------------------
   use 'elzr/vim-json'
