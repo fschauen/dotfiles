@@ -10,44 +10,6 @@ local Table = {
   end
 }
 
-local colors = require'fs.util'.colors()
-
-local theme = (function()
-  local active = {
-    a = Table:new { fg = colors.base03, bg = colors.base1  },
-    b = Table:new { fg = colors.base03, bg = colors.base0  },
-    c = Table:new { fg = colors.base1,  bg = colors.base02 },
-  }
-
-  local inactive = {
-    a =           { fg = colors.base02, bg = colors.base00 },
-    b =           { fg = colors.base02, bg = colors.base01 },
-    c =           { fg = colors.base01, bg = colors.base03 },
-  }
-
-  return {
-    normal = {
-      a = active.a:override { bg = colors.blue },
-      b = active.b,
-      c = active.c,
-    },
-    insert = {
-      a = active.a:override { bg = colors.green },
-    },
-    visual = {
-      a = active.a:override { bg = colors.magenta },
-    },
-    replace = {
-      a = active.a:override { bg = colors.red },
-    },
-    inactive = {
-      a = inactive.a,
-      b = inactive.b,
-      c = inactive.c,
-    },
-  }
-end)()
-
 local MODE_MAP = {
   ['n']    = 'Normal ',
   ['no']   = 'O-Pend ',
@@ -106,6 +68,7 @@ end
 local window_is_wide   = window_is_at_least(80)
 local window_is_medium = window_is_at_least(50)
 
+local C = require'fs.util'.colors()
 local parts = {
   split = { function() return '%=' end, padding = 0 },
 
@@ -116,7 +79,7 @@ local parts = {
 
   paste = {
     function() return '' end,
-    color = { fg = colors.base03, bg = colors.yellow, gui = 'bold' },
+    color = { fg = C.base03, bg = C.yellow, gui = 'bold' },
     cond = function()
       return vim.opt.paste:get()
     end
@@ -137,9 +100,9 @@ local parts = {
   diff = {
     diff,
     diff_color = {
-      added    = { fg = colors.green },
-      modified = { fg = colors.yellow },
-      removed  = { fg = colors.orange },
+      added    = { fg = C.green },
+      modified = { fg = C.yellow },
+      removed  = { fg = C.orange },
     },
     padding = 0,
     cond = window_is_wide,
@@ -179,10 +142,6 @@ local parts = {
       return chars[math.ceil(#chars * current / total)]
     end,
     padding = { left = 0, right = 1 },
-    color = {
-      fg = theme.normal.b.bg,
-      bg = theme.normal.c.bg,
-    },
     cond = window_is_wide,
   },
 
@@ -203,7 +162,7 @@ require('lualine').setup {
     icons_enabled = true,
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
-    theme = theme,
+    theme = 'solarized',
   },
 
   sections = sections:override { lualine_a = { parts.mode, parts.paste } },
