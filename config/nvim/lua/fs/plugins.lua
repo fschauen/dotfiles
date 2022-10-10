@@ -30,7 +30,6 @@ packer.startup(function(use)
   use 'nvim-lualine/lualine.nvim'
   use 'lukas-reineke/virt-column.nvim'
   use 'lukas-reineke/indent-blankline.nvim'
-  use 'junegunn/rainbow_parentheses.vim'
 
   -- Navigation -------------------------------------------------------------
   use 'nvim-telescope/telescope.nvim'
