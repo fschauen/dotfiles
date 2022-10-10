@@ -1,15 +1,3 @@
-local Table = {
-  new = function (self, tbl)
-    tbl = setmetatable(tbl or {}, self)
-    self.__index = self
-    return tbl
-  end,
-
-  override = function(self, tbl)
-    return vim.tbl_extend('force', self, tbl)
-  end
-}
-
 local MODE_MAP = {
   ['n']    = 'Normal ',
   ['no']   = 'O-Pend ',
@@ -120,9 +108,6 @@ local parts = {
 
     return vim.fn.fnamemodify(filename, ':t')  -- only tail
   end,
-  -- function()
-  --   return vim.fn.pathshorten(vim.fn.fnamemodify(vim.fn.expand('%'), ':p'))
-  -- end,
 
   filetype = {
     filetype,
@@ -148,7 +133,7 @@ local parts = {
   location = '%3l:%-2v',
 }
 
-local sections = Table:new {
+local inactive_sections = {
   lualine_a = {},
   lualine_b = { parts.visual_multi },
   lualine_c = { parts.branch, parts.diff, parts.split, parts.path },
@@ -165,9 +150,11 @@ require('lualine').setup {
     theme = 'solarized',
   },
 
-  sections = sections:override { lualine_a = { parts.mode, parts.paste } },
+  sections = vim.tbl_extend('force', inactive_sections, {
+    lualine_a = { parts.mode, parts.paste },
+  }),
 
-  inactive_sections = sections,
+  inactive_sections = inactive_sections,
 
   extensions = {
     'fugitive',
