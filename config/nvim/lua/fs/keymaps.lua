@@ -64,5 +64,5 @@ nmap { '<leader>es', '<cmd>tabedit ~/.config/nvim/spell/en.utf-8.add<cr>' }
 nmap { '<leader>ez', '<cmd>tabedit ~/.config/zsh/.zshrc<cr>' }
 
 -- show syntax highlight groups for symbol under the cursor
-nmap { '<leader>sh', '<cmd>lua require"fs.util".syntax_stack()<cr>' }
+nmap { '<leader>ss', '<cmd>lua require"fs.util".syntax_stack()<cr>' }
 
