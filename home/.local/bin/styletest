@@ -3,6 +3,7 @@
 rst="$(tput sgr0)"
 
 printf '%s\n' "$(tput bold)This text has the bold attribute.${rst}"
+printf '%s\n' "$(tput sitm)This text has the italics attribute.${rst}"
 printf '%s\n' "$(tput dim)This text has the dim attribute.${rst}"
 printf '%s\n' "$(tput smso)This text has the standout (smso) attribute.${rst}"
 printf '%s\n' "$(tput smul)This text has the underline (smul) attribute.${rst}"
