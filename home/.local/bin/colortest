@@ -54,6 +54,7 @@ print_color() {
 }
 
 #           name    hex       index   fg     bg    rgb
+print_color Base04  '002028'  8       90    100    '0;32;40'
 print_color Base03  '002b36'  8       90    100    '0;43;54'
 print_color Base02  '073642'  0       30     40    '7;54;66'
 print_color Base01  '586e75' 10       92    102    '88;110;117'
@@ -62,6 +63,7 @@ print_color Base0   '839496' 12       94    104    '131;148;150'
 print_color Base1   '93a1a1' 14       96    106    '147;161;161'
 print_color Base2   'eee8d5'  7       37     47    '238;232;213'
 print_color Base3   'fdf6e3' 15       97    107    '253;246;227'
+print_color Base4   'fdf6e3' 15       97    107    '253;246;227'
 print_color Red     'dc322f'  1       31     41    '220;50;47'
 print_color Orange  'cb4b16'  9       91    101    '203;75;22'
 print_color Yellow  'b58900'  3       33     43    '181;137;0'
