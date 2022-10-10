@@ -25,7 +25,6 @@ packer.startup(function(use)
   use 'nvim-lua/plenary.nvim'
 
   -- Visuals ----------------------------------------------------------------
-  use 'tjdevries/colorbuddy.nvim'
   use 'kyazdani42/nvim-web-devicons'
   use 'nvim-lualine/lualine.nvim'
   use 'lukas-reineke/virt-column.nvim'
