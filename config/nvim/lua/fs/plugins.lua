@@ -25,7 +25,7 @@ packer.startup(function(use)
   use 'nvim-lua/plenary.nvim'
 
   -- Visuals ----------------------------------------------------------------
-  use 'https://git.schauenburg.me/fernando/solarized.nvim'
+  use '~/Projects/solarized.nvim'
   use 'kyazdani42/nvim-web-devicons'
   use 'nvim-lualine/lualine.nvim'
   use 'lukas-reineke/virt-column.nvim'
