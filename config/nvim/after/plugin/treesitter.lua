@@ -16,6 +16,7 @@ configs.setup {
     'markdown',
     'markdown_inline',
     'python',
+    'query',
     'toml',
     'vim',
     'yaml',
