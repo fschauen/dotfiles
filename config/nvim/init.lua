@@ -20,5 +20,3 @@ require 'fs.plugins'
 require 'fs.keymaps'
 require 'fs.autocmds'
 
-vim.cmd 'colorscheme solarized'
-
