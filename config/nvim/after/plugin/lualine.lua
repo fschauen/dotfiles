@@ -56,7 +56,6 @@ end
 local window_is_wide   = window_is_at_least(80)
 local window_is_medium = window_is_at_least(50)
 
-local C = require'fs.util'.colors()
 local parts = {
   split = { function() return '%=' end, padding = 0 },
 
@@ -67,7 +66,7 @@ local parts = {
 
   paste = {
     function() return '' end,
-    color = { fg = C.base03, bg = C.yellow, gui = 'bold' },
+    color = { bg = '#bbaa00' },
     cond = function()
       return vim.opt.paste:get()
     end
@@ -87,11 +86,6 @@ local parts = {
 
   diff = {
     diff,
-    diff_color = {
-      added    = { fg = C.green },
-      modified = { fg = C.yellow },
-      removed  = { fg = C.orange },
-    },
     padding = 0,
     cond = window_is_wide,
   },
