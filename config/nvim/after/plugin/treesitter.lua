@@ -25,6 +25,7 @@ configs.setup {
   highlight = {
     enable = true,
     disable = {
+      'markdown',
       'help',
     },
   },
