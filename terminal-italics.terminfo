@@ -1,0 +1,34 @@
+#!/usr/bin/env tic -o ~/.terminfo
+#
+# Add escape sequences for italic to the TERMINFO database.
+#
+# Two ways to install:
+#
+#   1. Execute this file.
+#
+#       chmod +x terminal-italics.terminfo
+#       ./terminal-italics.terminfo
+#
+#
+#   2. Run tic yourself.
+#
+#       tic -o ~/.terminfo terminal-italics.terminfo
+#
+#
+#   Note: by writing to the home folder, we override the default themes. We
+#   could instead save this as another name, but that would report a terminal
+#   that an ssh host does not understand, which causes issues with the delete
+#   key.
+#
+# References:
+#
+#   https://alexpearce.me/2014/05/italics-in-iterm2-vim-tmux/
+#   https://gist.github.com/sos4nt/3187620?permalink_comment_id=2905187#gistcomment-2905187
+#
+xterm-256color|xterm with 256 colors and italic,
+    sitm=\e[3m, ritm=\e[23m,
+    use=xterm-256color,
+tmux-256color|tmux with 256 colors and italic,
+    sitm=\e[3m, ritm=\e[23m,
+    use=screen-256color,
+
