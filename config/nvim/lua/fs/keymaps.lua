@@ -15,10 +15,10 @@ map('n', '<c-h>', '<c-w>h')
 map('n', '<c-l>', '<c-w>l')
 
 -- window resizing
-map('n', '<Up>', '<cmd>resize +1<cr>')
-map('n', '<Down>', '<cmd>resize -1<cr>')
-map('n', '<Left>', '<cmd>vertical resize -1<cr>')
-map('n', '<Right>', '<cmd>vertical resize +1<cr>')
+map('n', '<s-Up>', '<cmd>resize +1<cr>')
+map('n', '<s-Down>', '<cmd>resize -1<cr>')
+map('n', '<s-Left>', '<cmd>vertical resize -1<cr>')
+map('n', '<s-Right>', '<cmd>vertical resize +1<cr>')
 
 -- easy tab navigation
 map('n', '<leader>.', '<cmd>tabnext<cr>', { silent = true })
@@ -60,7 +60,4 @@ map('n', '<leader>et', '<cmd>tabedit ~/.config/tmux/tmux.conf<cr>')
 map('n', '<leader>ev', '<cmd>tabedit ~/.config/nvim/init.lua<cr>')
 map('n', '<leader>es', '<cmd>tabedit ~/.config/nvim/spell/en.utf-8.add<cr>')
 map('n', '<leader>ez', '<cmd>tabedit ~/.config/zsh/.zshrc<cr>')
-
--- show syntax highlight groups for symbol under the cursor
-map('n', '<leader>ss', '<cmd>lua require"fs.util".syntax_stack()<cr>')
 
