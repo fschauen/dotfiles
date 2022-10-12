@@ -28,6 +28,7 @@ packer.startup(function(use)
   use 'nvim-lualine/lualine.nvim'
   use 'lukas-reineke/virt-column.nvim'
   use 'lukas-reineke/indent-blankline.nvim'
+  use 'norcalli/nvim-colorizer.lua'
 
   -- Navigation -------------------------------------------------------------
   use 'nvim-telescope/telescope.nvim'
