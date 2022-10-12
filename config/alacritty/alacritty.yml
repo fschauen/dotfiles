@@ -292,7 +292,7 @@ font:
 colors:
     primary:
       foreground:      '0x839496'    # Base0
-      background:      '0x002b36'    # Base03
+      background:      '0x002028'    # Base04
     cursor:
       text:            '0x93a1a1'    # Base1
       cursor:          '0xdc322f'    # Red
