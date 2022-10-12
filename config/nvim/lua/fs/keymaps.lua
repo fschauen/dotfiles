@@ -8,6 +8,15 @@ map('n', 'k', 'gk')
 map('v', '>', '><cr>gv')
 map('v', '<', '<<cr>gv')
 
+-- more intuitive increment/decrement
+map('n', '+', '<c-a>')
+map('n', '-', '<c-x>')
+map('v', '+', 'g<c-a>')
+map('v', '-', 'g<c-x>')
+
+-- select all
+map('n', '<c-a>', 'gg<s-v>G')
+
 -- easier window navigation
 map('n', '<c-j>', '<c-w>j')
 map('n', '<c-k>', '<c-w>k')
