@@ -15,8 +15,6 @@ vim.g.better_whitespace_filetypes_blacklist = {
   'help',
 }
 
-vim.g.vim_json_syntax_conceal = 0   -- Disable quote concealling.
-
 vim.g.VM_leader = '\\'
 vim.g.VM_silent_exit = 1
 
@@ -51,7 +49,6 @@ packer.startup(function(use)
   use 'nvim-treesitter/playground'
 
   -- Filetypes --------------------------------------------------------------
-  use 'elzr/vim-json'
   use 'keith/swift.vim'
   use 'chr4/nginx.vim'
 
