@@ -32,6 +32,7 @@ packer.startup(function(use)
 
   -- Navigation -------------------------------------------------------------
   use 'nvim-telescope/telescope.nvim'
+  use 'nvim-telescope/telescope-file-browser.nvim'
   use 'kyazdani42/nvim-tree.lua'
 
   -- Editing ----------------------------------------------------------------

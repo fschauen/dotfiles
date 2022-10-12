@@ -2,6 +2,58 @@ local ok, telescope = pcall(require, 'telescope')
 if not ok then return end
 
 local actions = require 'telescope.actions'
+
+telescope.setup {
+  defaults = {
+    prompt_prefix = '❯ ',
+    selection_caret = '➔ ',
+
+    layout_strategy = 'flex',
+    layout_config = {
+      anchor = 'center',
+      width = 0.92,
+      height = 0.95,
+
+      flex = {
+        flip_columns = 130,
+      },
+
+      horizontal = {
+        preview_width = 0.5,
+        preview_cutoff = 130,
+      },
+
+      vertical = {
+        preview_height = 0.5,
+      },
+    },
+
+    mappings = {
+      i = {
+        ['<c-j>'] = actions.cycle_history_next,
+        ['<c-k>'] = actions.cycle_history_prev,
+      },
+    },
+  },
+
+  extensions = {
+    file_browser = {
+      theme = 'ivy',
+      mappings = {
+        n = {
+          -- normal mode mappings go here
+        },
+        i = {
+          -- insert mode mappings go here
+        },
+      },
+    },
+  },
+}
+
+telescope.load_extension 'file_browser'
+vim.keymap.set('n', '<leader>br', '<cmd>Telescope file_browser<cr>')
+
 local builtin = require 'telescope.builtin'
 
 local find_buffers = function()
@@ -52,40 +104,6 @@ local find_options = function()
     }
   }
 end
-
-telescope.setup {
-  defaults = {
-    prompt_prefix = '❯ ',
-    selection_caret = '➔ ',
-
-    layout_strategy = 'flex',
-    layout_config = {
-      anchor = 'center',
-      width = 0.92,
-      height = 0.95,
-
-      flex = {
-        flip_columns = 130,
-      },
-
-      horizontal = {
-        preview_width = 0.5,
-        preview_cutoff = 130,
-      },
-
-      vertical = {
-        preview_height = 0.5,
-      },
-    },
-
-    mappings = {
-      i = {
-        ['<c-j>'] = actions.cycle_history_next,
-        ['<c-k>'] = actions.cycle_history_prev,
-      },
-    },
-  },
-}
 
 vim.keymap.set('n', '<leader>fb', find_buffers)
 vim.keymap.set('n', '<leader>fc', find_commits)
