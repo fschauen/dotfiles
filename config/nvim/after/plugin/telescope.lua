@@ -2,17 +2,28 @@ local has_telescope, telescope = pcall(require, 'telescope')
 if not has_telescope then return end
 
 local actions = require 'telescope.actions'
+local actions_layout = require 'telescope.actions.layout'
+
+local common_mappings = {
+  ['<c-l>'] = actions_layout.cycle_layout_next,
+  ['<c-h>'] = actions_layout.cycle_layout_prev,
+
+  ['<c-i>'] = actions_layout.toggle_mirror,
+
+  ['<c-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
+}
 
 telescope.setup {
   defaults = {
     prompt_prefix = '❯ ',
-    selection_caret = '➔ ',
+    selection_caret = ' ',   -- Other ideas: ➔ 
+    multi_icon = ' ',
 
     layout_strategy = 'flex',
     layout_config = {
       anchor = 'center',
-      width = 0.92,
-      height = 0.95,
+      width = 0.9,
+      height = 0.9,
 
       flex = {
         flip_columns = 130,
@@ -28,11 +39,20 @@ telescope.setup {
       },
     },
 
+    cycle_layout_list = {
+      { layout_strategy = 'cursor', layout_config = { width = 0.5, height = 0.4 }, },
+      { layout_strategy = 'bottom_pane', layout_config = { width = 0.9, height = 0.4 }, },
+      'horizontal',
+      'vertical',
+    },
+
     mappings = {
-      i = {
+      i = vim.tbl_extend('force', common_mappings, {
         ['<c-j>'] = actions.cycle_history_next,
         ['<c-k>'] = actions.cycle_history_prev,
-      },
+
+      }),
+      n = common_mappings,
     },
   },
 
@@ -44,7 +64,7 @@ telescope.setup {
           -- normal mode mappings go here
         },
         i = {
-          -- insert mode mappings go here
+         -- insert mode mappings go here
         },
       },
     },
