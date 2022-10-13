@@ -71,71 +71,68 @@ telescope.setup {
   },
 }
 
+local map = vim.keymap.set
+
 local loaded_file_browser, _ = pcall(telescope.load_extension, 'file_browser')
 if loaded_file_browser then
-  vim.keymap.set('n', '<leader>br', '<cmd>Telescope file_browser<cr>')
+  map('n', '<leader>br', '<cmd>Telescope file_browser<cr>')
 else
   vim.notify('Telescope file_browser not installed!', vim.log.levels.WARN)
 end
 
 local builtin = require 'telescope.builtin'
 
-local find_buffers = function()
-  builtin.buffers { prompt_title = ' ﬘ Find buffers ' }
-end
+map('n', '<leader>fb',
+  function() builtin.buffers { prompt_title = ' ﬘ Find buffers ' } end,
+  { desc = 'Telescope: find buffers' })
 
-local find_commits = function()
-  builtin.git_commits { prompt_title = '  Find git commits ' }
-end
+map('n', '<leader>fc',
+  function() builtin.git_commits { prompt_title = '  Find commits ' } end,
+  { desc = 'Telescope: find commits' })
 
-local find_dotfiles = function()
-  builtin.find_files {
-    prompt_title = '  Find dotfiles ',
-    cwd = '~/.dotfiles',
-    hidden = true,
-  }
-end
-
-local find_files = function()
-  builtin.find_files { prompt_title = '   Find files ' }
-end
-
-local find_grep = function()
-  builtin.live_grep { prompt_title = ' 🔍 Grep ' }
-end
-
-local find_help = function()
-  builtin.help_tags { prompt_title = ' ﬤ Find help tags ' }
-end
-
-local find_keymaps = function()
-  builtin.keymaps { prompt_title = '   Find keymaps ' }
-end
-
-local find_manpages = function()
-  builtin.man_pages {
-    prompt_title = '   Find man pages ',
-    sections = { 'ALL' },
-  }
-end
-
-local find_options = function()
-  builtin.vim_options {
-    prompt_title = '  Find nvim options ',
-    layout_config = {
-      width = 0.75,
-      height = 0.8,
+map('n', '<leader>fd',
+  function()
+    builtin.find_files {
+      prompt_title = '  Find dotfiles ',
+      cwd = '~/.dotfiles',
+      hidden = true,
     }
-  }
-end
+  end,
+  { desc = 'Telescope: find in dotfiles' })
 
-vim.keymap.set('n', '<leader>fb', find_buffers)
-vim.keymap.set('n', '<leader>fc', find_commits)
-vim.keymap.set('n', '<leader>fd', find_dotfiles)
-vim.keymap.set('n', '<leader>ff', find_files)
-vim.keymap.set('n', '<leader>fg', find_grep)
-vim.keymap.set('n', '<leader>fh', find_help)
-vim.keymap.set('n', '<leader>fk', find_keymaps)
-vim.keymap.set('n', '<leader>fm', find_manpages)
-vim.keymap.set('n', '<leader>fo', find_options)
+map('n', '<leader>ff',
+  function() builtin.find_files { prompt_title = '   Find files ' } end,
+  { desc = 'Find files in $PWD (Telescope)' })
 
+map('n', '<leader>fg',
+  function() builtin.live_grep { prompt_title = ' 🔍 Grep ' } end,
+  { desc = 'Live grep in $PWD (Telescope)' })
+
+map('n', '<leader>fh',
+  function() builtin.help_tags { prompt_title = ' ﬤ Find help tags ' } end,
+  { desc = 'Telescope: find help tags' })
+
+map('n', '<leader>fk',
+  function() builtin.keymaps { prompt_title = '   Find keymaps ' } end,
+  { desc = 'Telescope: find keymaps' })
+
+map('n', '<leader>fm',
+  function()
+    builtin.man_pages {
+      prompt_title = '   Find man pages ',
+      sections = { 'ALL' },
+    }
+  end,
+  { desc = 'Telescope: find man pages' })
+
+map('n', '<leader>fo',
+  function()
+    builtin.vim_options {
+      prompt_title = '  Find options ',
+      layout_config = {
+        width = 0.75,
+        height = 0.8,
+      }
+    }
+  end,
+  { desc = 'Telescope: find options' })
