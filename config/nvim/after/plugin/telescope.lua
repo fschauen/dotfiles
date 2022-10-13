@@ -1,5 +1,5 @@
-local ok, telescope = pcall(require, 'telescope')
-if not ok then return end
+local has_telescope, telescope = pcall(require, 'telescope')
+if not has_telescope then return end
 
 local actions = require 'telescope.actions'
 
@@ -51,8 +51,12 @@ telescope.setup {
   },
 }
 
-telescope.load_extension 'file_browser'
-vim.keymap.set('n', '<leader>br', '<cmd>Telescope file_browser<cr>')
+local loaded_file_browser, _ = pcall(telescope.load_extension, 'file_browser')
+if loaded_file_browser then
+  vim.keymap.set('n', '<leader>br', '<cmd>Telescope file_browser<cr>')
+else
+  print('Telescope file_browser not installed!')
+end
 
 local builtin = require 'telescope.builtin'
 
