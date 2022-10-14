@@ -40,6 +40,12 @@ o.joinspaces    = false    -- use one space after a period whe joining lines
 o.showmatch     = true     -- briefly jump to matching bracket if insert one
 o.virtualedit   = 'block'  -- position the cursor anywhere in Visual Block mode
 o.formatlistpat = [[^\s*\(\d\+[\]:.)}\t ]\|[-+*]\|[\[(][ x][\])]\)\s*]]
+o.completeopt   = {
+  'menu',       -- show completions in a popup menu
+  'preview',    -- show extra information about the selected match
+  'noinsert',   -- don't insert text until I select a match
+  'noselect',   -- don't pre-select the first match in the menu
+}
 
 local fmt = o.formatoptions
 fmt:remove 't'   -- Don't auto-wrap on 'textwidth'...
