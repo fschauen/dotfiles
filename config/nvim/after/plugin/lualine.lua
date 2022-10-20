@@ -48,28 +48,27 @@ local filetype = require'lualine.components.filetype':extend()
 filetype.update_status = update_status
 
 local window_is_at_least = function(width)
-  return function()
-    return vim.fn.winwidth(0) > width
-  end
+  return function() return vim.fn.winwidth(0) > width end
 end
 
 local window_is_wide   = window_is_at_least(80)
 local window_is_medium = window_is_at_least(50)
 
 local parts = {
-  split = { function() return '%=' end, padding = 0 },
-
-  mode = function()
-    local code = vim.api.nvim_get_mode().mode
-    return MODE_MAP[code] or code
-  end,
-
   paste = {
     function() return '' end,
     color = { bg = '#bbaa00' },
     cond = function()
       return vim.opt.paste:get()
     end
+  },
+
+  mode = {
+    function()
+      local code = vim.api.nvim_get_mode().mode
+      return MODE_MAP[code] or code
+    end,
+    padding = 0,
   },
 
   visual_multi = function()
@@ -81,26 +80,36 @@ local parts = {
   branch = {
     'branch',
     icon = '',
-    cond = window_is_wide,
-  },
-
-  diff = {
-    diff,
     padding = 0,
-    cond = window_is_wide,
+    cond = window_is_medium,
   },
 
-  path = function()
-    local path = vim.api.nvim_buf_get_name(0)
-    local filename = vim.fn.fnamemodify(path, ':~:.')
+  status = {
+    function()
+      local flags = {}
+      if vim.bo.modified then
+        table.insert(flags, '+')
+      end
+      if vim.bo.modifiable == false or vim.bo.readonly == true then
+        table.insert(flags, 'RO')
+      end
+      return table.concat(flags, ' ')
+    end,
+    padding = { left = 1, right = 0 },
+  },
 
-    if window_is_wide() then
-      return filename
-    elseif window_is_medium() then
-      return vim.fn.pathshorten(filename)
+  filename = function()
+    local shorten_path = function(path)
+      if window_is_wide() then
+        return path
+      elseif window_is_medium() then
+        return vim.fn.pathshorten(path)  -- only first letter of directories
+      else
+        return vim.fn.fnamemodify(path, ':t')  -- only tail
+      end
     end
 
-    return vim.fn.fnamemodify(filename, ':t')  -- only tail
+    return shorten_path(vim.fn.expand('%:~:.'))
   end,
 
   filetype = {
@@ -124,13 +133,16 @@ local parts = {
     cond = window_is_wide,
   },
 
-  location = '%3l:%-2v',
+  location = {
+    'location',
+    padding = { left = 0, right = 1 },
+  },
 }
 
 local inactive_sections = {
   lualine_a = {},
-  lualine_b = { parts.visual_multi },
-  lualine_c = { parts.branch, parts.diff, parts.split, parts.path },
+  lualine_b = { parts.visual_multi, parts.branch, parts.status },
+  lualine_c = { parts.filename },
   lualine_x = { 'diagnostics', parts.filetype  },
   lualine_y = { parts.fileformat, parts.progress },
   lualine_z = { parts.location },
