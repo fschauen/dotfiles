@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # ls:  make `ls` group directories first if supported.
 # lsc: force `ls` to use color output (e.g. for piping into `less`).
 if command -v exa >/dev/null 2>&1; then

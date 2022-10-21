@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 # Use vi mode for line editing.
 bindkey -v
 export KEYTIMEOUT=1

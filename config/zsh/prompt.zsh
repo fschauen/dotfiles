@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 base03=8 base02=0 base01=10 base00=11 base0=12 base1=14 base2=7   base3=15
 red=1    orange=9 yellow=3  green=2   cyan=6   blue=4   violet=13 magenta=5
 
