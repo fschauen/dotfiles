@@ -19,7 +19,7 @@
     date = human
 
 [push]
-    default = nothing
+    default = upstream
 
 [pull]
     ff = only
