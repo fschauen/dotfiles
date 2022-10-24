@@ -40,24 +40,16 @@
 
 # Color palette translation:
 #
-#   Solarized  Git/ANSI
-#   ---------  --------
-#   base03        8
-#   base02        0
-#   base01       10
-#   base00       11
-#   base0        12
-#   base1        14
-#   base2         7
-#   base3        15
-#   red           1
-#   green         2
-#   blue          4
-#   magenta       5
-#   yellow        3
-#   cyan          6
-#   orange        9
-#   violet       13
+#   Solarized  Git/ANSI         Solarized  Git/ANSI
+#   ---------  --------         ---------  --------
+#   base03        8             red           1
+#   base02        0             green         2
+#   base01       10             blue          4
+#   base00       11             magenta       5
+#   base0        12             yellow        3
+#   base1        14             cyan          6
+#   base2         7             orange        9
+#   base3        15             violet       13
 
 [color]
     ui = auto
