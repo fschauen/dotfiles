@@ -1,8 +1,8 @@
 [alias]
     cm      = commit --verbose
     co      = checkout
-    l       = log --graph --format='%C(auto)%h%d %s %C(10)%ar'
-    ln      = log --graph --format='%C(auto)%h%d %s %C(10)%ar %C(auto)by %C(10)%an<%ae>'
+    l       = log --graph --format='%C(auto)%h%d %s %C(10)%ad'
+    ln      = log --graph --format='%C(auto)%h%d %s %C(10)%ad %C(auto)by %C(10)%an<%ae>'
     ll      = log --graph --decorate --stat
     la      = l --all
     lna     = ln --all
@@ -14,6 +14,9 @@
     excludesfile    = ~/.config/git/ignore
     trustctime      = false # http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
     pager           = less -F -X
+
+[log]
+    date = human
 
 [push]
     default = nothing
