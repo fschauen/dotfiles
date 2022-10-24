@@ -6,7 +6,7 @@ TARGET="$HOME"
 
 [ -r "$DOTFILES/config.local" ] && . "$DOTFILES/config.local"
 GIT_USER="${GIT_USER:-Fernando Schauenburg}"
-GIT_EMAIL="${GIT_EMAIL:-fernando@schauenburg.me}"
+GIT_EMAIL="${GIT_EMAIL:-dev@schauenburg.me}"
 
 main() {
   IS_DRY_RUN=yes
