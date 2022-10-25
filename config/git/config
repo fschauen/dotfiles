@@ -1,8 +1,8 @@
 [alias]
     cm      = commit --verbose
     co      = checkout
-    l       = log --graph --format='%C(auto)%h%d %s %C(10)%ad'
-    ln      = log --graph --format='%C(auto)%h%d %s %C(10)%ad %C(auto)by %C(10)%an<%ae>'
+    l       = log --graph --format='%C(auto)%h%d %s %C(6)%ad'
+    ln      = log --graph --format='%C(auto)%h%d %s %C(10)on %ad %C(6)by %aN%C(10)<%C(13)%aE%C(10)>'
     ll      = log --graph --decorate --stat
     la      = l --all
     lna     = ln --all
