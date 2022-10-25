@@ -1,25 +1,25 @@
 local MODE_MAP = {
-  ['n']    = ' Normal',
-  ['no']   = ' O-Pend',
-  ['nov']  = ' O-Pend',
-  ['noV']  = ' O-Pend',
-  ['no'] = ' O-Pend',
-  ['niI']  = ' Normal',
-  ['niR']  = ' Normal',
-  ['niV']  = ' Normal',
-  ['nt']   = ' Normal',
-  ['v']    = ' Visual',
-  ['vs']   = ' Visual',
-  ['V']    = ' V-Line',
-  ['Vs']   = ' V-Line',
+  ['n']    = 'Normal ',
+  ['no']   = 'O-Pend ',
+  ['nov']  = 'O-Pend ',
+  ['noV']  = 'O-Pend ',
+  ['no'] = 'O-Pend ',
+  ['niI']  = 'Normal ',
+  ['niR']  = 'Normal ',
+  ['niV']  = 'Normal ',
+  ['nt']   = 'Normal ',
+  ['v']    = 'Visual ',
+  ['vs']   = 'Visual ',
+  ['V']    = 'V-Line ',
+  ['Vs']   = 'V-Line ',
   ['']   = 'V-Block',
   ['s']  = 'V-Block',
   ['s']    = 'Select ',
   ['S']    = 'S-Line ',
   ['']   = 'S-Block',
-  ['i']    = ' Insert',
-  ['ic']   = ' Insert',
-  ['ix']   = ' Insert',
+  ['i']    = 'Insert ',
+  ['ic']   = 'Insert ',
+  ['ix']   = 'Insert ',
   ['R']    = 'Replace',
   ['Rc']   = 'Replace',
   ['Rx']   = 'Replace',
@@ -27,13 +27,13 @@ local MODE_MAP = {
   ['Rvc']  = 'V-Repl ',
   ['Rvx']  = 'V-Repl ',
   ['c']    = 'Command',
-  ['cv']   = '  Ex   ',
-  ['ce']   = '  Ex   ',
+  ['cv']   = 'Ex',
+  ['ce']   = 'Ex',
   ['r']    = 'Replace',
-  ['rm']   = '  More ',
+  ['rm']   = 'More',
   ['r?']   = 'Confirm',
-  ['!']    = ' Shell ',
-  ['t']    = ' Term  ',
+  ['!']    = 'Shell',
+  ['t']    = 'Term',
 }
 
 local update_status = function(self, is_focused)
@@ -68,7 +68,6 @@ local parts = {
       local code = vim.api.nvim_get_mode().mode
       return MODE_MAP[code] or code
     end,
-    padding = 0,
   },
 
   visual_multi = function()
@@ -80,7 +79,6 @@ local parts = {
   branch = {
     'branch',
     icon = '',
-    padding = 0,
     cond = window_is_medium,
   },
 
@@ -95,22 +93,33 @@ local parts = {
       end
       return table.concat(flags, ' ')
     end,
-    padding = { left = 1, right = 0 },
+
+    color = { fg = '#eee8d5' },
   },
 
-  filename = function()
-    local shorten_path = function(path)
-      if window_is_wide() then
-        return path
-      elseif window_is_medium() then
-        return vim.fn.pathshorten(path)  -- only first letter of directories
-      else
-        return vim.fn.fnamemodify(path, ':t')  -- only tail
+  filename = {
+    function()
+      local shorten_path = function(path)
+        if window_is_wide() then
+          return path
+        elseif window_is_medium() then
+          return vim.fn.pathshorten(path)  -- only first letter of directories
+        else
+          return vim.fn.fnamemodify(path, ':t')  -- only tail
+        end
       end
-    end
 
-    return shorten_path(vim.fn.expand('%:~:.'))
-  end,
+      return shorten_path(vim.fn.expand('%:~:.'))
+    end,
+
+    color = function()
+      if vim.bo.modified then
+        return { gui = 'italic' }
+      end
+    end,
+
+    padding = { left = 1, right = 0},
+  },
 
   filetype = {
     filetype,
@@ -119,7 +128,6 @@ local parts = {
 
   fileformat = {
     'fileformat',
-    padding = { left = 0, right = 1 },
     cond = window_is_medium,
   },
 
@@ -132,27 +140,22 @@ local parts = {
     padding = { left = 0, right = 1 },
     cond = window_is_wide,
   },
-
-  location = {
-    'location',
-    padding = { left = 0, right = 1 },
-  },
 }
 
 local inactive_sections = {
   lualine_a = {},
-  lualine_b = { parts.visual_multi, parts.branch, parts.status },
-  lualine_c = { parts.filename },
+  lualine_b = { parts.visual_multi, parts.branch },
+  lualine_c = { parts.filename, parts.status },
   lualine_x = { 'diagnostics', parts.filetype  },
   lualine_y = { parts.fileformat, parts.progress },
-  lualine_z = { parts.location },
+  lualine_z = { 'location' },
 }
 
 require('lualine').setup {
   options = {
     icons_enabled = true,
     component_separators = { left = '', right = '' },
-    section_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
     theme = 'solarized',
   },
 
