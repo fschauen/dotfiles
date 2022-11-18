@@ -6,7 +6,7 @@ set_cursor_shape() {
     local block='\e[1 q'        # blinking block
     local underline='\e[3 q'    # blinking underline, 4 for steady
     local bar='\e[5 q'          # blinkind bar, 6 for steady
-    if [[ -n $ITERM_SESSION_ID ]] {
+    if [[ -n "$ITERM_SESSION_ID" && -z "$TMUX" ]] {
         block='\e]1337;CursorShape=0\a'
         bar='\e]1337;CursorShape=1\a'
         underline='\e]1337;CursorShape=2\a'
