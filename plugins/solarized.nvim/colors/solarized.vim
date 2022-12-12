@@ -1,0 +1,2 @@
+lua require'solarized'.setup()
+
