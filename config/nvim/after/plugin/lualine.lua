@@ -1,3 +1,8 @@
+local ok, lualine = pcall(require, 'lualine')
+if not ok or not lualine then
+  return
+end
+
 local MODE_MAP = {
   ['n']    = 'Normal ',
   ['no']   = 'O-Pend ',
@@ -151,7 +156,7 @@ local inactive_sections = {
   lualine_z = { 'location' },
 }
 
-require('lualine').setup {
+lualine.setup {
   options = {
     icons_enabled = true,
     component_separators = { left = '', right = '' },
