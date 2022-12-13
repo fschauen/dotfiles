@@ -1,12 +1,3 @@
-local packer = (function()
-  local path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  if vim.fn.empty(vim.fn.glob(path)) > 0 then
-    local url = 'https://github.com/wbthomason/packer.nvim'
-    vim.fn.system({'git', 'clone', '--depth', '1', url, path})
-  end
-  return require('packer')
-end)()
-
 vim.g.better_whitespace_filetypes_blacklist = {
   'diff',
   'fugitive',
@@ -18,7 +9,20 @@ vim.g.better_whitespace_filetypes_blacklist = {
 vim.g.VM_leader = '\\'
 vim.g.VM_silent_exit = 1
 
-packer.startup(function(use)
+local bootstrap_packer = function()
+  local path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+  if vim.fn.empty(vim.fn.glob(path)) > 0 then
+    local url = 'https://github.com/wbthomason/packer.nvim'
+    vim.fn.system({'git', 'clone', '--depth', '1', url, path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
+
+local packer_did_bootstrap = bootstrap_packer()
+
+require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'nvim-lua/plenary.nvim'
 
@@ -56,5 +60,6 @@ packer.startup(function(use)
 
   -- Misc -------------------------------------------------------------------
   use 'milisims/nvim-luaref'
-end)
 
+  if packer_did_bootstrap then require('packer').sync() end
+end)
