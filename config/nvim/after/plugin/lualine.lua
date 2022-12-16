@@ -13,6 +13,7 @@ local MODE_MAP = {
   ['niR']  = 'Normal ',
   ['niV']  = 'Normal ',
   ['nt']   = 'Normal ',
+  ['ntT']  = 'Normal*',
   ['v']    = 'Visual ',
   ['vs']   = 'Visual ',
   ['V']    = 'V-Line ',
@@ -32,13 +33,13 @@ local MODE_MAP = {
   ['Rvc']  = 'V-Repl ',
   ['Rvx']  = 'V-Repl ',
   ['c']    = 'Command',
-  ['cv']   = 'Ex',
-  ['ce']   = 'Ex',
+  ['cv']   = '  Ex   ',
+  ['ce']   = '  Ex   ',
   ['r']    = 'Replace',
-  ['rm']   = 'More',
+  ['rm']   = ' More  ',
   ['r?']   = 'Confirm',
-  ['!']    = 'Shell',
-  ['t']    = 'Term',
+  ['!']    = ' Shell ',
+  ['t']    = ' Term  ',
 }
 
 local update_status = function(self, is_focused)
