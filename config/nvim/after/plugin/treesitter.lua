@@ -32,10 +32,10 @@ configs.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = '<CR>',    -- mapped in normal mode
+      init_selection = 'gnn',     -- mapped in normal mode
       node_incremental = '<CR>',  -- mapped in visual mode
       node_decremental = '<BS>',  -- mapped in visual mode
-      scope_incremental = nil,    -- disbaled, normally mapped in visual mode
+      scope_incremental = nil,    -- disabled, normally mapped in visual mode
     },
   },
 
