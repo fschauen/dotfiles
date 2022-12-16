@@ -63,6 +63,9 @@ map('n', '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark'
 -- disable highlight until next search
 map('n', '<leader>h', '<cmd>nohlsearch<cr>')
 
+-- more convenient way of entering normal mode from terminal mode
+map('t', [[<c-\><c-\>]], [[<c-\><c-n>]])
+
 -- edit configuration files
 map('n', '<leader>eg', '<cmd>tabedit ~/.config/git/config<cr>')
 map('n', '<leader>et', '<cmd>tabedit ~/.config/tmux/tmux.conf<cr>')
