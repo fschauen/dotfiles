@@ -1,0 +1,35 @@
+#!/bin/sh
+usage() {
+  echo "Usage:
+
+  $(basename $0) [-h] <volume> -- generate /etc/fstab entry to prevent automount on macOS
+
+  where:
+    -h      print this help
+    volume  the volume that should not be automounted
+"
+}
+
+error() {
+  usage
+  echo "$(tput setaf 1)ERROR: $1$(tput sgr0)"
+  exit 1
+}>&2
+
+gen_fstab_entry() {
+  volume="$1"
+  info="$(diskutil info "$volume")"
+  uuid=$(echo "$info" | grep 'Volume UUID' | sed -e 's/^ *Volume UUID: *//')
+  fs=$(echo "$info" | grep 'Type (Bundle)' | sed -e 's/^ *Type (Bundle): *//')
+  echo "# $volume"
+  echo "UUID=$uuid none $fs rw,noauto"
+  echo
+}
+
+case "$1" in
+  -h|--help)  usage ;;
+  -*)         error "invalid option: $1" ;;
+  "")         error "volume required" ;;
+  *)          gen_fstab_entry "$1";;
+esac
+
