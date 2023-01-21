@@ -45,6 +45,7 @@ while read -r dir; do
 done <<EOL
   $LOCAL_PREFIX/bin
   $LOCAL_PREFIX/opt/curl/bin
+  $LOCAL_PREFIX/opt/make/libexec/gnubin
   $LOCAL_PREFIX/opt/findutils/libexec/gnubin
   $LOCAL_PREFIX/opt/gnu-sed/libexec/gnubin
   $LOCAL_PREFIX/opt/gnu-tar/libexec/gnubin
@@ -66,6 +67,7 @@ while read -r dir; do
 done <<EOL
   $LOCAL_PREFIX/share/man
   $LOCAL_PREFIX/opt/curl/share/man
+  $LOCAL_PREFIX/opt/make/libexec/gnuman
   $LOCAL_PREFIX/opt/findutils/libexec/gnuman
   $LOCAL_PREFIX/opt/gnu-sed/libexec/gnuman
   $LOCAL_PREFIX/opt/gnu-tar/libexec/gnuman
