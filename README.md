@@ -4,12 +4,15 @@ Always evolving...
 
 ## Quick Start
 
-1. Clone this repository (e.g. into `$HOME/.dotfiles`) and run either:
-  - `./install.sh` for a dry run.
-  - `./install.sh -f` to actually install.
+```bash
+$ git clone https://github.com/fschauen/dotfiles.git $HOME/.dotfiles
+$ cd $HOME/.dotfiles
+$ ./install.sh -f   # omit -f for a dry run
+$ ./unlock.sh       # decrypt the SSH configuration
+```
 
-2. Decrypt the SSH config with `gpg -d --output - <(base64 -d .key) | git crypt
-   unlock -` (or just get rid of it and add your own).
+If you are not me, then you won't have the password to use in the last step.
+Just `git rm unlock.sh home/.ssh/config` and add your own.
 
 ## Prerequisites
 
