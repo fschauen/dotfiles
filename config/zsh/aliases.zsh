@@ -29,7 +29,8 @@ fi
 
 alias \
     ll="ls -l" \
-    lla="la -l"
+    lla="la -l" \
+    ltl="lt -L"
 
 alias \
     grep="grep --color=auto" \
