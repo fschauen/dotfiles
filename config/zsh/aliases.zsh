@@ -3,7 +3,7 @@
 if command -v exa >/dev/null 2>&1; then
     # Prefer exa if installed
     alias \
-        ls="exa -F --git --group-directories-first --group --links" \
+        ls="exa -F --group-directories-first --group --links" \
         la="ls -a" \
         lt="ls -lT -I'.git'" \
         lta="lt -a" \
