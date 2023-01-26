@@ -3,17 +3,17 @@
 if command -v exa >/dev/null 2>&1; then
     # Prefer exa if installed
     alias \
-        ls="exa -F --group-directories-first --group --links" \
-        la="ls -a" \
-        lt="ls -lT -I'.git'" \
-        lta="lt -a" \
+        ls="exa --classify --group-directories-first --group --links" \
+        la="ls --all" \
+        lt="ls --long --tree --ignore-glob'.git'" \
+        lta="lt --all" \
         lsc="ls --color=always" \
         ltc="lt --color=always"
 elif ls --group-directories-first --color=auto >/dev/null 2>&1; then
     # GNU ls
     alias \
-        ls="ls -hF --group-directories-first --color=auto" \
-        la="ls -A" \
+        ls="ls --classify --human-readable --group-directories-first --color=auto" \
+        la="ls --almost-all" \
         lt="tree --dirsfirst -FI '.git|Spotlight-V100|.fseventsd'" \
         lsc="ls --color=always" \
         ltc="tree -C --dirsfirst -FI '.git'"
