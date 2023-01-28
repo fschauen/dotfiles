@@ -37,8 +37,7 @@ telescope.setup {
     },
 
     cycle_layout_list = {
-      { layout_strategy = 'cursor', layout_config = { width = 0.5, height = 0.4 }, },
-      { layout_strategy = 'bottom_pane', layout_config = { width = 0.9, height = 0.4 }, },
+      { layout_strategy = 'bottom_pane', layout_config = { width = 1, height = 0.4 }, },
       'horizontal',
       'vertical',
     },
