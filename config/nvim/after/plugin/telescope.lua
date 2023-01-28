@@ -6,10 +6,7 @@ local actions_layout = require 'telescope.actions.layout'
 
 local common_mappings = {
   ['<c-l>'] = actions_layout.cycle_layout_next,
-  ['<c-h>'] = actions_layout.cycle_layout_prev,
-
   ['<c-o>'] = actions_layout.toggle_mirror,
-
   ['<c-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
 }
 
