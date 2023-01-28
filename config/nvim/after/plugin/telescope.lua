@@ -117,6 +117,7 @@ map('n', '<leader>fm',
     builtin.man_pages {
       prompt_title = '   Find man pages ',
       sections = { 'ALL' },
+      man_cmd = { "apropos", ".*" }
     }
   end,
   { desc = 'Telescope: find man pages' })
