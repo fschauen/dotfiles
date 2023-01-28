@@ -5,7 +5,7 @@ if command -v exa >/dev/null 2>&1; then
     alias \
         ls="exa --classify --group-directories-first --group --links" \
         la="ls --all" \
-        lt="ls --long --tree --ignore-glob'.git'" \
+        lt="ls --long --tree --ignore-glob='.git'" \
         lta="lt --all" \
         lsc="ls --color=always" \
         ltc="lt --color=always"
