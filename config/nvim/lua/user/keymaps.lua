@@ -4,6 +4,9 @@ local map = vim.keymap.set
 map('n', 'j', 'gj')
 map('n', 'k', 'gk')
 
+-- maintain cursor position when joining lines
+map('n', 'J', 'mzJ`z')
+
 -- retain selection when indenting/unindenting in visual mode
 map('v', '>', '><cr>gv')
 map('v', '<', '<<cr>gv')
