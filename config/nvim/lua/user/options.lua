@@ -29,6 +29,7 @@ o.shada = {
 -- Searching
 o.ignorecase = true     -- Ignore case when searching...
 o.smartcase  = true     -- ...unless pattern contains uppercase characters.
+o.wrapscan   = false    -- Don't wrap around the end of the file when searching.
 
 -- Editing
 o.expandtab     = true     -- use spaces when <Tab> is inserted
