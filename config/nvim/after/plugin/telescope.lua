@@ -46,10 +46,19 @@ telescope.setup {
       i = vim.tbl_extend('force', common_mappings, {
         ['<c-j>'] = actions.cycle_history_next,
         ['<c-k>'] = actions.cycle_history_prev,
-
       }),
       n = common_mappings,
     },
+  },
+
+  pickers = {
+    buffers     = { prompt_title = ' ﬘ Find buffers '   },
+    find_files  = { prompt_title = '   Find files '    },
+    git_commits = { prompt_title = '  Find commits ' },
+    help_tags   = { prompt_title = ' ﬤ Find help tags ' },
+    keymaps     = { prompt_title = '   Find keymaps '  },
+    live_grep   = { prompt_title = ' 🔍 Grep '          },
+    vim_options = { prompt_title = '  Find options '   },
   },
 
   extensions = {
@@ -67,7 +76,39 @@ telescope.setup {
   },
 }
 
+local builtin = require 'telescope.builtin'
+
+local custom = {
+  dotfiles = function()
+    builtin.find_files {
+      prompt_title = '  Find dotfiles ',
+      cwd = '~/.dotfiles',
+      hidden = true,
+    }
+  end,
+
+  man_pages = function()
+    builtin.man_pages {
+      prompt_title = '   Find man pages ',
+      sections = { 'ALL' },
+      man_cmd = { "apropos", ".*" }
+    }
+  end,
+}
+
 local map = vim.keymap.set
+
+map('n', '<leader>fb', builtin.buffers,     { desc = 'Telescope: find buffers' })
+map('n', '<leader>fc', builtin.git_commits, { desc = 'Telescope: find commits' })
+map('n', '<leader>fd', custom.dotfiles,     { desc = 'Telescope: find in dotfiles' })
+map('n', '<leader>ff', builtin.find_files,  { desc = 'Telescope: find files in $PWD' })
+map('n', '<leader>fg', builtin.live_grep,   { desc = 'Telescope: live grep in $PWD' })
+map('n', '<leader>fh', builtin.help_tags,   { desc = 'Telescope: find help tags' })
+map('n', '<leader>fk', builtin.keymaps,     { desc = 'Telescope: find keymaps' })
+map('n', '<leader>fm', custom.man_pages,    { desc = 'Telescope: find man pages' })
+map('n', '<leader>fo', builtin.vim_options, { desc = 'Telescope: find vim options' })
+
+
 
 local loaded_file_browser, _ = pcall(telescope.load_extension, 'file_browser')
 if loaded_file_browser then
@@ -75,62 +116,4 @@ if loaded_file_browser then
 else
   vim.notify('Telescope file_browser not installed!', vim.log.levels.WARN)
 end
-
-local builtin = require 'telescope.builtin'
-
-map('n', '<leader>fb',
-  function() builtin.buffers { prompt_title = ' ﬘ Find buffers ' } end,
-  { desc = 'Telescope: find buffers' })
-
-map('n', '<leader>fc',
-  function() builtin.git_commits { prompt_title = '  Find commits ' } end,
-  { desc = 'Telescope: find commits' })
-
-map('n', '<leader>fd',
-  function()
-    builtin.find_files {
-      prompt_title = '  Find dotfiles ',
-      cwd = '~/.dotfiles',
-      hidden = true,
-    }
-  end,
-  { desc = 'Telescope: find in dotfiles' })
-
-map('n', '<leader>ff',
-  function() builtin.find_files { prompt_title = '   Find files ' } end,
-  { desc = 'Find files in $PWD (Telescope)' })
-
-map('n', '<leader>fg',
-  function() builtin.live_grep { prompt_title = ' 🔍 Grep ' } end,
-  { desc = 'Live grep in $PWD (Telescope)' })
-
-map('n', '<leader>fh',
-  function() builtin.help_tags { prompt_title = ' ﬤ Find help tags ' } end,
-  { desc = 'Telescope: find help tags' })
-
-map('n', '<leader>fk',
-  function() builtin.keymaps { prompt_title = '   Find keymaps ' } end,
-  { desc = 'Telescope: find keymaps' })
-
-map('n', '<leader>fm',
-  function()
-    builtin.man_pages {
-      prompt_title = '   Find man pages ',
-      sections = { 'ALL' },
-      man_cmd = { "apropos", ".*" }
-    }
-  end,
-  { desc = 'Telescope: find man pages' })
-
-map('n', '<leader>fo',
-  function()
-    builtin.vim_options {
-      prompt_title = '  Find options ',
-      layout_config = {
-        width = 0.75,
-        height = 0.8,
-      }
-    }
-  end,
-  { desc = 'Telescope: find options' })
 
