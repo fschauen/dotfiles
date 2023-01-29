@@ -17,6 +17,10 @@ map('n', '-', '<c-x>')
 map('v', '+', 'g<c-a>')
 map('v', '-', 'g<c-x>')
 
+-- place next/previous search result in center of screen
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+
 -- select all
 map('n', '<c-a>', 'gg<s-v>G')
 
