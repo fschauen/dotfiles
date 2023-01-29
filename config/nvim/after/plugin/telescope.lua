@@ -59,6 +59,7 @@ telescope.setup {
     keymaps     = { prompt_title = '   Find keymaps '  },
     live_grep   = { prompt_title = ' 🔍 Grep '          },
     vim_options = { prompt_title = '  Find options '   },
+    man_pages   = { prompt_title = '   Find man pages '},
   },
 
   extensions = {
@@ -88,11 +89,22 @@ local custom = {
   end,
 
   man_pages = function()
-    builtin.man_pages {
-      prompt_title = '   Find man pages ',
-      sections = { 'ALL' },
-      man_cmd = { "apropos", ".*" }
-    }
+    -- Fix for macOS Ventura onwards (macOS 13.x <-> Darwin 22.x).
+    -- See: https://github.com/nvim-telescope/telescope.nvim/issues/2326#issuecomment-1407502328
+    local uname = vim.loop.os_uname()
+    local sysname = string.lower(uname.sysname)
+    if sysname == "darwin" then
+      local major_version = tonumber(vim.fn.matchlist(uname.release, [[^\(\d\+\)\..*]])[2]) or 0
+      if major_version >= 22 then
+        builtin.man_pages { sections = { 'ALL' }, man_cmd = { "apropos", "." } }
+      else
+        builtin.man_pages { sections = { 'ALL' }, man_cmd = { "apropos", " " } }
+      end
+    elseif sysname == "freebsd" then
+      builtin.man_pages { sections = { 'ALL' }, man_cmd = { "apropos", "." } }
+    else
+      builtin.man_pages { sections = { 'ALL' } }
+    end
   end,
 }
 
