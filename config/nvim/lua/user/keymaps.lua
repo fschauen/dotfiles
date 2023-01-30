@@ -48,9 +48,11 @@ map('v', '<c-a-k>', [[:move '<-2<cr>gv=gv]], { silent = true })
 map('i', '<c-a-j>', [[<esc>:move .+1<cr>==gi]], { silent = true })
 map('i', '<c-a-k>', [[<esc>:move .-2<cr>==gi]], { silent = true })
 
--- move to begin/end of line in insert mode
+-- move to begin/end of line in insert & command line mode
 map('i', '<c-a>', '<c-o>^')
 map('i', '<c-e>', '<c-o>$')
+map('c', '<c-a>', '<Home>')
+map('c', '<c-e>', '<End>')
 
 -- navigate items in quickfix list
 map('n', '<leader>j', '<cmd>cnext<cr>',{ silent = true })
