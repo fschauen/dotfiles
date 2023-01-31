@@ -11,18 +11,31 @@ vim.g.VM_silent_exit = 1
 
 local bootstrap_packer = function()
   local path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  if vim.fn.empty(vim.fn.glob(path)) > 0 then
-    local url = 'https://github.com/wbthomason/packer.nvim'
-    vim.fn.system({'git', 'clone', '--depth', '1', url, path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
+
+  if vim.fn.empty(vim.fn.glob(path)) == 0 then
+    return false  -- packer already installed, nothing else to do.
   end
-  return false
+
+  local url = 'https://github.com/wbthomason/packer.nvim'
+  vim.notify(string.format('Packer not installed -> cloning from %s', url))
+  local stdout = vim.fn.system({'git', 'clone', '--depth', '1', url, path})
+  local error_code = vim.v.shell_error
+
+  if error_code == 0 then
+    vim.cmd [[packadd packer.nvim]]
+  else
+    vim.notify(string.format('ERROR: clone failed with code %d', error_code))
+    vim.notify(stdout, vim.log.levels.ERR)
+  end
+
+  return true
 end
 
 local packer_did_bootstrap = bootstrap_packer()
+local ok, packer = pcall(require, 'packer')
+if not ok or not packer then return end
 
-require('packer').startup(function(use)
+packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'nvim-lua/plenary.nvim'
 
