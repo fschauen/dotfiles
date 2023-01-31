@@ -134,7 +134,7 @@ M.highlights = function()
       VertSplit      = { fg = C.base00 },
       Title          = { fg = C.yellow, bold = true },
       VisualNOS      = { bg = C.base02, reverse = true },
-      WarningMsg     = { fg = C.orange },
+      WarningMsg     = { link = 'Warning' },
       WildMenu       = { fg = C.base2, bg = C.base02 },
       Folded         = { fg = C.blue, bg = bg },
       FoldColumn     = { fg = C.blue, bg = bg },
