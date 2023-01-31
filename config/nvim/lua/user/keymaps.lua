@@ -73,10 +73,3 @@ map('n', '<leader>h', '<cmd>nohlsearch<cr>')
 -- more convenient way of entering normal mode from terminal mode
 map('t', [[<c-\><c-\>]], [[<c-\><c-n>]])
 
--- edit configuration files
-map('n', '<leader>eg', '<cmd>tabedit ~/.config/git/config<cr>')
-map('n', '<leader>et', '<cmd>tabedit ~/.config/tmux/tmux.conf<cr>')
-map('n', '<leader>ev', '<cmd>tabedit ~/.config/nvim/init.lua<cr>')
-map('n', '<leader>es', '<cmd>tabedit ~/.config/nvim/spell/en.utf-8.add<cr>')
-map('n', '<leader>ez', '<cmd>tabedit ~/.config/zsh/.zshrc<cr>')
-
