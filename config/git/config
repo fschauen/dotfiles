@@ -1,4 +1,7 @@
 [alias]
+    b       = branch
+    bv      = b -vv
+    ba      = bv --all
     cm      = commit --verbose
     co      = checkout
     l       = log --graph --format='%C(auto)%h%d %s %C(6)%ad'
