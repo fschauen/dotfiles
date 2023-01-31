@@ -4,14 +4,20 @@
     ba      = bv --all
     cm      = commit --verbose
     co      = checkout
-    l       = log --graph --format='%C(auto)%h%d %s %C(6)%ad'
-    ln      = log --graph --format='%C(auto)%h%d %s %C(10)on %ad %C(6)by %aN%C(10)<%C(13)%aE%C(10)>'
+    l       = log --graph --pretty=basic
+    ln      = log --graph --pretty=name
     ll      = log --graph --decorate --stat
+    lp      = log --graph -p
     la      = l --all
     lna     = ln --all
     lla     = ll --all
+    lpa     = lp --all
     s       = status --short
     ss      = status
+
+[pretty]
+    basic = %C(auto)%h%d %s %C(0) %C(10)%ad
+    name  = %C(auto)%h%d %s %n%C(10)%aN <%C(2)%aE%C(10)> %ad %n
 
 [core]
     excludesfile    = ~/.config/git/ignore
