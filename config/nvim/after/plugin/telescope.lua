@@ -12,7 +12,7 @@ local common_mappings = {
 
 telescope.setup {
   defaults = {
-    prompt_prefix = '❯ ',
+    prompt_prefix = ' ❯ ',
     selection_caret = ' ',   -- Other ideas: ➔ 
     multi_icon = ' ',
 
@@ -52,14 +52,14 @@ telescope.setup {
   },
 
   pickers = {
-    buffers     = { prompt_title = ' ﬘ Find buffers '   },
-    find_files  = { prompt_title = '   Find files '    },
-    git_commits = { prompt_title = '  Find commits ' },
-    help_tags   = { prompt_title = ' ﬤ Find help tags ' },
-    keymaps     = { prompt_title = '   Find keymaps '  },
-    live_grep   = { prompt_title = ' 🔍 Grep '          },
-    vim_options = { prompt_title = '  Find options '   },
-    man_pages   = { prompt_title = '   Find man pages '},
+    buffers     = { prompt_title = '   ﬘ Buffers   ' },
+    find_files  = { prompt_title = '     Files    ' },
+    git_commits = { prompt_title = '   Commits  ' },
+    help_tags   = { prompt_title = '   Help tags  ' },
+    keymaps     = { prompt_title = '    Keymaps   ' },
+    live_grep   = { prompt_title = '   Live grep  ' },
+    vim_options = { prompt_title = '  Vim options ' },
+    man_pages   = { prompt_title = '   Man pages  ' },
   },
 
   extensions = {
@@ -110,21 +110,21 @@ local custom = {
 
 local map = vim.keymap.set
 
-map('n', '<leader>fb', builtin.buffers,     { desc = 'Telescope: find buffers' })
-map('n', '<leader>fc', builtin.git_commits, { desc = 'Telescope: find commits' })
-map('n', '<leader>fd', custom.dotfiles,     { desc = 'Telescope: find in dotfiles' })
-map('n', '<leader>ff', builtin.find_files,  { desc = 'Telescope: find files in $PWD' })
-map('n', '<leader>fg', builtin.live_grep,   { desc = 'Telescope: live grep in $PWD' })
-map('n', '<leader>fh', builtin.help_tags,   { desc = 'Telescope: find help tags' })
-map('n', '<leader>fk', builtin.keymaps,     { desc = 'Telescope: find keymaps' })
-map('n', '<leader>fm', custom.man_pages,    { desc = 'Telescope: find man pages' })
-map('n', '<leader>fo', builtin.vim_options, { desc = 'Telescope: find vim options' })
+map('n', '<leader>fb', builtin.buffers,     { desc = ' [F]ind [B]uffers' })
+map('n', '<leader>fc', builtin.git_commits, { desc = ' [F]ind [C]ommits' })
+map('n', '<leader>fd', custom.dotfiles,     { desc = ' [F]ind [D]otfiles' })
+map('n', '<leader>ff', builtin.find_files,  { desc = ' [F]ind [F]iles in $PWD' })
+map('n', '<leader>fg', builtin.live_grep,   { desc = ' [F]ind with [G]rep in $PWD' })
+map('n', '<leader>fh', builtin.help_tags,   { desc = ' [F]ind [H]elp tags' })
+map('n', '<leader>fk', builtin.keymaps,     { desc = ' [F]ind [K]eymaps' })
+map('n', '<leader>fm', custom.man_pages,    { desc = ' [F]ind [M]an pages' })
+map('n', '<leader>fo', builtin.vim_options, { desc = ' [F]ind vim [O]ptions' })
 
 
 
 local loaded_file_browser, _ = pcall(telescope.load_extension, 'file_browser')
 if loaded_file_browser then
-  map('n', '<leader>br', '<cmd>Telescope file_browser<cr>')
+  map('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
 else
   vim.notify('Telescope file_browser not installed!', vim.log.levels.WARN)
 end
