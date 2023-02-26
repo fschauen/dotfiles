@@ -4,7 +4,9 @@ set -e
 DOTFILES="$(dirname "$(realpath "$0")")"
 TARGET="$HOME"
 
+# shellcheck disable=SC1091 # don't complain about following config.local
 [ -r "$DOTFILES/config.local" ] && . "$DOTFILES/config.local"
+
 GIT_USER="${GIT_USER:-Fernando Schauenburg}"
 GIT_EMAIL="${GIT_EMAIL:-dev@schauenburg.me}"
 
@@ -46,16 +48,16 @@ greeting() {
   info "  Target: $cyan$TARGET$rst"
   info "  Git user: $green$GIT_USER <$GIT_EMAIL>$rst"
 
-  if [ -t 0 -a -t 1 ]; then
+  if [ -t 0 ] && [ -t 1 ]; then
     info
     info "Press ENTER to continue (CTRL-C to cancel)..."
-    read k
+    read -r
   fi
 }
 
 make_dirs() {
   heading 'create auxiliary directories'
-  while read item; do
+  while read -r item; do
     dir="$TARGET/$item"
     if [ ! -d "$dir" ]; then
       echo "${yellow}MKDIR:$rst $dir"
@@ -162,16 +164,16 @@ fi
 dry_run() { [ -n "$IS_DRY_RUN" ]; }
 
 usage() {
-  echo "Usage: $(basename $0) [-h] [-f] [-t <target>]"
+  echo "Usage: $(basename "$0") [-h] [-f] [-t <target>]"
   echo ""
   echo "  -h  print this help and exit"
   echo "  -f  modify filesystem rather than dry run"
   echo "  -t  set <target> directory (default: \$HOME)"
 }
 
-heading()   { printf '%s\n' "${blue}=====  $1  ==========${rst}"; }
-info()      { printf '%s ' "$@";                            printf '\n'; }
-warn()      { printf '%s ' "${yellow}$@${rst}";             printf '\n'; }
-error()     { printf '%s ' "${red}$@${rst}";                printf '\n'; }
+heading()   { echo "${blue}=====  $1  ==========${rst}"; }
+info()      { echo "$*"; }
+warn()      { echo "${yellow}$*${rst}"; }
+error()     { echo "${red}$*${rst}"; }
 
 main "$@"
