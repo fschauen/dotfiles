@@ -142,20 +142,20 @@ nvim_plugins() {
 ###############################################################################
 
 if [ -t 1 ]; then
-  rst=$(tput      sgr0)
-  red=$(tput      setaf  1)
-  green=$(tput    setaf  2)
-  yellow=$(tput   setaf  3)
-  blue=$(tput     setaf  4)
-  magenta=$(tput  setaf  5)
-  cyan=$(tput     setaf  6)
+  rst="$(printf      '\033[0m')"
+  red="$(printf      '\033[31m')"
+  green="$(printf    '\033[32m')"
+  yellow="$(printf   '\033[33m')"
+  blue="$(printf     '\033[34m')"
+  # magenta="$(printf  '\033[35m')"
+  cyan="$(printf     '\033[36m')"
 else
   rst=''
   red=''
   green=''
   yellow=''
   blue=''
-  magenta=''
+  # magenta=''
   cyan=''
 fi
 
