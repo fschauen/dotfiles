@@ -44,7 +44,7 @@ greeting() {
   info "Deploying dotfiles:"
   info "  Source: $cyan$DOTFILES$rst"
   info "  Target: $cyan$TARGET$rst"
-  info "  Git user: $yellow$GIT_USER <$GIT_EMAIL>$rst"
+  info "  Git user: $green$GIT_USER <$GIT_EMAIL>$rst"
 
   if [ -t 0 -a -t 1 ]; then
     info
