@@ -25,7 +25,6 @@ main() {
   stow_home
   link_config
   git_user_config
-  nvim_plugins
 }
 
 check_dependencies() {
@@ -124,18 +123,6 @@ EOF
     cat "$temp_git"
     echo "$rst"
     dry_run || cp -f "$temp_git" "$config_file"
-  fi
-}
-
-nvim_plugins() {
-  heading 'nvim plugins'
-  if command -v nvim >/dev/null 2>&1; then
-    dry_run || {
-      warn "installing neovim plugins..."
-      nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-    }
-  else
-    error "neovim is not installed; skipping plugin installation..."
   fi
 }
 
