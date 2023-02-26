@@ -39,10 +39,6 @@ alias \
 
 alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 
-alias et="$EDITOR $XDG_CONFIG_HOME/tmux/tmux.conf"
-alias ev="$EDITOR $XDG_CONFIG_HOME/nvim/init.lua"
-alias ez="$EDITOR $ZDOTDIR/.zshrc"
-
 if command -v nvim >/dev/null 2>&1; then
     alias \
         v="nvim" \
