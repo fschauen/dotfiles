@@ -2,7 +2,7 @@ local nt, callback
 
 local ok, _ = pcall(function()
   nt = require 'nvim-tree'
-  callback = require 'nvim-tree.config'.nvim_tree_callback
+  api = require 'nvim-tree.api'
 end)
 
 if not ok then return end
@@ -12,6 +12,13 @@ nt.setup {
   hijack_cursor = true,       -- keep the cursor on begin of the filename
   sync_root_with_cwd = true,  -- watch for `DirChanged` and refresh the tree
 
+  on_attach = function()
+    for _, lhs in ipairs({'l', '<CR>', 'o'}) do
+      vim.keymap.set('n', lhs, api.node.open.edit)
+    end
+    vim.keymap.set('n', 'h', api.node.navigate.parent_close)
+  end,
+
   git = {
     ignore = false,       -- don't hide files from .gitignore
   },
@@ -19,12 +26,6 @@ nt.setup {
   view = {
     adaptive_size = true, -- resize the window based on the longest line
     width = 35,           -- a little wider than the default 30
-    mappings = {
-      list = {
-        { key = { 'l', '<CR>', 'o' }, cb = callback 'edit' },
-        { key = 'h', cb = callback 'close_node' },
-      },
-    },
   },
 
   filters = {
