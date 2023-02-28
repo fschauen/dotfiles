@@ -3,7 +3,7 @@
 # .gitignore.
 .git/
 
-config.local
+config.sh
 config/nvim/plugin/packer_compiled.lua
 config/zsh/.zcompcache
 config/zsh/.zcompdump

@@ -12,7 +12,7 @@ $ ./unlock.sh       # decrypt the SSH configuration
 ```
 
 If you are not me, then you won't have the password to use in the last step.
-Just `git rm unlock.sh home/.ssh/config` and add your own.
+Just `git rm unlock.sh ssh/config` and add your own.
 
 ## Prerequisites
 

@@ -51,6 +51,7 @@ done <<EOL
   $LOCAL_PREFIX/opt/gnu-tar/libexec/gnubin
   $LOCAL_PREFIX/opt/coreutils/libexec/gnubin
   $HOME/.local/bin
+  $HOME/.bin
 EOL
 export PATH
 

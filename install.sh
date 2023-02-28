@@ -1,106 +1,91 @@
 #!/bin/sh
-set -e
+# shellcheck disable=SC1090,SC1091
 
-DOTFILES="$(dirname "$(realpath "$0")")"
-TARGET="$HOME"
+dotfiles="$(dirname "$(realpath "$0")")"
 
-# shellcheck disable=SC1091 # don't complain about following config.local
-[ -r "$DOTFILES/config.local" ] && . "$DOTFILES/config.local"
+if [ -t 1 ]; then
+  sgr0="$(printf     '\033[0m')"
+  red="$(printf       '\033[31m')"
+  green="$(printf     '\033[32m')"
+  yellow="$(printf    '\033[33m')"
+  blue="$(printf      '\033[34m')"
+  # magenta="$(printf  '\033[35m')"
+  cyan="$(printf      '\033[36m')"
+else
+  sgr0=''
+  red=''
+  green=''
+  yellow=''
+  blue=''
+  # magenta=''
+  cyan=''
+fi
 
-GIT_USER="${GIT_USER:-Fernando Schauenburg}"
-GIT_EMAIL="${GIT_EMAIL:-dev@schauenburg.me}"
-
-main() {
-  IS_DRY_RUN=yes
-  while getopts 'fht:' opt; do case "$opt" in
-    f) unset IS_DRY_RUN;;
-    t) TARGET="$OPTARG";;
-    h) usage; exit 0;;
-    *) usage; exit 1;;
-  esac done
-
-  check_dependencies
-  greeting
-  make_dirs
-  stow_home
-  link_config
-  git_user_config
+error() {
+  printf "${red}ERROR:$sgr0 %s\n"  "$1"
+  exit 1
 }
 
-check_dependencies() {
-  for cmd in stow readlink; do
-    if ! command -v "$cmd" >/dev/null 2>&1; then
-      error "Dependency \`$cmd\` not found."
-      exit 1
-    fi
-  done
+heading(){
+  echo "${blue}=====  $1  ==========$sgr0";
+}
+
+load_config() {
+  defconfig="$dotfiles/config.def.sh"
+  config="$dotfiles/config.sh"
+  { [ -r "$config" ] || cp -v "$defconfig" "$config"; } || error "can't create config.sh"
+  . "$config"
+}
+
+is_dry_run() { [ "$DRY_RUN" = "yes" ]; }
+
+move_aside() {
+  backup="$1.$(date +%s)"
+  echo "${red}WARNING:$sgr0 moving '$1' to '$backup'"
+  is_dry_run || mv "$1" "$backup"
 }
 
 greeting() {
-  dry_run && {
-    warn "Performing dry run (use -f to actually make changes)."
-    warn
+  is_dry_run && {
+    echo "${yellow}Performing dry run (use -f to actually make changes).$sgr0"
+    echo
   }
 
-  info "Deploying dotfiles:"
-  info "  Source: $cyan$DOTFILES$rst"
-  info "  Target: $cyan$TARGET$rst"
-  info "  Git user: $green$GIT_USER <$GIT_EMAIL>$rst"
+  echo "Deploying dotfiles:"
+  echo "       Source: $cyan$dotfiles$sgr0"
+  echo "  Destination: $cyan$DESTDIR$sgr0"
+  echo "     Git user: $green$GIT_USER <$GIT_EMAIL>$sgr0"
 
   if [ -t 0 ] && [ -t 1 ]; then
-    info
-    info "Press ENTER to continue (CTRL-C to cancel)..."
+    echo
+    echo "Press ENTER to continue (CTRL-C to cancel)..."
     read -r
   fi
 }
 
-make_dirs() {
-  heading 'create auxiliary directories'
-  while read -r item; do
-    dir="$TARGET/$item"
-    if [ ! -d "$dir" ]; then
-      echo "${yellow}MKDIR:$rst $dir"
-      dry_run || mkdir -p "$dir"
-    fi
-  done <<EOF
-.local/share/less/
-.local/share/python/
-.local/share/nvim/shada/
-.local/share/zsh/
-.local/etc/git/
-EOF
-}
-
-link_config() {
-  heading 'link .config directory'
-
-  link="$TARGET/.config"
-  dotfiles_config="$DOTFILES/config"
-  backup="$TARGET/old_dot_config"
-
-  if [ "$(readlink "$link")" != "$dotfiles_config" ]; then
-    if [ -d "$link" ]; then
-      echo "${red}WARNING:$rst moving existing '$link' to '$backup'"
-      dry_run || mv "$link" "$backup"
-    fi
-
-    echo "${yellow}LINK:$rst $link $blue=>$rst $dotfiles_config"
-    dry_run || ln -s "$dotfiles_config" "$link"
+make_dir() {
+  if [ -d "$1" ]; then
+    echo "${green}OK:$sgr0 $1"
+  else
+    echo "${yellow}MKDIR:$sgr0 $1"
+    is_dry_run || mkdir -vp "$1"
   fi
 }
 
-stow_home() {
-  heading 'stow home directory'
-  stow -v${IS_DRY_RUN:+n} --no-folding -d "$DOTFILES" -t "$TARGET" home 2>&1 \
-    | sed -E \
-      -e "s/^(WARNING:)/$red\1$rst/" \
-      -e "s/^([^:]+:)/$yellow\1$rst/" \
-      -e "s/=>/$blue=>$rst/"
+make_link() {
+  link="$1"
+  target="$2"
+  if [ -e "$link" ] && [ "$(realpath "$link")" = "$target" ]; then
+    echo "${green}OK:$sgr0 $link $blue->$sgr0 $target"
+  else
+    [ -e "$link" ] && move_aside "$link"
+    echo "${yellow}LINK:$sgr0 $link $blue->$sgr0 $target"
+    is_dry_run || ln -sf "$target" "$link"
+  fi
 }
 
-git_user_config() {
-  heading 'git user configuration'
-  config_file="$TARGET/.local/etc/git/config.user"
+make_git_user_config() {
+  user_config="$DESTDIR/.local/etc/git/config.user"
   temp_git="$(mktemp)"
   cat >"$temp_git" <<EOF
 #         *************************************
@@ -113,54 +98,60 @@ git_user_config() {
 #   ~/.local/etc/git/config
 #
 EOF
-  git config -f "$temp_git" user.name "${GIT_USER}"
-  git config -f "$temp_git" user.email "${GIT_EMAIL}"
+  git config -f "$temp_git" user.name "$GIT_USER"
+  git config -f "$temp_git" user.email "$GIT_EMAIL"
 
-  if ! diff "$config_file" "$temp_git" >/dev/null 2>&1; then
-    if [ -f "$config_file" ]; then action=OVERWRITE; else action=CREATE; fi
-    echo "$yellow$action:$rst $config_file with contents of $temp_git:"
-    echo "$cyan"
-    cat "$temp_git"
-    echo "$rst"
-    dry_run || cp -f "$temp_git" "$config_file"
+  if diff "$user_config" "$temp_git" >/dev/null 2>&1; then
+    echo "${green}OK:$sgr0 $user_config has '$GIT_USER <$GIT_EMAIL>'"
+  else
+    [ -f "$user_config" ] && move_aside "$user_config"
+    echo "${yellow}WRITE:$sgr0 $user_config with '$GIT_USER <$GIT_EMAIL>'"
+    is_dry_run || cp -f "$temp_git" "$user_config"
   fi
 }
 
-###############################################################################
-# Helper Functions
-###############################################################################
-
-if [ -t 1 ]; then
-  rst="$(printf      '\033[0m')"
-  red="$(printf      '\033[31m')"
-  green="$(printf    '\033[32m')"
-  yellow="$(printf   '\033[33m')"
-  blue="$(printf     '\033[34m')"
-  # magenta="$(printf  '\033[35m')"
-  cyan="$(printf     '\033[36m')"
-else
-  rst=''
-  red=''
-  green=''
-  yellow=''
-  blue=''
-  # magenta=''
-  cyan=''
-fi
-
-dry_run() { [ -n "$IS_DRY_RUN" ]; }
-
 usage() {
-  echo "Usage: $(basename "$0") [-h] [-f] [-t <target>]"
+  echo "Usage: $(basename "$0") [-h] [-f]"
   echo ""
   echo "  -h  print this help and exit"
   echo "  -f  modify filesystem rather than dry run"
-  echo "  -t  set <target> directory (default: \$HOME)"
 }
 
-heading()   { echo "${blue}=====  $1  ==========${rst}"; }
-info()      { echo "$*"; }
-warn()      { echo "${yellow}$*${rst}"; }
-error()     { echo "${red}$*${rst}"; }
+main() {
+  DRY_RUN=yes
+  while getopts 'fh' opt; do case "$opt" in
+    f) DRY_RUN=no;;
+    h) usage; exit 0;;
+    *) usage; exit 1;;
+  esac done
+
+  load_config || error "could not load config.sh"
+
+  [ -n "$DESTDIR" ]   || error "\$DESTDIR must be set in config.sh"
+  [ -n "$GIT_USER" ]  || error "\$GIT_USER must be set in config.sh"
+  [ -n "$GIT_EMAIL" ] || error "\$GIT_EMAIL must be set in config.sh"
+
+  greeting
+
+  heading 'create required directories'
+  make_dir "$DESTDIR/.ssh/"
+  make_dir "$DESTDIR/.local/etc/git/"
+  make_dir "$DESTDIR/.local/share/less/"
+  make_dir "$DESTDIR/.local/share/python/"
+  make_dir "$DESTDIR/.local/share/nvim/shada/"
+  make_dir "$DESTDIR/.local/share/zsh/"
+
+  heading 'create links'
+  make_link "$DESTDIR/.hushlogin"   "$dotfiles/home/.hushlogin"
+  make_link "$DESTDIR/.XCompose"    "$dotfiles/home/.XCompose"
+  make_link "$DESTDIR/.zshenv"      "$dotfiles/home/.zshenv"
+  make_link "$DESTDIR/.bin"         "$dotfiles/bin"
+  make_link "$DESTDIR/.config"      "$dotfiles/config"
+  make_link "$DESTDIR/.ssh/config"  "$dotfiles/ssh/config"
+
+  heading 'git user configuration'
+  make_git_user_config
+}
 
 main "$@"
+
