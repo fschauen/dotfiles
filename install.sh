@@ -59,7 +59,7 @@ greeting() {
   if [ -t 0 ] && [ -t 1 ]; then
     echo
     echo "Press ENTER to continue (CTRL-C to cancel)..."
-    read -r
+    read -r _
   fi
 }
 
