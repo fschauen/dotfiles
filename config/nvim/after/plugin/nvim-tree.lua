@@ -1,23 +1,23 @@
-local nt, callback
-
-local ok, _ = pcall(function()
-  nt = require 'nvim-tree'
-  api = require 'nvim-tree.api'
-end)
-
+local ok, nt = pcall(require, 'nvim-tree')
 if not ok then return end
+
+local on_attach = function(bufnr)
+  local api = require 'nvim-tree.api'
+  local opts = function(desc)
+    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, silent = true }
+  end
+
+  vim.keymap.set('n', 'l',    api.node.open.edit,             opts('open'))
+  vim.keymap.set('n', '<CR>', api.node.open.edit,             opts('open'))
+  vim.keymap.set('n', 'o',    api.node.open.edit,             opts('open'))
+  vim.keymap.set('n', 'h',    api.node.navigate.parent_close, opts('close directory'))
+end
 
 nt.setup {
   disable_netrw = true,       -- replace netrw with nvim-tree
   hijack_cursor = true,       -- keep the cursor on begin of the filename
   sync_root_with_cwd = true,  -- watch for `DirChanged` and refresh the tree
-
-  on_attach = function()
-    for _, lhs in ipairs({'l', '<CR>', 'o'}) do
-      vim.keymap.set('n', lhs, api.node.open.edit)
-    end
-    vim.keymap.set('n', 'h', api.node.navigate.parent_close)
-  end,
+  on_attach = on_attach,
 
   git = {
     ignore = false,       -- don't hide files from .gitignore
