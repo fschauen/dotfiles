@@ -1,0 +1,19 @@
+#!/bin/sh
+[ -t 2 ] && { red=$(printf "\033[31m"); sgr0=$(printf "\033[0m"); }
+
+error() {
+  echo "${red}ERROR:${sgr0} ${1}" >&2;
+  exit 1
+}
+
+[ -n "$1" ] || error "input file missing"
+[ -r "$1" ] || error "can't read input file"
+
+printf '#!/bin/sh
+GPG_TTY=$(tty)
+export GPG_TTY
+base64 -d <<EOF | gpg -d
+%s
+EOF
+'   "$(gpg -c --cipher-algo AES256 -o - -- "$1" | base64)"
+
