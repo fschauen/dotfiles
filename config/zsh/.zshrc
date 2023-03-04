@@ -1,5 +1,4 @@
 # Set up zsh for interactive use (options, prompt, aliases, etc.)
-source "$ZDOTDIR/env.zsh"       # This one needs to go first.
 source "$ZDOTDIR/aliases.zsh"
 source "$ZDOTDIR/completion.zsh"
 source "$ZDOTDIR/history.zsh"
