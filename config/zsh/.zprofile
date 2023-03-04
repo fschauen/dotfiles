@@ -22,15 +22,13 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 # a pty $TERM is not set).
 [ -n "$TERM" ] && {
     rst="$(tput sgr0)"
-    LESS_TERMCAP_md="$(printf '%s\n' 'setaf 3' | tput -S)"
-    LESS_TERMCAP_mb="$LESS_TERMCAP_md"
-    LESS_TERMCAP_me="$rst"
-    LESS_TERMCAP_us="$(printf '%s\n' 'setaf 7' 'smul' | tput -S)"
-    LESS_TERMCAP_ue="$rst"
-    LESS_TERMCAP_so="$(printf '%s\n' 'setaf 4' 'setab 0' | tput -S)"
-    LESS_TERMCAP_se="$rst"
-    export LESS_TERMCAP_md LESS_TERMCAP_mb LESS_TERMCAP_me
-    export LESS_TERMCAP_us LESS_TERMCAP_ue LESS_TERMCAP_so LESS_TERMCAP_se
+    export LESS_TERMCAP_md="$(printf '%s\n' 'setaf 3' | tput -S)"
+    export LESS_TERMCAP_mb="$LESS_TERMCAP_md"
+    export LESS_TERMCAP_me="$rst"
+    export LESS_TERMCAP_us="$(printf '%s\n' 'setaf 7' 'smul' | tput -S)"
+    export LESS_TERMCAP_ue="$rst"
+    export LESS_TERMCAP_so="$(printf '%s\n' 'setaf 4' 'setab 0' | tput -S)"
+    export LESS_TERMCAP_se="$rst"
     export GROFF_NO_SGR=1
     unset rst
 }
@@ -47,8 +45,7 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 
 # Add custom bin dirs to PATH if they exist and are not already in PATH.
 while read -r dir; do
-  [ -d "$dir" ] || continue # skip if directory doesn't exist
-  case ":${PATH:=$dir}:" in
+  [ -d "$dir" ] && case ":${PATH:=$dir}:" in
     *:"$dir":*) ;;          # already in PATH -> ignore
     *) PATH="$dir:$PATH" ;; # not yet in PATH -> prepend it
   esac
@@ -70,8 +67,7 @@ export PATH
 # available.
 command -v manpath >/dev/null 2>&1 && MANPATH="$(unset MANPATH; manpath)"
 while read -r dir; do
-  [ -d "$dir" ] || continue # skip if directory doesn't exist
-  case ":${MANPATH:=$dir}:" in
+  [ -d "$dir" ] && case ":${MANPATH:=$dir}:" in
     *:"$dir":*) ;;                # already in MANPATH -> ignore
     *) MANPATH="$dir:$MANPATH" ;; # not yet in MANPATH -> prepend it
   esac
