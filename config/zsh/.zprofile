@@ -24,7 +24,7 @@ have() {
 # Make man pages pretty, but only if $TERM is set because otherwise `tput`
 # would report errors (e.g., when running a command via SSH without allocating
 # a pty $TERM is not set).
-[ -n "$TERM" ] && {
+have tput && [ -n "$TERM" ] && {
     rst="$(tput sgr0)"
     export LESS_TERMCAP_md="$(printf '%s\n' 'setaf 3' | tput -S)"
     export LESS_TERMCAP_mb="$LESS_TERMCAP_md"
