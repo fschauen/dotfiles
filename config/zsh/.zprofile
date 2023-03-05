@@ -17,6 +17,10 @@ export LOCAL_PREFIX="/usr/local"
 export PAGER=less
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 
+have() {
+  command -v "$1" >/dev/null 2>&1
+}
+
 # Make man pages pretty, but only if $TERM is set because otherwise `tput`
 # would report errors (e.g., when running a command via SSH without allocating
 # a pty $TERM is not set).
@@ -65,7 +69,7 @@ export PATH
 # Prepend custom man directories to MANPATH if they exist, so that we get
 # correct man page entries when multiple versions of a command are
 # available.
-command -v manpath >/dev/null 2>&1 && MANPATH="$(unset MANPATH; manpath)"
+have manpath && MANPATH="$(unset MANPATH; manpath)"
 while read -r dir; do
   [ -d "$dir" ] && case ":${MANPATH:=$dir}:" in
     *:"$dir":*) ;;                # already in MANPATH -> ignore
@@ -88,16 +92,15 @@ unset dir
 # These checks have to be done after PATH manipulation above so we can find
 # installed programs if they are in the added paths.
 
-if command -v nvim >/dev/null 2>&1; then
-  export EDITOR="nvim"
-else
-  export EDITOR="vim"
-fi
+have nvim && EDITOR="nvim"
+[ -z $EDITOR ] && have vim && EDITOR="vim"
+[ -z $EDITOR ] && have vi && EDITOR="vi"
+[ -n $EDITOR ] && export EDITOR
 
-if command -v brew >/dev/null 2>&1; then
+have brew && {
   export HOMEBREW_NO_ANALYTICS=1
   export HOMEBREW_NO_AUTO_UPDATE=1
-fi
+}
 
 # Set $DISPLAY if running in WSL and an Xserver is reachable
 #
@@ -105,11 +108,9 @@ fi
 # How to check if running in WSL: https://stackoverflow.com/a/61014411
 if [ -n "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip')" ]; then
   xdisplay="$(awk '/nameserver/ {print $2; exit}' /etc/resolv.conf 2>/dev/null):0.0"
-  if command -v xset >/dev/null 2>&1; then
-    if DISPLAY="$xdisplay" timeout '0.2s' xset q >/dev/null 2>&1; then
-      export DISPLAY="$xdisplay"
-      export LIBGL_ALWAYS_INDIRECT=1
-    fi
+  have xset && if DISPLAY="$xdisplay" timeout '0.2s' xset q >/dev/null 2>&1; then
+    export DISPLAY="$xdisplay"
+    export LIBGL_ALWAYS_INDIRECT=1
   fi
   unset xdisplay
 fi
