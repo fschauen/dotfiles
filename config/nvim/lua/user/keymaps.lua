@@ -11,12 +11,6 @@ map('n', 'J', 'mzJ`z')
 map('v', '>', '><cr>gv')
 map('v', '<', '<<cr>gv')
 
--- more intuitive increment/decrement
-map('n', '+', '<c-a>')
-map('n', '-', '<c-x>')
-map('v', '+', 'g<c-a>')
-map('v', '-', 'g<c-x>')
-
 -- place next/previous search result in center of screen
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
