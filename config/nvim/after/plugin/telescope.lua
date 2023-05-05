@@ -79,6 +79,27 @@ telescope.setup {
 
 local builtin = require 'telescope.builtin'
 
+local selected_range = function()
+  local _, s_row, s_col, _ = unpack(vim.fn.getpos('v'))
+  local _, e_row, e_col, _ = unpack(vim.fn.getpos('.'))
+
+  local mode = vim.api.nvim_get_mode().mode
+  local visual_line = (mode == 'V' or mode == 'CTRL-V')
+
+  if s_row < e_row or (s_row == e_row and s_col <= e_col) then
+    if visual_line then s_col, e_col = 1, #vim.fn.getline(e_row) end
+    return s_row - 1, s_col - 1, e_row - 1, e_col
+  else
+    if visual_line then e_col, s_col = 1, #vim.fn.getline(s_row) end
+    return e_row - 1, e_col - 1, s_row - 1, s_col
+  end
+end
+
+local selected_text = function()
+  local r0, c0, r1, c1 = selected_range()
+  return vim.fn.join(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {}), '\n')
+end
+
 local custom = {
   all_files = function()
     builtin.find_files {
@@ -94,6 +115,14 @@ local custom = {
       prompt_title = '  Find dotfiles ',
       cwd = '~/.dotfiles',
       hidden = true,
+    }
+  end,
+
+  grep_visual = function()
+    local selection = selected_text()
+    builtin.grep_string {
+      prompt_title = string.format('  Grep: %s', selection),
+      search = selection,
     }
   end,
 
@@ -129,6 +158,8 @@ map('n', '<leader>fh', builtin.help_tags,   { desc = ' [F]ind [H]elp tags' })
 map('n', '<leader>fk', builtin.keymaps,     { desc = ' [F]ind [K]eymaps' })
 map('n', '<leader>fm', custom.man_pages,    { desc = ' [F]ind [M]an pages' })
 map('n', '<leader>fo', builtin.vim_options, { desc = ' [F]ind vim [O]ptions' })
+map('n', '<leader>fs', builtin.grep_string, { desc = ' [F]ind [S]tring' })
+map('v', '<leader>fs', custom.grep_visual,  { desc = ' [F]ind visual [S]election' })
 
 
 
