@@ -31,8 +31,8 @@ map('n', '<s-Left>', '<cmd>vertical resize -1<cr>')
 map('n', '<s-Right>', '<cmd>vertical resize +1<cr>')
 
 -- easy tab navigation
-map('n', '<leader>.', '<cmd>tabnext<cr>', { silent = true })
-map('n', '<leader>,', '<cmd>tabprevious<cr>', { silent = true })
+map('n', '<Right>', '<cmd>tabnext<cr>', { silent = true })
+map('n', '<Left>', '<cmd>tabprevious<cr>', { silent = true })
 
 -- move lines up and down
 map('n', '<c-a-j>', [[:move .+1<cr>==]], { silent = true })
