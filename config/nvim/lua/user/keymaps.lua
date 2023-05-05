@@ -47,8 +47,8 @@ map('i', '<c-a>', '<c-o>^')
 map('i', '<c-e>', '<c-o>$')
 
 -- navigate items in quickfix list
-map('n', '<leader>j', '<cmd>cnext<cr>',{ silent = true })
-map('n', '<leader>k', '<cmd>cprevious<cr>', { silent = true })
+map('n', '<Down>', '<cmd>cnext<cr>zz', { silent = true })
+map('n', '<Up>', '<cmd>cprevious<cr>zz', { silent = true })
 
 -- cycle through line numbering modes
 map('n', '<leader>ln', '<cmd>set nonumber norelativenumber<CR>', { silent = true })
