@@ -80,6 +80,15 @@ telescope.setup {
 local builtin = require 'telescope.builtin'
 
 local custom = {
+  all_files = function()
+    builtin.find_files {
+      prompt_title = '   ALL Files  ',
+      hidden = true,
+      no_ignore = true,
+      no_ignore_parent = true,
+    }
+  end,
+
   dotfiles = function()
     builtin.find_files {
       prompt_title = '  Find dotfiles ',
@@ -110,6 +119,7 @@ local custom = {
 
 local map = vim.keymap.set
 
+map('n', '<leader>fa', custom.all_files,    { desc = ' [F]ind [A]ll Files in $PWD' })
 map('n', '<leader>fb', builtin.buffers,     { desc = ' [F]ind [B]uffers' })
 map('n', '<leader>fc', builtin.git_commits, { desc = ' [F]ind [C]ommits' })
 map('n', '<leader>fd', custom.dotfiles,     { desc = ' [F]ind [D]otfiles' })
