@@ -7,7 +7,6 @@ configs.setup {
     'c',
     'cpp',
     'haskell',
-    'help',
     'html',
     'javascript',
     'latex',
@@ -19,6 +18,7 @@ configs.setup {
     'query',
     'toml',
     'vim',
+    'vimdoc',
     'yaml',
   },
 
