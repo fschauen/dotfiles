@@ -37,20 +37,13 @@ load_config() {
   . "$config"
 }
 
-is_dry_run() { [ "$DRY_RUN" = "yes" ]; }
-
 move_aside() {
   backup="$1.$(date +%s)"
   echo "${red}WARNING:$sgr0 moving '$1' to '$backup'"
-  is_dry_run || mv "$1" "$backup"
+  $cmd mv "$1" "$backup"
 }
 
 greeting() {
-  is_dry_run && {
-    echo "${yellow}Performing dry run (use -f to actually make changes).$sgr0"
-    echo
-  }
-
   echo "Deploying dotfiles:"
   echo "       Source: $cyan$dotfiles$sgr0"
   echo "  Destination: $cyan$DESTDIR$sgr0"
@@ -68,7 +61,7 @@ make_dir() {
     echo "${green}OK:$sgr0 $1"
   else
     echo "${yellow}MKDIR:$sgr0 $1"
-    is_dry_run || mkdir -vp "$1"
+    $cmd mkdir -vp "$1"
   fi
 }
 
@@ -80,7 +73,7 @@ make_link() {
   else
     [ -e "$link" ] && move_aside "$link"
     echo "${yellow}LINK:$sgr0 $link $blue->$sgr0 $target"
-    is_dry_run || ln -sf "$target" "$link"
+    $cmd ln -sf "$target" "$link"
   fi
 }
 
@@ -106,25 +99,18 @@ EOF
   else
     [ -f "$user_config" ] && move_aside "$user_config"
     echo "${yellow}WRITE:$sgr0 $user_config with '$GIT_USER <$GIT_EMAIL>'"
-    is_dry_run || cp -f "$temp_git" "$user_config"
+    $cmd cp -f "$temp_git" "$user_config"
   fi
 }
 
 usage() {
-  echo "Usage: $(basename "$0") [-h] [-f]"
+  echo "Usage: $(basename "$0") [-h] [-n]"
   echo ""
   echo "  -h  print this help and exit"
-  echo "  -f  modify filesystem rather than dry run"
+  echo "  -n  perform dry run"
 }
 
-main() {
-  DRY_RUN=yes
-  while getopts 'fh' opt; do case "$opt" in
-    f) DRY_RUN=no;;
-    h) usage; exit 0;;
-    *) usage; exit 1;;
-  esac done
-
+execute() {
   load_config || error "could not load config.sh"
 
   [ -n "$DESTDIR" ]   || error "\$DESTDIR must be set in config.sh"
@@ -151,6 +137,28 @@ main() {
 
   heading 'git user configuration'
   make_git_user_config
+}
+
+main() {
+  while getopts 'hn' opt; do
+    case "$opt" in
+    n)  # dry run
+      cmd=echo
+      echo "${yellow}Performing dry run (no changes will be made).${sgr0}"
+      echo
+      ;;
+    h)  # help
+      usage
+      exit 0
+      ;;
+    *)  # invalid option
+      usage
+      exit 1
+      ;;
+    esac
+  done
+
+  execute
 }
 
 main "$@"

@@ -7,7 +7,7 @@ Always evolving...
 ```bash
 $ git clone https://github.com/fschauen/dotfiles.git $HOME/.dotfiles
 $ cd $HOME/.dotfiles
-$ ./install.sh -f   # omit -f for a dry run
+$ ./install.sh
 $ ./unlock.sh       # decrypt the SSH configuration
 ```
 
