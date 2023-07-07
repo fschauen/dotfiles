@@ -48,9 +48,9 @@ greeting() {
   echo "       Source: $cyan$dotfiles$sgr0"
   echo "  Destination: $cyan$DESTDIR$sgr0"
   echo "     Git user: $green$GIT_USER <$GIT_EMAIL>$sgr0"
+  echo
 
-  if [ -t 0 ] && [ -t 1 ]; then
-    echo
+  if [ -t 0 ] && [ -t 1 ] && [ "$SKIP_CONFIRMATION" != "yes" ] ; then
     echo "Press ENTER to continue (CTRL-C to cancel)..."
     read -r _
   fi
@@ -108,6 +108,7 @@ usage() {
   echo ""
   echo "  -h  print this help and exit"
   echo "  -n  perform dry run"
+  echo "  -y  assume yes, i.e. don't ask for confirmation"
 }
 
 execute() {
@@ -140,12 +141,15 @@ execute() {
 }
 
 main() {
-  while getopts 'hn' opt; do
+  while getopts 'hny' opt; do
     case "$opt" in
     n)  # dry run
       cmd=echo
       echo "${yellow}Performing dry run (no changes will be made).${sgr0}"
       echo
+      ;;
+    y)  # assume yes, i.e. skip confirmation
+      SKIP_CONFIRMATION='yes'
       ;;
     h)  # help
       usage
