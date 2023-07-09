@@ -29,25 +29,25 @@ local on_attach = function(client, bufnr)
   if filetype_attach then filetype_attach(client, bufnr) end
 end
 
+local config = function()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  local has_cmp, cmp = pcall(require, 'cmp_nvim_lsp')
+  if has_cmp then
+    vim.tbl_deep_extend('force', capabilities, cmp.default_capabilities())
+  end
+
+  lsp = require('lspconfig')
+  for server, opts in pairs(servers) do
+    opts = vim.tbl_deep_extend('keep', opts, {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+    lsp[server].setup(opts)
+  end
+end
 
 return {
   'neovim/nvim-lspconfig',
-
-  config = function()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local has_cmp, cmp = pcall(require, 'cmp_nvim_lsp')
-    if has_cmp then
-      vim.tbl_deep_extend('force', capabilities, cmp.default_capabilities())
-    end
-
-    lsp = require('lspconfig')
-    for server, opts in pairs(servers) do
-      opts = vim.tbl_deep_extend('keep', opts, {
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
-      lsp[server].setup(opts)
-    end
-  end,
+  config = config,
 }
 

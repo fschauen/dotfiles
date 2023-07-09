@@ -1,12 +1,10 @@
 return {
   'lukas-reineke/virt-column.nvim',
 
-  opts = {
-    char = '│',
-  },
-
-  config = function(_, opts)
-    require('virt-column').setup(opts)
+  config = function()
+    require('virt-column').setup {
+      char = '│',
+    }
 
     local toggle_virtual_column = function()
       if vim.o.colorcolumn == '' then

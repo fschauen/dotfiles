@@ -1,26 +1,22 @@
-local on_attach = function(bufnr)
-  local api = require('nvim-tree.api')
-  local opts = function(desc)
-    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, silent = true }
-  end
-
-  api.config.mappings.default_on_attach(bufnr)
-
-  vim.keymap.set('n', 'l',    api.node.open.edit,             opts('open'))
-  vim.keymap.set('n', '<CR>', api.node.open.edit,             opts('open'))
-  vim.keymap.set('n', 'o',    api.node.open.edit,             opts('open'))
-  vim.keymap.set('n', 'h',    api.node.navigate.parent_close, opts('close directory'))
-end
-
-
-return {
-  'kyazdani42/nvim-tree.lua',
-
-  opts = {
+local config = function()
+  require('nvim-tree').setup {
     disable_netrw = true,       -- replace netrw with nvim-tree
     hijack_cursor = true,       -- keep the cursor on begin of the filename
     sync_root_with_cwd = true,  -- watch for `DirChanged` and refresh the tree
-    on_attach = on_attach,
+
+    on_attach = function(bufnr)
+      local api = require('nvim-tree.api')
+      api.config.mappings.default_on_attach(bufnr)
+
+      local opts = function(desc)
+        return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, silent = true }
+      end
+
+      vim.keymap.set('n', 'l',    api.node.open.edit,             opts('open'))
+      vim.keymap.set('n', '<CR>', api.node.open.edit,             opts('open'))
+      vim.keymap.set('n', 'o',    api.node.open.edit,             opts('open'))
+      vim.keymap.set('n', 'h',    api.node.navigate.parent_close, opts('close directory'))
+    end,
 
     git = {
       ignore = false,       -- don't hide files from .gitignore
@@ -41,14 +37,15 @@ return {
       group_empty = true,   -- folders that contain only one folder are grouped
       highlight_git = true, -- enable highlight based on git attributes
     },
-  },
+  }
 
-  config = function(_, opts)
-    require('nvim-tree').setup(opts)
+  vim.keymap.set('n', '<leader>nn', '<cmd>NvimTreeOpen<cr>')
+  vim.keymap.set('n', '<leader>nf', '<cmd>NvimTreeFindFile<cr>')
+  vim.keymap.set('n', '<leader>nc', '<cmd>NvimTreeClose<cr>')
+end
 
-    vim.keymap.set('n', '<leader>nn', '<cmd>NvimTreeOpen<cr>')
-    vim.keymap.set('n', '<leader>nf', '<cmd>NvimTreeFindFile<cr>')
-    vim.keymap.set('n', '<leader>nc', '<cmd>NvimTreeClose<cr>')
-  end,
+return {
+  'kyazdani42/nvim-tree.lua',
+  config = config,
 }
 
