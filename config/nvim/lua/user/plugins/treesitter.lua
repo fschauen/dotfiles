@@ -89,13 +89,13 @@ local config = function()
 end
 
 return {
-  {
-    'nvim-treesitter/nvim-treesitter',
-    config = config,
-  },
+  'nvim-treesitter/nvim-treesitter',
 
-  'nvim-treesitter/nvim-treesitter-refactor',
-  'nvim-treesitter/nvim-treesitter-textobjects',
-  'nvim-treesitter/playground',
+  config = config,
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter-refactor',
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    'nvim-treesitter/playground',
+  },
 }
 

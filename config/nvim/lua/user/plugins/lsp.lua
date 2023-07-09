@@ -67,9 +67,12 @@ local config = function()
 end
 
 return {
-  { 'neovim/nvim-lspconfig', config = config },
+  'neovim/nvim-lspconfig',
 
-  'williamboman/mason.nvim',
-  'williamboman/mason-lspconfig.nvim',
+  config = config,
+  dependencies = {
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+  },
 }
 

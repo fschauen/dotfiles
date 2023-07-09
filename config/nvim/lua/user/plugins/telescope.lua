@@ -80,6 +80,8 @@ local config = function()
     },
   }
 
+  telescope.load_extension 'file_browser'
+
   local selected_range = function()
     local _, s_row, s_col, _ = unpack(vim.fn.getpos('v'))
     local _, e_row, e_col, _ = unpack(vim.fn.getpos('.'))
@@ -160,26 +162,15 @@ local config = function()
   map('n', '<leader>fo', builtin.vim_options, { desc = ' [F]ind vim [O]ptions' })
   map('n', '<leader>fs', builtin.grep_string, { desc = ' [F]ind [S]tring' })
   map('v', '<leader>fs', custom.grep_visual,  { desc = ' [F]ind visual [S]election' })
+  map('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
 end
 
-local telescope = {
-  'nvim-telescope/telescope.nvim',
-  config = config,
-}
-
-local file_browser = {
-  'nvim-telescope/telescope-file-browser.nvim',
-
-  dependencies = { 'nvim-telescope/telescope.nvim' },
-
-  config = function()
-    require('telescope').load_extension 'file_browser'
-    vim.keymap.set('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
-  end,
-}
-
 return {
-  telescope,
-  file_browser,
+  'nvim-telescope/telescope.nvim',
+
+  config = config,
+  dependencies = {
+    'nvim-telescope/telescope-file-browser.nvim',
+  },
 }
 

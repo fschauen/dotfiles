@@ -75,11 +75,15 @@ local config = function()
 end
 
 return {
-  { 'hrsh7th/nvim-cmp', config = config },
-  'hrsh7th/cmp-nvim-lsp',
-  'hrsh7th/cmp-nvim-lua',
-  'hrsh7th/cmp-path',
-  'hrsh7th/cmp-buffer',
-  'onsails/lspkind-nvim',
+  'hrsh7th/nvim-cmp',
+
+  config = config,
+  dependencies = {
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lua',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-buffer',
+    'onsails/lspkind-nvim',
+  },
 }
 
