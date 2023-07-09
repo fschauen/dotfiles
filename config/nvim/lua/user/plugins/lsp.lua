@@ -41,8 +41,27 @@ local config = function()
         }
       end,
 
-      -- server-specific handlers
-      -- ['server'] = function() --[[ server-specific stuff... ]] end
+      lua_ls = function()
+        require'lspconfig'.lua_ls.setup {
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            Lua = {
+              -- I'm using lua only inside neovim, so the runtime is LuaJIT.
+              runtime = { version = 'LuaJIT' },
+
+              -- Get the language server to recognize the `vim` global.
+              diagnostics = { globals = {'vim'} },
+
+              -- Make the server aware of Neovim runtime files.
+              workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+
+              -- Do not send telemetry data containing a randomized but unique identifier
+              telemetry = { enable = false },
+            },
+          },
+        }
+      end,
     }
   }
 end
