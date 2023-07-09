@@ -55,8 +55,9 @@ map('n', '<leader>ln', '<cmd>set nonumber norelativenumber<CR>', { silent = true
 map('n', '<leader>ll', '<cmd>set number norelativenumber<CR>', { silent = true })
 map('n', '<leader>lr', '<cmd>set number relativenumber<CR>', { silent = true })
 
--- show/hide listchars
+-- toggle options
 map('n', '<leader>sl', '<cmd>set list!<CR>', { silent = true })
+map('n', '<leader>sw', '<cmd>set wrap!<CR>', { silent = true })
 
 -- quickly change background
 map('n', '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]])
