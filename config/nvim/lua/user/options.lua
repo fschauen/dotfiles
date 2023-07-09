@@ -73,6 +73,7 @@ o.cursorlineopt  = 'number'-- ...but only the line number
 o.showbreak      = '⤷ '    -- prefix for wrapped lines
 o.scrolloff      = 3       -- min. # of lines above and below cursor
 o.sidescrolloff  = 3       -- min. # of columns to left and right of cursor
+o.signcolumn     = 'number' -- display signs in 'number' column
 o.list           = true    -- show invisible characters
 o.listchars      = {
   eol = '↲',
