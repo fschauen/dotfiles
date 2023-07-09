@@ -19,7 +19,7 @@ local on_attach = function(client, bufnr)
   map('n', 'grr',         vim.lsp.buf.rename,                     opts)
   map('n', 'gt',          vim.lsp.buf.type_definition,            opts)
 
-  filetype_attach = filetypes[vim.bo.filetype]
+  local filetype_attach = filetypes[vim.bo.filetype]
   if filetype_attach then filetype_attach(client, bufnr) end
 end
 
