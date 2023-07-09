@@ -72,6 +72,7 @@ install_packages() {
     stow                        \
     sudo                        \
     tmux                        \
+    unzip                       \
     zsh
   $cmd apt-file update
 }
