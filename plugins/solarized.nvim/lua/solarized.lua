@@ -407,6 +407,16 @@ M.highlights = function()
       TelescopeMultiSelection = { fg = C.green },
       TelescopeMultiIcon      = { fg = C.green },
     },
+
+    -- 'hrsh7th/nvim-cmp'
+    nvim_cmp = {
+      CmpItemAbbr             = { link = 'Comment' },
+      CmpItemAbbrDeprecated   = { link = 'Error' },
+      CmpItemAbbrMatch        = { fg   = C.base2 },
+      CmpItemAbbrMatchFuzzy   = { fg   = C.base2 },
+      CmpItemKind             = { fg   = C.violet },
+      CmpItemMenu             = { fg   = C.base01, italic = true },
+    },
   }
 end
 
