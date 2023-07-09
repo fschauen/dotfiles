@@ -1,9 +1,3 @@
-local servers = {
-  omnisharp = {
-    cmd = { vim.fn.expand '~/omnisharp/OmniSharp' },
-  },
-}
-
 local filetypes = {
   cs = function(client, bufnr)
     client.server_capabilities.semanticTokensProvider = nil
@@ -36,18 +30,27 @@ local config = function()
     vim.tbl_deep_extend('force', capabilities, cmp.default_capabilities())
   end
 
-  lsp = require('lspconfig')
-  for server, opts in pairs(servers) do
-    opts = vim.tbl_deep_extend('keep', opts, {
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-    lsp[server].setup(opts)
-  end
+  require('mason').setup()
+  require('mason-lspconfig').setup {
+    handlers = {
+      -- default handler
+      function(server)
+        require('lspconfig')[server].setup {
+          on_attach = on_attach,
+          capabilities = capabilities,
+        }
+      end,
+
+      -- server-specific handlers
+      -- ['server'] = function() --[[ server-specific stuff... ]] end
+    }
+  }
 end
 
 return {
-  'neovim/nvim-lspconfig',
-  config = config,
+  { 'neovim/nvim-lspconfig', config = config },
+
+  'williamboman/mason.nvim',
+  'williamboman/mason-lspconfig.nvim',
 }
 
