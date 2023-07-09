@@ -1,50 +1,48 @@
 local config = function()
   local cmp = require('cmp')
 
-  local mapping = function(mode)
-    return {
-      ['<c-n>'] = {
-        [mode] = function()
-          if cmp.visible() then
-            cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
-          else
-            cmp.complete()
-          end
-        end,
-      },
+  local mapping = {
+    ['<c-n>'] = {
+      i = function()
+        if cmp.visible() then
+          cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+        else
+          cmp.complete()
+        end
+      end,
+    },
 
-      ['<c-p>'] = {
-        [mode] = function()
-          if cmp.visible() then
-            cmp.select_prev_item { behavior = cmp.SelectBehavior.Select }
-          else
-            cmp.complete()
-          end
-        end,
-      },
+    ['<c-p>'] = {
+      i = function()
+        if cmp.visible() then
+          cmp.select_prev_item { behavior = cmp.SelectBehavior.Select }
+        else
+          cmp.complete()
+        end
+      end,
+    },
 
-      ['<Down>'] = { [mode] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select } },
-      ['<Up>'] = { [mode] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select } },
+    ['<Down>'] = { i = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select } },
+    ['<Up>'] = { i = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select } },
 
-      ['<c-f>'] = { [mode] = cmp.mapping.scroll_docs(4) },
-      ['<c-b>'] = { [mode] = cmp.mapping.scroll_docs(-4) },
+    ['<c-f>'] = { i = cmp.mapping.scroll_docs(4) },
+    ['<c-b>'] = { i = cmp.mapping.scroll_docs(-4) },
 
-      ['<c-e>'] = { [mode] = cmp.mapping.abort() },
-      ['<c-y>'] = { [mode] = cmp.mapping.confirm { select = true } },
-      ['<Tab>'] = {
-        [mode] = function(fallback)
-          if cmp.visible() then
-            cmp.confirm { select = true }
-          else
-            fallback()
-          end
-        end,
-      },
-    }
-  end
+    ['<c-e>'] = { i = cmp.mapping.abort() },
+    ['<c-y>'] = { i = cmp.mapping.confirm { select = true } },
+    ['<Tab>'] = {
+      i = function(fallback)
+        if cmp.visible() then
+          cmp.confirm { select = true }
+        else
+          fallback()
+        end
+      end,
+    },
+  }
 
   cmp.setup {
-    mapping = mapping('i'),
+    mapping = mapping,
 
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -74,15 +72,6 @@ local config = function()
       ghost_text = true,
     },
   }
-
-  cmp.setup.cmdline(':', {
-    mapping = mapping('c'),
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
 end
 
 return {
