@@ -56,8 +56,9 @@ map('n', '<leader>ll', '<cmd>set number norelativenumber<CR>', { silent = true }
 map('n', '<leader>lr', '<cmd>set number relativenumber<CR>', { silent = true })
 
 -- toggle options
-map('n', '<leader>sl', '<cmd>set list!<CR>', { silent = true })
-map('n', '<leader>sw', '<cmd>set wrap!<CR>', { silent = true })
+map('n', '<leader>sl', '<cmd>set list! | set list?<CR>', { silent = true })
+map('n', '<leader>sr', '<cmd>set wrap! | set wrap?<CR>', { silent = true })
+map('n', '<leader>sp', '<cmd>set spell! | set spell?<CR>', { silent = true })
 
 -- quickly change background
 map('n', '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]])
