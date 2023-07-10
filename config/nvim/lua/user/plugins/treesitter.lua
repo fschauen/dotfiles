@@ -83,9 +83,9 @@ local config = function()
     },
   }
 
-  vim.keymap.set('n', '<leader>sp', '<cmd>TSPlaygroundToggle<cr>')
-  vim.keymap.set('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<cr>')
-  vim.keymap.set('n', '<leader>sn', '<cmd>TSNodeUnderCursor<cr>')
+  vim.keymap.set('n', '<leader>tp', '<cmd>TSPlaygroundToggle<cr>')
+  vim.keymap.set('n', '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>')
+  vim.keymap.set('n', '<leader>tn', '<cmd>TSNodeUnderCursor<cr>')
 end
 
 return {
