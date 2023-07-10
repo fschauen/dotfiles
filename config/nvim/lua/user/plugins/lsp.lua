@@ -30,6 +30,7 @@ local config = function()
     vim.tbl_deep_extend('force', capabilities, cmp.default_capabilities())
   end
 
+  local lsp = require 'lspconfig'
   require('mason').setup()
   require('mason-lspconfig').setup {
     handlers = {
@@ -41,8 +42,21 @@ local config = function()
         }
       end,
 
+      omnisharp = function()
+        lsp.omnisharp.setup {
+          on_attach = on_attach,
+          capabilities = capabilities,
+
+          -- Support for showing unimported types and adding `using` directives.
+          enable_import_completion = true,
+
+          -- Don't include preview versions of the .NET SDK.
+          sdk_include_prereleases = false,
+        }
+      end,
+
       lua_ls = function()
-        require'lspconfig'.lua_ls.setup {
+        lsp.lua_ls.setup {
           on_attach = on_attach,
           capabilities = capabilities,
           settings = {
