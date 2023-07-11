@@ -319,7 +319,6 @@ M.highlights = function()
       TSTitle               = { link = 'Title' },
       TSLiteral             = { link = 'markdownCode' },
       TSURI                 = { link = 'markdownUrl' },
-      TSText                = { link = 'TSNone' },
       TSMath                = { link = 'Special' },
       TSTextReference       = { link = 'markdownLinkText' },
       TSEnvironment         = { link = 'Macro' },
@@ -411,11 +410,25 @@ M.highlights = function()
     -- 'hrsh7th/nvim-cmp'
     nvim_cmp = {
       CmpItemAbbr             = { link = 'Comment' },
-      CmpItemAbbrDeprecated   = { link = 'Error' },
       CmpItemAbbrMatch        = { fg   = C.base2 },
-      CmpItemAbbrMatchFuzzy   = { fg   = C.base2 },
+      CmpItemAbbrMatchFuzzy   = { link = 'CmpItemAbbrMatch' },
+
+      CmpItemAbbrDeprecated   = { fg=C.orange, strikethrough = true },
+
       CmpItemKind             = { fg   = C.violet },
       CmpItemMenu             = { fg   = C.base01, italic = true },
+
+      CmpItemKindVariable     = { fg   = C.cyan },
+      CmpItemKindInterface    = { link = 'CmpItemKindVariable' },
+      CmpItemKindText         = { link = 'CmpItemKindVariable' },
+
+      CmpItemKindFunction     = { fg   = C.magenta },
+      CmpItemKindMethod       = { link = 'CmpItemKindFunction' },
+
+      CmpItemKindKeyword      = { fg   = C.base2 },
+      CmpItemKindProperty     = { link = 'CmpItemKindKeyword' },
+      CmpItemKindUnit         = { link = 'CmpItemKindKeyword' },
+
     },
   }
 end
