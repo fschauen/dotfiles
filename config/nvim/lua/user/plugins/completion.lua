@@ -61,11 +61,41 @@ local config = function()
     formatting = {
       format = require('lspkind').cmp_format {
         mode = 'symbol_text',
+
         menu = {
-          buffer   = "[buf]",
-          nvim_lsp = "[LSP]",
-          nvim_lua = "[lua]",
-          path     = "[path]",
+          buffer   = 'buf',
+          nvim_lsp = 'LSP',
+          nvim_lua = 'lua',
+          path     = '',
+        },
+
+        -- Custom mix of lspkind defaults and VS Code codicons :)
+        symbol_map = {
+          Text = '',          -- VS Code
+          Method = '󰆧',        -- lspkind
+          Function = '󰊕',      -- lspkind
+          Constructor = '',   -- lspkind
+          Field = '󰜢',         -- lspkind
+          Variable = '󰀫',      -- lspkind
+          Class = '',         -- VS Code
+          Interface = '',     -- VS Code
+          Module = '',        -- VS Code
+          Property = '',      -- VS Code
+          Unit = '',          -- VS Code
+          Value = '󰎠',         -- lspkind
+          Enum = '',          -- lspkind
+          Keyword = '',       -- VS Code
+          Snippet = '',       -- VS Code
+          Color = '',         -- VS Code
+          File = '',          -- VS Code
+          Reference = '',     -- VS Code
+          Folder = '',        -- VS Code
+          EnumMember = '',    -- lspkind
+          Constant = '󰏿',      -- lspkind
+          Struct = '',        -- VS Code
+          Event = '',         -- VS Code
+          Operator = '',      -- VS Code
+          TypeParameter = '', -- VS Code
         },
       },
     },
