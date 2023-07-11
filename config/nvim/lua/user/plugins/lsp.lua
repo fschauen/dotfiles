@@ -27,7 +27,7 @@ local custom_server_opts = {
 }
 
 local custom_filetype_attach = {
-  cs = function(client, bufnr)
+  cs = function(client, _ --[[bufnr]])
     client.server_capabilities.semanticTokensProvider = nil
   end,
 }
