@@ -69,3 +69,7 @@ map('n', '<leader>h', '<cmd>nohlsearch<cr>')
 -- more convenient way of entering normal mode from terminal mode
 map('t', [[<c-\><c-\>]], [[<c-\><c-n>]])
 
+-- recall older/recent command-line from history
+map('c', '<c-j>', '<down>')
+map('c', '<c-k>', '<up>')
+
