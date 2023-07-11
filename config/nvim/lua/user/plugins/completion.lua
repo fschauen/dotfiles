@@ -53,8 +53,8 @@ local config = function()
     mapping = keymap,
 
     snippet = {
-      expand = function(_ --[[args]])
-        -- require('luasnip').lsp_expand(args.body) TODO enable
+      expand = function(args)
+        require('luasnip').lsp_expand(args.body)
       end,
     },
 
@@ -103,7 +103,7 @@ local config = function()
     sources = cmp.config.sources({
       { name = 'nvim_lua' },
       { name = 'nvim_lsp' },
-      -- { name = "luasnip" }, TODO enable
+      { name = 'luasnip' },
     }, {
       { name = 'path' },
       { name = 'buffer', keyword_length = 5 },
@@ -145,6 +145,9 @@ return {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-cmdline',
     'onsails/lspkind-nvim',
+
+    'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
   },
 }
 
