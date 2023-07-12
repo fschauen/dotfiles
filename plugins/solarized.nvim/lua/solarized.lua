@@ -21,6 +21,12 @@ M.colors = function()
     blue    = '#268bd2',
     cyan    = '#2aa198',
     green   = '#719e07',  -- original: #859900
+
+    -- Darker background colors for diffs.
+    red_dark     = '#2c2429',
+    green_dark   = '#173921',
+    yellow_dark  = '#3c431b',
+    orange_dark  = '#543b1d',
   }
 
   if vim.opt.background:get() == 'light' then
@@ -111,10 +117,10 @@ M.highlights = function()
       IncSearch      = { fg = C.yellow, reverse = true },
       Search         = { fg = C.base2 , reverse = true },
 
-      DiffAdd        = { fg = C.green },
-      DiffChange     = { fg = C.yellow },
-      DiffDelete     = { fg = C.red },
-      DiffText       = { fg = C.blue },
+      DiffAdd        = { bg = C.green_dark },
+      DiffChange     = { bg = C.yellow_dark },
+      DiffDelete     = { bg = C.red_dark },
+      DiffText       = { bg = C.orange_dark },
       diffAdded      = { link = 'DiffAdd' },
       diffRemoved    = { link = 'DiffDelete' },
       diffLine       = { fg = C.violet },
