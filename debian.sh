@@ -4,6 +4,7 @@ set -e
 USERNAME=fernando
 DOTFILES_URL="https://github.com/fschauen/dotfiles.git"
 NEOVIM_VERSION="0.9.1"
+GIT_DELTA_VERSION="0.16.5"
 
 if [ -t 1 ]; then
   sgr0="$(printf      '\033[0m')"
@@ -113,6 +114,20 @@ install_neovim() {
   fi
 }
 
+install_git_delta() {
+  delta_url="https://github.com/dandavison/delta/releases/download/${GIT_DELTA_VERSION}/git-delta-musl_${GIT_DELTA_VERSION}_amd64.deb"
+  delta_deb="git-delta-musl_${GIT_DELTA_VERSION}_amd64.deb"
+  delta_bin="/usr/bin/delta"
+
+  if [ ! -f "${delta_bin}" ]; then
+    [ ! -f "${delta_deb}" ] && $cmd curl -L -o "${delta_deb}" "${delta_url}"
+    $cmd dpkg -i "${delta_deb}"
+    $cmd rm -vf "${delta_deb}"
+  else
+    echo "${yellow}SKIPPED:${sgr0} ${delta_bin} exists"
+  fi
+}
+
 setup_user() {
   # Change shell to `zsh` and get rid of bash files.
   $cmd chsh -s /bin/zsh "$USERNAME"
@@ -148,6 +163,9 @@ execute() {
 
   heading "Install neovim v$NEOVIM_VERSION"
   install_neovim    # Must come after filesystem tweaks because of man pages.
+
+  heading "Install git-delta v$GIT_DELTA_VERSION"
+  install_git_delta
 
   heading "Setup user: $USERNAME"
   setup_user

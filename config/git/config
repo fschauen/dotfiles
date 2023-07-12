@@ -22,7 +22,7 @@
 [core]
     excludesfile    = ~/.config/git/ignore
     trustctime      = false # http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/
-    pager           = less -F -X
+    pager           = delta-wrapper
 
 [init]
     defaultBranch = main
@@ -30,14 +30,39 @@
 [log]
     date = human
 
+[delta]
+    navigate = true     # use n and N to navigate diff secitons
+
+    commit-decoration-style = "#b58900" box
+    commit-style = raw
+    dark = true
+    file-decoration-style = "#268bd2" box ul
+    file-style = "#268bd2"
+    hunk-header-style = omit
+    line-numbers = true
+    line-numbers-minus-style = "#dc322f" italic
+    line-numbers-plus-style = "#719e07" italic
+    line-numbers-left-style =  "#586e75"
+    line-numbers-right-style = "#eee8d5"
+    line-numbers-zero-style =  "#073642"
+    minus-emph-style = normal "#842b2c"
+    minus-style = normal "#2c2429"
+    plus-emph-style = syntax "#446c14"
+    plus-style = syntax "#173921"
+    syntax-theme = Nord
+
 [push]
     default = upstream
 
 [pull]
     ff = only
 
+[diff]
+    colorMoved = default
+
 [merge]
     tool = vimdiff
+    conflictstyle = diff3
 
 [mergetool]
     prompt = false

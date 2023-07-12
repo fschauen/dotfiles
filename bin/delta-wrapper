@@ -1,0 +1,7 @@
+#!/bin/sh
+# This wrapper is intended to be used as pager for git:
+#  - Use `git-delta` if installed.
+#  - Otherwise, fall back to `less`.
+command -v delta >/dev/null 2>&1 && exec delta --true-color=always "$@"
+exec less -F -X "$@"
+
