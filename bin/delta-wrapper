@@ -3,5 +3,7 @@
 #  - Use `git-delta` if installed.
 #  - Otherwise, fall back to `less`.
 command -v delta >/dev/null 2>&1 && exec delta --true-color=always "$@"
-exec less -F -X "$@"
 
+# Consume option that would confuse `less`.
+[ "$1" = "--side-by-side" ] && shift
+exec less -F -X "$@"

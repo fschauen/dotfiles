@@ -4,6 +4,8 @@
     ba      = bv --all
     cm      = commit --verbose
     co      = checkout
+    d       = diff
+    ds      = !GIT_PAGER=\"delta-wrapper --side-by-side\" git diff
     l       = log --graph --pretty=basic
     ln      = log --graph --pretty=name
     ll      = log --graph --decorate --stat
