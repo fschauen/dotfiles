@@ -83,6 +83,9 @@ o.listchars      = {
   trail = '·',
   conceal = '┊',
 }
+o.fillchars = {
+  diff = '⋅',
+}
 
 -- Wildcard Expansion
 o.wildignore = {
