@@ -16,7 +16,7 @@
     ss      = status
 
 [pretty]
-    basic = %C(auto)%h%d %s %C(0) %C(10)%ad
+    basic = %C(auto)%h%d %s %C(0) %C(10)%ad
     name  = %C(auto)%h%d %s %n%C(10)%aN <%C(2)%aE%C(10)> %ad %n
 
 [core]
