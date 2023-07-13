@@ -46,6 +46,12 @@ local config = function()
   cmp.setup {
     mapping = keymap,
 
+    enabled = function()
+      local c = require 'cmp.config.context'
+      return  not c.in_treesitter_capture('comment') and
+              not c.in_syntax_group('Comment')
+    end,
+
     snippet = {
       expand = function(args)
         require('luasnip').lsp_expand(args.body)
