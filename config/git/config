@@ -9,11 +9,10 @@
     l       = log --graph --pretty=basic
     ln      = log --graph --pretty=name
     ll      = log --graph --decorate --stat
-    lp      = log --graph -p
+    lp      = log -p
     la      = l --all
     lna     = ln --all
     lla     = ll --all
-    lpa     = lp --all
     s       = status --short
     ss      = status
 
@@ -35,7 +34,7 @@
 [delta]
     navigate = true     # use n and N to navigate diff secitons
 
-    commit-decoration-style = "#b58900" box
+    commit-decoration-style = "#b58900" bold box ul
     commit-style = raw
     dark = true
     file-decoration-style = "#268bd2" box ul
