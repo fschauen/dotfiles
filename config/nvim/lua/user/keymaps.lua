@@ -46,6 +46,9 @@ map('i', '<c-a-k>', [[<esc>:move .-2<cr>==gi]], { silent = true })
 map('i', '<c-a>', '<c-o>^')
 map('i', '<c-e>', '<c-o>$')
 
+-- move to begin of line in command mode (<c-e> moves to end by default)
+map('c', '<c-a>', '<c-b>')
+
 -- navigate items in quickfix list
 map('n', '<Down>', '<cmd>cnext<cr>zz', { silent = true })
 map('n', '<Up>', '<cmd>cprevious<cr>zz', { silent = true })
