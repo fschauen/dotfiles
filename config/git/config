@@ -32,12 +32,11 @@
     date = human
 
 [delta]
-    navigate = true     # use n and N to navigate diff secitons
-
     commit-decoration-style = "#b58900" bold box ul
     commit-style = raw
     dark = true
-    file-decoration-style = "#268bd2" box ul
+    file-decoration-style = "#268bd2" bold box
+    file-modified-label = "modified:"
     file-style = "#268bd2"
     hunk-header-style = omit
     line-numbers = true
