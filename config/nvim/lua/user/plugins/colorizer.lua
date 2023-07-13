@@ -4,7 +4,10 @@ return {
   cond = vim.opt.termguicolors:get(),
 
   config = function()
-    require('colorizer').setup({'*'}, { mode = 'foreground' })
+    require('colorizer').setup(nil, {
+      mode = 'foreground',
+      css = true,
+    })
   end,
 }
 
