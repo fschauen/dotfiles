@@ -14,7 +14,7 @@ local config = function()
 
   local keymap = setmetatable({}, {
     __newindex = function(t, k, v)
-      rawset(t, k, { i = v, c = v})
+      rawset(t, k, { i = v, c = v })
     end,
   })
 
@@ -38,8 +38,10 @@ local config = function()
 
   keymap['<c-e>'] = cmp.mapping.abort()
   keymap['<c-y>'] = cmp.mapping.confirm { select = true }
-  keymap['<tab>'] = when(cmp.visible) { yes = cmp.mapping.confirm { select = true } }
-
+  keymap['<tab>'] = when(cmp.visible) {
+    yes = cmp.mapping.confirm { select = true },
+    no  = cmp.mapping.complete(),
+  }
 
   cmp.setup {
     mapping = keymap,
@@ -130,6 +132,7 @@ return {
   'hrsh7th/nvim-cmp',
 
   config = config,
+
   dependencies = {
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-nvim-lua',
