@@ -81,6 +81,7 @@ local config = function()
   }
 
   telescope.load_extension 'file_browser'
+  telescope.load_extension 'fzf'
 
   local selected_range = function()
     local _, s_row, s_col, _ = unpack(vim.fn.getpos('v'))
@@ -171,6 +172,12 @@ return {
   config = config,
   dependencies = {
     'nvim-telescope/telescope-file-browser.nvim',
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release ' ..
+              '&& cmake --build build --config Release ' ..
+              '&& cmake --install build --prefix build'
+    },
   },
 }
 
