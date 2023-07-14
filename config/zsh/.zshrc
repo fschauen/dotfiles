@@ -4,6 +4,7 @@ source "$ZDOTDIR/completion.zsh"
 source "$ZDOTDIR/history.zsh"
 source "$ZDOTDIR/prompt.zsh"
 source "$ZDOTDIR/vi-mode.zsh"
+source "$ZDOTDIR/functions.zsh"
 
 # Prevent ctrl-s from freezing the terminal.
 stty stop undef
