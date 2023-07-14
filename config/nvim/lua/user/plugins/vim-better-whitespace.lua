@@ -16,7 +16,7 @@ return {
     vim.keymap.set('n', '<leader>dw', '<cmd>StripWhitespace<cr>')
 
     -- show/hide whitespace
-    vim.keymap.set('n', '<leader>tw', '<cmd>ToggleWhitespace<cr>')
+    vim.keymap.set('n', '<leader>sw', '<cmd>ToggleWhitespace<cr>')
   end,
 }
 
