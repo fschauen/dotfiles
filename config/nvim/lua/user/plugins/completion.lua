@@ -1,50 +1,57 @@
 local config = function()
   local cmp = require('cmp')
 
+  -- flip(f)(a, b) == f(b, a)
+  local flip = function(f) return function(a, b) return f(b, a) end end
+
+  -- partial(f, x)(...) == f(x, ...)
+  local partial = function(f, x) return function(...) return f(x, ...) end end
+
+  -- assign('i',        { key = func, ... }) == { key = { i = func }, ... }
+  -- assign({'i', 'c'}, { key = func, ... }) == { key = { i = func, c = func }, ...}
+  local assign = function(modes, tbl)
+    modes = type(modes) == 'table' and modes or { modes }
+    return vim.tbl_map(partial(flip(cmp.mapping), modes), tbl)
+  end
+
+  local invoke_fallback = function(fallback) fallback() end
+
   local when = function(condition)
-    local default = function(fallback) fallback() end
     return function(opts)
-      local yes = opts.yes or default
-      local no  = opts.no  or default
+      local yes = opts.yes or invoke_fallback
+      local no  = opts.no  or invoke_fallback
       return function(fallback)
         if condition() then yes(fallback) else no(fallback) end
       end
     end
   end
 
-  local keymap = setmetatable({}, {
-    __newindex = function(t, k, v)
-      rawset(t, k, { i = v, c = v })
-    end,
-  })
+  local keymap = {
+    ['<c-n>'] = when(cmp.visible) {
+      yes = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
+      no  = cmp.mapping.complete(),
+    },
 
-  keymap['<c-n>'] = when(cmp.visible) {
-    yes = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-    no  = cmp.mapping.complete(),
-  }
+    ['<c-p>'] = when(cmp.visible) {
+      yes = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
+      no = cmp.mapping.complete(),
+    },
 
-  keymap['<c-p>'] = when(cmp.visible) {
-    yes = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-    no = cmp.mapping.complete(),
-  }
+    ['<down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
+    ['<up>']   = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
 
-  keymap['<down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select }
-  keymap['<up>']   = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select }
+    ['<c-f>']    = cmp.mapping.scroll_docs(4),
+    ['<s-down>'] = cmp.mapping.scroll_docs(4),
+    ['<c-b>']    = cmp.mapping.scroll_docs(-4),
+    ['<s-up>']   = cmp.mapping.scroll_docs(-4),
 
-  keymap['<c-f>']    = cmp.mapping.scroll_docs(4)
-  keymap['<s-down>'] = cmp.mapping.scroll_docs(4)
-  keymap['<c-b>']    = cmp.mapping.scroll_docs(-4)
-  keymap['<s-up>']   = cmp.mapping.scroll_docs(-4)
-
-  keymap['<c-e>'] = cmp.mapping.abort()
-  keymap['<c-y>'] = cmp.mapping.confirm { select = true }
-  keymap['<tab>'] = when(cmp.visible) {
-    yes = cmp.mapping.confirm { select = true },
-    no  = cmp.mapping.complete(),
+    ['<c-e>'] = cmp.mapping.abort(),
+    ['<c-y>'] = cmp.mapping.confirm { select = true },
+    ['<tab>'] = when(cmp.visible) { yes = cmp.mapping.confirm { select = true } },
   }
 
   cmp.setup {
-    mapping = keymap,
+    mapping = assign('i', keymap),
 
     enabled = function()
       local c = require 'cmp.config.context'
@@ -119,8 +126,17 @@ local config = function()
     },
   }
 
+
   cmp.setup.cmdline(':', {
-    mapping = keymap,
+    mapping = assign(
+      'c',
+      vim.tbl_extend('force', keymap, {
+        ['<tab>'] = when(cmp.visible) {
+          yes = cmp.mapping.confirm { select = true },
+          no  = cmp.mapping.complete(),
+        }
+      })
+    ),
 
     completion = {
       autocomplete = false,
