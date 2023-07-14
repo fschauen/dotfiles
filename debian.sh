@@ -5,6 +5,7 @@ USERNAME=fernando
 DOTFILES_URL="https://github.com/fschauen/dotfiles.git"
 NEOVIM_VERSION="0.9.1"
 GIT_DELTA_VERSION="0.16.5"
+LF_VERSION="r30"
 
 if [ -t 1 ]; then
   sgr0="$(printf      '\033[0m')"
@@ -128,6 +129,27 @@ install_git_delta() {
   fi
 }
 
+install_lf() {
+  lf_url="https://github.com/gokcehan/lf/releases/download/${LF_VERSION}/lf-linux-amd64.tar.gz"
+  lf_tarball="lf-${LF_VERSION}.tar.gz"
+  lf_package="lf-${LF_VERSION}"
+  lf_install_dir="/usr/local/stow/${lf_package}"
+
+  if [ ! -d "${lf_install_dir}" ]; then
+    # Download the selected tarball and unpack it.
+    [ ! -f "${lf_tarball}" ] && $cmd curl -L -o "${lf_tarball}" "${lf_url}"
+    $cmd tar -xvf "${lf_tarball}"
+    $cmd rm -vf "${lf_tarball}"
+
+    # Stow into `/usr/local`.
+    $cmd mkdir -vp "${lf_install_dir}/bin"
+    $cmd mv -v lf "${lf_install_dir}/bin/lf"
+    $cmd stow -v -d /usr/local/stow -t /usr/local "${lf_package}"
+  else
+    echo "${yellow}SKIPPED:${sgr0} ${lf_install_dir} exists"
+  fi
+}
+
 setup_user() {
   # Change shell to `zsh` and get rid of bash files.
   $cmd chsh -s /bin/zsh "$USERNAME"
@@ -166,6 +188,9 @@ execute() {
 
   heading "Install git-delta v$GIT_DELTA_VERSION"
   install_git_delta
+
+  heading "Install lf v$LF_VERSION"
+  install_lf
 
   heading "Setup user: $USERNAME"
   setup_user
