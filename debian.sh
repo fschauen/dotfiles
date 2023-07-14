@@ -54,6 +54,7 @@ install_packages() {
     exa                         \
     exuberant-ctags             \
     fd-find                     \
+    fzf                         \
     g++                         \
     gcc                         \
     git                         \
