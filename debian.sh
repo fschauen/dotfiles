@@ -90,15 +90,17 @@ grub_disable_timeout() {
   $cmd update-grub
 }
 
-tweak_filesystem() {
-  # Make `fd` available with the correct name.
+# Make `fd` available with the correct name.
+ensure_usr_bin_fd() {
   if [ -x /usr/bin/fdfind ]; then
     $cmd ln -svf /usr/bin/fdfind /usr/local/bin/fd
   else
     skipped "/usr/bin/fdfind does not exist"
   fi
+}
 
-  # Make sure we have directories for all man page sections (for stow).
+# Make sure we have directories for all man page sections (for stow).
+ensure_usr_local_man_manN() {
   $cmd mkdir -vp $(seq -f '/usr/local/man/man%.0f' 9)
 }
 
@@ -239,10 +241,11 @@ execute() {
   grub_disable_timeout
 
   heading "Filesystem tweaks"
-  tweak_filesystem
+  ensure_usr_bin_fd
+  ensure_usr_local_man_manN
 
   heading "Install neovim v$NEOVIM_VERSION"
-  install_neovim    # Must come after filesystem tweaks because of man pages.
+  install_neovim    # Must come after `ensure_usr_local_man_manN`.
 
   heading "Install git-delta v$GIT_DELTA_VERSION"
   install_git_delta
