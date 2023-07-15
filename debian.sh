@@ -125,7 +125,7 @@ install_neovim() {
   elif ! download "${nvim_url}" "${nvim_tarball}"; then
     skipped "${nvim_tarball} not available and failed to download ${nvim_url}"
   else
-    $cmd tar --transform="s/^nvim-linux64/${nvim_package}/" -xvf "${nvim_tarball}"
+    $cmd tar --transform="s/^nvim-linux64/${nvim_package}/" -xf "${nvim_tarball}"
     $cmd rm -vf "${nvim_tarball}"
 
     # Remove stuff I don't want and patch the `man` location for Debian.
@@ -164,7 +164,7 @@ install_lf() {
   elif ! download "${lf_url}" "${lf_tarball}"; then
     skipped "${lf_tarball} not available and failed to download ${lf_url}"
   else
-    $cmd tar -xvf "${lf_tarball}"
+    $cmd tar -xf "${lf_tarball}"
     $cmd rm -vf "${lf_tarball}"
 
     # Stow into `/usr/local`.
