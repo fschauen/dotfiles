@@ -136,7 +136,7 @@ install_neovim() {
     $cmd rm -vf "${nvim_tarball}"
 
     # Remove stuff I don't want and patch the `man` location for Debian.
-    $cmd rm -rvf $(printf "${nvim_package}/share/%s " applications icons locale)
+    $cmd rm -rf $(printf "${nvim_package}/share/%s " applications icons locale)
     $cmd mv -v "${nvim_package}/man" "${nvim_package}/share/"
 
     stow_install "${nvim_package}"
