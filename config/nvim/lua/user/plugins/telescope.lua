@@ -103,21 +103,7 @@ local config = function()
   telescope.load_extension 'file_browser'
   telescope.load_extension 'fzf'
 
-  local with_saved_register = function(register, func)
-    local saved = vim.fn.getreg(register)
-    local result = func()
-    vim.fn.setreg(register, saved)
-    return result
-  end
-
-  local get_selected_text = function()
-    if vim.fn.mode() ~= 'v' then return vim.fn.expand '<cword>' end
-
-    return with_saved_register('v', function()
-      vim.cmd [[noautocmd sil norm "vy]]
-      return vim.fn.getreg 'v'
-    end)
-  end
+  local get_selected_text = require('user.util').get_selected_text
 
   local custom = {
     all_files = function()

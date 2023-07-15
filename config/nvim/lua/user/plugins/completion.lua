@@ -1,11 +1,8 @@
 local config = function()
   local cmp = require('cmp')
 
-  -- flip(f)(a, b) == f(b, a)
-  local flip = function(f) return function(a, b) return f(b, a) end end
-
-  -- partial(f, x)(...) == f(x, ...)
-  local partial = function(f, x) return function(...) return f(x, ...) end end
+  local partial = require('user.util').partial
+  local flip    = require('user.util').flip
 
   -- assign('i',        { key = func, ... }) == { key = { i = func }, ... }
   -- assign({'i', 'c'}, { key = func, ... }) == { key = { i = func, c = func }, ...}
