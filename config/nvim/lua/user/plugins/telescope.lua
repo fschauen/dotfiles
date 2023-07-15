@@ -17,6 +17,21 @@ local config = function()
     ['<c-k>'] = actions.cycle_history_prev,
   }
 
+  local titles = {
+    git_commits = '   Commits  ',
+    buffers     = '    Buffers  ',
+    find_files  = '    Files  ',
+    help_tags   = '    Help tags  ',
+    keymaps     = '    Keymaps  ',
+    live_grep   = '    Live grep  ',
+    vim_options = '    Vim options  ',
+    man_pages   = '    Man pages  ',
+    all_files   = '    ALL Files  ',
+    dotfiles    = '    Find dotfiles ',
+    grep_string = '    grep: %s  ',
+    grep_visual = '    grep: %s  ',
+  }
+
   telescope.setup {
     defaults = {
       prompt_prefix = ' ❯ ',
@@ -57,14 +72,15 @@ local config = function()
     },
 
     pickers = {
-      buffers     = { prompt_title = '   ﬘ Buffers   ' },
-      find_files  = { prompt_title = '     Files    ' },
-      git_commits = { prompt_title = '   Commits  ' },
-      help_tags   = { prompt_title = '   Help tags  ' },
-      keymaps     = { prompt_title = '    Keymaps   ' },
-      live_grep   = { prompt_title = '   Live grep  ' },
-      vim_options = { prompt_title = '  Vim options ' },
-      man_pages   = { prompt_title = '   Man pages  ' },
+      buffers     = { prompt_title = titles.buffers     },
+      find_files  = { prompt_title = titles.find_files  },
+      git_commits = { prompt_title = titles.git_commits },
+      grep_string = { prompt_title = titles.grep_string },
+      help_tags   = { prompt_title = titles.help_tags   },
+      keymaps     = { prompt_title = titles.keymaps     },
+      live_grep   = { prompt_title = titles.live_grep   },
+      vim_options = { prompt_title = titles.vim_options },
+      man_pages   = { prompt_title = titles.man_pages   },
     },
 
     extensions = {
@@ -106,10 +122,11 @@ local config = function()
     return vim.fn.join(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {}), '\n')
   end
 
+
   local custom = {
     all_files = function()
       builtin.find_files {
-        prompt_title = '   ALL Files  ',
+        prompt_title = titles.all_files,
         hidden = true,
         no_ignore = true,
         no_ignore_parent = true,
@@ -118,7 +135,7 @@ local config = function()
 
     dotfiles = function()
       builtin.find_files {
-        prompt_title = '  Find dotfiles ',
+        prompt_title = titles.dotfiles,
         cwd = '~/.dotfiles',
         hidden = true,
       }
@@ -127,7 +144,7 @@ local config = function()
     grep_visual = function()
       local selection = selected_text()
       builtin.grep_string {
-        prompt_title = string.format('  Grep: %s', selection),
+        prompt_title = string.format(titles.grep_visual, selection),
         search = selection,
       }
     end,
