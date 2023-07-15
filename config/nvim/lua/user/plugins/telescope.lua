@@ -18,18 +18,18 @@ local config = function()
   }
 
   local titles = {
-    git_commits = '   Commits  ',
-    buffers     = '    Buffers  ',
-    find_files  = '    Files  ',
-    help_tags   = '    Help tags  ',
-    keymaps     = '    Keymaps  ',
-    live_grep   = '    Live grep  ',
-    vim_options = '    Vim options  ',
-    man_pages   = '    Man pages  ',
-    all_files   = '    ALL Files  ',
-    dotfiles    = '    Find dotfiles ',
-    grep        = '    Grep: %s  ',
-    treesitter  = '    Treesitter Symbols',
+    git_commits =               '   Commits  ',
+    buffers     =               '    Buffers  ',
+    find_files  =               '    Files  ',
+    help_tags   =               '    Help tags  ',
+    keymaps     =               '    Keymaps  ',
+    live_grep   =               '    Live grep  ',
+    vim_options =               '    Vim options  ',
+    man_pages   =               '    Man pages  ',
+    all_files   =               '    ALL Files  ',
+    dotfiles    =               '    Find dotfiles ',
+    grep        =               '    Grep: %s  ',
+    treesitter  =               '    Treesitter Symbols',
     current_buffer_fuzzy_find = '    Current buffer',
   }
 
@@ -73,16 +73,16 @@ local config = function()
     },
 
     pickers = {
-      buffers     = { prompt_title = titles.buffers     },
-      find_files  = { prompt_title = titles.find_files  },
-      git_commits = { prompt_title = titles.git_commits },
-      help_tags   = { prompt_title = titles.help_tags   },
-      keymaps     = { prompt_title = titles.keymaps     },
-      live_grep   = { prompt_title = titles.live_grep   },
-      vim_options = { prompt_title = titles.vim_options },
-      man_pages   = { prompt_title = titles.man_pages   },
-      treesitter  = { prompt_title = titles.treesitter  },
-      current_buffer_fuzzy_find  = { prompt_title = titles.current_buffer_fuzzy_find  },
+      buffers                   = { prompt_title = titles.buffers     },
+      find_files                = { prompt_title = titles.find_files  },
+      git_commits               = { prompt_title = titles.git_commits },
+      help_tags                 = { prompt_title = titles.help_tags   },
+      keymaps                   = { prompt_title = titles.keymaps     },
+      live_grep                 = { prompt_title = titles.live_grep   },
+      vim_options               = { prompt_title = titles.vim_options },
+      man_pages                 = { prompt_title = titles.man_pages   },
+      treesitter                = { prompt_title = titles.treesitter  },
+      current_buffer_fuzzy_find = { prompt_title = titles.current_buffer_fuzzy_find  },
     },
 
     extensions = {
