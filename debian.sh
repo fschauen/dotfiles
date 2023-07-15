@@ -3,6 +3,7 @@ set -e
 
 USERNAME=fernando
 DOTFILES_URL="https://github.com/fschauen/dotfiles.git"
+
 NEOVIM_VERSION="0.9.1"
 GIT_DELTA_VERSION="0.16.5"
 LF_VERSION="r30"
@@ -151,17 +152,50 @@ install_lf() {
   fi
 }
 
-setup_user() {
-  # Change shell to `zsh` and get rid of bash files.
-  $cmd chsh -s /bin/zsh "$USERNAME"
-  $cmd rm -vf $(printf "/home/$USERNAME/%s " .bash_history .bash_logout .bashrc .profile)
+user_setup() {
+  if user_exists "$1"; then
+    echo "User $1 exists. Updating..."
+    user_update "$1"
+  else
+    echo "${yellow}SKIPPED:${sgr0} ${lf_install_dir} exists"
+    echo "Creating user $1..."
+    user_new "$1"
+  fi
 
-  # Add user to the `staff` group.
-  $cmd usermod -aG staff "$USERNAME"
+  user_allow_sudo_nopasswd "$1"
+}
 
-  # Allow `sudo` without password for this user.
-  $cmd echo "$USERNAME	ALL=(ALL:ALL) NOPASSWD:ALL" | \
-    $pipe_cmd dd status=none of="/etc/sudoers.d/${USERNAME}_nopasswd"
+user_exists() {
+	id -u "$1" >/dev/null 2>&1
+}
+
+user_new() {
+  empty_skel="$(mktemp -d)"
+
+  $cmd useradd \
+    -m                ` # Create home directory.` \
+    -k "$empty_skel"  ` # Copy files from this directory into the new home.` \
+    -U                ` # Create a groups with the same name as the user.` \
+    -G staff          ` # Other groups the new user will be a member of.` \
+    -s /bin/zsh       ` # The new user's login shell. ` \
+    "$1"              ` # The new user's name.` \
+    >/dev/null 2>&1   ` # Silently.` \
+
+  rmdir "$empty_skel"
+}
+
+# Add user $1 to the `staff` group...
+# ...and change shell to `zsh` and get rid of bash files.
+user_update() {
+  $cmd usermod -aG staff "$1"
+  $cmd chsh -s /bin/zsh "$1"
+  $cmd rm -vf $(printf "/home/$1/%s " .bash_history .bash_logout .bashrc .profile)
+}
+
+# Allow `sudo` without password for user $1.
+user_allow_sudo_nopasswd() {
+  $cmd echo "$1	ALL=(ALL:ALL) NOPASSWD:ALL" | \
+    $pipe_cmd dd status=none of="/etc/sudoers.d/${1}_nopasswd"
 }
 
 deploy_dotfiles() {
@@ -194,7 +228,7 @@ execute() {
   install_lf
 
   heading "Setup user: $USERNAME"
-  setup_user
+  user_setup "$USERNAME"
 
   heading "Deploy dotfiles"
   deploy_dotfiles
