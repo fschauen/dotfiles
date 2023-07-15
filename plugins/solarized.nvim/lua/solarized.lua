@@ -402,15 +402,16 @@ M.highlights = function()
 
     -- 'nvim-telescope/telescope.nvim'
     telescope = {
-      TelescopeBorder         = { fg = C.base0 },
+      TelescopeBorder         = { fg = C.base00 },
       TelescopePromptBorder   = { fg = C.base3 },
       TelescopeTitle          = { fg = C.blue },
       TelescopePromptPrefix   = { fg = C.blue },
       TelescopePromptCounter  = { fg = C.base00 },
-      TelescopeMatching       = { fg = C.red },
-      TelescopeSelection      = { fg = C.base2, bg = C.base03 },
-      TelescopeMultiSelection = { fg = C.green },
-      TelescopeMultiIcon      = { fg = C.green },
+      TelescopeNormal         = { fg = C.base0 },
+      TelescopeMatching       = { fg = C.base3 },
+      TelescopeSelection      = { bg = C.base02 },
+      TelescopeMultiSelection = { fg = C.orange,  italic = true },
+      TelescopeMultiIcon      = { link = 'TelescopeMultiSelection' },
     },
 
     -- 'hrsh7th/nvim-cmp'
