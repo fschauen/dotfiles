@@ -30,6 +30,7 @@ local config = function()
     dotfiles    = '    Find dotfiles ',
     grep        = '    Grep: %s  ',
     treesitter  = '    Treesitter Symbols',
+    current_buffer_fuzzy_find = '    Current buffer',
   }
 
   telescope.setup {
@@ -81,6 +82,7 @@ local config = function()
       vim_options = { prompt_title = titles.vim_options },
       man_pages   = { prompt_title = titles.man_pages   },
       treesitter  = { prompt_title = titles.treesitter  },
+      current_buffer_fuzzy_find  = { prompt_title = titles.current_buffer_fuzzy_find  },
     },
 
     extensions = {
@@ -170,13 +172,14 @@ local config = function()
   map('n', '<leader>fd', custom.dotfiles,     { desc = ' [F]ind [D]otfiles' })
   map('n', '<leader>ff', builtin.find_files,  { desc = ' [F]ind [F]iles in $PWD' })
   map('n', '<leader>fg', builtin.live_grep,   { desc = ' [F]ind with [G]rep in $PWD' })
-  map('n', '<leader>fh', builtin.help_tags,   { desc = ' [F]ind [H]elp tags' })
+  map('n', '<leader>fh', builtin.current_buffer_fuzzy_find, { desc = ' [F]ind [H]ere' })
   map('n', '<leader>fk', builtin.keymaps,     { desc = ' [F]ind [K]eymaps' })
   map('n', '<leader>fm', custom.man_pages,    { desc = ' [F]ind [M]an pages' })
   map('n', '<leader>fo', builtin.vim_options, { desc = ' [F]ind vim [O]ptions' })
   map('n', '<leader>fs', custom.grep,         { desc = ' [F]ind [S]tring' })
   map('v', '<leader>fs', custom.grep,         { desc = ' [F]ind visual [S]election' })
   map('n', '<leader>ft', builtin.treesitter,  { desc = ' [F]ind [T]reesitter Symbols' })
+  map('n', '<leader>f?', builtin.help_tags,   { desc = ' [F]ind Help tags [?]' })
   map('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
 end
 
