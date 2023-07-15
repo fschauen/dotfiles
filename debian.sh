@@ -102,6 +102,16 @@ tweak_filesystem() {
   $cmd mkdir -vp $(seq -f '/usr/local/man/man%.0f' 9)
 }
 
+# Download $1 to $2, if $2 not already available.
+download() {
+  if [ -f "$2" ]; then
+    echo "Using locally available $2"
+  else
+    echo "Downloading $1 -> $2"
+    $cmd curl -SL -o "$2" "$1"
+  fi
+}
+
 install_neovim() {
   nvim_url="https://github.com/neovim/neovim/releases/download/v${NEOVIM_VERSION}/nvim-linux64.tar.gz"
   nvim_tarball="/usr/local/stow/nvim-${NEOVIM_VERSION}.tar.gz"
@@ -110,9 +120,9 @@ install_neovim() {
 
   if [ -d "${nvim_install_dir}" ]; then
     skipped "${nvim_install_dir} exists"
+  elif ! download "${nvim_url}" "${nvim_tarball}"; then
+    skipped "${nvim_tarball} not available and failed to download ${nvim_url}"
   else
-    # Download the selected tarball and unpack it.
-    [ ! -f "${nvim_tarball}" ] && $cmd curl -L -o "${nvim_tarball}" "${nvim_url}"
     $cmd tar --transform="s/^nvim-linux64/${nvim_package}/" -xvf "${nvim_tarball}"
     $cmd rm -vf "${nvim_tarball}"
 
@@ -133,8 +143,9 @@ install_git_delta() {
 
   if [ -f "${delta_bin}" ]; then
     skipped "${delta_bin} exists"
+  elif ! download "${delta_url}" "${delta_deb}"; then
+    skipped "${delta_deb} not available and failed to download ${delta_url}"
   else
-    [ ! -f "${delta_deb}" ] && $cmd curl -L -o "${delta_deb}" "${delta_url}"
     $cmd dpkg -i "${delta_deb}"
     $cmd rm -vf "${delta_deb}"
   fi
@@ -148,9 +159,9 @@ install_lf() {
 
   if [ -d "${lf_install_dir}" ]; then
     skipped "${lf_install_dir} exists"
+  elif ! download "${lf_url}" "${lf_tarball}"; then
+    skipped "${lf_tarball} not available and failed to download ${lf_url}"
   else
-    # Download the selected tarball and unpack it.
-    [ ! -f "${lf_tarball}" ] && $cmd curl -L -o "${lf_tarball}" "${lf_url}"
     $cmd tar -xvf "${lf_tarball}"
     $cmd rm -vf "${lf_tarball}"
 
