@@ -14,6 +14,13 @@ autocmd('TextYankPost', {
   desc = 'Briefly highlight yanked text.',
   group = id,
   pattern = '*',
-  callback = function(args) vim.highlight.on_yank() end
+  callback = function(_) vim.highlight.on_yank() end
+})
+
+autocmd('User', {
+  desc = 'Enable line number in Telescope previewers.',
+  group = id,
+  pattern = 'TelescopePreviewerLoaded',
+  command = 'setlocal number'
 })
 
