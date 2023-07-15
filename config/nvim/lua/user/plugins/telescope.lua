@@ -28,8 +28,7 @@ local config = function()
     man_pages   = '    Man pages  ',
     all_files   = '    ALL Files  ',
     dotfiles    = '    Find dotfiles ',
-    grep_string = '    grep: %s  ',
-    grep_visual = '    grep: %s  ',
+    grep        = '    grep: %s  ',
   }
 
   telescope.setup {
@@ -75,7 +74,6 @@ local config = function()
       buffers     = { prompt_title = titles.buffers     },
       find_files  = { prompt_title = titles.find_files  },
       git_commits = { prompt_title = titles.git_commits },
-      grep_string = { prompt_title = titles.grep_string },
       help_tags   = { prompt_title = titles.help_tags   },
       keymaps     = { prompt_title = titles.keymaps     },
       live_grep   = { prompt_title = titles.live_grep   },
@@ -101,27 +99,21 @@ local config = function()
   telescope.load_extension 'file_browser'
   telescope.load_extension 'fzf'
 
-  local selected_range = function()
-    local _, s_row, s_col, _ = unpack(vim.fn.getpos('v'))
-    local _, e_row, e_col, _ = unpack(vim.fn.getpos('.'))
-
-    local mode = vim.api.nvim_get_mode().mode
-    local visual_line = (mode == 'V' or mode == 'CTRL-V')
-
-    if s_row < e_row or (s_row == e_row and s_col <= e_col) then
-      if visual_line then s_col, e_col = 1, #vim.fn.getline(e_row) end
-      return s_row - 1, s_col - 1, e_row - 1, e_col
-    else
-      if visual_line then e_col, s_col = 1, #vim.fn.getline(s_row) end
-      return e_row - 1, e_col - 1, s_row - 1, s_col
-    end
+  local with_saved_register = function(register, func)
+    local saved = vim.fn.getreg(register)
+    local result = func()
+    vim.fn.setreg(register, saved)
+    return result
   end
 
-  local selected_text = function()
-    local r0, c0, r1, c1 = selected_range()
-    return vim.fn.join(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {}), '\n')
-  end
+  local get_selected_text = function()
+    if vim.fn.mode() ~= 'v' then return vim.fn.expand '<cword>' end
 
+    return with_saved_register('v', function()
+      vim.cmd [[noautocmd sil norm "vy]]
+      return vim.fn.getreg 'v'
+    end)
+  end
 
   local custom = {
     all_files = function()
@@ -141,11 +133,11 @@ local config = function()
       }
     end,
 
-    grep_visual = function()
-      local selection = selected_text()
+    grep = function()
+      local selected = get_selected_text()
       builtin.grep_string {
-        prompt_title = string.format(titles.grep_visual, selection),
-        search = selection,
+        prompt_title = string.format(titles.grep, selected),
+        search = selected,
       }
     end,
 
@@ -180,8 +172,8 @@ local config = function()
   map('n', '<leader>fk', builtin.keymaps,     { desc = ' [F]ind [K]eymaps' })
   map('n', '<leader>fm', custom.man_pages,    { desc = ' [F]ind [M]an pages' })
   map('n', '<leader>fo', builtin.vim_options, { desc = ' [F]ind vim [O]ptions' })
-  map('n', '<leader>fs', builtin.grep_string, { desc = ' [F]ind [S]tring' })
-  map('v', '<leader>fs', custom.grep_visual,  { desc = ' [F]ind visual [S]election' })
+  map('n', '<leader>fs', custom.grep,         { desc = ' [F]ind [S]tring' })
+  map('v', '<leader>fs', custom.grep,         { desc = ' [F]ind visual [S]election' })
   map('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
 end
 
