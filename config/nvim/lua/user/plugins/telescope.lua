@@ -130,25 +130,6 @@ local config = function()
         search = selected,
       }
     end,
-
-    man_pages = function()
-      -- Fix for macOS Ventura onwards (macOS 13.x <-> Darwin 22.x).
-      -- See: https://github.com/nvim-telescope/telescope.nvim/issues/2326#issuecomment-1407502328
-      local uname = vim.loop.os_uname()
-      local sysname = string.lower(uname.sysname)
-      if sysname == "darwin" then
-        local major_version = tonumber(vim.fn.matchlist(uname.release, [[^\(\d\+\)\..*]])[2]) or 0
-        if major_version >= 22 then
-          builtin.man_pages { sections = { 'ALL' }, man_cmd = { "apropos", "." } }
-        else
-          builtin.man_pages { sections = { 'ALL' }, man_cmd = { "apropos", " " } }
-        end
-      elseif sysname == "freebsd" then
-        builtin.man_pages { sections = { 'ALL' }, man_cmd = { "apropos", "." } }
-      else
-        builtin.man_pages { sections = { 'ALL' } }
-      end
-    end,
   }
 
   local map = vim.keymap.set
@@ -160,7 +141,7 @@ local config = function()
   map('n', '<leader>fg', builtin.live_grep,   { desc = ' [F]ind with [G]rep in $PWD' })
   map('n', '<leader>fh', builtin.current_buffer_fuzzy_find, { desc = ' [F]ind [H]ere' })
   map('n', '<leader>fk', builtin.keymaps,     { desc = ' [F]ind [K]eymaps' })
-  map('n', '<leader>fm', custom.man_pages,    { desc = ' [F]ind [M]an pages' })
+  map('n', '<leader>fm', builtin.man_pages,   { desc = ' [F]ind [M]an pages' })
   map('n', '<leader>fo', builtin.vim_options, { desc = ' [F]ind vim [O]ptions' })
   map('n', '<leader>fs', custom.grep,         { desc = ' [F]ind [S]tring' })
   map('v', '<leader>fs', custom.grep,         { desc = ' [F]ind visual [S]election' })
