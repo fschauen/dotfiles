@@ -23,7 +23,9 @@ local config = function()
       selection_caret = ' ',   -- Other ideas: ➔ 
       multi_icon = ' ',
 
+      scroll_strategy = 'limit',
       layout_strategy = 'flex',
+
       layout_config = {
         anchor = 'center',
         width = 0.9,
