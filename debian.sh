@@ -8,6 +8,8 @@ NEOVIM_VERSION="0.9.1"
 GIT_DELTA_VERSION="0.16.5"
 LF_VERSION="r30"
 
+STOW_DIR="/usr/local/stow"
+
 if [ -t 1 ]; then
   sgr0="$(printf      '\033[0m')"
   red="$(printf       '\033[31m')"
@@ -114,14 +116,19 @@ download() {
   fi
 }
 
+stow_install() {
+  $cmd mv -v "$1" "${STOW_DIR}/"
+  $cmd stow -v -d "${STOW_DIR}" -t /usr/local "$1"
+}
+
 install_neovim() {
   nvim_url="https://github.com/neovim/neovim/releases/download/v${NEOVIM_VERSION}/nvim-linux64.tar.gz"
-  nvim_tarball="/usr/local/stow/nvim-${NEOVIM_VERSION}.tar.gz"
+  nvim_tarball="nvim-${NEOVIM_VERSION}.tar.gz"
   nvim_package="nvim-${NEOVIM_VERSION}"
-  nvim_install_dir="/usr/local/stow/${nvim_package}"
+  nvim_installation="${STOW_DIR}/${nvim_package}"
 
-  if [ -d "${nvim_install_dir}" ]; then
-    skipped "${nvim_install_dir} exists"
+  if [ -d "${nvim_installation}" ]; then
+    skipped "${nvim_installation} exists"
   elif ! download "${nvim_url}" "${nvim_tarball}"; then
     skipped "${nvim_tarball} not available and failed to download ${nvim_url}"
   else
@@ -132,9 +139,7 @@ install_neovim() {
     $cmd rm -rvf $(printf "${nvim_package}/share/%s " applications icons locale)
     $cmd mv -v "${nvim_package}/man" "${nvim_package}/share/"
 
-    # Stow into `/usr/local`.
-    $cmd mv -v "${nvim_package}" "/usr/local/stow/"
-    $cmd stow -v -d /usr/local/stow -t /usr/local "${nvim_package}"
+    stow_install "${nvim_package}"
   fi
 }
 
@@ -157,20 +162,20 @@ install_lf() {
   lf_url="https://github.com/gokcehan/lf/releases/download/${LF_VERSION}/lf-linux-amd64.tar.gz"
   lf_tarball="lf-${LF_VERSION}.tar.gz"
   lf_package="lf-${LF_VERSION}"
-  lf_install_dir="/usr/local/stow/${lf_package}"
+  lf_installation="${STOW_DIR}/${lf_package}"
 
-  if [ -d "${lf_install_dir}" ]; then
-    skipped "${lf_install_dir} exists"
+  if [ -d "${lf_installation}" ]; then
+    skipped "${lf_installation} exists"
   elif ! download "${lf_url}" "${lf_tarball}"; then
     skipped "${lf_tarball} not available and failed to download ${lf_url}"
   else
     $cmd tar -xf "${lf_tarball}"
     $cmd rm -vf "${lf_tarball}"
 
-    # Stow into `/usr/local`.
-    $cmd mkdir -vp "${lf_install_dir}/bin"
-    $cmd mv -v lf "${lf_install_dir}/bin/lf"
-    $cmd stow -v -d /usr/local/stow -t /usr/local "${lf_package}"
+    $cmd mkdir -vp "${lf_package}/bin"
+    $cmd mv -v lf "${lf_package}/bin/lf"
+
+    stow_install "${lf_package}"
   fi
 }
 
