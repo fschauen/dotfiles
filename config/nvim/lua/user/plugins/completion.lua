@@ -148,6 +148,8 @@ local config = function()
       { name = 'cmdline' }
     }),
   })
+
+  cmp.setup.filetype('TelescopePrompt', { enabled = false })
 end
 
 return {
