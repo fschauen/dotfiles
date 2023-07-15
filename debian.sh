@@ -42,6 +42,10 @@ heading(){
   echo "${blue}=====  ${1}  ==========${sgr0}"
 }
 
+skipped() {
+  echo "${yellow}SKIPPED:${sgr0} ${1}"
+}
+
 install_packages() {
   $cmd apt update
   $cmd apt install -y           \
@@ -91,7 +95,7 @@ tweak_filesystem() {
   if [ -x /usr/bin/fdfind ]; then
     $cmd ln -svf /usr/bin/fdfind /usr/local/bin/fd
   else
-    echo "${yellow}SKIPPED:${sgr0} /usr/bin/fdfind does not exist"
+    skipped "/usr/bin/fdfind does not exist"
   fi
 
   # Make sure we have directories for all man page sections (for stow).
@@ -104,7 +108,9 @@ install_neovim() {
   nvim_package="nvim-${NEOVIM_VERSION}"
   nvim_install_dir="/usr/local/stow/${nvim_package}"
 
-  if [ ! -d "${nvim_install_dir}" ]; then
+  if [ -d "${nvim_install_dir}" ]; then
+    skipped "${nvim_install_dir} exists"
+  else
     # Download the selected tarball and unpack it.
     [ ! -f "${nvim_tarball}" ] && $cmd curl -L -o "${nvim_tarball}" "${nvim_url}"
     $cmd tar --transform="s/^nvim-linux64/${nvim_package}/" -xvf "${nvim_tarball}"
@@ -117,8 +123,6 @@ install_neovim() {
     # Stow into `/usr/local`.
     $cmd mv -v "${nvim_package}" "/usr/local/stow/"
     $cmd stow -v -d /usr/local/stow -t /usr/local "${nvim_package}"
-  else
-    echo "${yellow}SKIPPED:${sgr0} ${nvim_install_dir} exists"
   fi
 }
 
@@ -127,12 +131,12 @@ install_git_delta() {
   delta_deb="git-delta-musl_${GIT_DELTA_VERSION}_amd64.deb"
   delta_bin="/usr/bin/delta"
 
-  if [ ! -f "${delta_bin}" ]; then
+  if [ -f "${delta_bin}" ]; then
+    skipped "${delta_bin} exists"
+  else
     [ ! -f "${delta_deb}" ] && $cmd curl -L -o "${delta_deb}" "${delta_url}"
     $cmd dpkg -i "${delta_deb}"
     $cmd rm -vf "${delta_deb}"
-  else
-    echo "${yellow}SKIPPED:${sgr0} ${delta_bin} exists"
   fi
 }
 
@@ -142,7 +146,9 @@ install_lf() {
   lf_package="lf-${LF_VERSION}"
   lf_install_dir="/usr/local/stow/${lf_package}"
 
-  if [ ! -d "${lf_install_dir}" ]; then
+  if [ -d "${lf_install_dir}" ]; then
+    skipped "${lf_install_dir} exists"
+  else
     # Download the selected tarball and unpack it.
     [ ! -f "${lf_tarball}" ] && $cmd curl -L -o "${lf_tarball}" "${lf_url}"
     $cmd tar -xvf "${lf_tarball}"
@@ -152,8 +158,6 @@ install_lf() {
     $cmd mkdir -vp "${lf_install_dir}/bin"
     $cmd mv -v lf "${lf_install_dir}/bin/lf"
     $cmd stow -v -d /usr/local/stow -t /usr/local "${lf_package}"
-  else
-    echo "${yellow}SKIPPED:${sgr0} ${lf_install_dir} exists"
   fi
 }
 
@@ -162,7 +166,6 @@ user_setup() {
     echo "User $1 exists. Updating..."
     user_update "$1"
   else
-    echo "${yellow}SKIPPED:${sgr0} ${lf_install_dir} exists"
     echo "Creating user $1..."
     user_new "$1"
   fi
@@ -205,14 +208,15 @@ user_allow_sudo_nopasswd() {
 
 deploy_dotfiles() {
   dotfiles_dir="/home/$USERNAME/.dotfiles"
-  if [ ! -d "${dotfiles_dir}" ]; then
+
+  if [ -d "${dotfiles_dir}" ]; then
+    skipped "${dotfiles_dir} exists"
+  else
     $cmd su "$USERNAME" -c "git clone $DOTFILES_URL ${dotfiles_dir}"
     (
       $cmd cd "${dotfiles_dir}"
       $cmd su "$USERNAME" -c "./install.sh -y"
     )
-  else
-    echo "${yellow}SKIPPED:${sgr0} ${dotfiles_dir} exists"
   fi
 }
 
