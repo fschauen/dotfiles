@@ -81,6 +81,11 @@ install_packages() {
   $cmd apt-file update
 }
 
+grub_disable_timeout() {
+  $cmd sed -i.original -e 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' /etc/default/grub
+  $cmd update-grub
+}
+
 tweak_filesystem() {
   # Make `fd` available with the correct name.
   if [ -x /usr/bin/fdfind ]; then
@@ -214,6 +219,9 @@ deploy_dotfiles() {
 execute() {
   heading "Install packages"
   install_packages
+
+  heading "Disable GRUB timeout"
+  grub_disable_timeout
 
   heading "Filesystem tweaks"
   tweak_filesystem
