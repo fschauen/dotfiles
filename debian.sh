@@ -46,7 +46,7 @@ skipped() {
   echo "${yellow}SKIPPED:${sgr0} ${1}"
 }
 
-install_packages() {
+apt_install() {
   $cmd apt update
   $cmd apt install -y           \
     apt-file                    \
@@ -234,8 +234,8 @@ deploy_dotfiles() {
 }
 
 execute() {
-  heading "Install packages"
-  install_packages
+  heading "Install APT packages"
+  apt_install
 
   heading "Disable GRUB timeout"
   grub_disable_timeout
