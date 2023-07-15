@@ -28,7 +28,8 @@ local config = function()
     man_pages   = '    Man pages  ',
     all_files   = '    ALL Files  ',
     dotfiles    = '    Find dotfiles ',
-    grep        = '    grep: %s  ',
+    grep        = '    Grep: %s  ',
+    treesitter  = '    Treesitter Symbols',
   }
 
   telescope.setup {
@@ -79,6 +80,7 @@ local config = function()
       live_grep   = { prompt_title = titles.live_grep   },
       vim_options = { prompt_title = titles.vim_options },
       man_pages   = { prompt_title = titles.man_pages   },
+      treesitter  = { prompt_title = titles.treesitter  },
     },
 
     extensions = {
@@ -174,6 +176,7 @@ local config = function()
   map('n', '<leader>fo', builtin.vim_options, { desc = ' [F]ind vim [O]ptions' })
   map('n', '<leader>fs', custom.grep,         { desc = ' [F]ind [S]tring' })
   map('v', '<leader>fs', custom.grep,         { desc = ' [F]ind visual [S]election' })
+  map('n', '<leader>ft', builtin.treesitter,  { desc = ' [F]ind [T]reesitter Symbols' })
   map('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
 end
 
