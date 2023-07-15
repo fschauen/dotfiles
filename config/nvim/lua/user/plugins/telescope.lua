@@ -44,7 +44,6 @@ local config = function()
       },
 
       cycle_layout_list = {
-        { layout_strategy = 'bottom_pane', layout_config = { width = 1, height = 0.4 }, },
         'horizontal',
         'vertical',
       },
