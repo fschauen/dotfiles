@@ -4,17 +4,18 @@ local config = function()
   local actions_layout = require 'telescope.actions.layout'
   local builtin        = require 'telescope.builtin'
 
-  local mappings = {
+  local keymap = {
     ['<c-l>'] = actions_layout.cycle_layout_next,
     ['<c-o>'] = actions_layout.toggle_mirror,
     ['<c-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
-  }
+    ['<c-c>'] = actions.close,
 
-  local mappings_normal_mode = mappings
-  local mappings_insert_mode = vim.tbl_extend('force', mappings, {
+    ['<s-down>'] = actions.preview_scrolling_down,
+    ['<s-up>']   = actions.preview_scrolling_up,
+
     ['<c-j>'] = actions.cycle_history_next,
     ['<c-k>'] = actions.cycle_history_prev,
-  })
+  }
 
   telescope.setup {
     defaults = {
@@ -49,8 +50,8 @@ local config = function()
       },
 
       mappings = {
-        i = mappings_insert_mode,
-        n = mappings_normal_mode,
+        i = keymap,
+        n = keymap,
       },
     },
 
