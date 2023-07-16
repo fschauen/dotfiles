@@ -18,11 +18,31 @@ local config = function()
 
   telescope.setup {
     defaults = {
+      -- ╭────────╮
+      -- │ Keymap │
+      -- ╰────────╯
+      mappings = { i = mappings, n = mappings },
+
+      -- ╭────────╮
+      -- │ Prompt │
+      -- ╰────────╯
       prompt_prefix = ' ❯ ',
       selection_caret = ' ',     -- Other ideas:  ➔  
+
+      -- ╭─────────╮
+      -- │ Results │
+      -- ╰─────────╯
       multi_icon = ' ',
       scroll_strategy = 'limit',  -- Don't wrap around in results.
 
+      -- ╭─────────╮
+      -- │ Preview │
+      -- ╰─────────╯
+      dynamic_preview_title = true,
+
+      -- ╭────────╮
+      -- │ Layout │
+      -- ╰────────╯
       layout_strategy = 'flex',
       layout_config = {
         anchor     = 'center',
@@ -32,10 +52,7 @@ local config = function()
         horizontal = { preview_width  = 0.5, preview_cutoff = 130 },
         vertical   = { preview_height = 0.5 },
       },
-
       cycle_layout_list = { 'horizontal', 'vertical' },
-
-      mappings = { i = mappings, n = mappings },
     },
 
     extensions = {
