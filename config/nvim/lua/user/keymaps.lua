@@ -1,78 +1,83 @@
-local map = vim.keymap.set
+local partial = require('user.util').partial
+local nmap = partial(vim.keymap.set, 'n')
+local imap = partial(vim.keymap.set, 'i')
+local vmap = partial(vim.keymap.set, 'v')
+local cmap = partial(vim.keymap.set, 'c')
+local tmap = partial(vim.keymap.set, 't')
 
 -- better navigation for wrapped lines
-map('n', 'j', 'gj')
-map('n', 'k', 'gk')
+nmap('j', 'gj')
+nmap('k', 'gk')
 
 -- maintain cursor position when joining lines
-map('n', 'J', 'mzJ`z')
+nmap('J', 'mzJ`z')
 
 -- retain selection when indenting/unindenting in visual mode
-map('v', '>', '><cr>gv')
-map('v', '<', '<<cr>gv')
+vmap('>', '><cr>gv')
+vmap('<', '<<cr>gv')
 
 -- place next/previous search result in center of screen
-map('n', 'n', 'nzzzv')
-map('n', 'N', 'Nzzzv')
+nmap('n', 'nzzzv')
+nmap('N', 'Nzzzv')
 
 -- select all
-map('n', '<c-a>', 'gg<s-v>G')
+nmap('<c-a>', 'gg<s-v>G')
 
 -- easier window navigation
-map('n', '<c-j>', '<c-w>j')
-map('n', '<c-k>', '<c-w>k')
-map('n', '<c-h>', '<c-w>h')
-map('n', '<c-l>', '<c-w>l')
+nmap('<c-j>', '<c-w>j')
+nmap('<c-k>', '<c-w>k')
+nmap('<c-h>', '<c-w>h')
+nmap('<c-l>', '<c-w>l')
 
 -- window resizing
-map('n', '<s-Up>', '<cmd>resize +1<cr>')
-map('n', '<s-Down>', '<cmd>resize -1<cr>')
-map('n', '<s-Left>', '<cmd>vertical resize -1<cr>')
-map('n', '<s-Right>', '<cmd>vertical resize +1<cr>')
+nmap('<s-Up>', '<cmd>resize +1<cr>')
+nmap('<s-Down>', '<cmd>resize -1<cr>')
+nmap('<s-Left>', '<cmd>vertical resize -1<cr>')
+nmap('<s-Right>', '<cmd>vertical resize +1<cr>')
 
 -- easy tab navigation
-map('n', '<Right>', '<cmd>tabnext<cr>', { silent = true })
-map('n', '<Left>', '<cmd>tabprevious<cr>', { silent = true })
+nmap('<Right>', '<cmd>tabnext<cr>', { silent = true })
+nmap('<Left>', '<cmd>tabprevious<cr>', { silent = true })
 
 -- move lines up and down
-map('n', '<c-a-j>', [[:move .+1<cr>==]], { silent = true })
-map('n', '<c-a-k>', [[:move .-2<cr>==]], { silent = true })
-map('v', '<c-a-j>', [[:move '>+1<cr>gv=gv]], { silent = true })
-map('v', '<c-a-k>', [[:move '<-2<cr>gv=gv]], { silent = true })
-map('i', '<c-a-j>', [[<esc>:move .+1<cr>==gi]], { silent = true })
-map('i', '<c-a-k>', [[<esc>:move .-2<cr>==gi]], { silent = true })
+nmap('<c-a-j>', [[:move .+1<cr>==]], { silent = true })
+nmap('<c-a-k>', [[:move .-2<cr>==]], { silent = true })
+vmap('<c-a-j>', [[:move '>+1<cr>gv=gv]], { silent = true })
+vmap('<c-a-k>', [[:move '<-2<cr>gv=gv]], { silent = true })
+imap('<c-a-j>', [[<esc>:move .+1<cr>==gi]], { silent = true })
+imap('<c-a-k>', [[<esc>:move .-2<cr>==gi]], { silent = true })
 
 -- move to begin/end of line in insert mode
-map('i', '<c-a>', '<c-o>^')
-map('i', '<c-e>', '<c-o>$')
+imap('<c-a>', '<c-o>^')
+imap('<c-e>', '<c-o>$')
 
 -- move to begin of line in command mode (<c-e> moves to end by default)
-map('c', '<c-a>', '<c-b>')
+cmap('<c-a>', '<c-b>')
 
 -- navigate items in quickfix list
-map('n', '<Down>', '<cmd>cnext<cr>zz', { silent = true })
-map('n', '<Up>', '<cmd>cprevious<cr>zz', { silent = true })
+nmap('<Down>', '<cmd>cnext<cr>zz', { silent = true })
+nmap('<Up>', '<cmd>cprevious<cr>zz', { silent = true })
 
 -- cycle through line numbering modes
-map('n', '<leader>ln', '<cmd>set nonumber norelativenumber<CR>', { silent = true })
-map('n', '<leader>ll', '<cmd>set number norelativenumber<CR>', { silent = true })
-map('n', '<leader>lr', '<cmd>set number relativenumber<CR>', { silent = true })
+nmap('<leader>ln', '<cmd>set nonumber norelativenumber<CR>', { silent = true })
+nmap('<leader>ll', '<cmd>set number norelativenumber<CR>', { silent = true })
+nmap('<leader>lr', '<cmd>set number relativenumber<CR>', { silent = true })
 
 -- toggle options
-map('n', '<leader>sl', '<cmd>set list! | set list?<CR>', { silent = true })
-map('n', '<leader>sr', '<cmd>set wrap! | set wrap?<CR>', { silent = true })
-map('n', '<leader>sp', '<cmd>set spell! | set spell?<CR>', { silent = true })
+nmap('<leader>sl', '<cmd>set list! | set list?<CR>', { silent = true })
+nmap('<leader>sr', '<cmd>set wrap! | set wrap?<CR>', { silent = true })
+nmap('<leader>sp', '<cmd>set spell! | set spell?<CR>', { silent = true })
 
 -- quickly change background
-map('n', '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]])
+nmap('<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]])
 
 -- disable highlight until next search
-map('n', '<leader>h', '<cmd>nohlsearch<cr>')
+nmap('<leader>h', '<cmd>nohlsearch<cr>')
 
 -- more convenient way of entering normal mode from terminal mode
-map('t', [[<c-\><c-\>]], [[<c-\><c-n>]])
+tmap([[<c-\><c-\>]], [[<c-\><c-n>]])
 
 -- recall older/recent command-line from history
-map('c', '<c-j>', '<down>')
-map('c', '<c-k>', '<up>')
+cmap('<c-j>', '<down>')
+cmap('<c-k>', '<up>')
 
