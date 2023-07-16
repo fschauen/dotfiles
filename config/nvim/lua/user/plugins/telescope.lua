@@ -2,9 +2,8 @@ local config = function()
   local telescope      = require 'telescope'
   local actions        = require 'telescope.actions'
   local actions_layout = require 'telescope.actions.layout'
-  local builtin        = require 'telescope.builtin'
 
-  local keymap = {
+  local mappings = {
     ['<c-l>'] = actions_layout.cycle_layout_next,
     ['<c-o>'] = actions_layout.toggle_mirror,
     ['<c-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
@@ -15,22 +14,6 @@ local config = function()
 
     ['<c-j>'] = actions.cycle_history_next,
     ['<c-k>'] = actions.cycle_history_prev,
-  }
-
-  local titles = {
-    git_commits =               '   Commits  ',
-    buffers     =               '    Buffers  ',
-    find_files  =               '    Files  ',
-    help_tags   =               '    Help tags  ',
-    keymaps     =               '    Keymaps  ',
-    live_grep   =               '    Live grep  ',
-    vim_options =               '    Vim options  ',
-    man_pages   =               '    Man pages  ',
-    all_files   =               '    ALL Files  ',
-    dotfiles    =               '    Find dotfiles ',
-    grep        =               '    Grep: %s  ',
-    treesitter  =               '    Treesitter Symbols',
-    current_buffer_fuzzy_find = '    Current buffer',
   }
 
   telescope.setup {
@@ -67,22 +50,9 @@ local config = function()
       },
 
       mappings = {
-        i = keymap,
-        n = keymap,
+        i = mappings,
+        n = mappings,
       },
-    },
-
-    pickers = {
-      buffers                   = { prompt_title = titles.buffers     },
-      find_files                = { prompt_title = titles.find_files  },
-      git_commits               = { prompt_title = titles.git_commits },
-      help_tags                 = { prompt_title = titles.help_tags   },
-      keymaps                   = { prompt_title = titles.keymaps     },
-      live_grep                 = { prompt_title = titles.live_grep   },
-      vim_options               = { prompt_title = titles.vim_options },
-      man_pages                 = { prompt_title = titles.man_pages   },
-      treesitter                = { prompt_title = titles.treesitter  },
-      current_buffer_fuzzy_find = { prompt_title = titles.current_buffer_fuzzy_find  },
     },
 
     extensions = {
@@ -100,54 +70,67 @@ local config = function()
     },
   }
 
-  telescope.load_extension 'file_browser'
-  telescope.load_extension 'fzf'
-
-  local get_selected_text = require('user.util').get_selected_text
+  local builtin = require 'telescope.builtin'
 
   local custom = {
-    all_files = function()
-      builtin.find_files {
-        prompt_title = titles.all_files,
+    all_files = function(opts)
+      builtin.find_files(vim.tbl_extend('keep', opts or {}, {
         hidden = true,
         no_ignore = true,
         no_ignore_parent = true,
-      }
+      }))
     end,
 
-    dotfiles = function()
-      builtin.find_files {
-        prompt_title = titles.dotfiles,
+    dotfiles = function(opts)
+      builtin.find_files(vim.tbl_extend('keep', opts or {}, {
         cwd = '~/.dotfiles',
         hidden = true,
-      }
+      }))
     end,
 
-    grep = function()
-      local selected = get_selected_text()
+    grep = function(_)
+      local selected = require('user.util').get_selected_text()
       builtin.grep_string {
-        prompt_title = string.format(titles.grep, selected),
+        prompt_title = string.format('    Grep: %s   ', selected),
         search = selected,
       }
     end,
+
+    here = function(opts) builtin.current_buffer_fuzzy_find(opts) end,
   }
 
-  local map = vim.keymap.set
-  map('n', '<leader>fa', custom.all_files,    { desc = ' [F]ind [A]ll Files in $PWD' })
-  map('n', '<leader>fb', builtin.buffers,     { desc = ' [F]ind [B]uffers' })
-  map('n', '<leader>fc', builtin.git_commits, { desc = ' [F]ind [C]ommits' })
-  map('n', '<leader>fd', custom.dotfiles,     { desc = ' [F]ind [D]otfiles' })
-  map('n', '<leader>ff', builtin.find_files,  { desc = ' [F]ind [F]iles in $PWD' })
-  map('n', '<leader>fg', builtin.live_grep,   { desc = ' [F]ind with [G]rep in $PWD' })
-  map('n', '<leader>fh', builtin.current_buffer_fuzzy_find, { desc = ' [F]ind [H]ere' })
-  map('n', '<leader>fk', builtin.keymaps,     { desc = ' [F]ind [K]eymaps' })
-  map('n', '<leader>fm', builtin.man_pages,   { desc = ' [F]ind [M]an pages' })
-  map('n', '<leader>fo', builtin.vim_options, { desc = ' [F]ind vim [O]ptions' })
-  map('n', '<leader>fs', custom.grep,         { desc = ' [F]ind [S]tring' })
-  map('v', '<leader>fs', custom.grep,         { desc = ' [F]ind visual [S]election' })
-  map('n', '<leader>ft', builtin.treesitter,  { desc = ' [F]ind [T]reesitter Symbols' })
-  map('n', '<leader>f?', builtin.help_tags,   { desc = ' [F]ind Help tags [?]' })
-  map('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
+  local map = function(keymap)
+    for _, r in ipairs(keymap) do
+      local modes, lhs, picker, title, desc = r[1], r[2], r[3], r[4], r[5]
+      local rhs = function() picker { prompt_title = title } end
+      vim.keymap.set(modes, lhs, rhs, { desc = desc })
+    end
+  end
+
+  map {
+  -- ╭────╮   ╭────╮        ╭──────╮                ╭────────────╮             ╭───────────────────╮
+  -- │mode│   │keys│        │picker│                │prompt title│             │mapping description│
+  -- ╰────╯   ╰────╯        ╰──────╯                ╰────────────╯             ╰───────────────────╯
+    { 'n', '<leader>fa', custom.all_files    , '    ALL Files  '          , ' [F]ind [A]ll Files in $PWD'  },
+    { 'n', '<leader>fb', builtin.buffers     , '    Buffers  '            , ' [F]ind [B]uffers'            },
+    { 'n', '<leader>fc', builtin.git_commits , '   Commits  '           , ' [F]ind [C]ommits'            },
+    { 'n', '<leader>fd', custom.dotfiles     , '    Find dotfiles  '      , ' [F]ind [D]otfiles'           },
+    { 'n', '<leader>ff', builtin.find_files  , '    Files  '              , ' [F]ind [F]iles in $PWD'      },
+    { 'n', '<leader>fg', builtin.live_grep   , '    Live grep  '          , ' [F]ind with [G]rep in $PWD'  },
+    { 'n', '<leader>fh', custom.here         , '    Current buffer  '     , ' [F]ind [H]ere'               },
+    { 'n', '<leader>fk', builtin.keymaps     , '    Keymaps  '            , ' [F]ind [K]eymaps'            },
+    { 'n', '<leader>fm', builtin.man_pages   , '    Man pages  '          , ' [F]ind [M]an pages'          },
+    { 'n', '<leader>fo', builtin.vim_options , '    Vim options  '        , ' [F]ind vim [O]ptions'        },
+    { 'n', '<leader>fs', custom.grep,            nil                       , ' [F]ind [S]tring'             },
+    { 'n', '<leader>fs', custom.grep,            nil                       , ' [F]ind visual [S]election'   },
+    { 'n', '<leader>ft', builtin.treesitter  , '    Treesitter Symbols  ' , ' [F]ind [T]reesitter Symbols' },
+    { 'n', '<leader>f?', builtin.help_tags   , '    Help tags  '          , ' [F]ind Help tags [?]'        },
+  }
+
+  telescope.load_extension 'fzf'
+
+  telescope.load_extension 'file_browser'
+  vim.keymap.set('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
 end
 
 return {
