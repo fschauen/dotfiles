@@ -44,8 +44,8 @@ local config = function()
   }
 
   local builtin = require 'telescope.builtin'
+  local pickers = vim.tbl_extend('error', builtin, {
 
-  local custom = {
     all_files = function(opts)
       builtin.find_files(vim.tbl_extend('keep', opts or {}, {
         hidden = true,
@@ -70,7 +70,7 @@ local config = function()
     end,
 
     here = function(opts) builtin.current_buffer_fuzzy_find(opts) end,
-  }
+  })
 
   local map = function(keymap)
     for _, r in ipairs(keymap) do
@@ -84,20 +84,20 @@ local config = function()
   -- ╭────╮   ╭────╮        ╭──────╮                ╭────────────╮             ╭───────────────────╮
   -- │mode│   │keys│        │picker│                │prompt title│             │mapping description│
   -- ╰────╯   ╰────╯        ╰──────╯                ╰────────────╯             ╰───────────────────╯
-    { 'n', '<leader>fa', custom.all_files    , '    ALL Files  '          , ' [F]ind [A]ll Files in $PWD'  },
-    { 'n', '<leader>fb', builtin.buffers     , '    Buffers  '            , ' [F]ind [B]uffers'            },
-    { 'n', '<leader>fc', builtin.git_commits , '   Commits  '           , ' [F]ind [C]ommits'            },
-    { 'n', '<leader>fd', custom.dotfiles     , '    Find dotfiles  '      , ' [F]ind [D]otfiles'           },
-    { 'n', '<leader>ff', builtin.find_files  , '    Files  '              , ' [F]ind [F]iles in $PWD'      },
-    { 'n', '<leader>fg', builtin.live_grep   , '    Live grep  '          , ' [F]ind with [G]rep in $PWD'  },
-    { 'n', '<leader>fh', custom.here         , '    Current buffer  '     , ' [F]ind [H]ere'               },
-    { 'n', '<leader>fk', builtin.keymaps     , '    Keymaps  '            , ' [F]ind [K]eymaps'            },
-    { 'n', '<leader>fm', builtin.man_pages   , '    Man pages  '          , ' [F]ind [M]an pages'          },
-    { 'n', '<leader>fo', builtin.vim_options , '    Vim options  '        , ' [F]ind vim [O]ptions'        },
-    { 'n', '<leader>fs', custom.grep,            nil                       , ' [F]ind [S]tring'             },
-    { 'n', '<leader>fs', custom.grep,            nil                       , ' [F]ind visual [S]election'   },
-    { 'n', '<leader>ft', builtin.treesitter  , '    Treesitter Symbols  ' , ' [F]ind [T]reesitter Symbols' },
-    { 'n', '<leader>f?', builtin.help_tags   , '    Help tags  '          , ' [F]ind Help tags [?]'        },
+    { 'n', '<leader>fa', pickers.all_files   , '    ALL Files  '          , ' [F]ind [A]ll Files in $PWD'  },
+    { 'n', '<leader>fb', pickers.buffers     , '    Buffers  '            , ' [F]ind [B]uffers'            },
+    { 'n', '<leader>fc', pickers.git_commits , '   Commits  '           , ' [F]ind [C]ommits'            },
+    { 'n', '<leader>fd', pickers.dotfiles    , '    Find dotfiles  '      , ' [F]ind [D]otfiles'           },
+    { 'n', '<leader>ff', pickers.find_files  , '    Files  '              , ' [F]ind [F]iles in $PWD'      },
+    { 'n', '<leader>fg', pickers.live_grep   , '    Live grep  '          , ' [F]ind with [G]rep in $PWD'  },
+    { 'n', '<leader>fh', pickers.here        , '    Current buffer  '     , ' [F]ind [H]ere'               },
+    { 'n', '<leader>fk', pickers.keymaps     , '    Keymaps  '            , ' [F]ind [K]eymaps'            },
+    { 'n', '<leader>fm', pickers.man_pages   , '    Man pages  '          , ' [F]ind [M]an pages'          },
+    { 'n', '<leader>fo', pickers.vim_options , '    Vim options  '        , ' [F]ind vim [O]ptions'        },
+    { 'n', '<leader>fs', pickers.grep        ,   nil                       , ' [F]ind [S]tring'             },
+    { 'n', '<leader>fs', pickers.grep        ,   nil                       , ' [F]ind visual [S]election'   },
+    { 'n', '<leader>ft', pickers.treesitter  , '    Treesitter Symbols  ' , ' [F]ind [T]reesitter Symbols' },
+    { 'n', '<leader>f?', pickers.help_tags   , '    Help tags  '          , ' [F]ind Help tags [?]'        },
   }
 
   telescope.load_extension 'fzf'
