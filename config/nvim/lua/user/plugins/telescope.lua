@@ -19,54 +19,27 @@ local config = function()
   telescope.setup {
     defaults = {
       prompt_prefix = ' ❯ ',
-      selection_caret = ' ',   -- Other ideas: ➔ 
+      selection_caret = ' ',     -- Other ideas:  ➔  
       multi_icon = ' ',
+      scroll_strategy = 'limit',  -- Don't wrap around in results.
 
-      scroll_strategy = 'limit',
       layout_strategy = 'flex',
-
       layout_config = {
-        anchor = 'center',
-        width = 0.9,
-        height = 0.9,
-
-        flex = {
-          flip_columns = 130,
-        },
-
-        horizontal = {
-          preview_width = 0.5,
-          preview_cutoff = 130,
-        },
-
-        vertical = {
-          preview_height = 0.5,
-        },
+        anchor     = 'center',
+        width      = 0.9,
+        height     = 0.9,
+        flex       = { flip_columns   = 130 },
+        horizontal = { preview_width  = 0.5, preview_cutoff = 130 },
+        vertical   = { preview_height = 0.5 },
       },
 
-      cycle_layout_list = {
-        'horizontal',
-        'vertical',
-      },
+      cycle_layout_list = { 'horizontal', 'vertical' },
 
-      mappings = {
-        i = mappings,
-        n = mappings,
-      },
+      mappings = { i = mappings, n = mappings },
     },
 
     extensions = {
-      file_browser = {
-        theme = 'ivy',
-        mappings = {
-          n = {
-            -- normal mode mappings go here
-          },
-          i = {
-            -- insert mode mappings go here
-          },
-        },
-      },
+      file_browser = { theme = 'ivy' },
     },
   }
 
