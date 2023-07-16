@@ -10,13 +10,30 @@ M.flip = function(f)
   end
 end
 
+-- Extend lists.
+--
+--    extend({'a', 'b'}, {'c', 'd'}) == {'a', 'b', 'c', 'd'}
+--    extend({1, 2}, {3, 4}, {5, 6}) == {1, 2, 3, 4, 5, 6}
+--
+M.extend = function(...)
+  local result = {}
+  for _, tbl in ipairs {...} do
+    for _, v in pairs(tbl) do
+      result[#result+1] = v
+    end
+  end
+  return result
+end
+
 -- Partial function application:
 --
---    partial(f, x)(...) == f(x, ...)
+--    partial(f, x)(...)    == f(x, ...)
+--    partial(f, x, y)(...) == f(x, y, ...)
 --
-M.partial = function(f, x)
+M.partial = function(f, ...)
+  local argv = {...}
   return function(...)
-    return f(x, ...)
+    return f(unpack(M.extend(argv, {...})))
   end
 end
 
@@ -37,6 +54,9 @@ M.get_selected_text = function()
     vim.cmd [[noautocmd sil norm "vy]]
     return vim.fn.getreg 'v'
   end)
+end
+
+M.use_local = function()
 end
 
 return M
