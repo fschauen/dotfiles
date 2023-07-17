@@ -45,7 +45,6 @@ local config = function()
       -- ╰────────╯
       layout_strategy = 'flex',
       layout_config = {
-        anchor     = 'center',
         width      = 0.9,
         height     = 0.9,
         flex       = { flip_columns   = 130 },
@@ -60,6 +59,7 @@ local config = function()
     },
   }
 
+  local themes = require 'telescope.themes'
   local builtin = require 'telescope.builtin'
   local custom = {
 
@@ -71,10 +71,16 @@ local config = function()
       }))
     end,
 
+    buffers = function(opts)
+      builtin.buffers(themes.get_dropdown(vim.tbl_extend('keep', opts or {}, {
+        previewer = false,
+      })))
+    end,
+
     colorschemes = function(opts)
-      builtin.colorscheme(vim.tbl_extend('keep', opts or {}, {
+      builtin.colorscheme(themes.get_dropdown(vim.tbl_extend('keep', opts or {}, {
         enable_preview = true,
-      }))
+      })))
     end,
 
     dotfiles = function(opts)
@@ -90,6 +96,10 @@ local config = function()
         prompt_title = string.format('    Grep: %s   ', selected),
         search = selected,
       }
+    end,
+
+    spell_suggest = function(opts)
+      builtin.spell_suggest(themes.get_cursor(opts))
     end,
 
     here = function(opts) builtin.current_buffer_fuzzy_find(opts) end,
@@ -111,7 +121,7 @@ local config = function()
     -- ╰────╯     ╰──────╯                ╰────────────╯          ╰───────────────────╯
     n = {
       { 'a',  builtin.autocommands   , '  Autocommands'         , '[a]utocommands'         },
-      { 'b',  builtin.buffers        , '  Buffers'              , '[b]uffers'              },
+      { 'b',  custom.buffers         , '  Buffers'              , '[b]uffers'              },
       { 'c',  custom.colorschemes    , '  Colorschemes'         , '[c]olorschemes'         },
       { 'd',  custom.dotfiles        , '  Dotfiles'             , '[d]ot[f]iles'           },
       { 'e',  builtin.diagnostics    , '󰀪  Diagnostics'          , 'diagnostics/[e]rrors'   },
@@ -141,7 +151,7 @@ local config = function()
       -- w
       -- x
       -- y
-      { 'z',  builtin.spell_suggest  , '󰓆  Spelling suggestions' , '[z] spell suggestions'  },
+      { 'z',  custom.spell_suggest   , '󰓆  Spelling suggestions' , '[z] spell suggestions'  },
       { ':',  builtin.command_history, '  Command history'      , '[:]command history'     },
       { '?',  builtin.commands       , '  Commands'             , 'commands [?]'           },
       { '/',  builtin.search_history , '  Search history'       , '[/]search history'      },
