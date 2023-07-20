@@ -1,4 +1,5 @@
 [alias]
+    alias   = config --get-regexp ^alias
     b       = branch
     bv      = b -vv
     ba      = bv --all
