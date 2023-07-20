@@ -6,7 +6,9 @@
     cm      = commit --verbose
     co      = checkout
     d       = diff
+    dc      = d --cached
     ds      = !GIT_PAGER=\"delta-wrapper --side-by-side\" git diff
+    dcs     = ds --cached
     l       = log --graph --pretty=basic
     ln      = log --graph --pretty=name
     ll      = log --graph --decorate --stat
