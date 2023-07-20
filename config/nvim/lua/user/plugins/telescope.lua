@@ -115,7 +115,7 @@ local config = function()
     end
   end
 
-  map('<c-n>', {
+  map('<c-p>', {
     -- ╭────╮     ╭──────╮                ╭────────────╮          ╭───────────────────╮
     -- │keys│     │picker│                │prompt title│          │mapping description│
     -- ╰────╯     ╰──────╯                ╰────────────╯          ╰───────────────────╯
