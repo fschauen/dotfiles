@@ -63,6 +63,9 @@ nmap('<leader>ln', '<cmd>set nonumber norelativenumber<CR>', { silent = true })
 nmap('<leader>ll', '<cmd>set number norelativenumber<CR>', { silent = true })
 nmap('<leader>lr', '<cmd>set number relativenumber<CR>', { silent = true })
 
+-- quickly open lazy.nvim plugin manager
+nmap('<leader>L', '<cmd>Lazy<cr>')
+
 -- toggle options
 nmap('<leader>sl', '<cmd>set list! | set list?<CR>', { silent = true })
 nmap('<leader>sr', '<cmd>set wrap! | set wrap?<CR>', { silent = true })
