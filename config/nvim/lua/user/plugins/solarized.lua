@@ -1,5 +1,7 @@
 return {
-  dir = '~/.dotfiles/plugins/solarized.nvim',
+  'fschauen/solarized.nvim',
+
+  dev = true,
 
   config = function()
     vim.cmd [[colorscheme solarized]]
