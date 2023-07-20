@@ -72,7 +72,8 @@ nmap('<leader>sp', '<cmd>set spell! | set spell?<CR>', { silent = true })
 nmap('<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]])
 
 -- disable highlight until next search
-nmap('<leader>h', '<cmd>nohlsearch<cr>')
+nmap('<esc>', '<cmd>nohlsearch<cr><esc>')
+imap('<esc>', '<cmd>nohlsearch<cr><esc>')
 
 -- more convenient way of entering normal mode from terminal mode
 tmap([[<c-\><c-\>]], [[<c-\><c-n>]])
