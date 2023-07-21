@@ -158,7 +158,7 @@ local config = function()
       icons_enabled = true,
       component_separators = { left = '', right = '' },
       section_separators = { left = '', right = '' },
-      theme = 'solarized',
+      theme = 'gruvbox',
     },
 
     sections = vim.tbl_extend('force', inactive_sections, {
