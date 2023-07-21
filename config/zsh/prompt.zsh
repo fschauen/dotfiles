@@ -1,8 +1,12 @@
-base03=8 base02=0 base01=10 base00=11 base0=12 base1=14 base2=7   base3=15
-red=1    orange=9 yellow=3  green=2   cyan=6   blue=4   violet=13 magenta=5
+# solarized
+# base03=8 base02=0 base01=10 base00=11 base0=12 base1=14 base2=7   base3=15
+# red=1    orange=9 yellow=3  green=2   cyan=6   blue=4   violet=13 magenta=5
+# gray=$base01 light_gray=$base2 purple=$magenta aqua=$cyan
+
+# gruvbox
+red=1 green=2 yellow=3 blue=4 purple=5 aqua=6 light_gray=7 gray=8
 
 PROMPT_SECTIONS=()
-PROMPT_SEPARATOR="%{%F{$base01}%} ❯ %{%f%}"
 
 render() {  # $1: optional color, $2...: contents
     if [[ -n $2 ]] {
@@ -14,20 +18,22 @@ render() {  # $1: optional color, $2...: contents
 
 render_prompt() {
     setopt localoptions shortloops
+    local separator="%{%F{$gray}%} ❯ %{%f%}"
 
     PROMPT_SECTIONS=()
     for s in exit_code user_host pwd git venv jobs exec_time; { render_$s }
 
     echo
-    echo ${(pj.$PROMPT_SEPARATOR.)PROMPT_SECTIONS}
+    echo ${(pj.$separator.)PROMPT_SECTIONS}
+    echo -n "%{%F{$gray}%}"
     printf '❯%.0s' {1..$SHLVL}
-    print ' '
+    echo -n "%{%f%} "
 }
 
 render_exit_code() {
     if (($PROMPT_EXIT_CODE != 0)) {
         if ((PROMPT_EXIT_CODE > 128 && PROMPT_EXIT_CODE < 160 )) {
-            render $base00 $(kill -l $PROMPT_EXIT_CODE)
+            render $gray $(kill -l $PROMPT_EXIT_CODE)
         } else {
             render $red "%{%B%}✘ $PROMPT_EXIT_CODE%{%b%}"
         }
@@ -35,12 +41,12 @@ render_exit_code() {
 }
 
 render_user_host() {
-    local sep="%{%F{$base01}%}@%{%f%}"
+    local sep="%{%F{$gray}%}@%{%f%}"
     local parts=()
 
-    # username in orange if root, yellow if otherwise relevant
+    # username in red if root, yellow if otherwise relevant
     if [[ $UID == 0 ]] {
-        parts+="%{%F{$orange}%}%n%{%f%}"
+        parts+="%{%F{$red}%}%n%{%f%}"
     } elif [[ $LOGNAME != $USER ]] || [[ -n $SSH_CONNECTION ]] {
         parts+="%{%F{$yellow}%}%n%{%f%}"
     }
@@ -52,7 +58,7 @@ render_user_host() {
 }
 
 render_pwd() {
-    render $cyan '%~'  # TODO add RO if now write permission
+    render $aqua '%~'  # TODO add RO if now write permission
 }
 
 # TODO add stash?
@@ -122,21 +128,21 @@ render_git() {
     {
         local attention=()
         (($conflicts > 0 )) && attention+="%{%B%F{$red}%}$conflicts!%{%b%f%}"
-        (($untracked > 0 )) && attention+="%{%F{$base2}%}$untracked?%{%f%}"
+        (($untracked > 0 )) && attention+="%{%F{$light_gray}%}$untracked?%{%f%}"
 
         local changes=()
         (($staged > 0)) && changes+="%{%F{$green}%}+$staged%{%f%}"
-        (($dirty > 0 )) && changes+="%{%F{$orange}%}$dirty✶%{%f%}"
+        (($dirty > 0 )) && changes+="%{%F{$red}%}$dirty✶%{%f%}"
 
         if (($#attention > 0 || $#changes > 0)) {
-            local sep="%{%F{$base01}%}|%{%f%}"
+            local sep="%{%F{$gray}%}|%{%f%}"
             local state_array=(${(j: :)attention} ${(pj:$sep:)changes})
             state=${(j: :)state_array}
         }
 
         local extra=()
         (($ahead > 0 ))  && extra+="↑$ahead"
-        (($behind > 0 )) && extra+="%{%F{$cyan}%}↓$behind%{%f%}"
+        (($behind > 0 )) && extra+="%{%F{$aqua}%}↓$behind%{%f%}"
         (($#extra > 0))  && trackinfo="(${(j::)extra}%{%F{$color}%})%{%f%}"
     }
 
@@ -145,11 +151,11 @@ render_git() {
 }
 
 render_venv() {
-    [[ -n $VIRTUAL_ENV ]] && render $violet $VIRTUAL_ENV:t  # venv if active
+    [[ -n $VIRTUAL_ENV ]] && render $green $VIRTUAL_ENV:t  # venv if active
 }
 
 render_jobs() {
-    (($PROMPT_JOB_COUNT > 0)) && render $magenta '%j bg'  # background jobs if any
+    (($PROMPT_JOB_COUNT > 0)) && render $purple '%j bg'  # background jobs if any
 }
 
 render_exec_time() {
@@ -160,7 +166,7 @@ render_exec_time() {
             "$((PROMPT_EXEC_TIME / 60 % 60))m"         # minutes
             "$((PROMPT_EXEC_TIME % 60))s"              # seconds
         )
-        render $base01 ${components:#0*}  # only keep non-zero parts
+        render $gray ${components:#0*}  # only keep non-zero parts
     }
 }
 
