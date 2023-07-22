@@ -20,8 +20,8 @@
     ss      = status
 
 [pretty]
-    basic = %C(auto)%h%d %s %C(0) %C(10)%ad
-    name  = %C(auto)%h%d %s %n%C(10)%aN <%C(2)%aE%C(10)> %ad %n
+    basic = %C(auto)%h%d %s %C(8) %ad
+    name  = %C(auto)%h%d %s %n%C(2)%aN <%C(10)%aE%C(2)> %C(8) %ad %n
 
 [core]
     excludesfile    = ~/.config/git/ignore
@@ -35,23 +35,23 @@
     date = human
 
 [delta]
-    commit-decoration-style = "#b58900" bold box ul
+    commit-decoration-style = "#d79921" bold box ul
     commit-style = raw
     dark = true
-    file-decoration-style = "#268bd2" bold box
+    file-decoration-style = "#458588" bold box
     file-modified-label = "modified:"
-    file-style = "#268bd2"
+    file-style = "#458588"
     hunk-header-style = omit
     line-numbers = true
-    line-numbers-minus-style = "#dc322f" italic
-    line-numbers-plus-style = "#719e07" italic
-    line-numbers-left-style =  "#586e75"
-    line-numbers-right-style = "#eee8d5"
-    line-numbers-zero-style =  "#073642"
-    minus-emph-style = normal "#842b2c"
-    minus-style = normal "#2c2429"
-    plus-emph-style = syntax "#446c14"
-    plus-style = syntax "#173921"
+    line-numbers-minus-style = "#cc241d" italic
+    line-numbers-plus-style = "#98971a" italic
+    line-numbers-zero-style =  "#504945"
+    line-numbers-left-style =  "#665c54"
+    line-numbers-right-style = "#ebdbb2"
+    minus-emph-style = normal "#9d0006"
+    minus-style = normal "#492120"      # cc241d (red) 1:3 1d2021 (bg)
+    plus-emph-style = syntax "#79740e"
+    plus-style = syntax "#3c3e1f"       # 98971a (red) 1:3 1d2021 (bg)
     syntax-theme = Nord
 
 [push]
