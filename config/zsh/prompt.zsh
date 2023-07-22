@@ -1,10 +1,4 @@
-# solarized
-# base03=8 base02=0 base01=10 base00=11 base0=12 base1=14 base2=7   base3=15
-# red=1    orange=9 yellow=3  green=2   cyan=6   blue=4   violet=13 magenta=5
-# gray=$base01 light_gray=$base2 purple=$magenta aqua=$cyan
-
-# gruvbox
-red=1 green=2 yellow=3 blue=4 purple=5 aqua=6 light_gray=7 gray=8
+black=0 red=1 green=2 yellow=3 blue=4 magenta=5 cyan=6 white=7 gray=8
 
 PROMPT_SECTIONS=()
 
@@ -33,7 +27,7 @@ render_prompt() {
 render_exit_code() {
     if (($PROMPT_EXIT_CODE != 0)) {
         if ((PROMPT_EXIT_CODE > 128 && PROMPT_EXIT_CODE < 160 )) {
-            render $gray $(kill -l $PROMPT_EXIT_CODE)
+            render $white $(kill -l $PROMPT_EXIT_CODE)
         } else {
             render $red "%{%B%}✘ $PROMPT_EXIT_CODE%{%b%}"
         }
@@ -58,7 +52,7 @@ render_user_host() {
 }
 
 render_pwd() {
-    render $aqua '%~'  # TODO add RO if now write permission
+    render $cyan '%~'  # TODO add RO if now write permission
 }
 
 # TODO add stash?
@@ -128,7 +122,7 @@ render_git() {
     {
         local attention=()
         (($conflicts > 0 )) && attention+="%{%B%F{$red}%}$conflicts!%{%b%f%}"
-        (($untracked > 0 )) && attention+="%{%F{$light_gray}%}$untracked?%{%f%}"
+        (($untracked > 0 )) && attention+="%{%F{$white}%}$untracked?%{%f%}"
 
         local changes=()
         (($staged > 0)) && changes+="%{%F{$green}%}+$staged%{%f%}"
@@ -142,7 +136,7 @@ render_git() {
 
         local extra=()
         (($ahead > 0 ))  && extra+="↑$ahead"
-        (($behind > 0 )) && extra+="%{%F{$aqua}%}↓$behind%{%f%}"
+        (($behind > 0 )) && extra+="%{%F{$cyan}%}↓$behind%{%f%}"
         (($#extra > 0))  && trackinfo="(${(j::)extra}%{%F{$color}%})%{%f%}"
     }
 
@@ -155,7 +149,7 @@ render_venv() {
 }
 
 render_jobs() {
-    (($PROMPT_JOB_COUNT > 0)) && render $purple '%j bg'  # background jobs if any
+    (($PROMPT_JOB_COUNT > 0)) && render $magenta '%j bg'  # background jobs if any
 }
 
 render_exec_time() {
