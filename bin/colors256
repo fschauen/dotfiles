@@ -1,11 +1,37 @@
 #!/bin/sh
 # Print all 256 colors
 
+black="\e[38;5;232m"
+white="\e[38;5;255m"
+
+# 16 standard colors -> 0...15
+
 for i in $(seq 0 15); do
-    for j in $(seq 0 15); do
-        n=$(( 16 * i + j ))
-        printf '%s  %3d  ' "$(tput setab $n)" "$n"
-    done
-    printf '%s\n' "$(tput sgr0)"
+  [ $i -lt 8 ] && fg="$white" || fg="$black"
+  bg="\e[48;5;${i}m"
+  printf '%b%b   %2d    '  "$fg"  "$bg"  "$i"
 done
+printf '%b\n' '\e[0m'
+
+# 216 colors -> 16...231
+
+for i in $(seq 0 5); do
+  for j in $(seq 0 35); do
+    n=$(( 16 + 36 * i + j ))
+    [ $j -lt 18 ] && fg="$white" || fg="$black"
+    bg="\e[48;5;${n}m"
+    printf '%b%b%4d'  "$fg"  "$bg"  "$n"
+  done
+  printf '%b\n' '\e[0m'
+done
+
+# 24 grayscale colors -> 232...255
+
+for i in $(seq 0 23); do
+  n=$(( 232 + i ))
+  [ $i -lt 12 ] && fg="$white" || fg="$black"
+  bg="\e[48;5;${n}m"
+  printf '%b%b%4d  '  "$fg"  "$bg"  "$n"
+done
+printf '%b\n' '\e[0m'
 
