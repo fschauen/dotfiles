@@ -1,13 +1,14 @@
 #!/bin/sh
 
-rst="$(tput sgr0)"
+reset='\e[0m'
 
-printf '%s\n' "$(tput bold)This text has the bold attribute.${rst}"
-printf '%s\n' "$(tput sitm)This text has the italics attribute.${rst}"
-printf '%s\n' "$(tput dim)This text has the dim attribute.${rst}"
-printf '%s\n' "$(tput smso)This text has the standout (smso) attribute.${rst}"
-printf '%s\n' "$(tput smul)This text has the underline (smul) attribute.${rst}"
-printf '%s\n' "$(tput blink)This text has the blink attribute.${rst}"
-printf '%s\n' "$(tput rev)This text has the reverse attribute.${rst}"
-printf '%s\n' "$(tput invis)This text has the invisible attribute.${rst}"
+printf '%b\n' "\e[1mThis text has the bold (tput bold) attribute.${reset}"
+printf '%b\n' "\e[2mThis text has the faint (tput dim) attribute.${reset}"
+printf '%b\n' "\e[3mThis text has the italics (tput sitm | tput smso) attribute.${reset}"
+printf '%b\n' "\e[4mThis text has the underline (tput smul) attribute.${reset}"
+printf '%b\n' "\e[5mThis text has the blink (tput blink) attribute.${reset}"
+printf '%b\n' "\e[7mThis text has the reverse (tput rev) attribute.${reset}"
+printf '%b\n' "\e[8mThis text has the invisible (tput invis) attribute.${reset}"
+printf '%b\n' "\e[9mThis text has the strikethrough (tput ?) attribute.${reset}"
+printf '%b\n' "\e[21mThis text has the double underline (tput ?) attribute.${reset}"
 
