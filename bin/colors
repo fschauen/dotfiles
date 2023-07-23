@@ -1,75 +1,134 @@
 #!/bin/sh
 
-print_name() {
-    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
-    printf '\e[%sm%s %-8s\e[0m' "$fg" "$hex" "$name"
+fg_16() {
+  case $1 in
+    0|1|2|3|4|5|6|7)        printf '\e[3%sm' "$1";;
+    8|9|10|11|12|13|14|15)  printf '\e[9%sm' "$(($1 - 8))";;
+    *)                      ;;
+  esac
 }
 
-print_16colors() {
-    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
-    printf '\e[%sm    \e[0m \e[%sm%-4s\e[0m' \
-        "$bg" \
-        "$fg" \
-        "[${fg}m"
+bg_16() {
+  case $1 in
+    0|1|2|3|4|5|6|7)        printf '\e[4%sm'  "$1";;
+    8|9|10|11|12|13|14|15)  printf '\e[10%sm' "$(($1 - 8))";;
+    *)                      ;;
+  esac
 }
 
-print_256colors() {
-    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
-    printf '\e[48;5;%sm    \e[0m \e[38;5;%sm%-9s\e[0m' \
-        "$index" \
-        "$index" \
-        "[38;5;${index}m"
+fg_256() { printf '\e[38;5;%sm' "$1"; }
+bg_256() { printf '\e[48;5;%sm' "$1"; }
+
+fg_rgb() { printf '\e[38;2;%s;%s;%sm' "$1" "$2" "$3"; }
+bg_rgb() { printf '\e[48;2;%s;%s;%sm' "$1" "$2" "$3"; }
+
+rgb_from_hex() { printf '%d %d %d' "0x${1:1:2}" "0x${1:3:2}" "0x${1:5:2}"; }
+
+fg_hex() { fg_rgb $(rgb_from_hex "$1"); }
+bg_hex() { bg_rgb $(rgb_from_hex "$1"); }
+
+reset()     { printf '\e[0m'; }
+fg_reset()  { printf '\e[39m'; }
+bg_reset()  { printf '\e[49m'; }
+
+indent()  { printf '      '; }
+newline() { printf '%b\n' '\e[0m'; }
+
+indexed_16() {
+  echo "16 indexed colors:"
+  for i in 0 1; do
+    indent
+    for j in $(seq 0 7); do
+      bg_16 $((8*i + j)); printf '%4s'
+    done
+    newline
+  done
 }
 
-print_rgb() {
-    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
-    printf '\e[48;2;%sm    \e[0m \e[38;2;%sm%-18s\e[0m' \
-        "$rgb" \
-        "$rgb" \
-        "[38;2;${rgb}m"
+indexed_256() {
+  echo "256 indexed colors:"
+
+  # 16 standard colors
+  for i in 0 1; do
+    indent
+    for j in $(seq 0 7); do
+      bg_256 $((8*i + j)); printf '%9s'
+    done
+    newline
+  done
+
+  # 216 colors
+  for i in 0 18; do
+    for j in $(seq 0 5); do
+      indent
+      for k in $(seq $i $(( i + 17 ))); do
+        bg_256 $((16 + 36*j + k)); printf '%4s'
+      done
+      newline
+    done
+  done
+
+  # 24 grayscale colors
+  for i in 0 1; do
+    indent
+    for j in $(seq 0 11); do
+      bg_256 $((232 + 12*i + j)); printf '%6s'
+    done
+    newline
+  done
 }
 
-print_terminfo() {
-    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
-    printf '%s    %s %s%-13s' \
-        "$(tput setab "$index")" \
-        "$(tput sgr0)" \
-        "$(tput setaf "$index")" \
-        "tput setaf $index"
+hex_theme() {
+  for i in 0 1; do
+    indent
+    for j in $(seq 0 7); do
+      [ $# -gt 0 ] && { bg_hex "$1"; printf '%4s'; shift; }
+    done
+    newline
+  done
 }
 
-print_color() {
-    name="$1" hex="$2" index="$3" fg="$4" bg="$5" rgb="$6"
-    padding='  '
-    print_name "$@"
-    printf '%s' "$padding"
-    print_16colors "$@"
-    printf '%s' "$padding"
-    print_256colors "$@"
-    printf '%s' "$padding"
-    print_rgb "$@"
-    printf '%s' "$padding"
-    print_terminfo "$@"
-    printf '\n'
+gruvbox_dark() {
+  echo "RGB Gruvbox Dark:"
+  hex_theme \
+    '#282828' '#cc241d' '#98971a' '#d79921' '#458588' '#b16286' '#689d6a' '#a89984' \
+    '#928374' '#fb4934' '#b8bb26' '#fabd2f' '#84a598' '#d3869b' '#8ec07c' '#ebdbb2'
 }
 
-#           name    hex       index   fg     bg    rgb
-print_color Base04  '#002028'  8       90    100    '0;32;40'
-print_color Base03  '#002b36'  8       90    100    '0;43;54'
-print_color Base02  '#073642'  0       30     40    '7;54;66'
-print_color Base01  '#586e75' 10       92    102    '88;110;117'
-print_color Base00  '#657b83' 11       93    103    '101;123;131'
-print_color Base0   '#839496' 12       94    104    '131;148;150'
-print_color Base1   '#93a1a1' 14       96    106    '147;161;161'
-print_color Base2   '#eee8d5'  7       37     47    '238;232;213'
-print_color Base3   '#fdf6e3' 15       97    107    '253;246;227'
-print_color Base4   '#fdf6e3' 15       97    107    '253;246;227'
-print_color Red     '#dc322f'  1       31     41    '220;50;47'
-print_color Orange  '#cb4b16'  9       91    101    '203;75;22'
-print_color Yellow  '#b58900'  3       33     43    '181;137;0'
-print_color Green   '#859900'  2       32     42    '133;153;0'
-print_color Cyan    '#2aa198'  6       36     46    '42;161;152'
-print_color Blue    '#268bd2'  4       34     44    '38;139;210'
-print_color Violet  '#6c71c4' 13       95    105    '108;113;196'
-print_color Magenta '#d33682'  5       35     45    '211;54;130'
+gruvbox_light() {
+  echo "RGB Gruvbox Light:"
+  hex_theme \
+    '#fbf1c7' '#cc241d' '#98971a' '#d79921' '#458588' '#b16286' '#689d6a' '#7c6f64' \
+    '#928374' '#9d0006' '#79740e' '#b57614' '#076678' '#8f3f71' '#427b58' '#3c3836'
+}
+
+solarized() {
+  echo "RGB Solarized:"
+  hex_theme \
+    '#073642' '#dc322f' '#859900' '#b58900' '#268bd2' '#d33682' '#2aa198' '#eee8d5' \
+    '#002b36' '#cb4b16' '#586e75' '#657b83' '#839496' '#6c71c4' '#93a1a1' '#fdf6e3'
+}
+
+nord() {
+  echo "Nord:"
+  hex_theme \
+    '#2e3440' '#bf616a' '#a3be8c' '#ebcb8b' '#5e81ac' '#b48ead' '#88c0d0' '#e5e9f0' \
+    '#434c5e' '#d08770' '#3b4252' '#4c566a' '#81a1c1' '#d8dee9' '#8fbcbb' '#eceff4'
+}
+
+main() {
+  indexed_16
+  echo
+  indexed_256
+  echo
+  gruvbox_dark
+  echo
+  gruvbox_light
+  echo
+  solarized
+  echo
+  nord
+}
+
+main
 
