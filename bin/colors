@@ -22,9 +22,19 @@ bg_256() { printf '\e[48;5;%sm' "$1"; }
 fg_rgb() { printf '\e[38;2;%s;%s;%sm' "$1" "$2" "$3"; }
 bg_rgb() { printf '\e[48;2;%s;%s;%sm' "$1" "$2" "$3"; }
 
-rgb_from_hex() { printf '%d %d %d' "0x${1:1:2}" "0x${1:3:2}" "0x${1:5:2}"; }
 
+rgb_from_hex() {
+  echo "$1" | awk '{
+    r="0x"substr($0, 2, 2)
+    g="0x"substr($0, 4, 2)
+    b="0x"substr($0, 6, 2)
+    printf "%d %d %d", r, g, b
+  }'
+}
+
+# shellcheck disable=SC2046 # word splitting is intentional here
 fg_hex() { fg_rgb $(rgb_from_hex "$1"); }
+# shellcheck disable=SC2046 # word slitting is intentional here
 bg_hex() { bg_rgb $(rgb_from_hex "$1"); }
 
 reset()     { printf '\e[0m'; }
