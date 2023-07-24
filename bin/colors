@@ -49,7 +49,7 @@ indexed_16() {
   for i in 0 1; do
     indent
     for j in $(seq 0 7); do
-      bg_16 $((8*i + j)); printf '%4s'
+      bg_16 $((8*i + j)); printf '%4s' ''
     done
     newline
   done
@@ -62,7 +62,7 @@ indexed_256() {
   for i in 0 1; do
     indent
     for j in $(seq 0 7); do
-      bg_256 $((8*i + j)); printf '%9s'
+      bg_256 $((8*i + j)); printf '%9s' ''
     done
     newline
   done
@@ -72,7 +72,7 @@ indexed_256() {
     for j in $(seq 0 5); do
       indent
       for k in $(seq $i $(( i + 17 ))); do
-        bg_256 $((16 + 36*j + k)); printf '%4s'
+        bg_256 $((16 + 36*j + k)); printf '%4s' ''
       done
       newline
     done
@@ -82,7 +82,7 @@ indexed_256() {
   for i in 0 1; do
     indent
     for j in $(seq 0 11); do
-      bg_256 $((232 + 12*i + j)); printf '%6s'
+      bg_256 $((232 + 12*i + j)); printf '%6s' ''
     done
     newline
   done
@@ -92,7 +92,7 @@ hex_theme() {
   for i in 0 1; do
     indent
     for j in $(seq 0 7); do
-      [ $# -gt 0 ] && { bg_hex "$1"; printf '%4s'; shift; }
+      [ $# -gt 0 ] && { bg_hex "$1"; printf '%4s' ''; shift; }
     done
     newline
   done
