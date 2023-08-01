@@ -121,6 +121,11 @@ have brew && {
   export HOMEBREW_NO_AUTO_UPDATE=1
 }
 
+have dotnet && {
+  export DOTNET_CLI_TELEMETRY_OPTOUT=1
+  export DOTNET_NOLOGO=1
+}
+
 # Set $DISPLAY if running in WSL and an Xserver is reachable
 #
 # How to configure Windows Firewall for Xserver: https://skeptric.com/wsl2-xserver/
