@@ -12,11 +12,10 @@ return {
   end,
 
   config = function()
-    -- fix whitespace
-    vim.keymap.set('n', '<leader>dw', '<cmd>StripWhitespace<cr>')
-
-    -- show/hide whitespace
-    vim.keymap.set('n', '<leader>sw', '<cmd>ToggleWhitespace<cr>')
+    vim.keymap.set('n', '<leader>ww', '<cmd>ToggleWhitespace<cr>')
+    vim.keymap.set('n', '<leader>wn', '<cmd>NextTrailingWhitespace<cr>')
+    vim.keymap.set('n', '<leader>wp', '<cmd>PrevTrailingWhitespace<cr>')
+    vim.keymap.set('n', '<leader>W', '<cmd>StripWhitespace<cr>')
   end,
 }
 
