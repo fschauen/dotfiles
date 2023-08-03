@@ -19,10 +19,14 @@ local config = function()
     map('n', 'gi',          vim.lsp.buf.implementation,     opts)
     map('n', 'grr',         vim.lsp.buf.rename,             opts)
     map('n', 'gt',          vim.lsp.buf.type_definition,    opts)
+  end
 
+  local on_init = function(client, --[[init_result]]_)
     -- Opt out of semantic highlighting because it has been casusing the issues
-    -- described here: https://github.com/williamboman/mason-lspconfig.nvim/issues/211#issuecomment-1528817490
-    client.server_capabilities.semanticTokensProvider = nil
+    -- https://github.com/neovim/nvim-lspconfig/issues/2542#issuecomment-1547019213
+    if client.server_capabilities then
+      client.server_capabilities.semanticTokensProvider = false
+    end
   end
 
   require('mason').setup {}
@@ -33,6 +37,7 @@ local config = function()
       require('lspconfig')[server].setup {
         capabilities = capabilities,
         on_attach = on_attach,
+        on_init = on_init,
       }
     end,
 
@@ -40,6 +45,7 @@ local config = function()
       require('lspconfig').lua_ls.setup {
         capabilities = capabilities,
         on_attach = on_attach,
+        on_init = on_init,
 
         settings = {
           Lua = {
@@ -63,6 +69,7 @@ local config = function()
       require('lspconfig').omnisharp.setup {
         capabilities = capabilities,
         on_attach = on_attach,
+        on_init = on_init,
 
         -- Show unimported types and add`using` directives.
         enable_import_completion = true,
