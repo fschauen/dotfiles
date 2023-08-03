@@ -74,6 +74,9 @@ local config = function()
         -- Show unimported types and add`using` directives.
         enable_import_completion = true,
 
+        -- Enable roslyn analyzers, code fixes, and rulesets.
+        enable_roslyn_analyzers = true,
+
         -- Don't include preview versions of the .NET SDK.
         sdk_include_prereleases = false,
       }
