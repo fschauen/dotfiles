@@ -20,9 +20,6 @@ vmap('<', '<<cr>gv')
 nmap('n', 'nzzzv')
 nmap('N', 'Nzzzv')
 
--- select all
-nmap('<c-a>', 'gg<s-v>G')
-
 -- easier window navigation
 nmap('<c-j>', '<c-w>j')
 nmap('<c-k>', '<c-w>k')
