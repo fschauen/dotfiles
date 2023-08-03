@@ -58,15 +58,22 @@ cmap('<c-a>', '<c-b>')
 nmap('<Down>', '<cmd>cnext<cr>zz', { silent = true })
 nmap('<Up>', '<cmd>cprevious<cr>zz', { silent = true })
 
--- cycle through line numbering modes
-nmap('<leader>ln', '<cmd>set nonumber norelativenumber<CR>', { silent = true })
-nmap('<leader>ll', '<cmd>set number norelativenumber<CR>', { silent = true })
-nmap('<leader>lr', '<cmd>set number relativenumber<CR>', { silent = true })
-
 -- quickly open lazy.nvim plugin manager
 nmap('<leader>L', '<cmd>Lazy<cr>')
 
 -- toggle options
+local toggle_number = function()
+  vim.wo.number = not vim.wo.number
+  vim.wo.relativenumber = false
+end
+
+local toggle_relativenumber = function()
+  vim.wo.relativenumber = not vim.wo.relativenumber
+  vim.wo.number = vim.wo.relativenumber or vim.wo.number
+end
+
+nmap('<leader>sn', toggle_number)
+nmap('<leader>sr', toggle_relativenumber)
 nmap('<leader>sl', '<cmd>set list! | set list?<CR>', { silent = true })
 nmap('<leader>sr', '<cmd>set wrap! | set wrap?<CR>', { silent = true })
 nmap('<leader>sp', '<cmd>set spell! | set spell?<CR>', { silent = true })
