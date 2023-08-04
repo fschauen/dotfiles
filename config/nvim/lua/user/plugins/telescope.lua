@@ -62,7 +62,6 @@ local config = function()
   local themes = require 'telescope.themes'
   local builtin = require 'telescope.builtin'
   local custom = {
-
     all_files = function(opts)
       builtin.find_files(vim.tbl_extend('keep', opts or {}, {
         hidden = true,
@@ -70,26 +69,17 @@ local config = function()
         no_ignore_parent = true,
       }))
     end,
-
-    buffers = function(opts)
-      builtin.buffers(themes.get_dropdown(vim.tbl_extend('keep', opts or {}, {
-        previewer = false,
-      })))
-    end,
-
     colorschemes = function(opts)
       builtin.colorscheme(themes.get_dropdown(vim.tbl_extend('keep', opts or {}, {
         enable_preview = true,
       })))
     end,
-
     dotfiles = function(opts)
       builtin.find_files(vim.tbl_extend('keep', opts or {}, {
         cwd = '~/.dotfiles',
         hidden = true,
       }))
     end,
-
     selection = function(_)
       local selected = require('user.util').get_selected_text()
       builtin.grep_string {
@@ -97,12 +87,12 @@ local config = function()
         search = selected,
       }
     end,
-
     spell_suggest = function(opts)
       builtin.spell_suggest(themes.get_cursor(opts))
     end,
-
-    here = function(opts) builtin.current_buffer_fuzzy_find(opts) end,
+    here = function(opts)
+      builtin.current_buffer_fuzzy_find(opts)
+    end,
   }
 
   local map = function(leader, keymap)
@@ -121,7 +111,7 @@ local config = function()
     -- ╰────╯     ╰──────╯                ╰────────────╯          ╰───────────────────╯
     n = {
       { 'a',  builtin.autocommands   , '  Autocommands'         , '[a]utocommands'         },
-      { 'b',  custom.buffers         , '  Buffers'              , '[b]uffers'              },
+      { 'b',  builtin.buffers        , '  Buffers'              , '[b]uffers'              },
       { 'c',  custom.colorschemes    , '  Colorschemes'         , '[c]olorschemes'         },
       { 'd',  custom.dotfiles        , '  Dotfiles'             , '[d]ot[f]iles'           },
       { 'e',  builtin.diagnostics    , '󰀪  Diagnostics'          , 'diagnostics/[e]rrors'   },
