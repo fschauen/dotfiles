@@ -114,8 +114,8 @@ local config = function()
       { 'a',  builtin.autocommands   , '  Autocommands'         , '[a]utocommands'         },
       { 'b',  builtin.buffers        , '  Buffers'              , '[b]uffers'              },
       { 'c',  custom.colorschemes    , '  Colorschemes'         , '[c]olorschemes'         },
-      { 'd',  custom.dotfiles        , '  Dotfiles'             , '[d]ot[f]iles'           },
-      { 'e',  builtin.diagnostics    , '󰀪  Diagnostics'          , 'diagnostics/[e]rrors'   },
+      { 'd',  builtin.diagnostics    , '󰀪  Diagnostics'          , '[d]iagnostics'          },
+      -- e
       { 'f',  builtin.find_files     , '  Files'                , '[f]ind files'           },
       { 'F',  custom.all_files       , '  ALL files'            , 'all [F]iles'            },
       { 'gr', builtin.live_grep      , '  Live grep'            , 'Live [gr]ep'            },
@@ -143,6 +143,7 @@ local config = function()
       -- x
       -- y
       { 'z',  custom.spell_suggest   , '󰓆  Spelling suggestions' , '[z] spell suggestions'  },
+      { '.',  custom.dotfiles        , '  Dotfiles'             , '[.]dotfiles'            },
       { ':',  builtin.command_history, '  Command history'      , '[:]command history'     },
       { '?',  builtin.commands       , '  Commands'             , 'commands [?]'           },
       { '/',  builtin.search_history , '  Search history'       , '[/]search history'      },
@@ -154,7 +155,6 @@ local config = function()
   })
 
   telescope.load_extension 'fzf'
-
   telescope.load_extension 'file_browser'
   vim.keymap.set('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
 end
