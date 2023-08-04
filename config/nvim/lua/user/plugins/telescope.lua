@@ -7,6 +7,7 @@ local config = function()
     ['<c-l>'] = actions_layout.cycle_layout_next,
     ['<c-o>'] = actions_layout.toggle_mirror,
     ['<c-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
+    ['<a-q>'] = actions.smart_send_to_loclist + actions.open_loclist,
     ['<c-c>'] = actions.close,
 
     ['<s-down>'] = actions.preview_scrolling_down,
