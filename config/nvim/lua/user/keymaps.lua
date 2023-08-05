@@ -72,7 +72,7 @@ end
 nmap('<leader>sn', toggle_number)
 nmap('<leader>sr', toggle_relativenumber)
 nmap('<leader>sl', '<cmd>set list! | set list?<CR>', { silent = true })
-nmap('<leader>sr', '<cmd>set wrap! | set wrap?<CR>', { silent = true })
+nmap('<leader>sw', '<cmd>set wrap! | set wrap?<CR>', { silent = true })
 nmap('<leader>sp', '<cmd>set spell! | set spell?<CR>', { silent = true })
 
 -- quickly change background
