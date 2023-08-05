@@ -12,7 +12,11 @@ nmap('k', 'gk')
 -- maintain cursor position when joining lines
 nmap('J', 'mzJ`z')
 
--- retain selection when indenting/unindenting in visual mode
+-- retain selection when making changes in visual mode
+vmap( '<c-a>',  '<c-a>gv')
+vmap( '<c-x>',  '<c-x>gv')
+vmap('g<c-a>', 'g<c-a>gv')
+vmap('g<c-x>', 'g<c-x>gv')
 vmap('>', '><cr>gv')
 vmap('<', '<<cr>gv')
 
