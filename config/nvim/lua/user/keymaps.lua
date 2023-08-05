@@ -20,9 +20,11 @@ vmap('g<c-x>', 'g<c-x>gv')
 vmap('>', '><cr>gv')
 vmap('<', '<<cr>gv')
 
--- place next/previous search result in center of screen
+-- place destination of important movements in the center of the screen
 nmap('n', 'nzzzv')
 nmap('N', 'Nzzzv')
+nmap('<c-d>', '<c-d>zzzv')
+nmap('<c-u>', '<c-u>zzzv')
 
 -- easier window navigation
 nmap('<c-j>', '<c-w>j')
