@@ -57,9 +57,11 @@ imap('<c-e>', '<c-o>$')
 -- move to begin of line in command mode (<c-e> moves to end by default)
 cmap('<c-a>', '<c-b>')
 
--- navigate items in quickfix list
-nmap('<Down>', '<cmd>cnext<cr>zz', { silent = true })
-nmap('<Up>', '<cmd>cprevious<cr>zz', { silent = true })
+-- navigate items in quickfix and location lists
+nmap('<Down>',   '<cmd>cnext<cr>zz',     { silent = true })
+nmap('<Up>',     '<cmd>cprevious<cr>zz', { silent = true })
+nmap('<a-Down>', '<cmd>lnext<cr>zz',     { silent = true })
+nmap('<a-Up>',   '<cmd>lprevious<cr>zz', { silent = true })
 
 -- quickly open lazy.nvim plugin manager
 nmap('<leader>L', '<cmd>Lazy<cr>')
