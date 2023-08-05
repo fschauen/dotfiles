@@ -11,7 +11,8 @@ return {
       },
       mappings = {
         status = {
-          o = 'Toggle',
+          o = 'GoToFile',
+          ['<space>'] = 'Toggle',
         },
       },
     }
