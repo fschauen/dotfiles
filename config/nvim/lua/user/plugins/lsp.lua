@@ -5,7 +5,7 @@ local config = function()
     vim.tbl_deep_extend('force', capabilities, cmp.default_capabilities())
   end
 
-  local on_attach = function(client, bufnr)
+  local on_attach = function(--[[client]]_, bufnr)
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'  -- do completion with <c-x><c-o>
 
     local map = vim.keymap.set
