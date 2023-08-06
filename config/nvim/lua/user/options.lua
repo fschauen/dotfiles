@@ -15,6 +15,7 @@ o.pastetoggle = '<F20>'         -- toggle paste with P on Moonlander
 o.swapfile    = false           -- don't use swap files
 o.writebackup = true            -- Make a backup before writing a file...
 o.backup      = false           -- ...but don't keep it around.
+o.undofile    = true            -- write undo history
 
 o.shortmess:append 'I'          -- no intro message when starting Vim
 o.shada = {
