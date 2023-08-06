@@ -15,7 +15,7 @@ end
 --    extend({'a', 'b'}, {'c', 'd'}) == {'a', 'b', 'c', 'd'}
 --    extend({1, 2}, {3, 4}, {5, 6}) == {1, 2, 3, 4, 5, 6}
 --
-M.extend = function(...)
+M.concat = function(...)
   local result = {}
   for _, tbl in ipairs {...} do
     for _, v in pairs(tbl) do
@@ -33,7 +33,7 @@ end
 M.partial = function(f, ...)
   local argv = {...}
   return function(...)
-    return f(unpack(M.extend(argv, {...})))
+    return f(unpack(M.concat(argv, {...})))
   end
 end
 
