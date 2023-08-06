@@ -68,6 +68,10 @@ nmap('<a-Up>',   '<cmd>lprevious<cr>zz', { silent = true })
 nmap('<leader>j', require('fschauen.util').goto_next_diagnostic)
 nmap('<leader>k', require('fschauen.util').goto_prev_diagnostic)
 
+-- toggle quickfix and location lists
+nmap('<leader>lq', util.toggle_quickfix, { desc = 'Toggle quickfix' } )
+nmap('<leader>ll', util.toggle_loclist,  { desc = 'Toggle loclist' } )
+
 -- quickly open lazy.nvim plugin manager
 nmap('<leader>L', '<cmd>Lazy<cr>')
 

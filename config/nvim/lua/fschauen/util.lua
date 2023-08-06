@@ -132,5 +132,27 @@ M.win_resize_left  = function(size) return M.thunk(win_resize, 'h', size) end
 ---@param size integer: how much to resize
 M.win_resize_right = function(size) return M.thunk(win_resize, 'l', size) end
 
+--- Toggle quickfix (or location) list.
+---@param qf string: 'c' for quickfix, 'l' for location list
+local toggle_qf_list = function(qf)
+  local l = qf == 'l' and 1 or 0
+  local is_qf = function(win) return win.quickfix == 1 and win.loclist == l end
+  local is_open = not vim.tbl_isempty(vim.tbl_filter(is_qf, vim.fn.getwininfo()))
+  if is_open then
+    vim.cmd(qf .. 'close')
+  else
+    local ok = pcall(function(c) vim.cmd(c) end, qf .. 'open')
+    if not ok and qf == 'l' then
+      vim.notify('No location list', vim.log.levels.WARN)
+    end
+  end
+end
+
+--- Toggle quickfix list.
+M.toggle_quickfix = function() toggle_qf_list('c') end
+
+--- Toggle location list.
+M.toggle_loclist = function() toggle_qf_list('l') end
+
 return M
 
