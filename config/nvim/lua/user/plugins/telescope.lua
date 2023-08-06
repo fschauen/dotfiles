@@ -66,38 +66,38 @@ local config = function()
   }
 
   local themes = require 'telescope.themes'
-  local builtin = require 'telescope.builtin'
-  local custom = {
+  local ts = require 'telescope.builtin'
+  local my = {
     all_files = function(opts)
-      builtin.find_files(vim.tbl_extend('keep', opts or {}, {
+      ts.find_files(vim.tbl_extend('keep', opts or {}, {
         hidden = true,
         no_ignore = true,
         no_ignore_parent = true,
       }))
     end,
     colorschemes = function(opts)
-      builtin.colorscheme(themes.get_dropdown(vim.tbl_extend('keep', opts or {}, {
+      ts.colorscheme(themes.get_dropdown(vim.tbl_extend('keep', opts or {}, {
         enable_preview = true,
       })))
     end,
     dotfiles = function(opts)
-      builtin.find_files(vim.tbl_extend('keep', opts or {}, {
+      ts.find_files(vim.tbl_extend('keep', opts or {}, {
         cwd = '~/.dotfiles',
         hidden = true,
       }))
     end,
     selection = function(_)
       local selected = require('user.util').get_selected_text()
-      builtin.grep_string {
+      ts.grep_string {
         prompt_title = string.format('    Grep: %s   ', selected),
         search = selected,
       }
     end,
     spell_suggest = function(opts)
-      builtin.spell_suggest(themes.get_cursor(opts))
+      ts.spell_suggest(themes.get_cursor(opts))
     end,
     here = function(opts)
-      builtin.current_buffer_fuzzy_find(opts)
+      ts.current_buffer_fuzzy_find(opts)
     end,
   }
 
@@ -112,50 +112,50 @@ local config = function()
   end
 
   map('<c-p>', {
-    -- ╭────╮     ╭──────╮                ╭────────────╮          ╭───────────────────╮
-    -- │keys│     │picker│                │prompt title│          │mapping description│
-    -- ╰────╯     ╰──────╯                ╰────────────╯          ╰───────────────────╯
+    -- ╭────╮     ╭──────╮        ╭────────────╮          ╭───────────────────╮
+    -- │keys│     │picker│        │prompt title│          │mapping description│
+    -- ╰────╯     ╰──────╯        ╰────────────╯          ╰───────────────────╯
     n = {
-      { 'a',  builtin.autocommands   , '  Autocommands'         , '[a]utocommands'         },
-      { 'b',  builtin.buffers        , '  Buffers'              , '[b]uffers'              },
-      { 'c',  custom.colorschemes    , '  Colorschemes'         , '[c]olorschemes'         },
-      { 'd',  builtin.diagnostics    , '󰀪  Diagnostics'          , '[d]iagnostics'          },
+      { 'a',  ts.autocommands   , '  Autocommands'       , '[a]utocommands'         },
+      { 'b',  ts.buffers        , '  Buffers'            , '[b]uffers'              },
+      { 'c',  my.colorschemes   , '  Colorschemes'       , '[c]olorschemes'         },
+      { 'd',  ts.diagnostics    , '󰀪  Diagnostics'        , '[d]iagnostics'          },
       -- e
-      { 'f',  builtin.find_files     , '  Files'                , '[f]ind files'           },
-      { 'F',  custom.all_files       , '  ALL files'            , 'all [F]iles'            },
-      { 'gr', builtin.live_grep      , '  Live grep'            , 'Live [gr]ep'            },
-      { 'gf', builtin.git_files      , '  Git files'            , '[g]it [f]iles'          },
-      { 'gc', builtin.git_commits    , ' Commits'             , '[g]it [c]ommits'        },
-      { 'h',  custom.here            , '  Current buffer'       , '[b]uffer [h]ere'        },
-      { 'H',  builtin.highlights     , '󰌶  Highlights'           , '[H]ighlights'           },
+      { 'f',  ts.find_files     , '  Files'              , '[f]ind files'           },
+      { 'F',  my.all_files      , '  ALL files'          , 'all [F]iles'            },
+      { 'gr', ts.live_grep      , '  Live grep'          , 'Live [gr]ep'            },
+      { 'gf', ts.git_files      , '  Git files'          , '[g]it [f]iles'          },
+      { 'gc', ts.git_commits    , ' Commits'           , '[g]it [c]ommits'        },
+      { 'h',  my.here           , '  Current buffer'     , '[b]uffer [h]ere'        },
+      { 'H',  ts.highlights     , '󰌶  Highlights'         , '[H]ighlights'           },
       -- i
-      { 'j',  builtin.jumplist       , '  Jumplist'             , '[j]umplist'             },
-      { 'k',  builtin.keymaps        , '  Keymaps'              , '[k]eymaps'              },
-      { 'K',  builtin.help_tags      , '  Help tags'            , '[K] help/documentation' },
-      { 'l',  builtin.loclist        , '  Location list'        , '[l]ocation List'        },
-      { 'm',  builtin.man_pages      , '  Man pages'            , '[m]an pages'            },
+      { 'j',  ts.jumplist       , '  Jumplist'           , '[j]umplist'             },
+      { 'k',  ts.keymaps        , '  Keymaps'            , '[k]eymaps'              },
+      { 'K',  ts.help_tags      , '  Help tags'          , '[K] help/documentation' },
+      { 'l',  ts.loclist        , '  Location list'      , '[l]ocation List'        },
+      { 'm',  ts.man_pages      , '  Man pages'          , '[m]an pages'            },
       -- n
-      { 'o',  builtin.vim_options    , '  Vim options'          , 'vim [o]ptions'          },
+      { 'o',  ts.vim_options    , '  Vim options'        , 'vim [o]ptions'          },
       -- p
-      { 'q',  builtin.quickfix       , '  Quickfix'             , '[q]uickfix'             },
-      { 'r',  builtin.registers      , '󱓥  Registers'            , '[r]registers'           },
-      { 'R',  builtin.resume         , '󰐎  Resume'               , '[R]esume'               },
-      { 's',  custom.selection       , '' --[[dynamic]]          , '[s]selection'           },
-      { 't',  builtin.treesitter     , '  Treesitter symbols'   , '[t]reesitter Symbols'   },
+      { 'q',  ts.quickfix       , '  Quickfix'           , '[q]uickfix'             },
+      { 'r',  ts.registers      , '󱓥  Registers'          , '[r]registers'           },
+      { 'R',  ts.resume         , '󰐎  Resume'             , '[R]esume'               },
+      { 's',  my.selection      , '' --[[dynamic]]        , '[s]selection'           },
+      { 't',  ts.treesitter     , '  Treesitter symbols' , '[t]reesitter Symbols'   },
       -- u
       -- v
       -- w
       -- x
       -- y
-      { 'z',  custom.spell_suggest   , '󰓆  Spelling suggestions' , '[z] spell suggestions'  },
-      { '.',  custom.dotfiles        , '  Dotfiles'             , '[.]dotfiles'            },
-      { ':',  builtin.command_history, '  Command history'      , '[:]command history'     },
-      { '?',  builtin.commands       , '  Commands'             , 'commands [?]'           },
-      { '/',  builtin.search_history , '  Search history'       , '[/]search history'      },
+      { 'z',  my.spell_suggest   , '󰓆  Spelling suggestions' , '[z] spell suggestions'  },
+      { '.',  my.dotfiles        , '  Dotfiles'             , '[.]dotfiles'            },
+      { ':',  ts.command_history , '  Command history'      , '[:]command history'     },
+      { '?',  ts.commands        , '  Commands'             , 'commands [?]'           },
+      { '/',  ts.search_history  , '  Search history'       , '[/]search history'      },
     },
 
     v = {
-      { 's',  custom.selection       ,  '' --[[dynamic]]          , 'visual [s]election'     },
+      { 's',  my.selection       ,  '' --[[dynamic]]          , 'visual [s]election'     },
     }
   })
 
