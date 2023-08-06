@@ -23,6 +23,7 @@ local config = function()
       map('n', 'grr',         vim.lsp.buf.rename,             opts)
       map('n', 'gt',          vim.lsp.buf.type_definition,    opts)
       map('n', 'K',           vim.lsp.buf.hover,              opts)
+      map('i', '<c-l>',       vim.lsp.buf.signature_help,     opts)
     end,
 
     on_init = function(client, --[[init_result]]_)
