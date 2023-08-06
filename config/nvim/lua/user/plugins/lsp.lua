@@ -1,4 +1,14 @@
 local config = function()
+  -- Enable rounded borders for LSP handlers and :LspInfo windows.
+  local border = 'rounded'
+  for request, handler in pairs {
+    ['textDocument/hover'] = vim.lsp.handlers.hover,
+    ['textDocument/signatureHelp'] = vim.lsp.handlers.signature_help,
+  } do
+    vim.lsp.handlers[request] = vim.lsp.with(handler, { border = border })
+  end
+  require('lspconfig.ui.windows').default_options = { border = border }
+
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   local has_cmp_nvim_lsp, cmp = pcall(require, 'cmp_nvim_lsp')
   if has_cmp_nvim_lsp then
