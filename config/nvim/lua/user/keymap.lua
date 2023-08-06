@@ -1,4 +1,5 @@
-local partial = require('user.util').partial
+local util = require('user.util')
+local partial = util.partial
 local nmap = partial(vim.keymap.set, 'n')
 local imap = partial(vim.keymap.set, 'i')
 local vmap = partial(vim.keymap.set, 'v')
@@ -33,10 +34,10 @@ nmap('<c-h>', '<c-w>h')
 nmap('<c-l>', '<c-w>l')
 
 -- window resizing
-nmap('<s-Up>', '<cmd>resize +1<cr>')
-nmap('<s-Down>', '<cmd>resize -1<cr>')
-nmap('<s-Left>', '<cmd>vertical resize -1<cr>')
-nmap('<s-Right>', '<cmd>vertical resize +1<cr>')
+nmap('<s-Up>',       util.win_resize_up(2), { desc = 'Resize window upward' })
+nmap('<s-Down>',   util.win_resize_down(2), { desc = 'Resize window downward' })
+nmap('<s-Left>',   util.win_resize_left(2), { desc = 'Resize window leftward' })
+nmap('<s-Right>', util.win_resize_right(2), { desc = 'Resize window rightward' })
 
 -- easy tab navigation
 nmap('<Right>', '<cmd>tabnext<cr>', { silent = true })
