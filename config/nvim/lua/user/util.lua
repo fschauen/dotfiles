@@ -56,6 +56,23 @@ M.get_selected_text = function()
   end)
 end
 
+local diag_opts = {
+  wrap = false, -- don't wrap around the begin/end of file
+  float = {
+    border = 'rounded' -- enable border for the floating window
+  },
+}
+
+-- Move to the next diagnostic.
+M.goto_next_diagnostic = function(opts)
+  vim.diagnostic.goto_next(vim.tbl_extend('keep', opts or {}, diag_opts))
+end
+
+-- Move to the previous diagnostic.
+M.goto_prev_diagnostic = function(opts)
+  vim.diagnostic.goto_prev(vim.tbl_extend('keep', opts or {}, diag_opts))
+end
+
 M.use_local = function()
 end
 

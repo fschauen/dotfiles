@@ -63,6 +63,10 @@ nmap('<Up>',     '<cmd>cprevious<cr>zz', { silent = true })
 nmap('<a-Down>', '<cmd>lnext<cr>zz',     { silent = true })
 nmap('<a-Up>',   '<cmd>lprevious<cr>zz', { silent = true })
 
+-- navigate diagnostics
+nmap('<leader>j', require('user.util').goto_next_diagnostic)
+nmap('<leader>k', require('user.util').goto_prev_diagnostic)
+
 -- quickly open lazy.nvim plugin manager
 nmap('<leader>L', '<cmd>Lazy<cr>')
 
