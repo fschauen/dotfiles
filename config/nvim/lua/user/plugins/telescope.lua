@@ -115,51 +115,50 @@ local config = function()
   end
 
   map('<c-p>', {
-    -- ╭────╮     ╭──────╮        ╭────────────╮          ╭───────────────────╮
-    -- │keys│     │picker│        │prompt title│          │mapping description│
-    -- ╰────╯     ╰──────╯        ╰────────────╯          ╰───────────────────╯
+    -- ╭────╮     ╭──────╮               ╭────────────╮              ╭───────────────────╮
+    -- │keys│     │picker│               │prompt title│              │mapping description│
+    -- ╰────╯     ╰──────╯               ╰────────────╯              ╰───────────────────╯
     n = {
-      { 'a',  ts.autocommands   , '  Autocommands'       , '[a]utocommands'         },
-      { 'b',  ts.buffers        , '  Buffers'            , '[b]uffers'              },
-      { 'c',  my.colorschemes   , '  Colorschemes'       , '[c]olorschemes'         },
-      { 'dd', my.diagnostics    , '󰀪  Document Diagnostics' , '[d]iagnostics [d]ocument' },
-      { 'dw', ts.diagnostics    , '󰀪  Workspace Diagnostics', '[d]iagnostics [w]orkspace' },
+      { 'a',  ts.autocommands          , '  Autocommands'         , '[a]utocommands'         },
+      { 'b',  ts.buffers               , '  Buffers'              , '[b]uffers'              },
+      { 'c',  my.colorschemes          , '  Colorschemes'         , '[c]olorschemes'         },
+      { 'dd', my.diagnostics           , '󰀪  Document Diagnostics' , '[d]iagnostics [d]ocument' },
+      { 'dw', ts.diagnostics           , '󰀪  Workspace Diagnostics', '[d]iagnostics [w]orkspace' },
       -- e
-      { 'f',  ts.find_files     , '  Files'              , '[f]ind files'           },
-      { 'F',  my.all_files      , '  ALL files'          , 'all [F]iles'            },
-      { 'gr', ts.live_grep      , '  Live grep'          , 'Live [gr]ep'            },
-      { 'gf', ts.git_files      , '  Git files'          , '[g]it [f]iles'          },
-      { 'gc', ts.git_commits    , ' Commits'           , '[g]it [c]ommits'        },
-      { 'h',  my.here           , '  Current buffer'     , '[b]uffer [h]ere'        },
-      { 'H',  ts.highlights     , '󰌶  Highlights'         , '[H]ighlights'           },
+      { 'f',  ts.find_files            , '  Files'                , '[f]ind files'           },
+      { 'F',  my.all_files             , '  ALL files'            , 'all [F]iles'            },
+      { 'gr', ts.live_grep             , '  Live grep'            , 'Live [gr]ep'            },
+      { 'gf', ts.git_files             , '  Git files'            , '[g]it [f]iles'          },
+      { 'gc', ts.git_commits           , ' Commits'             , '[g]it [c]ommits'        },
+      { 'h',  my.here                  , '  Current buffer'       , '[b]uffer [h]ere'        },
+      { 'H',  ts.highlights            , '󰌶  Highlights'           , '[H]ighlights'           },
       -- i
-      { 'j',  ts.jumplist       , '  Jumplist'           , '[j]umplist'             },
-      { 'k',  ts.keymaps        , '  Keymaps'            , '[k]eymaps'              },
-      { 'K',  ts.help_tags      , '  Help tags'          , '[K] help/documentation' },
-      { 'l',  ts.loclist        , '  Location list'      , '[l]ocation List'        },
-      { 'm',  ts.man_pages      , '  Man pages'          , '[m]an pages'            },
+      { 'j',  ts.jumplist              , '  Jumplist'             , '[j]umplist'             },
+      { 'k',  ts.keymaps               , '  Keymaps'              , '[k]eymaps'              },
+      { 'K',  ts.help_tags             , '  Help tags'            , '[K] help/documentation' },
+      { 'l',  ts.loclist               , '  Location list'        , '[l]ocation List'        },
+      { 'm',  ts.man_pages             , '  Man pages'            , '[m]an pages'            },
       -- n
-      { 'o',  ts.vim_options    , '  Vim options'        , 'vim [o]ptions'          },
+      { 'o',  ts.vim_options           , '  Vim options'          , 'vim [o]ptions'          },
       -- p
-      { 'q',  ts.quickfix       , '  Quickfix'           , '[q]uickfix'             },
-      { 'r',  ts.lsp_references , '  References'         , '[r]eferences'           },
-      { 'R',  ts.registers      , '󱓥  Registers'          , '[R]registers'           },
-      { 's',  ts.lsp_document_symbols  , '󰫧  Document Symbols '  , '[l]sp document [s]ymbols' },
-      { 'S',  ts.lsp_workspace_symbols , '󱄑  Workspace Symbols ' , '[l]sp workspace [S]ymbols' },
-      { 't',  ts.treesitter     , '  Treesitter symbols' , '[t]reesitter Symbols'   },
+      { 'q',  ts.quickfix              , '  Quickfix'             , '[q]uickfix'             },
+      { 'r',  ts.lsp_references        , '  References'           , '[r]eferences'           },
+      { 'R',  ts.registers             , '󱓥  Registers'            , '[R]registers'           },
+      { 's',  ts.lsp_document_symbols  , '󰫧  Document Symbols '    , 'lsp document [s]ymbols' },
+      { 'S',  ts.lsp_workspace_symbols , '󱄑  Workspace Symbols '   , 'lsp workspace [S]ymbols' },
+      { 't',  ts.treesitter            , '  Treesitter symbols'   , '[t]reesitter Symbols'   },
       -- u
       -- v
-      { 'w',  my.selection      , '' --[[dynamic]]        , '[w]word under cursor'   },
+      { 'w',  my.selection             , '' --[[dynamic]]          , '[w]word under cursor'   },
       -- x
       -- y
-      { 'z',  my.spell_suggest   , '󰓆  Spelling suggestions' , '[z] spell suggestions'  },
-      { '.',  my.dotfiles        , '  Dotfiles'             , '[.]dotfiles'            },
-      { ':',  ts.command_history , '  Command history'      , '[:]command history'     },
-      { '?',  ts.commands        , '  Commands'             , 'commands [?]'           },
-      { '/',  ts.search_history  , '  Search history'       , '[/]search history'      },
-      {'<c-p>', ts.resume        , '󰐎  Resume'               , 'Resume'                 },
+      { 'z',  my.spell_suggest         , '󰓆  Spelling suggestions' , '[z] spell suggestions'  },
+      { '.',  my.dotfiles              , '  Dotfiles'             , '[.]dotfiles'            },
+      { ':',  ts.command_history       , '  Command history'      , '[:]command history'     },
+      { '?',  ts.commands              , '  Commands'             , 'commands [?]'           },
+      { '/',  ts.search_history        , '  Search history'       , '[/]search history'      },
+      {'<c-p>', ts.resume              , '󰐎  Resume'               , 'Resume'                 },
     },
-
     v = {
       { 's',  my.selection       ,  '' --[[dynamic]]          , 'visual [s]election'     },
     }
