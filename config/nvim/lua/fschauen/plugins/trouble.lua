@@ -11,9 +11,9 @@ return {
       auto_preview = false,  -- don't preview automatically
     }
 
-    vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
-    vim.keymap.set('n', '<leader>xw', '<cmd>Trouble workspace_diagnostics<cr>')
-    vim.keymap.set('n', '<leader>xd', '<cmd>Trouble document_diagnostics<cr>')
+    vim.keymap.set('n', '<leader>lt', '<cmd>TroubleToggle<cr>')
+    vim.keymap.set('n', '<leader>lw', '<cmd>TroubleToggle workspace_diagnostics<cr>')
+    vim.keymap.set('n', '<leader>ld', '<cmd>TroubleToggle document_diagnostics<cr>')
   end
 }
 
