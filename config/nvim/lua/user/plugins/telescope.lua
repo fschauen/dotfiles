@@ -143,7 +143,6 @@ local config = function()
       -- p
       { 'q',  ts.quickfix       , '  Quickfix'           , '[q]uickfix'             },
       { 'r',  ts.registers      , '󱓥  Registers'          , '[r]registers'           },
-      { 'R',  ts.resume         , '󰐎  Resume'             , '[R]esume'               },
       { 's',  my.selection      , '' --[[dynamic]]        , '[s]selection'           },
       { 't',  ts.treesitter     , '  Treesitter symbols' , '[t]reesitter Symbols'   },
       -- u
@@ -156,6 +155,7 @@ local config = function()
       { ':',  ts.command_history , '  Command history'      , '[:]command history'     },
       { '?',  ts.commands        , '  Commands'             , 'commands [?]'           },
       { '/',  ts.search_history  , '  Search history'       , '[/]search history'      },
+      {'<c-p>', ts.resume        , '󰐎  Resume'               , 'Resume'                 },
     },
 
     v = {
