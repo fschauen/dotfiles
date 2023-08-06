@@ -40,7 +40,11 @@ local config = function()
     vim.tbl_deep_extend('force', opts.capabilities, cmp.default_capabilities())
   end
 
-  require('mason').setup {}
+  require('mason').setup {
+    ui = {
+      border = 'rounded',
+    },
+  }
   require('mason-lspconfig').setup {}
   require("mason-lspconfig").setup_handlers {
     --[[ default = ]] function(server)
