@@ -17,7 +17,7 @@ end
 
 local lazy = get_lazy()
 if lazy then
-  lazy.setup('user.plugins', {
+  lazy.setup('fschauen.plugins', {
     dev = {
       path = '~/Projects/nvim-plugins',
       fallback = true,

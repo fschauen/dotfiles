@@ -1,4 +1,4 @@
-local util = require('user.util')
+local util = require('fschauen.util')
 local partial = util.partial
 local nmap = partial(vim.keymap.set, 'n')
 local imap = partial(vim.keymap.set, 'i')
@@ -65,8 +65,8 @@ nmap('<a-Down>', '<cmd>lnext<cr>zz',     { silent = true })
 nmap('<a-Up>',   '<cmd>lprevious<cr>zz', { silent = true })
 
 -- navigate diagnostics
-nmap('<leader>j', require('user.util').goto_next_diagnostic)
-nmap('<leader>k', require('user.util').goto_prev_diagnostic)
+nmap('<leader>j', require('fschauen.util').goto_next_diagnostic)
+nmap('<leader>k', require('fschauen.util').goto_prev_diagnostic)
 
 -- quickly open lazy.nvim plugin manager
 nmap('<leader>L', '<cmd>Lazy<cr>')

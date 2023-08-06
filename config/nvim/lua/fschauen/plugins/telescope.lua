@@ -90,7 +90,7 @@ local config = function()
       }))
     end,
     selection = function(_)
-      local selected = require('user.util').get_selected_text()
+      local selected = require('fschauen.util').get_selected_text()
       ts.grep_string {
         prompt_title = string.format('    Grep: %s   ', selected),
         search = selected,
