@@ -35,8 +35,8 @@ local config = function()
     end,
   }
 
-  local has_cmp, cmp = pcall(require, 'cmp_nvim_lsp')
-  if has_cmp then
+  local cmp = vim.F.npcall(require, 'cmp_nvim_lsp')
+  if cmp then
     vim.tbl_deep_extend('force', opts.capabilities, cmp.default_capabilities())
   end
 

@@ -17,8 +17,8 @@ local config = function()
     ['<c-k>'] = actions.cycle_history_prev,
   }
 
-  local has_trouble, trouble = pcall(require, 'trouble.providers.telescope')
-  if has_trouble then
+  local trouble = vim.F.npcall(require, 'trouble.providers.telescope')
+  if trouble then
     mappings['<c-b>'] = trouble.open_with_trouble
   end
 

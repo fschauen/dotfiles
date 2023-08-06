@@ -73,9 +73,12 @@ local config = function()
     },
 
     visual_multi = function()
-      local ok, infos = pcall(vim.fn.VMInfos)
-      if not ok or not infos.status then return '' end
-      return infos.current .. '/' .. infos.total .. ' ' .. infos.status
+      local info = vim.F.npcall(vim.fn.VMInfos)
+      if info and info.status then
+        return info.current .. '/' .. info.total .. ' ' .. info.status
+      else
+        return ''
+      end
     end,
 
     branch = {

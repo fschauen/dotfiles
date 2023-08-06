@@ -11,8 +11,7 @@ local get_lazy = function()
     }
   end
   vim.opt.rtp:prepend(path)
-  local _, lazy = pcall(require, 'lazy')
-  return lazy
+  return vim.F.npcall(require, 'lazy')
 end
 
 local lazy = get_lazy()
