@@ -22,6 +22,9 @@ if lazy then
       path = '~/Projects/nvim-plugins',
       fallback = true,
     },
+    ui = {
+      border = 'rounded',
+    },
   })
 else
   vim.notify('Lazy not installed and failed to bootstrap!', vim.log.levels.ERROR)
