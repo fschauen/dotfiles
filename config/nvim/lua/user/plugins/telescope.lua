@@ -80,6 +80,9 @@ local config = function()
         enable_preview = true,
       })))
     end,
+    diagnostics = function(opts)
+      ts.diagnostics(vim.tbl_extend('keep', opts or {}, { bufnr = 0 }))
+    end,
     dotfiles = function(opts)
       ts.find_files(vim.tbl_extend('keep', opts or {}, {
         cwd = '~/.dotfiles',
@@ -119,7 +122,8 @@ local config = function()
       { 'a',  ts.autocommands   , '  Autocommands'       , '[a]utocommands'         },
       { 'b',  ts.buffers        , '  Buffers'            , '[b]uffers'              },
       { 'c',  my.colorschemes   , '  Colorschemes'       , '[c]olorschemes'         },
-      { 'd',  ts.diagnostics    , '󰀪  Diagnostics'        , '[d]iagnostics'          },
+      { 'dd', my.diagnostics    , '󰀪  Document Diagnostics' , '[d]iagnostics [d]ocument' },
+      { 'dw', ts.diagnostics    , '󰀪  Workspace Diagnostics', '[d]iagnostics [w]orkspace' },
       -- e
       { 'f',  ts.find_files     , '  Files'              , '[f]ind files'           },
       { 'F',  my.all_files      , '  ALL files'          , 'all [F]iles'            },
