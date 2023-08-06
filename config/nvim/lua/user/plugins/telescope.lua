@@ -142,12 +142,14 @@ local config = function()
       { 'o',  ts.vim_options    , '  Vim options'        , 'vim [o]ptions'          },
       -- p
       { 'q',  ts.quickfix       , '  Quickfix'           , '[q]uickfix'             },
-      { 'r',  ts.registers      , '󱓥  Registers'          , '[r]registers'           },
-      { 's',  my.selection      , '' --[[dynamic]]        , '[s]selection'           },
+      { 'r',  ts.lsp_references , '  References'         , '[r]eferences'           },
+      { 'R',  ts.registers      , '󱓥  Registers'          , '[R]registers'           },
+      { 's',  ts.lsp_document_symbols  , '󰫧  Document Symbols '  , '[l]sp document [s]ymbols' },
+      { 'S',  ts.lsp_workspace_symbols , '󱄑  Workspace Symbols ' , '[l]sp workspace [S]ymbols' },
       { 't',  ts.treesitter     , '  Treesitter symbols' , '[t]reesitter Symbols'   },
       -- u
       -- v
-      -- w
+      { 'w',  my.selection      , '' --[[dynamic]]        , '[w]word under cursor'   },
       -- x
       -- y
       { 'z',  my.spell_suggest   , '󰓆  Spelling suggestions' , '[z] spell suggestions'  },
