@@ -1,20 +1,24 @@
 local M = {}
 
--- Flip function arguments.
---
---    flip(f)(a, b) == f(b, a)
---
+--- Flip function arguments.
+---
+---   flip(f)(a, b) == f(b, a)
+---
+---@param f function: function to flip.
+---@return function: function that takes `f`'s arguments flipped.
 M.flip = function(f)
   return function(a, b)
     return f(b, a)
   end
 end
 
--- Extend lists.
---
---    extend({'a', 'b'}, {'c', 'd'}) == {'a', 'b', 'c', 'd'}
---    extend({1, 2}, {3, 4}, {5, 6}) == {1, 2, 3, 4, 5, 6}
---
+--- Concatenate lists.
+---
+---   extend({'a', 'b'}, {'c', 'd'}) == {'a', 'b', 'c', 'd'}
+---   extend({1, 2}, {3, 4}, {5, 6}) == {1, 2, 3, 4, 5, 6}
+---
+---@param ... table: lists to concatenate.
+---@return table: concatenation of arguments.
 M.concat = function(...)
   local result = {}
   for _, tbl in ipairs {...} do
@@ -25,11 +29,14 @@ M.concat = function(...)
   return result
 end
 
--- Partial function application:
---
---    partial(f, x)(...)    == f(x, ...)
---    partial(f, x, y)(...) == f(x, y, ...)
---
+--- Partial function application.
+---
+---   partial(f, x)(...)    == f(x, ...)
+---   partial(f, x, y)(...) == f(x, y, ...)
+---
+---@param f function: function to partially apply.
+---@param ... any: arguments to bind.
+---@return function: partially applied function.
 M.partial = function(f, ...)
   local argv = {...}
   return function(...)
@@ -37,7 +44,7 @@ M.partial = function(f, ...)
   end
 end
 
---- Delayed function execution.
+--- Delayed function evaluation.
 ---@param f function: function whose evaluation will be delayed.
 ---@param ... any: arguments to `f`.
 ---@return function: a new function that calls f with provided arguments.
@@ -48,8 +55,10 @@ M.thunk = function(f, ...)
   end
 end
 
--- Perform `func` (which can freely use register `reg`) and make sure `reg`
--- is restored afterwards.
+--- Preserve register contents over function call.
+---@param reg string: register to save, must be a valid register name.
+---@param func function: function that may freely clobber the register.
+---@return any: return value of calling `func`.
 M.with_saved_register = function(reg, func)
   local saved = vim.fn.getreg(reg)
   local result = func()
@@ -57,7 +66,8 @@ M.with_saved_register = function(reg, func)
   return result
 end
 
--- Get selected text, or word under cursor if not in visual mode.
+--- Get selected text.
+---@return string: selected text, or work under cursor if not in visual mode.
 M.get_selected_text = function()
   if vim.fn.mode() ~= 'v' then return vim.fn.expand '<cword>' end
 
@@ -74,12 +84,14 @@ local diag_opts = {
   },
 }
 
--- Move to the next diagnostic.
+--- Move to the next diagnostic.
+---@param opts table: options passed along to `vim.diagnostic.goto_next`.
 M.goto_next_diagnostic = function(opts)
   vim.diagnostic.goto_next(vim.tbl_extend('keep', opts or {}, diag_opts))
 end
 
--- Move to the previous diagnostic.
+--- Move to the previous diagnostic.
+---@param opts table: options passed along to `vim.diagnostic.goto_prev`.
 M.goto_prev_diagnostic = function(opts)
   vim.diagnostic.goto_prev(vim.tbl_extend('keep', opts or {}, diag_opts))
 end
