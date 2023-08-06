@@ -15,14 +15,14 @@ local config = function()
     on_attach = function(--[[client]]_, bufnr)
       vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'  -- do completion with <c-x><c-o>
       local map, opts = vim.keymap.set, { buffer = bufnr }
-      map('n', '<space>ca',   vim.lsp.buf.code_action,        opts)
-      map('n', '<space>cf',   vim.lsp.buf.format,             opts)
-      map('n', 'gD',          vim.lsp.buf.declaration,        opts)
+      map('n', '<leader>cc',  vim.lsp.buf.code_action,        opts)
+      map('n', '<leader>cf',  vim.lsp.buf.format,             opts)
       map('n', 'gd',          vim.lsp.buf.definition,         opts)
-      map('n', 'K',           vim.lsp.buf.hover,              opts)
+      map('n', 'gD',          vim.lsp.buf.declaration,        opts)
       map('n', 'gi',          vim.lsp.buf.implementation,     opts)
       map('n', 'grr',         vim.lsp.buf.rename,             opts)
       map('n', 'gt',          vim.lsp.buf.type_definition,    opts)
+      map('n', 'K',           vim.lsp.buf.hover,              opts)
     end,
 
     on_init = function(client, --[[init_result]]_)
