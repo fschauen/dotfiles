@@ -88,12 +88,14 @@ local diag_opts = {
 ---@param opts table: options passed along to `vim.diagnostic.goto_next`.
 M.goto_next_diagnostic = function(opts)
   vim.diagnostic.goto_next(vim.tbl_extend('keep', opts or {}, diag_opts))
+  vim.cmd 'normal zz'
 end
 
 --- Move to the previous diagnostic.
 ---@param opts table: options passed along to `vim.diagnostic.goto_prev`.
 M.goto_prev_diagnostic = function(opts)
   vim.diagnostic.goto_prev(vim.tbl_extend('keep', opts or {}, diag_opts))
+  vim.cmd 'normal zz'
 end
 
 --- Whether the current window is the last in a given direction.
