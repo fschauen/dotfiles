@@ -56,7 +56,7 @@ local config = function()
   local window_is_wide   = window_is_at_least(80)
   local window_is_medium = window_is_at_least(50)
 
-  local parts = {
+  local my = {
     paste = {
       function() return '' end,
       color = { bg = '#bbaa00' },
@@ -139,17 +139,17 @@ local config = function()
 
   local inactive_sections = {
     lualine_a = {},
-    lualine_b = { parts.visual_multi, parts.branch },
-    lualine_c = { diff, parts.filename, parts.status },
-    lualine_x = { parts.filetype  },
-    lualine_y = { parts.fileformat, 'progress' },
+    lualine_b = { my.visual_multi, my.branch },
+    lualine_c = { diff, my.filename, my.status },
+    lualine_x = { my.filetype  },
+    lualine_y = { my.fileformat, 'progress' },
     lualine_z = { 'location' },
   }
 
   local concat = require('fschauen.util').concat
 
   local active_sections = vim.tbl_extend('force', inactive_sections, {
-    lualine_a = concat({ parts.paste, parts.mode }, inactive_sections.lualine_a),
+    lualine_a = concat({ my.paste, my.mode }, inactive_sections.lualine_a),
     lualine_x = concat({ 'diagnostics' }, inactive_sections.lualine_x),
   })
 
