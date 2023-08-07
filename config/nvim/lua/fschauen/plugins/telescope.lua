@@ -1,4 +1,20 @@
-local config = function()
+T = {
+  'nvim-telescope/telescope.nvim',
+
+  dependencies = {
+    'nvim-telescope/telescope-file-browser.nvim',
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release ' ..
+              '&& cmake --build build --config Release ' ..
+              '&& cmake --install build --prefix build'
+    },
+  },
+
+  trigger = '<leader>f',  -- my addition, not used by lazy.nvim
+}
+
+T.config = function()
   local telescope      = require 'telescope'
   local actions        = require 'telescope.actions'
   local actions_layout = require 'telescope.actions.layout'
@@ -104,17 +120,17 @@ local config = function()
     end,
   }
 
-  local map = function(leader, keymap)
+  local map = function(keymap)
     for mode, list in pairs(keymap) do
       for _, row in ipairs(list) do
         local lhs, picker, title, desc = row[1], row[2], row[3], row[4]
         local rhs = function() picker { prompt_title = ' ' .. title .. ' ' } end
-        vim.keymap.set(mode, leader .. lhs, rhs, { desc = '  ' .. desc })
+        vim.keymap.set(mode, T.trigger .. lhs, rhs, { desc = '  ' .. desc })
       end
     end
   end
 
-  map('<leader>f', {
+  map {
     -- ╭────╮     ╭──────╮               ╭────────────╮              ╭───────────────────╮
     -- │keys│     │picker│               │prompt title│              │mapping description│
     -- ╰────╯     ╰──────╯               ╰────────────╯              ╰───────────────────╯
@@ -146,7 +162,8 @@ local config = function()
       { 'R',  ts.registers             , '󱓥  Registers'            , '[R]registers'           },
       { 's',  ts.lsp_document_symbols  , '󰫧  Document Symbols '    , 'lsp document [s]ymbols' },
       { 'S',  ts.lsp_workspace_symbols , '󱄑  Workspace Symbols '   , 'lsp workspace [S]ymbols' },
-      { 't',  ts.treesitter            , '  Treesitter symbols'   , '[t]reesitter Symbols'   },
+      --'t'   used in todo-comments
+      { 'T',  ts.treesitter            , '  Treesitter symbols'   , '[T]reesitter Symbols'   },
       -- u
       -- v
       { 'w',  my.selection             , '' --[[dynamic]]          , '[w]word under cursor'   },
@@ -162,25 +179,12 @@ local config = function()
     v = {
       { 's',  my.selection       ,  '' --[[dynamic]]          , 'visual [s]election'     },
     }
-  })
+  }
 
   telescope.load_extension 'fzf'
   telescope.load_extension 'file_browser'
   vim.keymap.set('n', '<leader>fB', '<cmd>Telescope file_browser<cr>', { desc = ' [f]ile [B]rowser' })
 end
 
-return {
-  'nvim-telescope/telescope.nvim',
-
-  config = config,
-  dependencies = {
-    'nvim-telescope/telescope-file-browser.nvim',
-    {
-      'nvim-telescope/telescope-fzf-native.nvim',
-      build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release ' ..
-              '&& cmake --build build --config Release ' ..
-              '&& cmake --install build --prefix build'
-    },
-  },
-}
+return T
 
