@@ -16,7 +16,7 @@ local exec_current_lua_selection = function()
   loadstring(code)()
 end
 
-vim.keymap.set('n', '<leader>x', exec_current_lua_line, buffer)
-vim.keymap.set('x', '<leader>x', exec_current_lua_selection, buffer)
-vim.keymap.set('n', '<leader><leader>x', '<cmd>write | luafile %<cr>', buffer)
+vim.keymap.set('n', '<localleader>x', exec_current_lua_line, buffer)
+vim.keymap.set('x', '<localleader>x', exec_current_lua_selection, buffer)
+vim.keymap.set('n', '<localleader><localleader>x', '<cmd>write | luafile %<cr>', buffer)
 
