@@ -38,16 +38,16 @@ local config = function()
     ['t']    = ' Term  ',
   }
 
-  local update_status = function(self, is_focused)
+  local extend = function(component, overrides)
+    local new = require(component):extend()
+    for k, v in pairs(overrides) do new[k] = v end
+    return new
+  end
+
+  local udpate_with_color = function(self, is_focused)
     self.options.colored = is_focused
     return self.super.update_status(self, is_focused)
   end
-
-  local diff = require'lualine.components.diff':extend()
-  diff.update_status = update_status
-
-  local filetype = require'lualine.components.filetype':extend()
-  filetype.update_status = update_status
 
   local window_is_at_least = function(width)
     return function() return vim.fn.winwidth(0) > width end
@@ -66,6 +66,8 @@ local config = function()
         return vim.opt.paste:get()
       end
     },
+
+    diff = extend('lualine.components.diff', { update_status = udpate_with_color }),
 
     mode = {
       function()
@@ -125,7 +127,7 @@ local config = function()
     },
 
     filetype = {
-      filetype,
+      extend('lualine.components.filetype', { update_status = udpate_with_color }),
       cond = window_is_medium,
     },
 
@@ -138,7 +140,7 @@ local config = function()
   local inactive_sections = {
     lualine_a = {},
     lualine_b = { my.visual_multi, my.branch },
-    lualine_c = { diff, my.filename, my.status },
+    lualine_c = { my.diff, my.filename, my.status },
     lualine_x = { my.filetype  },
     lualine_y = { my.fileformat, 'progress' },
     lualine_z = { 'location' },
