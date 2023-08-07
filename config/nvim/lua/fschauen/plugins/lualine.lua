@@ -56,6 +56,8 @@ local config = function()
   local window_is_wide   = window_is_at_least(80)
   local window_is_medium = window_is_at_least(50)
 
+  local concat = require('fschauen.util').concat
+
   local my = {
     paste = {
       function() return '' end,
@@ -89,14 +91,10 @@ local config = function()
 
     status = {
       function()
-        local flags = {}
-        if vim.bo.modified then
-          table.insert(flags, '+')
-        end
-        if vim.bo.modifiable == false or vim.bo.readonly == true then
-          table.insert(flags, 'RO')
-        end
-        return table.concat(flags, ' ')
+        local flags = concat(
+          vim.bo.modified and {'+'} or {},
+          (vim.bo.readonly or not vim.bo.modifiable) and {'RO'} or {})
+        return vim.fn.join(flags, ' ')
       end,
 
       color = { fg = '#eee8d5' },
@@ -146,7 +144,6 @@ local config = function()
     lualine_z = { 'location' },
   }
 
-  local concat = require('fschauen.util').concat
 
   local active_sections = vim.tbl_extend('force', inactive_sections, {
     lualine_a = concat({ my.paste, my.mode }, inactive_sections.lualine_a),
