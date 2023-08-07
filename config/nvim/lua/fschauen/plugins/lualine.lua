@@ -135,16 +135,6 @@ local config = function()
       'fileformat',
       cond = window_is_medium,
     },
-
-    progress = {
-      function()
-        local chars = { '', '', '', '', '', '', '', '', '', '', '', '', '', '', '' }
-        local current, total = vim.fn.line '.', vim.fn.line '$'
-        return chars[math.ceil(#chars * current / total)]
-      end,
-      padding = { left = 0, right = 1 },
-      cond = window_is_wide,
-    },
   }
 
   local inactive_sections = {
@@ -152,7 +142,7 @@ local config = function()
     lualine_b = { parts.visual_multi, parts.branch },
     lualine_c = { parts.filename, parts.status },
     lualine_x = { 'diagnostics', parts.filetype  },
-    lualine_y = { parts.fileformat, parts.progress },
+    lualine_y = { parts.fileformat, 'progress' },
     lualine_z = { 'location' },
   }
 
