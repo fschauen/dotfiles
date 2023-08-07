@@ -59,18 +59,18 @@ imap('<c-e>', '<c-o>$')
 cmap('<c-a>', '<c-b>')
 
 -- navigate items in quickfix and location lists
-nmap('<a-Down>', '<cmd>lnext<cr>zz',     { silent = true })
-nmap('<a-Up>',   '<cmd>lprevious<cr>zz', { silent = true })
 nmap('<leader>j',      '<cmd>cnext<cr>zz',     { silent = true })
 nmap('<leader>k',      '<cmd>cprevious<cr>zz', { silent = true })
+nmap('<localleader>j', '<cmd>lnext<cr>zz',     { silent = true })
+nmap('<localleader>k', '<cmd>lprevious<cr>zz', { silent = true })
 
 -- navigate diagnostics
 nmap('<leader>dj', require('fschauen.util').goto_next_diagnostic)
 nmap('<leader>dk', require('fschauen.util').goto_prev_diagnostic)
 
--- toggle quickfix and location lists
-nmap('<leader>lq', util.toggle_quickfix, { desc = 'Toggle quickfix' } )
-nmap('<leader>ll', util.toggle_loclist,  { desc = 'Toggle loclist' } )
+-- toggle quickfix and loclist
+nmap('<leader>ll', util.toggle_quickfix, { desc = 'Toggle quickfix' } )
+nmap('<localleader>ll', util.toggle_loclist,  { desc = 'Toggle loclist' } )
 
 -- quickly open lazy.nvim plugin manager
 nmap('<leader>L', '<cmd>Lazy<cr>')
