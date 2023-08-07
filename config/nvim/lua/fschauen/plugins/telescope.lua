@@ -114,7 +114,7 @@ local config = function()
     end
   end
 
-  map('<c-p>', {
+  map('<leader>f', {
     -- ╭────╮     ╭──────╮               ╭────────────╮              ╭───────────────────╮
     -- │keys│     │picker│               │prompt title│              │mapping description│
     -- ╰────╯     ╰──────╯               ╰────────────╯              ╰───────────────────╯
@@ -157,7 +157,7 @@ local config = function()
       { ':',  ts.command_history       , '  Command history'      , '[:]command history'     },
       { '?',  ts.commands              , '  Commands'             , 'commands [?]'           },
       { '/',  ts.search_history        , '  Search history'       , '[/]search history'      },
-      {'<c-p>', ts.resume              , '󰐎  Resume'               , 'Resume'                 },
+      {'<leader>', ts.resume           , '󰐎  Resume'               , 'Resume'                 },
     },
     v = {
       { 's',  my.selection       ,  '' --[[dynamic]]          , 'visual [s]election'     },
@@ -166,7 +166,7 @@ local config = function()
 
   telescope.load_extension 'fzf'
   telescope.load_extension 'file_browser'
-  vim.keymap.set('n', '<leader>br', '<cmd>Telescope file_browser<cr>', { desc = ' file [BR]owser' })
+  vim.keymap.set('n', '<leader>fB', '<cmd>Telescope file_browser<cr>', { desc = ' [f]ile [B]rowser' })
 end
 
 return {
