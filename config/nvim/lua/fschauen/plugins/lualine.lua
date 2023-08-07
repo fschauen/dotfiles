@@ -140,11 +140,18 @@ local config = function()
   local inactive_sections = {
     lualine_a = {},
     lualine_b = { parts.visual_multi, parts.branch },
-    lualine_c = { parts.filename, parts.status },
-    lualine_x = { 'diagnostics', parts.filetype  },
+    lualine_c = { diff, parts.filename, parts.status },
+    lualine_x = { parts.filetype  },
     lualine_y = { parts.fileformat, 'progress' },
     lualine_z = { 'location' },
   }
+
+  local concat = require('fschauen.util').concat
+
+  local active_sections = vim.tbl_extend('force', inactive_sections, {
+    lualine_a = concat({ parts.paste, parts.mode }, inactive_sections.lualine_a),
+    lualine_x = concat({ 'diagnostics' }, inactive_sections.lualine_x),
+  })
 
   require('lualine').setup {
     options = {
@@ -154,10 +161,7 @@ local config = function()
       theme = 'gruvbox',
     },
 
-    sections = vim.tbl_extend('force', inactive_sections, {
-      lualine_a = { parts.paste, parts.mode },
-    }),
-
+    sections = active_sections,
     inactive_sections = inactive_sections,
 
     extensions = {
