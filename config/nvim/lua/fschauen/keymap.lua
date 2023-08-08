@@ -67,6 +67,9 @@ nmap('<localleader>k', '<cmd>lprevious<cr>zz', { silent = true })
 -- navigate diagnostics
 nmap('<leader>dj', require('fschauen.util').goto_next_diagnostic)
 nmap('<leader>dk', require('fschauen.util').goto_prev_diagnostic)
+nmap('<leader>dd', require('fschauen.util').toggle_diagnostics)
+nmap('<leader>do', require('fschauen.util').open_float_diagnostic)
+nmap('<leader>dh', require('fschauen.util').hide_diagnostics)
 
 -- toggle quickfix and loclist
 nmap('<leader>ll', util.toggle_quickfix, { desc = 'Toggle quickfix' } )

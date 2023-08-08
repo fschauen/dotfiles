@@ -98,6 +98,23 @@ M.goto_prev_diagnostic = function(opts)
   vim.cmd 'normal zz'
 end
 
+M.open_float_diagnostic = function(opts)
+  vim.diagnostic.open_float(vim.tbl_extend('keep', opts or {}, { border = 'rounded' }))
+end
+
+M.toggle_diagnostics = function(bufnr)
+  bufnr = bufnr or 0
+  if vim.diagnostic.is_disabled(bufnr) then
+    vim.diagnostic.enable(bufnr)
+  else
+    vim.diagnostic.disable(bufnr)
+  end
+end
+
+M.hide_diagnostics = function(bufnr)
+  vim.diagnostic.hide(nil, bufnr or 0)
+end
+
 --- Whether the current window is the last in a given direction.
 ---@param direction string: one of 'h', 'j', 'k', or 'l'
 local win_is_last = function(direction)
