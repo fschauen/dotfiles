@@ -8,7 +8,6 @@ return {
   },
 
   main = 'nvim-treesitter.configs',
-
   opts = {
     ensure_installed = {
       'bash',
@@ -29,14 +28,12 @@ return {
       'vimdoc',
       'yaml',
     },
-
     highlight = {
       enable = true,
       disable = {
         'vimdoc',
       },
     },
-
     incremental_selection = {
       enable = true,
       keymaps = {
@@ -46,18 +43,15 @@ return {
         scope_incremental = nil,    -- disabled, normally mapped in visual mode
       },
     },
-
     refactor = {
       highlight_definitions = { enable = true },
       highlight_current_scope = { enable = false },
-
       smart_rename = {
         enable = true,
         keymaps = {
           smart_rename = 'grr',
         },
       },
-
       navigation = {
         enable = true,
         keymaps = {
@@ -69,7 +63,6 @@ return {
         },
       },
     },
-
     textobjects = {
       select = {
         enable = true,
@@ -87,14 +80,23 @@ return {
         },
       },
     },
-
     playground = {
       enable = true,
     },
   },
-
-  event = { 'BufReadPost', 'BufNewFile' },
-
+  event = {
+    'BufReadPost',
+    'BufNewFile'
+  },
+  cmd = {
+    'TSInstall',
+    'TSUninstall',
+    'TSUpdate',
+    'TSUpdateSync',
+    'TSInstallInfo',
+    'TSInstallSync',
+    'TSInstallFromGrammar',
+  },
   keys = {
     { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
     { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
