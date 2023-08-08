@@ -161,7 +161,10 @@ local config = function()
       'fugitive',
       'quickfix',
       'nvim-tree',
-    }
+      'lazy',
+      'man',
+      'trouble',
+    },
   }
 end
 
