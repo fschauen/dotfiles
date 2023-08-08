@@ -1,5 +1,15 @@
-local config = function()
-  require('nvim-treesitter.configs').setup {
+return {
+  'nvim-treesitter/nvim-treesitter',
+
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter-refactor',
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    'nvim-treesitter/playground',
+  },
+
+  main = 'nvim-treesitter.configs',
+
+  opts = {
     ensure_installed = {
       'bash',
       'c',
@@ -81,21 +91,14 @@ local config = function()
     playground = {
       enable = true,
     },
-  }
+  },
 
-  vim.keymap.set('n', '<leader>tp', '<cmd>TSPlaygroundToggle<cr>')
-  vim.keymap.set('n', '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>')
-  vim.keymap.set('n', '<leader>tn', '<cmd>TSNodeUnderCursor<cr>')
-end
+  event = { 'BufReadPost', 'BufNewFile' },
 
-return {
-  'nvim-treesitter/nvim-treesitter',
-
-  config = config,
-  dependencies = {
-    'nvim-treesitter/nvim-treesitter-refactor',
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    'nvim-treesitter/playground',
+  keys = {
+    { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
+    { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
+    { '<leader>tn', '<cmd>TSNodeUnderCursor<cr>' },
   },
 }
 

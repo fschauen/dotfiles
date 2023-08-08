@@ -1,6 +1,8 @@
 return {
   'lukas-reineke/indent-blankline.nvim',
 
+  lazy = false,  -- trows an error when lazy loading
+
   config = function()
     require('indent_blankline').setup {
       enabled = false,

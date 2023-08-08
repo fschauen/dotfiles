@@ -13,8 +13,10 @@ return {
     vim.g.undotree_TreeReturnShape = '╲'
   end,
 
-  config = function()
-    vim.keymap.set('n', '<leader>u', '<cmd>UndotreeToggle<cr>')
-  end
+  config = false,
+
+  keys = {
+    { '<leader>u', '<cmd>UndotreeToggle<cr>' },
+  },
 }
 

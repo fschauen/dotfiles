@@ -11,11 +11,13 @@ return {
     }
   end,
 
-  config = function()
-    vim.keymap.set('n', '<leader>ww', '<cmd>ToggleWhitespace<cr>')
-    vim.keymap.set('n', '<leader>wj', '<cmd>NextTrailingWhitespace<cr>')
-    vim.keymap.set('n', '<leader>wk', '<cmd>PrevTrailingWhitespace<cr>')
-    vim.keymap.set('n', '<leader>wd', '<cmd>StripWhitespace<cr>')
-  end,
+  config = false,
+
+  keys ={
+    { '<leader>ww', '<cmd>ToggleWhitespace<cr>' },
+    { '<leader>wj', '<cmd>NextTrailingWhitespace<cr>' },
+    { '<leader>wk', '<cmd>PrevTrailingWhitespace<cr>' },
+    { '<leader>wd', '<cmd>StripWhitespace<cr>' },
+  },
 }
 

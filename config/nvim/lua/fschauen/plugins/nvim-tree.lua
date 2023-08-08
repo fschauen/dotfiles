@@ -1,5 +1,9 @@
-local config = function()
-  require('nvim-tree').setup {
+return {
+  'nvim-tree/nvim-tree.lua',
+
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
+
+  opts = {
     disable_netrw = true,       -- replace netrw with nvim-tree
     hijack_cursor = true,       -- keep the cursor on begin of the filename
     sync_root_with_cwd = true,  -- watch for `DirChanged` and refresh the tree
@@ -37,16 +41,12 @@ local config = function()
       group_empty = true,   -- folders that contain only one folder are grouped
       highlight_git = true, -- enable highlight based on git attributes
     },
-  }
+  },
 
-  vim.keymap.set('n', '<leader>nn', '<cmd>NvimTreeOpen<cr>')
-  vim.keymap.set('n', '<leader>nf', '<cmd>NvimTreeFindFile<cr>')
-  vim.keymap.set('n', '<leader>nc', '<cmd>NvimTreeClose<cr>')
-end
-
-return {
-  'nvim-tree/nvim-tree.lua',
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
-  config = config,
+  keys = {
+    { '<leader>nn', '<cmd>NvimTreeOpen<cr>' },
+    { '<leader>nf', '<cmd>NvimTreeFindFile<cr>' },
+    { '<leader>nc', '<cmd>NvimTreeClose<cr>' },
+  },
 }
 

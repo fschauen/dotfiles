@@ -1,20 +1,24 @@
 return {
   'lukas-reineke/virt-column.nvim',
 
-  config = function()
-    require('virt-column').setup {
-      char = '│',
-    }
+  opts = {
+    char = '│',
+  },
 
-    local toggle_virtual_column = function()
-      if vim.o.colorcolumn == '' then
-        vim.o.colorcolumn = '+1'  -- one after 'textwidth'
-      else
-        vim.o.colorcolumn = ''    -- none
-      end
-    end
+  event = { 'BufReadPost', 'BufNewFile' },
 
-    vim.keymap.set('n', '<leader>sc', toggle_virtual_column)
-  end,
+  keys ={
+    {
+      '<leader>sc',
+      function()
+        if vim.o.colorcolumn == '' then
+          vim.o.colorcolumn = '+1'  -- one after 'textwidth'
+        else
+          vim.o.colorcolumn = ''    -- none
+        end
+      end,
+      'Toggle virtual colunn'
+    },
+  },
 }
 
