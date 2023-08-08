@@ -79,9 +79,9 @@ end
 
 local diag_opts = {
   wrap = false, -- don't wrap around the begin/end of file
-  float = {
-    border = 'rounded' -- enable border for the floating window
-  },
+  -- float = {
+  --   border = 'rounded' -- enable border for the floating window
+  -- },
 }
 
 --- Move to the next diagnostic.
@@ -99,7 +99,7 @@ M.goto_prev_diagnostic = function(opts)
 end
 
 M.open_float_diagnostic = function(opts)
-  vim.diagnostic.open_float(vim.tbl_extend('keep', opts or {}, { border = 'rounded' }))
+  vim.diagnostic.open_float(opts)
 end
 
 M.toggle_diagnostics = function(bufnr)

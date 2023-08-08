@@ -7,5 +7,6 @@ require 'fschauen.options'
 require 'fschauen.keymap'
 require 'fschauen.autocmds'
 require 'fschauen.filetypes'
+require 'fschauen.diagnostics'
 require 'fschauen.lazy'
 
