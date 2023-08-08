@@ -99,7 +99,7 @@ local config = function()
         return vim.fn.join(flags, ' ')
       end,
 
-      color = { fg = '#eee8d5' },
+      color = { fg = '#eee8d5', gui = 'bold' },
     },
 
     filename = {
@@ -115,12 +115,6 @@ local config = function()
         end
 
         return shorten_path(vim.fn.expand('%:~:.'))
-      end,
-
-      color = function()
-        if vim.bo.modified then
-          return { gui = 'italic' }
-        end
       end,
 
       padding = { left = 1, right = 0},
