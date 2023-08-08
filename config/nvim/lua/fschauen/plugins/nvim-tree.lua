@@ -2,7 +2,6 @@ return {
   'nvim-tree/nvim-tree.lua',
 
   dependencies = { 'nvim-tree/nvim-web-devicons' },
-
   opts = {
     disable_netrw = true,       -- replace netrw with nvim-tree
     hijack_cursor = true,       -- keep the cursor on begin of the filename
@@ -25,24 +24,26 @@ return {
     git = {
       ignore = false,       -- don't hide files from .gitignore
     },
-
     view = {
       adaptive_size = true, -- resize the window based on the longest line
       width = 35,           -- a little wider than the default 30
     },
-
     filters = {
       dotfiles = false,         -- show files starting with a .
       custom = { '^\\.git' },   -- don't show .git directory
     },
-
     renderer = {
       add_trailing = true,  -- add trailing / to folders
       group_empty = true,   -- folders that contain only one folder are grouped
       highlight_git = true, -- enable highlight based on git attributes
     },
   },
-
+  cmd = {
+    'NvimTreeToggle',
+    'NvimTreeOpen',
+    'NvimTreeFocus',
+    'NvimTreeFindFileToggle'
+  },
   keys = {
     { '<leader>nn', '<cmd>NvimTreeOpen<cr>' },
     { '<leader>nf', '<cmd>NvimTreeFindFile<cr>' },
