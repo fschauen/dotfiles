@@ -7,7 +7,6 @@ return {
 
   config = function()
     require('colorizer').setup(nil, {
-      mode = 'foreground',
       css = true,
     })
   end,
