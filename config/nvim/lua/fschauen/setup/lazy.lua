@@ -23,6 +23,8 @@ if lazy then
     },
     ui = {
       border = 'rounded',
+      title = '  Lazy  ',
+    },
     performance = {
       rtp = {
         disabled_plugins = {
