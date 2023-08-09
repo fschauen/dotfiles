@@ -106,6 +106,12 @@ local keymap = {
   {      '<leader>ll', window.toggle_quickfix,  desc = 'Toggle quickfix'  },
   { '<localleader>ll', window.toggle_loclist,   desc = 'Toggle loclist'   },
 
+  trouble = {
+    { '<leader>lt', '<cmd>TroubleToggle<cr>' },
+    { '<leader>lw', '<cmd>TroubleToggle workspace_diagnostics<cr>' },
+    { '<leader>ld', '<cmd>TroubleToggle document_diagnostics<cr>' },
+  },
+
   -- quickly open lazy.nvim plugin manager
   { '<leader>L', '<cmd>Lazy<cr>' },
 
