@@ -121,6 +121,12 @@ local keymap = {
   { '<leader>sl', '<cmd>set list!  | set list?<CR>' },
   { '<leader>sw', '<cmd>set wrap!  | set wrap?<CR>' },
   { '<leader>ss', '<cmd>set spell! | set spell?<CR>' },
+
+  treesitter = {
+    { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
+    { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
+    { '<leader>tn', '<cmd>TSNodeUnderCursor<cr>' },
+  },
 }
 
 M.setup = function()

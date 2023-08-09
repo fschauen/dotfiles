@@ -1,12 +1,24 @@
 return {
   'nvim-treesitter/nvim-treesitter',
-
   dependencies = {
     'nvim-treesitter/nvim-treesitter-refactor',
     'nvim-treesitter/nvim-treesitter-textobjects',
     'nvim-treesitter/playground',
   },
-
+  keys = require('fschauen.keymap').treesitter,
+  event = {
+    'BufReadPost',
+    'BufNewFile'
+  },
+  cmd = {
+    'TSInstall',
+    'TSUninstall',
+    'TSUpdate',
+    'TSUpdateSync',
+    'TSInstallInfo',
+    'TSInstallSync',
+    'TSInstallFromGrammar',
+  },
   main = 'nvim-treesitter.configs',
   opts = {
     ensure_installed = {
@@ -83,24 +95,6 @@ return {
     playground = {
       enable = true,
     },
-  },
-  event = {
-    'BufReadPost',
-    'BufNewFile'
-  },
-  cmd = {
-    'TSInstall',
-    'TSUninstall',
-    'TSUpdate',
-    'TSUpdateSync',
-    'TSInstallInfo',
-    'TSInstallSync',
-    'TSInstallFromGrammar',
-  },
-  keys = {
-    { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
-    { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
-    { '<leader>tn', '<cmd>TSNodeUnderCursor<cr>' },
   },
 }
 
