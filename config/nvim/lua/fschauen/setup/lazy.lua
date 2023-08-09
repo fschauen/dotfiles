@@ -17,6 +17,9 @@ end)()
 if lazy then
   lazy.setup {
     spec = 'fschauen.plugins',
+    -- defaults = {
+    --   lazy = true,
+    -- },
     dev = {
       path = '~/Projects/nvim-plugins',
       fallback = true,
