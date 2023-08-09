@@ -133,6 +133,10 @@ local keymap = {
     { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
     { '<leader>tn', '<cmd>TSNodeUnderCursor<cr>' },
   },
+
+  undotree = {
+    { '<leader>u', '<cmd>UndotreeToggle<cr>' },
+  },
 }
 
 M.setup = function()

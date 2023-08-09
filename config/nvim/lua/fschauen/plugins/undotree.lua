@@ -1,6 +1,5 @@
 return {
   'mbbill/undotree',
-
   init = function()
     vim.g.undotree_WindowLayout = 2  -- tree: left, diff: bottom
     vim.g.undotree_DiffAutoOpen = 0  -- don't open diff by default
@@ -12,11 +11,7 @@ return {
     vim.g.undotree_TreeSplitShape = '╱'
     vim.g.undotree_TreeReturnShape = '╲'
   end,
-
+  keys = require('fschauen.keymap').undotree,
   config = false,
-
-  keys = {
-    { '<leader>u', '<cmd>UndotreeToggle<cr>' },
-  },
 }
 
