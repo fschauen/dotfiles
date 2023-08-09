@@ -185,5 +185,13 @@ M.toggle_quickfix = function() toggle_qf_list('c') end
 --- Toggle location list.
 M.toggle_loclist = function() toggle_qf_list('l') end
 
+
+M.set_colorscheme = function(name)
+  vim.cmd('silent! colorscheme ' .. name)
+  if vim.v.errmsg ~= '' then
+    vim.notify(string.format('Colorscheme %s not found!', name), vim.log.levels.WARN)
+  end
+end
+
 return M
 

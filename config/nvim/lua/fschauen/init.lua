@@ -10,5 +10,5 @@ require 'fschauen.filetypes'
 require 'fschauen.diagnostics'
 require 'fschauen.lazy'
 
-vim.cmd [[colorscheme gruvbox]]
+require('fschauen.util').set_colorscheme('gruvbox')
 
