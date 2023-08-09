@@ -1,6 +1,6 @@
 return {
   'NeogitOrg/neogit',
-
+  keys = require('fschauen.keymap').neogit,
   opts = {
     disable_hint = true,
     signs = {
@@ -14,9 +14,5 @@ return {
         ['<space>'] = 'Toggle',
       },
     },
-  },
-
-  keys = {
-    { '<leader>gn', '<cmd>Neogit<cr>' },
   },
 }
