@@ -1,9 +1,9 @@
 local config = function()
-  local cmp = require('cmp')
+  local cmp = require 'cmp'
   local map = cmp.mapping
 
-  local flip    = require('fschauen.util').flip
-  local partial = require('fschauen.util').partial
+  local fs = require 'fschauen'
+  local flip, partial = fs.flip, fs.partial
 
   -- assign('i',        { key = func, ... }) == { key = { i = func }, ... }
   -- assign({'i', 'c'}, { key = func, ... }) == { key = { i = func, c = func }, ...}

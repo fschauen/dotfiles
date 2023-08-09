@@ -55,6 +55,28 @@ local config_builtin = function(picker, opts)
   end
 end
 
+---Preserve register contents over function call.
+---@param reg string: register to save, must be a valid register name.
+---@param func function: function that may freely clobber the register.
+---@return any: return value of calling `func`.
+local with_saved_register = function(reg, func)
+  local saved = vim.fn.getreg(reg)
+  local result = func()
+  vim.fn.setreg(reg, saved)
+  return result
+end
+
+---Get selected text.
+---@return string: selected text, or work under cursor if not in visual mode.
+local get_selected_text = function()
+  if vim.fn.mode() ~= 'v' then return vim.fn.expand '<cword>' end
+
+  return with_saved_register('v', function()
+    vim.cmd [[noautocmd sil norm "vy]]
+    return vim.fn.getreg 'v'
+  end)
+end
+
 M.pickers = setmetatable({
   all_files = config_builtin('find_files', {
     hidden = true,
@@ -73,7 +95,7 @@ M.pickers = setmetatable({
   }),
   selection = function(_)
     return function()
-      local text = require('fschauen.util').get_selected_text()
+      local text = get_selected_text()
       builtin().grep_string {
         prompt_title = string.format('    Grep: %s   ', text),
         search = text,
