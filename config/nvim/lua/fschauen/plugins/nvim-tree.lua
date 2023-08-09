@@ -1,7 +1,9 @@
 return {
   'nvim-tree/nvim-tree.lua',
-
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  dependencies = {
+    'nvim-tree/nvim-web-devicons'
+  },
+  keys = require('fschauen.keymap').nvim_tree,
   opts = {
     disable_netrw = true,       -- replace netrw with nvim-tree
     hijack_cursor = true,       -- keep the cursor on begin of the filename
@@ -37,17 +39,6 @@ return {
       group_empty = true,   -- folders that contain only one folder are grouped
       highlight_git = true, -- enable highlight based on git attributes
     },
-  },
-  cmd = {
-    'NvimTreeToggle',
-    'NvimTreeOpen',
-    'NvimTreeFocus',
-    'NvimTreeFindFileToggle'
-  },
-  keys = {
-    { '<leader>nn', '<cmd>NvimTreeOpen<cr>' },
-    { '<leader>nf', '<cmd>NvimTreeFindFile<cr>' },
-    { '<leader>nc', '<cmd>NvimTreeClose<cr>' },
   },
 }
 

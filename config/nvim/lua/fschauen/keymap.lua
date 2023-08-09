@@ -109,6 +109,12 @@ local keymap = {
   -- quickly open lazy.nvim plugin manager
   { '<leader>L', '<cmd>Lazy<cr>' },
 
+  nvim_tree = {
+    { '<leader>nn', '<cmd>NvimTreeOpen<cr>' },
+    { '<leader>nf', '<cmd>NvimTreeFindFile<cr>' },
+    { '<leader>nc', '<cmd>NvimTreeClose<cr>' },
+  },
+
   -- toggle options
   { '<leader>sn', toggle_number },
   { '<leader>sr', toggle_relativenumber },
