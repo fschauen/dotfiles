@@ -1,4 +1,4 @@
-local get_lazy = function()
+local lazy = (function()
   local path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
   if not vim.loop.fs_stat(path) then
     vim.fn.system {
@@ -12,11 +12,11 @@ local get_lazy = function()
   end
   vim.opt.rtp:prepend(path)
   return vim.F.npcall(require, 'lazy')
-end
+end)()
 
-local lazy = get_lazy()
 if lazy then
-  lazy.setup('fschauen.plugins', {
+  lazy.setup {
+    spec = 'fschauen.plugins',
     dev = {
       path = '~/Projects/nvim-plugins',
       fallback = true,
@@ -24,8 +24,8 @@ if lazy then
     ui = {
       border = 'rounded',
     },
-  })
+  }
 else
-  vim.notify('Lazy not installed and failed to bootstrap!', vim.log.levels.ERROR)
+  vim.notify('Lazy not installed and failed to bootstrap!', vim.log.levels.WARN)
 end
 
