@@ -1,5 +1,3 @@
-local prefix = require('fschauen.telescope').prefix
-local pickers = require('fschauen.telescope').pickers
 local actions = require('fschauen.telescope').actions
 
 local mappings = {
@@ -29,6 +27,7 @@ return {
   },
   lazy = true,
   cmd = 'Telescope',
+  keys = require('fschauen.keymap').telescope,
   opts  = {
     defaults = {
       mappings = {
@@ -74,50 +73,6 @@ return {
         theme = 'ivy'
       },
     },
-  },
-  keys = {
-    { prefix .. 'a',  pickers.autocommands           ('  Autocommands'         ), { desc = ' [a]utocommands'            }},
-    { prefix .. 'b',  pickers.buffers                ('  Buffers'              ), { desc = ' [b]uffers'                 }},
-    { prefix .. 'B', '<cmd>Telescope file_browser<cr>'                           , { desc = ' file [B]rowser'            }},
-    { prefix .. 'c',  pickers.colorscheme            ('  Colorschemes'         ), { desc = ' [c]olorschemes'            }},
-    { prefix .. 'dd', pickers.diagnostics            ('󰀪  Document Diagnostics' ), { desc = ' [d]iagnostics [d]ocument'  }},
-    { prefix .. 'dw', pickers.diagnostics            ('󰀪  Workspace Diagnostics'), { desc = ' [d]iagnostics [w]orkspace' }},
-    --          'e'
-    { prefix .. 'f',  pickers.find_files             ('  Files'                ), { desc = ' [f]ind files'              }},
-    { prefix .. 'F',  pickers.all_files              ('  ALL files'            ), { desc = ' all [F]iles'               }},
-    { prefix .. 'gr', pickers.live_grep              ('  Live grep'            ), { desc = ' Live [gr]ep'               }},
-    { prefix .. 'gf', pickers.git_files              ('  Git files'            ), { desc = ' [g]it [f]iles'             }},
-    { prefix .. 'gc', pickers.git_commits            (' Commits'             ), { desc = ' [g]it [c]ommits'           }},
-    { prefix .. 'h',  pickers.here                   ('  Current buffer'       ), { desc = ' [b]uffer [h]ere'           }},
-    { prefix .. 'H',  pickers.highlights             ('󰌶  Highlights'           ), { desc = ' [H]ighlights'              }},
-    --          'i'
-    { prefix .. 'j',  pickers.jumplist               ('  Jumplist'             ), { desc = ' [j]umplist'                }},
-    { prefix .. 'k',  pickers.keymaps                ('  Keymaps'              ), { desc = ' [k]eymaps'                 }},
-    { prefix .. 'K',  pickers.help_tags              ('  Help tags'            ), { desc = ' [K] help/documentation'    }},
-    { prefix .. 'l',  pickers.loclist                ('  Location list'        ), { desc = ' [l]ocation List'           }},
-    { prefix .. 'm',  pickers.man_pages              ('  Man pages'            ), { desc = ' [m]an pages'               }},
-    --          'n'
-    { prefix .. 'o',  pickers.vim_options            ('  Vim options'          ), { desc = ' vim [o]ptions'             }},
-    --          'p'
-    { prefix .. 'q',  pickers.quickfix               ('  Quickfix'             ), { desc = ' [q]uickfix'                }},
-    { prefix .. 'r',  pickers.lsp_references         ('  References'           ), { desc = ' [r]eferences'              }},
-    { prefix .. 'R',  pickers.registers              ('󱓥  Registers'            ), { desc = ' [R]registers'              }},
-    { prefix .. 's',  pickers.lsp_document_symbols   ('󰫧  Document Symbols '    ), { desc = ' lsp document [s]ymbols'    }},
-    { prefix .. 'S',  pickers.lsp_workspace_symbols  ('󱄑  Workspace Symbols '   ), { desc = ' lsp workspace [S]ymbols'   }},
-    --          't'   used in todo-commenpickers
-    { prefix .. 'T',  pickers.treesitter             ('  Treesitter symbols'   ), { desc = ' [T]reesitter Symbols'      }},
-    --          'u'
-    --          'v'
-    { prefix .. 'w',  pickers.selection              (--[[dynamic]])             , { desc = ' [w]word under cursor'      }},
-    { prefix .. 'w',  pickers.selection              (--[[dynamic]]), mode = 'v' , { desc = ' visual [s]election'        }},
-    --          'x'
-    --          'y'
-    { prefix .. 'z',  pickers.spell_suggest          ('󰓆  Spelling suggestions') , { desc = ' [z] spell suggestions'     }},
-    { prefix .. '.',  pickers.dotfiles               ('  Dotfiles'            ) , { desc = ' [.]dotfiles'               }},
-    { prefix .. ':',  pickers.command_history        ('  Command history'     ) , { desc = ' [:]command history'        }},
-    { prefix .. '?',  pickers.commands               ('  Commands'            ) , { desc = ' commands [?]'              }},
-    { prefix .. '/',  pickers.search_history         ('  Search history'      ) , { desc = ' [/]search history'         }},
-    { prefix .. '<leader>', pickers.resume           ('󰐎  Resume'              ) , { desc = ' Resume '                   }},
   },
   config = function(_, opts)
     require('telescope').setup(opts)

@@ -2,6 +2,7 @@ local M = {}
 
 local diagnostic = require 'fschauen.diagnostic'
 local window = require 'fschauen.window'
+local pickers = require('fschauen.telescope').pickers
 
 local toggle_number = function()
   vim.wo.number = not vim.wo.number
@@ -90,6 +91,51 @@ local keymap = {
   { '<leader>dd', diagnostic.toggle },
   { '<leader>do', diagnostic.open_float },
   { '<leader>dh', diagnostic.hide },
+
+  telescope = {
+    { '<leader>fa',  pickers.autocommands           ('  Autocommands'         ), desc = ' [a]utocommands'            },
+    { '<leader>fb',  pickers.buffers                ('  Buffers'              ), desc = ' [b]uffers'                 },
+    { '<leader>fB', '<cmd>Telescope file_browser<cr>'                           , desc = ' file [B]rowser'            },
+    { '<leader>fc',  pickers.colorscheme            ('  Colorschemes'         ), desc = ' [c]olorschemes'            },
+    { '<leader>fdd', pickers.diagnostics            ('󰀪  Document Diagnostics' ), desc = ' [d]iagnostics [d]ocument'  },
+    { '<leader>fdw', pickers.diagnostics            ('󰀪  Workspace Diagnostics'), desc = ' [d]iagnostics [w]orkspace' },
+    --'<leader>fe'
+    { '<leader>ff',  pickers.find_files             ('  Files'                ), desc = ' [f]ind files'              },
+    { '<leader>fF',  pickers.all_files              ('  ALL files'            ), desc = ' all [F]iles'               },
+    { '<leader>fgr', pickers.live_grep              ('  Live grep'            ), desc = ' Live [gr]ep'               },
+    { '<leader>fgf', pickers.git_files              ('  Git files'            ), desc = ' [g]it [f]iles'             },
+    { '<leader>fgc', pickers.git_commits            (' Commits'             ), desc = ' [g]it [c]ommits'           },
+    { '<leader>fh',  pickers.here                   ('  Current buffer'       ), desc = ' [b]uffer [h]ere'           },
+    { '<leader>fH',  pickers.highlights             ('󰌶  Highlights'           ), desc = ' [H]ighlights'              },
+    --'<leader>fi'
+    { '<leader>fj',  pickers.jumplist               ('  Jumplist'             ), desc = ' [j]umplist'                },
+    { '<leader>fk',  pickers.keymaps                ('  Keymaps'              ), desc = ' [k]eymaps'                 },
+    { '<leader>fK',  pickers.help_tags              ('  Help tags'            ), desc = ' [K] help/documentation'    },
+    { '<leader>fl',  pickers.loclist                ('  Location list'        ), desc = ' [l]ocation List'           },
+    { '<leader>fm',  pickers.man_pages              ('  Man pages'            ), desc = ' [m]an pages'               },
+    --'<leader>fn'
+    { '<leader>fo',  pickers.vim_options            ('  Vim options'          ), desc = ' vim [o]ptions'             },
+    --'<leader>fp'
+    { '<leader>fq',  pickers.quickfix               ('  Quickfix'             ), desc = ' [q]uickfix'                },
+    { '<leader>fr',  pickers.lsp_references         ('  References'           ), desc = ' [r]eferences'              },
+    { '<leader>fR',  pickers.registers              ('󱓥  Registers'            ), desc = ' [R]registers'              },
+    { '<leader>fs',  pickers.lsp_document_symbols   ('󰫧  Document Symbols '    ), desc = ' lsp document [s]ymbols'    },
+    { '<leader>fS',  pickers.lsp_workspace_symbols  ('󱄑  Workspace Symbols '   ), desc = ' lsp workspace [S]ymbols'   },
+    --'<leader>ft'   used in todo-commenpickers
+    { '<leader>fT',  pickers.treesitter             ('  Treesitter symbols'   ), desc = ' [T]reesitter Symbols'      },
+    --'<leader>fu'
+    --'<leader>fv'
+    { '<leader>fw',  pickers.selection              (--[[dynamic]])             , desc = ' [w]word under cursor'      },
+    { '<leader>fw',  pickers.selection              (--[[dynamic]]),        'v' , desc = ' visual [s]election'        },
+    --'<leader>fx'
+    --'<leader>fy'
+    { '<leader>fz',  pickers.spell_suggest          ('󰓆  Spelling suggestions') , desc = ' [z] spell suggestions'     },
+    { '<leader>f.',  pickers.dotfiles               ('  Dotfiles'            ) , desc = ' [.]dotfiles'               },
+    { '<leader>f:',  pickers.command_history        ('  Command history'     ) , desc = ' [:]command history'        },
+    { '<leader>f?',  pickers.commands               ('  Commands'            ) , desc = ' commands [?]'              },
+    { '<leader>f/',  pickers.search_history         ('  Search history'      ) , desc = ' [/]search history'         },
+    { '<leader>f<leader>', pickers.resume           ('󰐎  Resume'              ) , desc = ' Resume '                   },
+  },
 
   fugitive = {
     { '<leader>gg', ':Git ' },

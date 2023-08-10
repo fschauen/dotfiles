@@ -1,7 +1,5 @@
 M = {}
 
-M.prefix = '<leader>f'
-
 local builtin = function() return require('telescope.builtin') end
 local actions = function() return require('telescope.actions') end
 local layout  = function() return require('telescope.actions.layout') end
