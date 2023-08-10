@@ -137,6 +137,13 @@ local keymap = {
   undotree = {
     { '<leader>u', '<cmd>UndotreeToggle<cr>' },
   },
+
+  whitespace ={
+    { '<leader>ww', '<cmd>ToggleWhitespace<cr>' },
+    { '<leader>wj', '<cmd>NextTrailingWhitespace<cr>' },
+    { '<leader>wk', '<cmd>PrevTrailingWhitespace<cr>' },
+    { '<leader>wd', '<cmd>StripWhitespace<cr>' },
+  },
 }
 
 M.setup = function()
