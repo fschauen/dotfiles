@@ -1,22 +1,28 @@
+local repeat_mapping = function(value, keys)
+    local tbl = {}
+    for _, k in ipairs(keys) do tbl[k] = value end
+    return tbl
+end
+
+local transform_keymap = function(mappings, modes)
+  modes = modes or 'n'
+  modes = type(modes) == 'table' and modes or { modes }
+  local tbl = {}
+  for lhs, rhs in pairs(mappings) do
+    tbl[lhs] = repeat_mapping(rhs, modes)
+  end
+  return tbl
+end
+
+local cond = function(condition, yes, no)
+  return function(fallback)
+    if condition() then yes(fallback) else no(fallback) end
+  end
+end
+
 local config = function()
   local cmp = require 'cmp'
   local map = cmp.mapping
-
-  local fs = require 'fschauen'
-  local flip, partial = fs.flip, fs.partial
-
-  -- assign('i',        { key = func, ... }) == { key = { i = func }, ... }
-  -- assign({'i', 'c'}, { key = func, ... }) == { key = { i = func, c = func }, ...}
-  local assign_keymap = function(modes, keymap)
-    modes = type(modes) == 'table' and modes or { modes }
-    return vim.tbl_map(partial(flip(map), modes), keymap)
-  end
-
-  local cond = function(condition, yes, no)
-    return function(fallback)
-      if condition() then yes(fallback) else no(fallback) end
-    end
-  end
 
   local keymap = {
     ['<c-n>']    = cond(cmp.visible,
@@ -42,7 +48,7 @@ local config = function()
   }
 
   cmp.setup {
-    mapping = assign_keymap('i', keymap),
+    mapping = transform_keymap(keymap, 'i'),
 
     enabled = function()
       local c = require 'cmp.config.context'
@@ -128,9 +134,11 @@ local config = function()
   }
 
   cmp.setup.cmdline(':', {
-    mapping = assign_keymap('c', vim.tbl_extend('force', keymap, {
-      ['<tab>'] = cond(cmp.visible, map.confirm {select = true }, map.complete()),
-    })),
+    mapping = transform_keymap(
+      vim.tbl_extend('force', keymap, {
+        ['<tab>'] = cond(cmp.visible, map.confirm {select = true }, map.complete()),
+      }),
+      'c'),
 
     completion = {
       autocomplete = false,

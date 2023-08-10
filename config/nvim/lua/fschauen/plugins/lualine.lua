@@ -56,7 +56,6 @@ local config = function()
   local window_is_wide   = window_is_at_least(80)
   local window_is_medium = window_is_at_least(50)
 
-  local fs = require 'fschauen'
   local my = {
     paste = {
       function() return '' end,
@@ -92,7 +91,7 @@ local config = function()
 
     status = {
       function()
-        local flags = fs.concat(
+        local flags = vim.list_extend(
           vim.bo.modified and {'+'} or {},
           (vim.bo.readonly or not vim.bo.modifiable) and {'RO'} or {})
         return vim.fn.join(flags, ' ')
@@ -141,8 +140,8 @@ local config = function()
 
 
   local active_sections = vim.tbl_extend('force', inactive_sections, {
-    lualine_a = fs.concat({ my.paste, my.mode }, inactive_sections.lualine_a),
-    lualine_x = fs.concat({ 'diagnostics' }, inactive_sections.lualine_x),
+    lualine_a = vim.list_extend({ my.paste, my.mode }, inactive_sections.lualine_a),
+    lualine_x = vim.list_extend({ 'diagnostics' }, inactive_sections.lualine_x),
   })
 
   require('lualine').setup {

@@ -78,6 +78,13 @@ return {
     require('telescope').setup(opts)
     require('telescope').load_extension 'fzf'
     require('telescope').load_extension 'file_browser'
+
+    vim.api.nvim_create_autocmd('User', {
+      desc = 'Enable line number in Telescope previewers.',
+      group = vim.api.nvim_create_augroup('fschauen.telescope', { clear = true } ),
+      pattern = 'TelescopePreviewerLoaded',
+      command = 'setlocal number'
+    })
   end
 }
 
