@@ -121,7 +121,7 @@ local keymap = {
     { '<leader>fR',  pickers.registers              ('󱓥  Registers'            ), desc = ' [R]registers'              },
     { '<leader>fs',  pickers.lsp_document_symbols   ('󰫧  Document Symbols '    ), desc = ' lsp document [s]ymbols'    },
     { '<leader>fS',  pickers.lsp_workspace_symbols  ('󱄑  Workspace Symbols '   ), desc = ' lsp workspace [S]ymbols'   },
-    --'<leader>ft'   used in todo-commenpickers
+    --'<leader>ft'   used in todo_comments below
     { '<leader>fT',  pickers.treesitter             ('  Treesitter symbols'   ), desc = ' [T]reesitter Symbols'      },
     --'<leader>fu'
     --'<leader>fv'
@@ -135,6 +135,10 @@ local keymap = {
     { '<leader>f?',  pickers.commands               ('  Commands'            ) , desc = ' commands [?]'              },
     { '<leader>f/',  pickers.search_history         ('  Search history'      ) , desc = ' [/]search history'         },
     { '<leader>f<leader>', pickers.resume           ('󰐎  Resume'              ) , desc = ' Resume '                   },
+  },
+
+  todo_comments = {
+    { '<leader>ft', '<cmd>TodoTelescope<cr>' },
   },
 
   fugitive = {

@@ -1,18 +1,23 @@
-local prefix = require('fschauen.telescope').prefix or '<leader>f'
-
 return {
   'folke/todo-comments.nvim',
-
   dependencies = {
     'nvim-lua/plenary.nvim'
   },
-  config = true,
+  keys = require('fschauen.keymap').todo_comments,
   event = {
     'BufReadPost',
     'BufNewFile'
   },
-  keys = {
-    { prefix .. 't', '<cmd>TodoTelescope<cr>' },
+  opts = {
+    keywords = {
+      TODO = { icon = '󰄬 ' },
+      FIX  = { icon = ' ' },
+      HACK = { icon = ' ' },
+      WARN = { icon = ' ' },
+      PERF = { icon = '󰓅 ' },
+      NOTE = { icon = '' },
+      TEST = { icon = '󰙨 ' },
+    },
   },
 }
 
