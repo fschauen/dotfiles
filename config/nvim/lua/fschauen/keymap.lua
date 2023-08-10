@@ -140,6 +140,10 @@ local keymap = {
     { '<leader>sc', toggle_colorcolumn, desc = 'Toggle virtual colunn' },
   },
 
+  indent_blankline = {
+    { '<leader>si', '<cmd>IndentBlanklineToggle<cr>' },
+  },
+
   treesitter = {
     { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
     { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
