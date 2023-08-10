@@ -13,6 +13,14 @@ local toggle_relativenumber = function()
   vim.wo.number = vim.wo.relativenumber or vim.wo.number
 end
 
+local toggle_colorcolumn = function()
+  if vim.o.colorcolumn == '' then
+    vim.o.colorcolumn = '+1'  -- one after 'textwidth'
+  else
+    vim.o.colorcolumn = ''    -- none
+  end
+end
+
 local keymap = {
   -- better navigation for wrapped lines
   { 'j', 'gj' },
@@ -127,6 +135,10 @@ local keymap = {
   { '<leader>sl', '<cmd>set list!  | set list?<CR>' },
   { '<leader>sw', '<cmd>set wrap!  | set wrap?<CR>' },
   { '<leader>ss', '<cmd>set spell! | set spell?<CR>' },
+
+  virt_column = {
+    { '<leader>sc', toggle_colorcolumn, desc = 'Toggle virtual colunn' },
+  },
 
   treesitter = {
     { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
