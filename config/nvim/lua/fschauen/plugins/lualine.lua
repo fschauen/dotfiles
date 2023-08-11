@@ -1,41 +1,23 @@
 local config = function()
-  local MODE_MAP = {
-    ['n']    = 'Normal ',
-    ['no']   = 'O-Pend ',
-    ['nov']  = 'O-Pend ',
-    ['noV']  = 'O-Pend ',
-    ['no'] = 'O-Pend ',
-    ['niI']  = 'Normal ',
-    ['niR']  = 'Normal ',
-    ['niV']  = 'Normal ',
-    ['nt']   = 'Normal ',
-    ['ntT']  = 'Normal*',
-    ['v']    = 'Visual ',
-    ['vs']   = 'Visual ',
-    ['V']    = 'V-Line ',
-    ['Vs']   = 'V-Line ',
-    ['']   = 'V-Block',
-    ['s']  = 'V-Block',
-    ['s']    = 'Select ',
-    ['S']    = 'S-Line ',
-    ['']   = 'S-Block',
-    ['i']    = 'Insert ',
-    ['ic']   = 'Insert ',
-    ['ix']   = 'Insert ',
-    ['R']    = 'Replace',
-    ['Rc']   = 'Replace',
-    ['Rx']   = 'Replace',
-    ['Rv']   = 'V-Repl ',
-    ['Rvc']  = 'V-Repl ',
-    ['Rvx']  = 'V-Repl ',
-    ['c']    = 'Command',
-    ['cv']   = '  Ex   ',
-    ['ce']   = '  Ex   ',
-    ['r']    = 'Replace',
-    ['rm']   = ' More  ',
-    ['r?']   = 'Confirm',
-    ['!']    = ' Shell ',
-    ['t']    = ' Term  ',
+  local MODES = {
+    ['n']  = 'Normal ', -- Normal
+    ['no'] = 'O-Pend ', -- Operator-pending
+    ['ni'] = 'Normal ', -- Normal via i_CTRL-O
+    ['v']  = 'Visual ', -- Visual by character
+    ['V']  = 'V-Line ', -- Visual by line
+    [''] = 'V-Block', -- Visual blockwise
+    ['s']  = 'Select ', -- Select by character
+    ['S']  = 'S-Line ', -- Select by line
+    [''] = 'S-Block', -- Select blockwise
+    ['i']  = 'Insert ', -- Insert
+    ['R']  = 'Replace', -- Replace
+    ['Rv'] = 'V-Repl ', -- Virtual Replace
+    ['c']  = 'Command', -- Command-line
+    ['cv'] = '  Ex   ', -- Ex mode
+    ['rm'] = ' More  ', -- -- MORE --
+    ['r?'] = 'Confirm', -- :confirm
+    ['!']  = ' Shell ', -- External command executing
+    ['t']  = ' Term  ', -- Terminal
   }
 
   local extend = function(component, overrides)
@@ -70,7 +52,7 @@ local config = function()
     mode = {
       function()
         local code = vim.api.nvim_get_mode().mode
-        return MODE_MAP[code] or code
+        return MODES[code:sub(1, 2):lower()] or MODES[code:sub(1, 1):lower()] or code
       end,
     },
 
