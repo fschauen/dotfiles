@@ -92,10 +92,13 @@ local keymap = {
     { '<leader>do', diagnostic.open_float },
     { '<leader>dh', diagnostic.hide },
 
+  telescope_file_browser = {
+    { '<leader>fB', '<cmd>Telescope file_browser<cr>' , desc = ' file [B]rowser' },
+  },
+
   telescope = {
     { '<leader>fa',  pickers.autocommands           ('  Autocommands'         ), desc = ' [a]utocommands'            },
     { '<leader>fb',  pickers.buffers                ('  Buffers'              ), desc = ' [b]uffers'                 },
-    { '<leader>fB', '<cmd>Telescope file_browser<cr>'                           , desc = ' file [B]rowser'            },
     { '<leader>fc',  pickers.colorscheme            ('  Colorschemes'         ), desc = ' [c]olorschemes'            },
     { '<leader>fdd', pickers.diagnostics            ('󰀪  Document Diagnostics' ), desc = ' [d]iagnostics [d]ocument'  },
     { '<leader>fdw', pickers.diagnostics            ('󰀪  Workspace Diagnostics'), desc = ' [d]iagnostics [w]orkspace' },
