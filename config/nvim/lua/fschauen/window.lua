@@ -1,4 +1,18 @@
-M = {}
+local M = {}
+
+---Determine whether the window is wide.
+---@param win_nr integer|nil: window number or window-ID, 0 for current window.
+---@return boolean
+M.is_wide = function(win_nr)
+  return vim.fn.winwidth(win_nr or 0) > 80
+end
+
+---Determine whether the window is medium.
+---@param win_nr integer|nil: window number or window-ID, 0 for current window.
+---@return boolean
+M.is_medium = function(win_nr)
+  return vim.fn.winwidth(win_nr or 0) > 50
+end
 
 ---Whether the current window is the last in a given direction.
 ---@param direction string: one of 'h', 'j', 'k', or 'l'
