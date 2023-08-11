@@ -24,15 +24,13 @@ local config = function()
     end
   end
 
-  local extend = function(component, overrides)
+  local colored_when_focused = function(component)
     local new = require(component):extend()
-    for k, v in pairs(overrides) do new[k] = v end
+    function new:update_status(is_focused)
+      self.options.colored = is_focused
+      return self.super.update_status(self, is_focused)
+    end
     return new
-  end
-
-  local udpate_with_color = function(self, is_focused)
-    self.options.colored = is_focused
-    return self.super.update_status(self, is_focused)
   end
 
   local window_is_at_least = function(width)
@@ -51,7 +49,7 @@ local config = function()
       end
     },
 
-    diff = extend('lualine.components.diff', { update_status = udpate_with_color }),
+    diff = colored_when_focused('lualine.components.diff'),
 
     mode = { get_mode_icon() },
 
@@ -100,7 +98,7 @@ local config = function()
     },
 
     filetype = {
-      extend('lualine.components.filetype', { update_status = udpate_with_color }),
+      colored_when_focused('lualine.components.filetype'),
       cond = window_is_medium,
     },
 
