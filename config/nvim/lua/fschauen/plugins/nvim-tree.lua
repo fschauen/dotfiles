@@ -36,8 +36,34 @@ return {
     },
     renderer = {
       add_trailing = true,  -- add trailing / to folders
-      group_empty = true,   -- folders that contain only one folder are grouped
       highlight_git = true, -- enable highlight based on git attributes
+      icons = {
+        git_placement = 'after',
+        glyphs = {
+          default = '',
+          symlink = '',
+          modified = '●',
+          folder = {
+            arrow_closed = '',   --     
+            arrow_open = '',     --     
+            default = '',        --   
+            open = '',           --   
+            empty = '',
+            empty_open = '',
+            symlink = '',
+            symlink_open = '',
+          },
+          git = {
+            untracked = '?',      -- ★
+            unstaged = '✶',       -- ✗
+            staged = '',         -- ✓
+            deleted = '',
+            unmerged = '',
+            renamed = '➜',
+            ignored = '◌',
+          },
+        },
+      },
     },
   },
 }
