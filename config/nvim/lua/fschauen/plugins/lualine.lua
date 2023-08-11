@@ -1,22 +1,28 @@
 local config = function()
-  local MODES = {
-    ['n']  = '  ',  -- 'Normal ', -- Normal
-    ['no'] = '  ',  -- 'O-Pend ', -- Operator-pending
-    ['ni'] = '  ',  -- 'Normal ', -- Normal via i_CTRL-O
-    ['v']  = ' 󰒉 ',  -- 'Visual ', -- Visual by character
-    [''] = ' 󰩭 ',  -- 'V-Block', -- Visual blockwise
-    ['s']  = ' 󰒉 ',  -- 'Select ', -- Select by character
-    [''] = ' 󰩭 ',  -- 'S-Block', -- Select blockwise
-    ['i']  = '  ',  -- 'Insert ', -- Insert
-    ['r']  = ' 󰄾 ',  -- 'Replace', -- Replace
-    ['rv'] = ' 󰶻 ',  -- 'V-Repl ', -- Virtual Replace
-    ['c']  = '  ',  -- 'Command', -- Command-line
-    ['cv'] = '  ',  -- '  Ex   ', -- Ex mode
-    ['rm'] = '  ',  -- ' More  ', -- -- MORE --
-    ['r?'] = ' 󰭚 ',  -- 'Confirm', -- :confirm
-    ['!']  = '  ',  -- ' Shell ', -- External command executing
-    ['t']  = '  ',  -- ' Term  ', -- Terminal
-  }
+  local get_mode_icon = function()
+    local MODES = {
+      ['n']  = '  ',  -- 'Normal ', -- Normal
+      ['no'] = '  ',  -- 'O-Pend ', -- Operator-pending
+      ['ni'] = '  ',  -- 'Normal ', -- Normal via i_CTRL-O
+      ['v']  = ' 󰒉 ',  -- 'Visual ', -- Visual by character
+      [''] = ' 󰩭 ',  -- 'V-Block', -- Visual blockwise
+      ['s']  = ' 󰒉 ',  -- 'Select ', -- Select by character
+      [''] = ' 󰩭 ',  -- 'S-Block', -- Select blockwise
+      ['i']  = '  ',  -- 'Insert ', -- Insert
+      ['r']  = ' 󰄾 ',  -- 'Replace', -- Replace
+      ['rv'] = ' 󰶻 ',  -- 'V-Repl ', -- Virtual Replace
+      ['c']  = '  ',  -- 'Command', -- Command-line
+      ['cv'] = '  ',  -- '  Ex   ', -- Ex mode
+      ['rm'] = '  ',  -- ' More  ', -- -- MORE --
+      ['r?'] = ' 󰭚 ',  -- 'Confirm', -- :confirm
+      ['!']  = '  ',  -- ' Shell ', -- External command executing
+      ['t']  = '  ',  -- ' Term  ', -- Terminal
+    }
+    return function()
+      local code = vim.api.nvim_get_mode().mode
+      return MODES[code:sub(1, 2):lower()] or MODES[code:sub(1, 1):lower()] or code
+    end
+  end
 
   local extend = function(component, overrides)
     local new = require(component):extend()
@@ -47,12 +53,7 @@ local config = function()
 
     diff = extend('lualine.components.diff', { update_status = udpate_with_color }),
 
-    mode = {
-      function()
-        local code = vim.api.nvim_get_mode().mode
-        return MODES[code:sub(1, 2):lower()] or MODES[code:sub(1, 1):lower()] or code
-      end,
-    },
+    mode = { get_mode_icon() },
 
     visual_multi = function()
       local info = vim.F.npcall(vim.fn.VMInfos)
