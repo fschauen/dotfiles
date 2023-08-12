@@ -1,134 +1,100 @@
-local M = {}
+local filename = require('lualine.component'):extend()
 
-local window = require('fschauen.window')
+function filename:init(options)
+  filename.super.init(self, options)
 
-local colored_when_focused = function(component)
-  local new = require(component):extend()
-  function new:update_status(is_focused)
-    self.options.colored = is_focused
-    return self.super.update_status(self, is_focused)
-  end
-  return new
+  local color = options.color or {}
+  local modified = { gui = 'italic' }
+
+  self.custom_highlights = {   -- [is_focused, modified]
+    [true] = {
+      [true]  = self:create_hl(vim.tbl_extend('force', color, modified), 'focus_modified'),
+      [false] = self:create_hl(color, 'focus'),
+    },
+    [false] = {
+      [true]  = self:create_hl(modified, 'nofocus_modified'),
+      [false] = self:create_hl({}, 'nofocus'),
+    },
+  }
 end
 
-local diagnostics = colored_when_focused('lualine.components.diagnostics')
+function filename:update_status(is_focused)
+  self.options.color_highlight = self.custom_highlights[is_focused][vim.bo.modified]
 
-local branch = {
-  'branch',
-  icon = '',
-  cond = window.is_medium,
-}
+  local window = require 'fschauen.window'
+  local path = vim.fn.expand('%:~:.')
 
-local fileformat = {
-  'fileformat',
-  cond = window.is_medium,
-}
-
-local filename = {
-  function()
-    local shorten_path = function(path)
-      if window.is_wide() then
-        return path
-      elseif window.is_medium() then
-        return vim.fn.pathshorten(path)         -- only first letter of directories
-      else
-        return vim.fn.fnamemodify(path, ':t')   -- only tail
-      end
-    end
-
-    return shorten_path(vim.fn.expand('%:~:.'))
-  end,
-
-  padding = { left = 1, right = 0 },
-}
-
-local filetype = {
-  colored_when_focused('lualine.components.filetype'),
-  cond = window.is_medium,
-}
-
-local mode = {
-  (function()
-    local MODES = {
-      ['n']  = '  ', -- 'Normal ', -- Normal
-      ['no'] = '  ', -- 'O-Pend ', -- Operator-pending
-      ['ni'] = '  ', -- 'Normal ', -- Normal via i_CTRL-O
-      ['v']  = ' 󰒉 ', -- 'Visual ', -- Visual by character
-      ['']  = ' 󰩭 ', -- 'V-Block', -- Visual blockwise
-      ['s']  = ' 󰒉 ', -- 'Select ', -- Select by character
-      ['']  = ' 󰩭 ', -- 'S-Block', -- Select blockwise
-      ['i']  = '  ', -- 'Insert ', -- Insert
-      ['r']  = ' 󰄾 ', -- 'Replace', -- Replace
-      ['rv'] = ' 󰶻 ', -- 'V-Repl ', -- Virtual Replace
-      ['c']  = '  ', -- 'Command', -- Command-line
-      ['cv'] = '  ', -- '  Ex   ', -- Ex mode
-      ['rm'] = '  ', -- ' More  ', -- -- MORE --
-      ['r?'] = ' 󰭚 ', -- 'Confirm', -- :confirm
-      ['!']  = '  ', -- ' Shell ', -- External command executing
-      ['t']  = '  ', -- ' Term  ', -- Terminal
-    }
-    return function()
-      local code = vim.api.nvim_get_mode().mode
-      return MODES[code:sub(1, 2):lower()] or MODES[code:sub(1, 1):lower()] or code
-    end
-  end)()
-}
-
-local mode_placeholder = {
-  function()
-    return ' 󰒲 '
-  end
-}
-
-local paste = {
-  function() return '' end,
-  color = { bg = '#fe8019' },
-  cond = function() return vim.opt.paste:get() end
-}
-
-local paste_placeholder = {
-  function() return ' ' end,
-  cond = function() return vim.opt.paste:get() end
-}
-
-local status = {
-  function()
-    local flags = vim.list_extend(
-      vim.bo.modified and { '✶' } or {},
-      (vim.bo.readonly or not vim.bo.modifiable) and { 'RO' } or {})
-    return vim.fn.join(flags, ' ')
-  end,
-
-  color = {
-    fg = '#f9f5d7',
-    gui = 'bold',
-  },
-}
-
-local visual_multi = function()
-  local info = vim.F.npcall(vim.fn.VMInfos)
-  if info and info.status then
-    return info.current .. '/' .. info.total .. ' ' .. info.status
+  if window.is_wide() then
+    return path
+  elseif window.is_medium() then
+    return vim.fn.pathshorten(path)         -- only first letter of directories
   else
-    return ''
+    return vim.fn.fnamemodify(path, ':t')   -- only tail
   end
 end
 
-local default = {
-  lualine_a = { paste_placeholder, mode_placeholder },
-  lualine_b = { visual_multi, branch },
-  lualine_c = { filename, status },
-  lualine_x = { diagnostics, filetype },
-  lualine_y = { fileformat, 'progress' },
-  lualine_z = { 'location' },
+
+local mode = require('lualine.component'):extend()
+
+mode.map = {
+  ['n']  = '', -- 'Normal ', -- Normal
+  ['no'] = '', -- 'O-Pend ', -- Operator-pending
+  ['ni'] = '', -- 'Normal ', -- Normal via i_CTRL-O
+  ['v']  = '󰒉', -- 'Visual ', -- Visual by character
+  [''] = '󰩭', -- 'V-Block', -- Visual blockwise
+  ['s']  = '󰒉', -- 'Select ', -- Select by character
+  [''] = '󰩭', -- 'S-Block', -- Select blockwise
+  ['i']  = '', -- 'Insert ', -- Insert
+  ['r']  = '󰄾', -- 'Replace', -- Replace
+  ['rv'] = '󰶻', -- 'V-Repl ', -- Virtual Replace
+  ['c']  = '', -- 'Command', -- Command-line
+  ['cv'] = '', -- '  Ex   ', -- Ex mode
+  ['rm'] = '', -- ' modeore  ', -- -- modeORE --
+  ['r?'] = '󰭚', -- 'Confirm', -- :confirm
+  ['!']  = '', -- ' Shell ', -- External command executing
+  ['t']  = '', -- ' Term  ', -- Terminal
 }
 
-M.sections = {
-  inactive = default,
-  active = vim.tbl_extend('force', default, {
-    lualine_a = { paste, mode },
-  })
-}
+function mode:update_status(is_focused)
+  if is_focused then
+    local code = vim.api.nvim_get_mode().mode:lower()
+    local symbol = mode.map[code:sub(1, 2)] or mode.map[code:sub(1, 1)] or code
+    return ' ' .. symbol .. ' '
+  end
 
-return M
+  return ' 󰒲 '
+end
+
+local colored_if_focused = function(component)
+  if type(component) == 'string' then
+    local c = require('lualine.components.' .. component):extend()
+
+    function c:update_status(is_focused)
+      self.options.colored = is_focused
+      return c.super.update_status(self, is_focused)
+    end
+
+    return c
+  elseif type(component) == 'function' then
+    local c = require('lualine.component'):extend()
+
+    function c:init(options)
+      c.super.init(self, options)
+      self.saved_hl = self.options.color_highlight
+    end
+
+    function c:update_status(is_focused)
+      self.options.color_highlight = is_focused and self.saved_hl or nil
+      return component(is_focused)
+    end
+
+    return c
+  end
+end
+
+return {
+  colored_if_focused = colored_if_focused,
+  filename = filename,
+  mode = mode,
+}
 

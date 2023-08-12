@@ -6,3 +6,14 @@ return {
   end,
 }
 
+
+-- Component for lualine:
+--  function()
+--    local info = vim.F.npcall(vim.fn.VMInfos)
+--    if info and info.status then
+--      return info.current .. '/' .. info.total .. ' ' .. info.status
+--    else
+--      return ''
+--    end
+--  end,
+
