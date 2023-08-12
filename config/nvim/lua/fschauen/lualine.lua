@@ -1,7 +1,9 @@
-local filename = require('lualine.component'):extend()
+local M = {}
 
-function filename:init(options)
-  filename.super.init(self, options)
+M.filename = require('lualine.component'):extend()
+
+function M.filename:init(options)
+  M.filename.super.init(self, options)
 
   local color = options.color or {}
   local modified = { gui = 'italic' }
@@ -18,7 +20,7 @@ function filename:init(options)
   }
 end
 
-function filename:update_status(is_focused)
+function M.filename:update_status(is_focused)
   self.options.color_highlight = self.custom_highlights[is_focused][vim.bo.modified]
 
   local window = require 'fschauen.window'
@@ -34,9 +36,9 @@ function filename:update_status(is_focused)
 end
 
 
-local mode = require('lualine.component'):extend()
+M.mode = require('lualine.component'):extend()
 
-mode.map = {
+M.mode.map = {
   ['n']  = '', -- 'Normal ', -- Normal
   ['no'] = '', -- 'O-Pend ', -- Operator-pending
   ['ni'] = '', -- 'Normal ', -- Normal via i_CTRL-O
@@ -55,17 +57,17 @@ mode.map = {
   ['t']  = '', -- ' Term  ', -- Terminal
 }
 
-function mode:update_status(is_focused)
+function M.mode:update_status(is_focused)
   if is_focused then
     local code = vim.api.nvim_get_mode().mode:lower()
-    local symbol = mode.map[code:sub(1, 2)] or mode.map[code:sub(1, 1)] or code
+    local symbol = M.mode.map[code:sub(1, 2)] or M.mode.map[code:sub(1, 1)] or code
     return ' ' .. symbol .. ' '
   end
 
   return ' 󰒲 '
 end
 
-local trailing_whitespace = function()
+M.trailing_whitespace = function()
   local pattern = [[\s\+$]]
   local lineno = vim.fn.search(pattern, 'nwc')
   if lineno == 0 then
@@ -82,7 +84,7 @@ local trailing_whitespace = function()
   return result
 end
 
-local colored_if_focused = function(component)
+M.colored_if_focused = function(component)
   if type(component) == 'string' then
     local c = require('lualine.components.' .. component):extend()
 
@@ -109,10 +111,5 @@ local colored_if_focused = function(component)
   end
 end
 
-return {
-  colored_if_focused = colored_if_focused,
-  filename = filename,
-  mode = mode,
-  trailing_whitespace = trailing_whitespace,
-}
+return M
 
