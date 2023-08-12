@@ -10,6 +10,10 @@ return {
     }
   end,
   keys = require('fschauen.keymap').whitespace,
+  event = {
+    'BufReadPost',
+    'BufNewFile'
+  },
   config = false,
 }
 
