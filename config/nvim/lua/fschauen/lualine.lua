@@ -65,6 +65,23 @@ function mode:update_status(is_focused)
   return ' 󰒲 '
 end
 
+local trailing_whitespace = function()
+  local pattern = [[\s\+$]]
+  local lineno = vim.fn.search(pattern, 'nwc')
+  if lineno == 0 then
+    return ''
+  end
+
+  local result = '·' .. lineno
+
+  local info = vim.fn.searchcount { pattern = pattern }
+  if info.total then
+    result = result .. string.format(' Σ%d', info.total)
+  end
+
+  return result
+end
+
 local colored_if_focused = function(component)
   if type(component) == 'string' then
     local c = require('lualine.components.' .. component):extend()
@@ -96,5 +113,6 @@ return {
   colored_if_focused = colored_if_focused,
   filename = filename,
   mode = mode,
+  trailing_whitespace = trailing_whitespace,
 }
 

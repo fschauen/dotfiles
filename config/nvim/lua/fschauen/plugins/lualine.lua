@@ -56,6 +56,12 @@ return {
           fg = '#f9f5d7',
         },
       },
+      trailing_whitespace = {
+        colored_if_focused(require('fschauen.lualine').trailing_whitespace),
+        color = {
+          bg = orange,
+        },
+      }
     }
 
     local sections = {
@@ -64,7 +70,7 @@ return {
       lualine_c = { C.filename, C.status },
       lualine_x = { C.diagnostics, C.filetype },
       lualine_y = { C.fileformat, 'progress' },
-      lualine_z = { 'location' },
+      lualine_z = { 'location', C.trailing_whitespace },
     }
 
     require('lualine').setup {
