@@ -11,7 +11,7 @@ local colored_when_focused = function(component)
   return new
 end
 
-local diff = colored_when_focused('lualine.components.diff')
+local diagnostics = colored_when_focused('lualine.components.diagnostics')
 
 local branch = {
   'branch',
@@ -74,23 +74,34 @@ local mode = {
   end)()
 }
 
+local mode_placeholder = {
+  function()
+    return ' 󰒲 '
+  end
+}
+
 local paste = {
   function() return '' end,
   color = { bg = '#fe8019' },
   cond = function() return vim.opt.paste:get() end
 }
 
+local paste_placeholder = {
+  function() return ' ' end,
+  cond = function() return vim.opt.paste:get() end
+}
+
 local status = {
   function()
     local flags = vim.list_extend(
-      vim.bo.modified and { '+' } or {},
+      vim.bo.modified and { '✶' } or {},
       (vim.bo.readonly or not vim.bo.modifiable) and { 'RO' } or {})
     return vim.fn.join(flags, ' ')
   end,
 
   color = {
-    fg = '#eee8d5',
-    gui = 'bold'
+    fg = '#f9f5d7',
+    gui = 'bold',
   },
 }
 
@@ -104,10 +115,10 @@ local visual_multi = function()
 end
 
 local default = {
-  lualine_a = {},
+  lualine_a = { paste_placeholder, mode_placeholder },
   lualine_b = { visual_multi, branch },
-  lualine_c = { diff, filename, status },
-  lualine_x = { filetype },
+  lualine_c = { filename, status },
+  lualine_x = { diagnostics, filetype },
   lualine_y = { fileformat, 'progress' },
   lualine_z = { 'location' },
 }
@@ -115,8 +126,7 @@ local default = {
 M.sections = {
   inactive = default,
   active = vim.tbl_extend('force', default, {
-    lualine_a = vim.list_extend({ paste, mode }, default.lualine_a),
-    lualine_x = vim.list_extend({ 'diagnostics' }, default.lualine_x),
+    lualine_a = { paste, mode },
   })
 }
 
