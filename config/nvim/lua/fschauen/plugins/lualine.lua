@@ -1,3 +1,6 @@
+local orange = '#d65d0e'
+local bright = '#ffffff'  -- alternative: '#f9f5d7'
+
 return {
   'nvim-lualine/lualine.nvim',
   config = function()
@@ -41,7 +44,7 @@ return {
       paste = {
         colored_if_focused(function(has_focus) return has_focus and '' or ' ' end),
         color = {
-          bg = '#fe8019',
+          bg = orange,
         },
         cond = function() return vim.o.paste end
       },
@@ -53,7 +56,7 @@ return {
           return status
         end),
         color = {
-          fg = '#f9f5d7',
+          fg = bright,
         },
       },
       trailing_whitespace = {
