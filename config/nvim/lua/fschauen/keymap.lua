@@ -3,6 +3,7 @@ local M = {}
 local diagnostic = require 'fschauen.diagnostic'
 local window = require 'fschauen.window'
 local pick = require('fschauen.telescope').pickers
+local completion = require 'fschauen.completion'
 
 local toggle_number = function()
   vim.wo.number = not vim.wo.number
@@ -81,6 +82,21 @@ local keymap = {
   -- recall older/recent command-line from history
     { '<c-j>', '<down>', mode = 'c' },
     { '<c-k>', '<up>',   mode = 'c' },
+
+  completion = {
+    {'<c-n>'    , completion.select_next_or_complete,  mode = { 'i', 'c' }, desc = '󰁨 Complete: select next'},
+    {'<c-p>'    , completion.select_prev_or_complete,  mode = { 'i', 'c' }, desc = '󰁨 Complete: select previous'},
+    {'<down>'   , completion.select_next_item,         mode = { 'i', 'c' }, desc = '󰁨 Complete: select next'},
+    {'<up>'     , completion.select_prev_item,         mode = { 'i', 'c' }, desc = '󰁨 Complete: select previous'},
+
+    {'<c-f>'    , completion.scroll_docs(-3),          mode = { 'i', 'c' }, desc = '󰁨 Complete: scroll docs down'},
+    {'<s-down>' , completion.scroll_docs(-3),          mode = { 'i', 'c' }, desc = '󰁨 Complete: scroll docs down'},
+    {'<c-b>'    , completion.scroll_docs( 3),          mode = { 'i', 'c' }, desc = '󰁨 Complete: scroll docs up'},
+    {'<s-up>'   , completion.scroll_docs( 3),          mode = { 'i', 'c' }, desc = '󰁨 Complete: scroll docs up'},
+
+    {'<c-e>'    , completion.abort,                    mode = { 'i', 'c' }, desc = '󰁨 Complete: abort'},
+    {'<c-y>'    , completion.confirm,                  mode = { 'i', 'c' }, desc = '󰁨 Complete: confirm'},
+  },
 
   -- quickly change background
     { '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]] },
