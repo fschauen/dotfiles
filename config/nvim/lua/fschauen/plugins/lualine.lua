@@ -48,6 +48,7 @@ return {
         },
         cond = function() return vim.o.paste end
       },
+      searchcount = require('fschauen.lualine').searchcount,
       status = {
         colored_if_focused(function(_)
           local status = ''
@@ -71,7 +72,7 @@ return {
       lualine_a = { C.paste, C.mode },
       lualine_b = { C.branch },
       lualine_c = { C.filename, C.status },
-      lualine_x = { C.diagnostics, C.filetype },
+      lualine_x = { C.diagnostics, C.searchcount, C.filetype },
       lualine_y = { C.fileformat, 'progress' },
       lualine_z = { 'location', C.trailing_whitespace },
     }

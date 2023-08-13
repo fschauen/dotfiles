@@ -1,5 +1,7 @@
 local M = {}
 
+-- filename component
+
 M.filename = require('lualine.component'):extend()
 
 function M.filename:init(options)
@@ -35,6 +37,7 @@ function M.filename:update_status(is_focused)
   end
 end
 
+-- mode component
 
 M.mode = require('lualine.component'):extend()
 
@@ -67,6 +70,37 @@ function M.mode:update_status(is_focused)
   return ' 󰒲 '
 end
 
+-- searchcount component
+
+M.searchcount = require('lualine.component'):extend()
+
+function M.searchcount:init(options)
+  M.searchcount.super.init(self, options)
+  self.options = vim.tbl_extend('keep', self.options or {}, {
+    maxcount = 999,
+    timeout = 250,
+  })
+end
+
+function M.searchcount:update_status()
+  if vim.v.hlsearch == 0 then
+    return ''
+  end
+
+  local count = vim.fn.searchcount {
+    maxcount = self.options.maxcount,
+    timeout = self.options.timeout
+  }
+  if next(count) == nil then
+    return ''
+  end
+
+  local denominator = count.total > count.maxcount and '' or string.format('%d', count.total)
+  return string.format(' %d/%s', count.current, denominator)
+end
+
+-- trailing_whitespace component
+
 M.trailing_whitespace = function()
   local pattern = [[\s\+$]]
   local lineno = vim.fn.search(pattern, 'nwc')
@@ -83,6 +117,8 @@ M.trailing_whitespace = function()
 
   return result
 end
+
+-- modifier to color component when window is in focus
 
 M.colored_if_focused = function(component)
   if type(component) == 'string' then
