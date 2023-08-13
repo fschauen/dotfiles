@@ -1,13 +1,10 @@
 M = {}
 
-local builtin = function() return require('telescope.builtin') end
-
-local config_builtin = function(picker, opts)
+local builtin = function(picker, opts)
   return function(title)
     return function()
-      opts = opts or {}
-      local args = vim.tbl_extend('keep', { prompt_title = title }, opts)
-      builtin()[picker](args)
+      local args = vim.tbl_extend('keep', { prompt_title = title }, opts or {})
+      return require('telescope.builtin')[picker](args)
     end
   end
 end
@@ -35,36 +32,36 @@ local get_selected_text = function()
 end
 
 M.pickers = setmetatable({
-  all_files = config_builtin('find_files', {
+  all_files = builtin('find_files', {
     hidden = true,
     no_ignore = true,
     no_ignore_parent = true,
   }),
-  colorscheme = config_builtin('colorscheme', {
+  colorscheme = builtin('colorscheme', {
     enable_preview = true,
   }),
-  diagnostics = config_builtin('diagnostics', {
+  diagnostics = builtin('diagnostics', {
     bufnr = 0
   }),
-  dotfiles = config_builtin('find_files', {
+  dotfiles = builtin('find_files', {
     cwd = '~/.dotfiles',
     hidden = true,
   }),
-  selection = function(_)
+  selection = function(title)
     return function()
       local text = get_selected_text()
-      builtin().grep_string {
-        prompt_title = string.format('    Grep: %s   ', text),
+      return require('telescope.builtin').grep_string {
+        prompt_title = string.format(title .. ': %s  ', text),
         search = text,
       }
     end
   end,
-  here = config_builtin('current_buffer_fuzzy_find'),
+  here = builtin('current_buffer_fuzzy_find'),
 }, {
   -- Fall back to telescope's built-in pickers if a custom one is not defined
   -- above, but make sure to keep the title we defined.
   __index = function(_, picker)
-    return config_builtin(picker)
+    return builtin(picker)
   end
 })
 
