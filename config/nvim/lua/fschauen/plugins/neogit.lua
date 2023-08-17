@@ -8,20 +8,22 @@ M.keys = {
   { '<leader>gn', '<cmd>Neogit<cr>' },
 }
 
-M.opts = {
-  disable_hint = true,
-  signs = {
-    section = { '', '' },
-    item    = { '', '' },
-    hunk    = { '', '' },
-  },
-  mappings = {
-    status = {
-      o = 'GoToFile',
-      ['='] = 'Toggle',
+M.config = function()
+  require('neogit').setup {
+    disable_hint = true,
+    signs = {
+      section = { '', '' },
+      item    = { '', '' },
+      hunk    = { '', '' },
     },
-  },
-}
+    mappings = {
+      status = {
+        o = 'GoToFile',
+        ['='] = 'Toggle',
+      },
+    },
+  }
+end
 
 return M
 

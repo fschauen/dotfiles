@@ -17,9 +17,11 @@ M.keys = {
   { '<leader>sc', toggle_colorcolumn, desc = 'Toggle virtual colunn' },
 }
 
-M.opts = {
-  char = '│',
-}
+M.config = function()
+  require('virt-column').setup {
+    char = '│',
+  }
+end
 
 return M
 

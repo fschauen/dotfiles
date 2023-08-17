@@ -118,7 +118,7 @@ M.keys = {
   { '<leader>f<leader>', pickers.resume           '󰐎  Resume'               , desc = ' Telescope Resume '                   },
 }
 
-M.opts = function()
+M.config = function()
   local actions = require('telescope.actions')
   local layout  = require('telescope.actions.layout')
   local trouble = vim.F.npcall(require, 'trouble.providers.telescope') or {}
@@ -136,7 +136,7 @@ M.opts = function()
     ['<c-b>']    = trouble.smart_open_with_trouble,
   }
 
-  return {
+  require('telescope').setup {
     defaults = {
       mappings = {
         i = mappings,
@@ -182,10 +182,7 @@ M.opts = function()
       },
     },
   }
-end
 
-M.config = function(_, opts)
-  require('telescope').setup(opts)
   require('telescope').load_extension 'fzf'
 
   vim.api.nvim_create_autocmd('User', {

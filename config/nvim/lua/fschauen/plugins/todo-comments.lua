@@ -14,17 +14,19 @@ M.keys = {
   { '<leader>ft', '<cmd>TodoTelescope<cr>' },
 }
 
-M.opts = {
-  keywords = {
-    TODO = { icon = '󰄬 ' },
-    FIX  = { icon = ' ' },
-    HACK = { icon = ' ' },
-    WARN = { icon = ' ' },
-    PERF = { icon = '󰓅 ' },
-    NOTE = { icon = '' },
-    TEST = { icon = '󰙨 ' },
-  },
-}
+M.config = function()
+  require('todo-comments').setup {
+    keywords = {
+      TODO = { icon = '󰄬 ' },
+      FIX  = { icon = ' ' },
+      HACK = { icon = ' ' },
+      WARN = { icon = ' ' },
+      PERF = { icon = '󰓅 ' },
+      NOTE = { icon = '' },
+      TEST = { icon = '󰙨 ' },
+    },
+  }
+end
 
 return M
 

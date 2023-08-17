@@ -10,10 +10,12 @@ M.keys = {
   { '<leader>ld', '<cmd>TroubleToggle document_diagnostics<cr>' },
 }
 
-M.opts = {
-  padding = false,      -- don't add an extra new line of top of the list
-  auto_preview = false, -- don't preview automatically
-}
+M.config = function()
+  require('trouble').setup {
+    padding = false,      -- don't add an extra new line of top of the list
+    auto_preview = false, -- don't preview automatically
+  }
+end
 
 return M
 
