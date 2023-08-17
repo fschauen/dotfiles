@@ -2,7 +2,6 @@ local M = {}
 
 local diagnostic = require 'fschauen.diagnostic'
 local window = require 'fschauen.window'
-local pick = require('fschauen.telescope').pickers
 
 local toggle_number = function()
   vim.wo.number = not vim.wo.number
@@ -12,14 +11,6 @@ end
 local toggle_relativenumber = function()
   vim.wo.relativenumber = not vim.wo.relativenumber
   vim.wo.number = vim.wo.relativenumber or vim.wo.number
-end
-
-local toggle_colorcolumn = function()
-  if vim.o.colorcolumn == '' then
-    vim.o.colorcolumn = '+1'  -- one after 'textwidth'
-  else
-    vim.o.colorcolumn = ''    -- none
-  end
 end
 
 local keymap = {
@@ -92,68 +83,6 @@ local keymap = {
     { '<leader>do', diagnostic.open_float },
     { '<leader>dh', diagnostic.hide },
 
-  telescope_file_browser = {
-    { '<leader>fB', '<cmd>Telescope file_browser<cr>' , desc = ' file [B]rowser' },
-  },
-
-  telescope = {
-    { '<leader>fa',  pick.autocommands           '  Autocommands'         , desc = ' Telescope [a]utocommands'            },
-    { '<leader>fb',  pick.buffers                '  Buffers'              , desc = ' Telescope [b]uffers'                 },
-    { '<leader>fc',  pick.colorscheme            '  Colorschemes'         , desc = ' Telescope [c]olorschemes'            },
-    { '<leader>fdd', pick.diagnostics            '󰀪  Document Diagnostics' , desc = ' Telescope [d]iagnostics [d]ocument'  },
-    { '<leader>fdw', pick.diagnostics            '󰀪  Workspace Diagnostics', desc = ' Telescope [d]iagnostics [w]orkspace' },
-    --'<leader>fe'
-    { '<leader>ff',  pick.find_files             '  Files'                , desc = ' Telescope [f]ind files'              },
-    { '<leader>fF',  pick.all_files              '  ALL files'            , desc = ' Telescope all [F]iles'               },
-    { '<leader>fgr', pick.live_grep              '  Live grep'            , desc = ' Telescope Live [gr]ep'               },
-    { '<leader>fgf', pick.git_files              '  Git files'            , desc = ' Telescope [g]it [f]iles'             },
-    { '<leader>fgc', pick.git_commits            ' Commits'             , desc = ' Telescope [g]it [c]ommits'           },
-    { '<leader>fh',  pick.here                   '  Current buffer'       , desc = ' Telescope [b]uffer [h]ere'           },
-    { '<leader>fH',  pick.highlights             '󰌶  Highlights'           , desc = ' Telescope [H]ighlights'              },
-    --'<leader>fi'
-    { '<leader>fj',  pick.jumplist               '  Jumplist'             , desc = ' Telescope [j]umplist'                },
-    { '<leader>fk',  pick.keymaps                '  Keymaps'              , desc = ' Telescope [k]eymaps'                 },
-    { '<leader>fK',  pick.help_tags              '  Help tags'            , desc = ' Telescope [K] help/documentation'    },
-    { '<leader>fl',  pick.loclist                '  Location list'        , desc = ' Telescope [l]ocation List'           },
-    { '<leader>fm',  pick.man_pages              '  Man pages'            , desc = ' Telescope [m]an pages'               },
-    --'<leader>fn'
-    { '<leader>fo',  pick.vim_options            '  Vim options'          , desc = ' Telescope vim [o]ptions'             },
-    --'<leader>fp'
-    { '<leader>fq',  pick.quickfix               '  Quickfix'             , desc = ' Telescope [q]uickfix'                },
-    { '<leader>fr',  pick.lsp_references         '  References'           , desc = ' Telescope [r]eferences'              },
-    { '<leader>fR',  pick.registers              '󱓥  Registers'            , desc = ' Telescope [R]registers'              },
-    { '<leader>fs',  pick.lsp_document_symbols   '󰫧  Document Symbols '    , desc = ' Telescope lsp document [s]ymbols'    },
-    { '<leader>fS',  pick.lsp_workspace_symbols  '󱄑  Workspace Symbols '   , desc = ' Telescope lsp workspace [S]ymbols'   },
-    --'<leader>ft'   used in todo_comments below
-    { '<leader>fT',  pick.treesitter             '  Treesitter symbols'   , desc = ' Telescope [T]reesitter Symbols'      },
-    --'<leader>fu'
-    --'<leader>fv'
-    { '<leader>fw',  pick.selection              '  Grep'                 , desc = ' Telescope [w]word under cursor'      },
-    { '<leader>fw',  pick.selection              '  Grep',  mode = 'v'    , desc = ' Telescope [w]ord(s) selected'        },
-    --'<leader>fx'
-    --'<leader>fy'
-    { '<leader>fz',  pick.spell_suggest          '󰓆  Spelling suggestions' , desc = ' Telescope [z] spell suggestions'     },
-    { '<leader>f.',  pick.dotfiles               '  Dotfiles'             , desc = ' Telescope [.]dotfiles'               },
-    { '<leader>f:',  pick.command_history        '  Command history'      , desc = ' Telescope [:]command history'        },
-    { '<leader>f?',  pick.commands               '  Commands'             , desc = ' Telescope commands [?]'              },
-    { '<leader>f/',  pick.search_history         '  Search history'       , desc = ' Telescope [/]search history'         },
-    { '<leader>f<leader>', pick.resume           '󰐎  Resume'               , desc = ' Telescope Resume '                   },
-  },
-
-  todo_comments = {
-    { '<leader>ft', '<cmd>TodoTelescope<cr>' },
-  },
-
-  fugitive = {
-    { '<leader>gg', ':Git ' },
-    { '<leader>gs', '<cmd>tab Git<cr>' },
-    { '<leader>gb', '<cmd>Git blame<cr>' }
-  },
-
-  neogit = {
-    { '<leader>gn', '<cmd>Neogit<cr>' },
-  },
-
   -- disable highlight until next search
     { '<leader>h', '<cmd>nohlsearch<cr><esc>' },
 
@@ -167,20 +96,8 @@ local keymap = {
     {      '<leader>ll', window.toggle_quickfix,  desc = 'Toggle quickfix'  },
     { '<localleader>ll', window.toggle_loclist,   desc = 'Toggle loclist'   },
 
-  trouble = {
-    { '<leader>lt', '<cmd>TroubleToggle<cr>' },
-    { '<leader>lw', '<cmd>TroubleToggle workspace_diagnostics<cr>' },
-    { '<leader>ld', '<cmd>TroubleToggle document_diagnostics<cr>' },
-  },
-
   -- quickly open lazy.nvim plugin manager
     { '<leader>L', '<cmd>Lazy<cr>' },
-
-  nvim_tree = {
-    { '<leader>nn', '<cmd>NvimTreeOpen<cr>' },
-    { '<leader>nf', '<cmd>NvimTreeFindFile<cr>' },
-    { '<leader>nc', '<cmd>NvimTreeClose<cr>' },
-  },
 
   -- toggle options
     { '<leader>sn', toggle_number },
@@ -188,31 +105,6 @@ local keymap = {
     { '<leader>sl', '<cmd>set list!  | set list?<CR>' },
     { '<leader>sw', '<cmd>set wrap!  | set wrap?<CR>' },
     { '<leader>ss', '<cmd>set spell! | set spell?<CR>' },
-
-  virt_column = {
-    { '<leader>sc', toggle_colorcolumn, desc = 'Toggle virtual colunn' },
-  },
-
-  indent_blankline = {
-    { '<leader>si', '<cmd>IndentBlanklineToggle<cr>' },
-  },
-
-  treesitter = {
-    { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
-    { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
-    { '<leader>tn', '<cmd>TSNodeUnderCursor<cr>' },
-  },
-
-  undotree = {
-    { '<leader>u', '<cmd>UndotreeToggle<cr>' },
-  },
-
-  whitespace ={
-    { '<leader>ww', '<cmd>ToggleWhitespace<cr>' },
-    { '<leader>wj', '<cmd>NextTrailingWhitespace<cr>' },
-    { '<leader>wk', '<cmd>PrevTrailingWhitespace<cr>' },
-    { '<leader>wd', '<cmd>StripWhitespace<cr>' },
-  },
 }
 
 M.setup = function()

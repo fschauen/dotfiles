@@ -2,13 +2,16 @@ local M = { 'folke/todo-comments.nvim' }
 
 M.dependencies = {
   'nvim-lua/plenary.nvim',
+  'nvim-telescope/telescope.nvim',
 }
-
-M.keys = require('fschauen.keymap').todo_comments
 
 M.event = {
   'BufReadPost',
   'BufNewFile'
+}
+
+M.keys = {
+  { '<leader>ft', '<cmd>TodoTelescope<cr>' },
 }
 
 M.opts = {

@@ -10,11 +10,16 @@ M.init = function()
   }
 end
 
-M.keys = require('fschauen.keymap').whitespace
-
 M.event = {
   'BufReadPost',
   'BufNewFile'
+}
+
+M.keys = {
+  { '<leader>ww', '<cmd>ToggleWhitespace<cr>' },
+  { '<leader>wj', '<cmd>NextTrailingWhitespace<cr>' },
+  { '<leader>wk', '<cmd>PrevTrailingWhitespace<cr>' },
+  { '<leader>wd', '<cmd>StripWhitespace<cr>' },
 }
 
 M.config = false

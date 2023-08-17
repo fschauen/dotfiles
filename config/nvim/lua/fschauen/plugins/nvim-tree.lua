@@ -4,7 +4,11 @@ M.dependencies = {
   'nvim-tree/nvim-web-devicons',
 }
 
-M.keys = require('fschauen.keymap').nvim_tree
+M.keys = {
+  { '<leader>nn', '<cmd>NvimTreeOpen<cr>' },
+  { '<leader>nf', '<cmd>NvimTreeFindFile<cr>' },
+  { '<leader>nc', '<cmd>NvimTreeClose<cr>' },
+}
 
 M.opts = {
   disable_netrw = true,       -- replace netrw with nvim-tree

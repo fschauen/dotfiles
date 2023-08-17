@@ -4,7 +4,11 @@ M.dependencies = {
   'nvim-tree/nvim-web-devicons',
 }
 
-M.keys = require('fschauen.keymap').trouble
+M.keys = {
+  { '<leader>lt', '<cmd>TroubleToggle<cr>' },
+  { '<leader>lw', '<cmd>TroubleToggle workspace_diagnostics<cr>' },
+  { '<leader>ld', '<cmd>TroubleToggle document_diagnostics<cr>' },
+}
 
 M.opts = {
   padding = false,      -- don't add an extra new line of top of the list

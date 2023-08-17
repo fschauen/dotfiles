@@ -6,8 +6,6 @@ M.dependencies = {
   'nvim-treesitter/playground',
 }
 
-M.keys = require('fschauen.keymap').treesitter
-
 M.event = {
   'BufReadPost',
   'BufNewFile'
@@ -21,6 +19,12 @@ M.cmd = {
   'TSInstallInfo',
   'TSInstallSync',
   'TSInstallFromGrammar',
+}
+
+M.keys = {
+  { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
+  { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
+  { '<leader>tn', '<cmd>TSNodeUnderCursor<cr>' },
 }
 
 M.main = 'nvim-treesitter.configs'

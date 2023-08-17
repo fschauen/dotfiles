@@ -1,6 +1,8 @@
 local M = { 'lukas-reineke/indent-blankline.nvim' }
 
-M.keys = require('fschauen.keymap').indent_blankline
+M.keys = {
+  { '<leader>si', '<cmd>IndentBlanklineToggle<cr>' },
+}
 
 M.lazy = false -- trows an error when lazy loading
 

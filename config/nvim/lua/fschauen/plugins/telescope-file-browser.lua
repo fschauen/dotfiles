@@ -4,7 +4,9 @@ M.dependencies = {
   'nvim-telescope/telescope.nvim',
 }
 
-M.keys = require('fschauen.keymap').telescope_file_browser
+M.keys = {
+  { '<leader>fB', '<cmd>Telescope file_browser<cr>' , desc = ' file [B]rowser' },
+}
 
 M.config = function()
   require('telescope').load_extension 'file_browser'

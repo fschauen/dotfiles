@@ -10,7 +10,9 @@ M.init = function()
   vim.g.undotree_TreeReturnShape = '╲'
 end
 
-M.keys = require('fschauen.keymap').undotree
+M.keys = {
+  { '<leader>u', '<cmd>UndotreeToggle<cr>' },
+}
 
 M.config = false
 

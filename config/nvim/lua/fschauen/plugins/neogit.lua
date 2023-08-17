@@ -4,7 +4,9 @@ M.dependencies = {
   'nvim-lua/plenary.nvim',
 }
 
-M.keys = require('fschauen.keymap').neogit
+M.keys = {
+  { '<leader>gn', '<cmd>Neogit<cr>' },
+}
 
 M.opts = {
   disable_hint = true,

@@ -5,7 +5,11 @@ M.cmd = {
   'Git',
 }
 
-M.keys = require('fschauen.keymap').fugitive
+M.keys = {
+  { '<leader>gg', ':Git ' },
+  { '<leader>gs', '<cmd>tab Git<cr>' },
+  { '<leader>gb', '<cmd>Git blame<cr>' }
+}
 
 return M
 
