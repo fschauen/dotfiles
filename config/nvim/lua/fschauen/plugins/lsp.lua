@@ -1,4 +1,11 @@
-local config = function()
+local M = { 'neovim/nvim-lspconfig' }
+
+M.dependencies = {
+  'williamboman/mason.nvim',
+  'williamboman/mason-lspconfig.nvim',
+}
+
+M.config = function()
   -- Enable rounded borders for LSP handlers and :LspInfo windows.
   local border = 'rounded'
   for request, handler in pairs {
@@ -86,13 +93,5 @@ local config = function()
   }
 end
 
-return {
-  'neovim/nvim-lspconfig',
-
-  config = config,
-  dependencies = {
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-  },
-}
+return M
 

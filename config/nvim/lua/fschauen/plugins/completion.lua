@@ -1,3 +1,17 @@
+local M = { 'hrsh7th/nvim-cmp' }
+
+M.dependencies = {
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-nvim-lua',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-cmdline',
+  'onsails/lspkind-nvim',
+
+  'L3MON4D3/LuaSnip',
+  'saadparwaiz1/cmp_luasnip',
+}
+
 local repeat_mapping = function(value, keys)
     local tbl = {}
     for _, k in ipairs(keys) do tbl[k] = value end
@@ -20,7 +34,7 @@ local cond = function(condition, yes, no)
   end
 end
 
-local config = function()
+M.config = function()
   local cmp = require 'cmp'
   local map = cmp.mapping
 
@@ -154,21 +168,5 @@ local config = function()
   cmp.setup.filetype('TelescopePrompt', { enabled = false })
 end
 
-return {
-  'hrsh7th/nvim-cmp',
-
-  config = config,
-
-  dependencies = {
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-nvim-lua',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-cmdline',
-    'onsails/lspkind-nvim',
-
-    'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip',
-  },
-}
+return M
 

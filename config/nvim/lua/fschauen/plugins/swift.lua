@@ -1,5 +1,6 @@
-  return {
-    'keith/swift.vim',
-    ft = 'swift',
-  }
+local M = { 'keith/swift.vim' }
+
+M.ft = 'swift'
+
+return M
 
