@@ -18,7 +18,7 @@ M.opts = {
   mappings = {
     status = {
       o = 'GoToFile',
-      ['<space>'] = 'Toggle',
+      ['='] = 'Toggle',
     },
   },
 }
