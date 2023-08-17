@@ -1,7 +1,7 @@
 local M = { 'folke/todo-comments.nvim' }
 
 M.dependencies = {
-  'nvim-lua/plenary.nvim'
+  'nvim-lua/plenary.nvim',
 }
 
 M.keys = require('fschauen.keymap').todo_comments

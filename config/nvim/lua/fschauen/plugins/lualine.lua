@@ -3,6 +3,10 @@ local bright = '#ffffff'  -- alternative: '#f9f5d7'
 
 local M = { 'nvim-lualine/lualine.nvim' }
 
+M.dependencies = {
+  'nvim-tree/nvim-web-devicons',
+}
+
 M.config = function()
   local window = require 'fschauen.window'
   local colored_if_focused = require('fschauen.lualine').colored_if_focused

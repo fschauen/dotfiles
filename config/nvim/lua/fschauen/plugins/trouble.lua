@@ -1,7 +1,7 @@
 local M = { 'folke/trouble.nvim' }
 
 M.dependencies = {
-  'nvim-tree/nvim-web-devicons'
+  'nvim-tree/nvim-web-devicons',
 }
 
 M.keys = require('fschauen.keymap').trouble

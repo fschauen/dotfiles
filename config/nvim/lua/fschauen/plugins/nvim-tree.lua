@@ -1,7 +1,7 @@
 local M = { 'nvim-tree/nvim-tree.lua' }
 
 M.dependencies = {
-  'nvim-tree/nvim-web-devicons'
+  'nvim-tree/nvim-web-devicons',
 }
 
 M.keys = require('fschauen.keymap').nvim_tree
