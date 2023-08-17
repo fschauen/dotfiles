@@ -9,49 +9,113 @@ M.dependencies = {
 
 M.cmd = 'Telescope'
 
-local pick = require('fschauen.telescope').pickers
+local builtin = function(picker, opts)
+  return function(title)
+    return function()
+      local args = vim.tbl_extend('keep', { prompt_title = title }, opts or {})
+      return require('telescope.builtin')[picker](args)
+    end
+  end
+end
+
+---Preserve register contents over function call.
+---@param reg string: register to save, must be a valid register name.
+---@param func function: function that may freely clobber the register.
+---@return any: return value of calling `func`.
+local with_saved_register = function(reg, func)
+  local saved = vim.fn.getreg(reg)
+  local result = func()
+  vim.fn.setreg(reg, saved)
+  return result
+end
+
+---Get selected text.
+---@return string: selected text, or work under cursor if not in visual mode.
+local get_selected_text = function()
+  if vim.fn.mode() ~= 'v' then return vim.fn.expand '<cword>' end
+
+  return with_saved_register('v', function()
+    vim.cmd [[noautocmd sil norm "vy]]
+    return vim.fn.getreg 'v'
+  end)
+end
+
+local pickers = setmetatable({
+  all_files = builtin('find_files', {
+    hidden = true,
+    no_ignore = true,
+    no_ignore_parent = true,
+  }),
+  colorscheme = builtin('colorscheme', {
+    enable_preview = true,
+  }),
+  diagnostics = builtin('diagnostics', {
+    bufnr = 0
+  }),
+  dotfiles = builtin('find_files', {
+    cwd = '~/.dotfiles',
+    hidden = true,
+  }),
+  selection = function(title)
+    return function()
+      local text = get_selected_text()
+      return require('telescope.builtin').grep_string {
+        prompt_title = string.format(title .. ': %s  ', text),
+        search = text,
+      }
+    end
+  end,
+  here = builtin('current_buffer_fuzzy_find'),
+}, {
+  -- Fall back to telescope's built-in pickers if a custom one is not defined
+  -- above, but make sure to keep the title we defined.
+  __index = function(_, picker)
+    return builtin(picker)
+  end
+})
+
 M.keys = {
-  { '<leader>fa',  pick.autocommands           '  Autocommands'         , desc = ' Telescope [a]utocommands'            },
-  { '<leader>fb',  pick.buffers                '  Buffers'              , desc = ' Telescope [b]uffers'                 },
-  { '<leader>fc',  pick.colorscheme            '  Colorschemes'         , desc = ' Telescope [c]olorschemes'            },
-  { '<leader>fdd', pick.diagnostics            '󰀪  Document Diagnostics' , desc = ' Telescope [d]iagnostics [d]ocument'  },
-  { '<leader>fdw', pick.diagnostics            '󰀪  Workspace Diagnostics', desc = ' Telescope [d]iagnostics [w]orkspace' },
+  { '<leader>fa',  pickers.autocommands           '  Autocommands'         , desc = ' Telescope [a]utocommands'            },
+  { '<leader>fb',  pickers.buffers                '  Buffers'              , desc = ' Telescope [b]uffers'                 },
+  { '<leader>fc',  pickers.colorscheme            '  Colorschemes'         , desc = ' Telescope [c]olorschemes'            },
+  { '<leader>fdd', pickers.diagnostics            '󰀪  Document Diagnostics' , desc = ' Telescope [d]iagnostics [d]ocument'  },
+  { '<leader>fdw', pickers.diagnostics            '󰀪  Workspace Diagnostics', desc = ' Telescope [d]iagnostics [w]orkspace' },
   --'<leader>fe'
-  { '<leader>ff',  pick.find_files             '  Files'                , desc = ' Telescope [f]ind files'              },
-  { '<leader>fF',  pick.all_files              '  ALL files'            , desc = ' Telescope all [F]iles'               },
-  { '<leader>fgr', pick.live_grep              '  Live grep'            , desc = ' Telescope Live [gr]ep'               },
-  { '<leader>fgf', pick.git_files              '  Git files'            , desc = ' Telescope [g]it [f]iles'             },
-  { '<leader>fgc', pick.git_commits            ' Commits'             , desc = ' Telescope [g]it [c]ommits'           },
-  { '<leader>fh',  pick.here                   '  Current buffer'       , desc = ' Telescope [b]uffer [h]ere'           },
-  { '<leader>fH',  pick.highlights             '󰌶  Highlights'           , desc = ' Telescope [H]ighlights'              },
+  { '<leader>ff',  pickers.find_files             '  Files'                , desc = ' Telescope [f]ind files'              },
+  { '<leader>fF',  pickers.all_files              '  ALL files'            , desc = ' Telescope all [F]iles'               },
+  { '<leader>fgr', pickers.live_grep              '  Live grep'            , desc = ' Telescope Live [gr]ep'               },
+  { '<leader>fgf', pickers.git_files              '  Git files'            , desc = ' Telescope [g]it [f]iles'             },
+  { '<leader>fgc', pickers.git_commits            ' Commits'             , desc = ' Telescope [g]it [c]ommits'           },
+  { '<leader>fh',  pickers.here                   '  Current buffer'       , desc = ' Telescope [b]uffer [h]ere'           },
+  { '<leader>fH',  pickers.highlights             '󰌶  Highlights'           , desc = ' Telescope [H]ighlights'              },
   --'<leader>fi'
-  { '<leader>fj',  pick.jumplist               '  Jumplist'             , desc = ' Telescope [j]umplist'                },
-  { '<leader>fk',  pick.keymaps                '  Keymaps'              , desc = ' Telescope [k]eymaps'                 },
-  { '<leader>fK',  pick.help_tags              '  Help tags'            , desc = ' Telescope [K] help/documentation'    },
-  { '<leader>fl',  pick.loclist                '  Location list'        , desc = ' Telescope [l]ocation List'           },
-  { '<leader>fm',  pick.man_pages              '  Man pages'            , desc = ' Telescope [m]an pages'               },
+  { '<leader>fj',  pickers.jumplist               '  Jumplist'             , desc = ' Telescope [j]umplist'                },
+  { '<leader>fk',  pickers.keymaps                '  Keymaps'              , desc = ' Telescope [k]eymaps'                 },
+  { '<leader>fK',  pickers.help_tags              '  Help tags'            , desc = ' Telescope [K] help/documentation'    },
+  { '<leader>fl',  pickers.loclist                '  Location list'        , desc = ' Telescope [l]ocation List'           },
+  { '<leader>fm',  pickers.man_pages              '  Man pages'            , desc = ' Telescope [m]an pages'               },
   --'<leader>fn'
-  { '<leader>fo',  pick.vim_options            '  Vim options'          , desc = ' Telescope vim [o]ptions'             },
+  { '<leader>fo',  pickers.vim_options            '  Vim options'          , desc = ' Telescope vim [o]ptions'             },
   --'<leader>fp'
-  { '<leader>fq',  pick.quickfix               '  Quickfix'             , desc = ' Telescope [q]uickfix'                },
-  { '<leader>fr',  pick.lsp_references         '  References'           , desc = ' Telescope [r]eferences'              },
-  { '<leader>fR',  pick.registers              '󱓥  Registers'            , desc = ' Telescope [R]registers'              },
-  { '<leader>fs',  pick.lsp_document_symbols   '󰫧  Document Symbols '    , desc = ' Telescope lsp document [s]ymbols'    },
-  { '<leader>fS',  pick.lsp_workspace_symbols  '󱄑  Workspace Symbols '   , desc = ' Telescope lsp workspace [S]ymbols'   },
+  { '<leader>fq',  pickers.quickfix               '  Quickfix'             , desc = ' Telescope [q]uickfix'                },
+  { '<leader>fr',  pickers.lsp_references         '  References'           , desc = ' Telescope [r]eferences'              },
+  { '<leader>fR',  pickers.registers              '󱓥  Registers'            , desc = ' Telescope [R]registers'              },
+  { '<leader>fs',  pickers.lsp_document_symbols   '󰫧  Document Symbols '    , desc = ' Telescope lsp document [s]ymbols'    },
+  { '<leader>fS',  pickers.lsp_workspace_symbols  '󱄑  Workspace Symbols '   , desc = ' Telescope lsp workspace [S]ymbols'   },
   --'<leader>ft'   used in todo_comments
-  { '<leader>fT',  pick.treesitter             '  Treesitter symbols'   , desc = ' Telescope [T]reesitter Symbols'      },
+  { '<leader>fT',  pickers.treesitter             '  Treesitter symbols'   , desc = ' Telescope [T]reesitter Symbols'      },
   --'<leader>fu'
   --'<leader>fv'
-  { '<leader>fw',  pick.selection              '  Grep'                 , desc = ' Telescope [w]word under cursor'      },
-  { '<leader>fw',  pick.selection              '  Grep',  mode = 'v'    , desc = ' Telescope [w]ord(s) selected'        },
+  { '<leader>fw',  pickers.selection              '  Grep'                 , desc = ' Telescope [w]word under cursor'      },
+  { '<leader>fw',  pickers.selection              '  Grep',  mode = 'v'    , desc = ' Telescope [w]ord(s) selected'        },
   --'<leader>fx'
   --'<leader>fy'
-  { '<leader>fz',  pick.spell_suggest          '󰓆  Spelling suggestions' , desc = ' Telescope [z] spell suggestions'     },
-  { '<leader>f.',  pick.dotfiles               '  Dotfiles'             , desc = ' Telescope [.]dotfiles'               },
-  { '<leader>f:',  pick.command_history        '  Command history'      , desc = ' Telescope [:]command history'        },
-  { '<leader>f?',  pick.commands               '  Commands'             , desc = ' Telescope commands [?]'              },
-  { '<leader>f/',  pick.search_history         '  Search history'       , desc = ' Telescope [/]search history'         },
-  { '<leader>f<leader>', pick.resume           '󰐎  Resume'               , desc = ' Telescope Resume '                   },
+  { '<leader>fz',  pickers.spell_suggest          '󰓆  Spelling suggestions' , desc = ' Telescope [z] spell suggestions'     },
+  { '<leader>f.',  pickers.dotfiles               '  Dotfiles'             , desc = ' Telescope [.]dotfiles'               },
+  { '<leader>f:',  pickers.command_history        '  Command history'      , desc = ' Telescope [:]command history'        },
+  { '<leader>f?',  pickers.commands               '  Commands'             , desc = ' Telescope commands [?]'              },
+  { '<leader>f/',  pickers.search_history         '  Search history'       , desc = ' Telescope [/]search history'         },
+  { '<leader>f<leader>', pickers.resume           '󰐎  Resume'               , desc = ' Telescope Resume '                   },
 }
 
 M.opts = function()
