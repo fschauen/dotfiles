@@ -32,6 +32,10 @@ local keymap = {
   -- place destination of important movements in the center of the screen
   {     'n',     'nzzzv' },
   {     'N',     'Nzzzv' },
+  {     '*',     '*zzzv' },
+  {     '#',     '#zzzv' },
+  {    'g*',    'g*zzzv' },
+  {    'g#',    'g#zzzv' },
   { '<c-d>', '<c-d>zzzv' },
   { '<c-u>', '<c-u>zzzv' },
 
