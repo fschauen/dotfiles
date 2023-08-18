@@ -31,10 +31,12 @@ M.config = function()
     end,
 
     git = {
-      ignore = false,       -- don't hide files from .gitignore
+      ignore = false,             -- don't hide files from .gitignore
+      show_on_open_dirs = false,  -- don't show indication if dir is open
     },
     view = {
       adaptive_size = true, -- resize the window based on the longest line
+      cursorline = false,   -- don't enable 'cursorline' in the tree
       width = 35,           -- a little wider than the default 30
     },
     filters = {
@@ -45,7 +47,8 @@ M.config = function()
       add_trailing = true,  -- add trailing / to folders
       highlight_git = true, -- enable highlight based on git attributes
       icons = {
-        git_placement = 'after',
+        webdev_colors = false,    -- highlight icons with NvimTreeFileIcon
+        git_placement = 'signcolumn',
         glyphs = {
           default = '',
           symlink = '',
@@ -61,10 +64,10 @@ M.config = function()
             symlink_open = '',
           },
           git = {
-            untracked = '?',      -- ★
-            unstaged = '✶',       -- ✗
-            staged = '',         -- ✓
-            deleted = '',
+            untracked = '',
+            unstaged = '✶',
+            staged = '✓',
+            deleted = '✗',
             unmerged = '',
             renamed = '➜',
             ignored = '◌',
