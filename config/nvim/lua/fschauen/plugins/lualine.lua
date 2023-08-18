@@ -108,21 +108,8 @@ M.config = function()
     return C
   end)()
 
-  local trailing_whitespace = function()
-    local trailing = [[\s\+$]]
-    local lineno = vim.fn.search(trailing, 'nwc')
-    if lineno == 0 then return '' end
-
-    local result = ' ' .. lineno
-
-    local total = vim.fn.searchcount({ pattern = trailing }).total
-    if total > 1 then result = result .. string.format(' (%d total)', total) end
-
-    return result
-  end
-
   local colored_if_focused = function(component)
-    if type(component) == 'string' then
+      if type(component) == 'string' then
       local C = require('lualine.components.' .. component):extend()
 
       function C:update_status(is_focused)
@@ -148,6 +135,28 @@ M.config = function()
       return C
     end
   end
+
+  local trailing_whitespace = {
+    colored_if_focused(function()
+      local trailing = [[\s\+$]]
+      local lineno = vim.fn.search(trailing, 'nwc')
+      if lineno == 0 then return '' end
+
+      local result = ' ' .. lineno
+
+      local total = vim.fn.searchcount({ pattern = trailing }).total
+      if total > 1 then result = result .. string.format(' (%d total)', total) end
+
+      return result
+    end),
+
+    color = { bg = orange },
+
+    cond = function()
+      return vim.bo.filetype ~= 'help'
+    end,
+  }
+
 
   local paste = {
     colored_if_focused(function(has_focus) return has_focus and '' or ' ' end),
@@ -192,7 +201,7 @@ M.config = function()
     },
     lualine_z = {
       'location',
-      { colored_if_focused(trailing_whitespace), color = { bg = orange } },
+      trailing_whitespace,
     },
   }
 
