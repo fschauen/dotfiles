@@ -228,6 +228,8 @@ M.setup = function()
   if vim.v.errmsg ~= '' then
     vim.notify(('Colorscheme %s not found!'):format(colorscheme), vim.log.levels.WARN)
   end
+
+  require('testline').setup()
 end
 
 return M
