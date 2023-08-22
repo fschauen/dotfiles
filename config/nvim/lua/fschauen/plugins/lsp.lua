@@ -15,18 +15,16 @@ M.config = function()
 
   local border = { border = 'rounded' }
 
-  for request, handler in pairs {
-    ['textDocument/hover'] = vim.lsp.handlers.hover,
-    ['textDocument/signatureHelp'] = vim.lsp.handlers.signature_help,
-  } do
-    vim.lsp.handlers[request] = vim.lsp.with(handler, border)
-  end
-
   local opts = {
     capabilities = extend(
       vim.lsp.protocol.make_client_capabilities(),
       vim.F.npcall(function() require('cmp_nvim_lsp').default_capabilities() end)
     ),
+
+    handlers = {
+      ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, border),
+      ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, border),
+    },
 
     on_attach = function(--[[client]]_, bufnr)
       vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'  -- do completion with <c-x><c-o>
