@@ -51,44 +51,43 @@ M.config = function()
 
   require('lspconfig.ui.windows').default_options = border
   require('mason').setup { ui = border }
-  require('mason-lspconfig').setup()
-  require("mason-lspconfig").setup_handlers {
-    --[[ default = ]] function(server)
-      require('lspconfig')[server].setup(opts)
-    end,
+  require('mason-lspconfig').setup {
+    handlers = {
+      --[[ default = ]] function(server)
+        require('lspconfig')[server].setup(opts)
+      end,
+      lua_ls = function()
+        require('lspconfig').lua_ls.setup(extend(opts, {
+          settings = {
+            Lua = {
+              -- I'm using lua only inside neovim, so the runtime is LuaJIT.
+              runtime = { version = 'LuaJIT' },
 
-    lua_ls = function()
-      require('lspconfig').lua_ls.setup(extend(opts, {
-        settings = {
-          Lua = {
-            -- I'm using lua only inside neovim, so the runtime is LuaJIT.
-            runtime = { version = 'LuaJIT' },
+              -- Get the language server to recognize the `vim` global.
+              diagnostics = { globals = {'vim'} },
 
-            -- Get the language server to recognize the `vim` global.
-            diagnostics = { globals = {'vim'} },
+              -- Make the server aware of Neovim runtime files.
+              workspace = { library = vim.api.nvim_get_runtime_file("", true) },
 
-            -- Make the server aware of Neovim runtime files.
-            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = { enable = false },
+              -- Do not send telemetry data containing a randomized but unique identifier
+              telemetry = { enable = false },
+            },
           },
-        },
-      }))
-    end,
+        }))
+      end,
+      omnisharp = function()
+        require('lspconfig').omnisharp.setup(extend(opts, {
+          -- Show unimported types and add`using` directives.
+          enable_import_completion = true,
 
-    omnisharp = function()
-      require('lspconfig').omnisharp.setup(extend(opts, {
-        -- Show unimported types and add`using` directives.
-        enable_import_completion = true,
+          -- Enable roslyn analyzers, code fixes, and rulesets.
+          enable_roslyn_analyzers = true,
 
-        -- Enable roslyn analyzers, code fixes, and rulesets.
-        enable_roslyn_analyzers = true,
-
-        -- Don't include preview versions of the .NET SDK.
-        sdk_include_prereleases = false,
-      }))
-    end,
+          -- Don't include preview versions of the .NET SDK.
+          sdk_include_prereleases = false,
+        }))
+      end,
+    },
   }
 end
 
