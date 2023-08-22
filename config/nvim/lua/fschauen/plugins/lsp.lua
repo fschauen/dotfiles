@@ -13,15 +13,14 @@ M.config = function()
     return tbl
   end
 
-  -- Enable rounded borders for LSP handlers and :LspInfo windows.
-  local border = 'rounded'
+  local border = { border = 'rounded' }
+
   for request, handler in pairs {
     ['textDocument/hover'] = vim.lsp.handlers.hover,
     ['textDocument/signatureHelp'] = vim.lsp.handlers.signature_help,
   } do
-    vim.lsp.handlers[request] = vim.lsp.with(handler, { border = border })
+    vim.lsp.handlers[request] = vim.lsp.with(handler, border)
   end
-  require('lspconfig.ui.windows').default_options = { border = border }
 
   local opts = {
     capabilities = extend(
@@ -52,12 +51,9 @@ M.config = function()
     end,
   }
 
-  require('mason').setup {
-    ui = {
-      border = 'rounded',
-    },
-  }
-  require('mason-lspconfig').setup {}
+  require('lspconfig.ui.windows').default_options = border
+  require('mason').setup { ui = border }
+  require('mason-lspconfig').setup()
   require("mason-lspconfig").setup_handlers {
     --[[ default = ]] function(server)
       require('lspconfig')[server].setup(opts)
