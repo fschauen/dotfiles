@@ -6,6 +6,13 @@ M.dependencies = {
 }
 
 M.config = function()
+  local extend = function(tbl, ...)
+    for _, other in ipairs({...}) do
+      tbl = vim.tbl_deep_extend('force', tbl, other or {})
+    end
+    return tbl
+  end
+
   -- Enable rounded borders for LSP handlers and :LspInfo windows.
   local border = 'rounded'
   for request, handler in pairs {
@@ -17,7 +24,10 @@ M.config = function()
   require('lspconfig.ui.windows').default_options = { border = border }
 
   local opts = {
-    capabilities = vim.lsp.protocol.make_client_capabilities(),
+    capabilities = extend(
+      vim.lsp.protocol.make_client_capabilities(),
+      vim.F.npcall(function() require('cmp_nvim_lsp').default_capabilities() end)
+    ),
 
     on_attach = function(--[[client]]_, bufnr)
       vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'  -- do completion with <c-x><c-o>
@@ -42,11 +52,6 @@ M.config = function()
     end,
   }
 
-  local cmp = vim.F.npcall(require, 'cmp_nvim_lsp')
-  if cmp then
-    vim.tbl_deep_extend('force', opts.capabilities, cmp.default_capabilities())
-  end
-
   require('mason').setup {
     ui = {
       border = 'rounded',
@@ -59,7 +64,7 @@ M.config = function()
     end,
 
     lua_ls = function()
-      require('lspconfig').lua_ls.setup(vim.tbl_extend('force', opts, {
+      require('lspconfig').lua_ls.setup(extend(opts, {
         settings = {
           Lua = {
             -- I'm using lua only inside neovim, so the runtime is LuaJIT.
@@ -79,7 +84,7 @@ M.config = function()
     end,
 
     omnisharp = function()
-      require('lspconfig').omnisharp.setup(vim.tbl_extend('force', opts, {
+      require('lspconfig').omnisharp.setup(extend(opts, {
         -- Show unimported types and add`using` directives.
         enable_import_completion = true,
 
