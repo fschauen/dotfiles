@@ -3,6 +3,7 @@ local M = { 'neovim/nvim-lspconfig' }
 M.dependencies = {
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
+  'Hoffs/omnisharp-extended-lsp.nvim',
 }
 
 M.config = function()
@@ -77,6 +78,9 @@ M.config = function()
       end,
       omnisharp = function()
         require('lspconfig').omnisharp.setup(extend(opts, {
+          -- Use .editoconfig for code style, naming convention and analyzer settings.
+          enable_editorconfig_support = true,
+
           -- Show unimported types and add`using` directives.
           enable_import_completion = true,
 
@@ -85,6 +89,10 @@ M.config = function()
 
           -- Don't include preview versions of the .NET SDK.
           sdk_include_prereleases = false,
+
+          handlers = {
+             ['textDocument/definition'] = require('omnisharp_extended').handler,
+          },
         }))
       end,
     },
