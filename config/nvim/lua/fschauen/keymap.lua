@@ -81,8 +81,8 @@ local keymap = {
   { '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]] },
 
   -- navigate diagnostics
-  { '<leader>dj', diagnostic.goto_next },
-  { '<leader>dk', diagnostic.goto_prev },
+  { '<Down>',     diagnostic.goto_next },
+  { '<Up>',       diagnostic.goto_prev },
   { '<leader>dd', diagnostic.toggle },
   { '<leader>do', diagnostic.open_float },
   { '<leader>dh', diagnostic.hide },
