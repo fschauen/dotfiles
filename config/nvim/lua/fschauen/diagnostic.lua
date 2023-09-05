@@ -41,6 +41,24 @@ M.hide = function(bufnr)
   vim.diagnostic.hide(nil, bufnr or 0)
 end
 
+local default_severity = vim.diagnostic.severity.WARN
+
+M.select_virtual_text_severity = function()
+  vim.ui.select(
+    { 'ERROR', 'WARN', 'INFO', 'HINT' },
+    { prompt = 'Min. severity for virtual text:' },
+    function(choice, --[[index]]_)
+      if choice then
+        local severity = vim.diagnostic.severity[choice] or default_severity
+        vim.diagnostic.config {
+          virtual_text = {
+            severity = { min = severity }
+          },
+        }
+      end
+    end)
+end
+
 ---Customize nvim's diagnostics display.
 M.setup = function()
   vim.diagnostic.config {
@@ -48,6 +66,9 @@ M.setup = function()
     virtual_text = {
       spacing = 6,
       prefix = '●',
+      severity = {
+        min = default_severity,
+      }
     },
     float = {
       border = 'rounded',

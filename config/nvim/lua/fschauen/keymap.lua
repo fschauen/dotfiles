@@ -86,6 +86,7 @@ local keymap = {
   { '<leader>dd', diagnostic.toggle },
   { '<leader>do', diagnostic.open_float },
   { '<leader>dh', diagnostic.hide },
+  { '<leader>dt', diagnostic.select_virtual_text_severity },
 
   -- disable highlight until next search
   { '<leader>h', '<cmd>nohlsearch<cr><esc>' },
