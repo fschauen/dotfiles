@@ -1,20 +1,32 @@
 local M = {}
 
-local diag_opts = {
-  wrap = false, -- don't wrap around the begin/end of file
-}
+-- Show/navigate warning and errors by default.
+M.severity = vim.diagnostic.severity.WARN
+
+-- Make options to pass to goto_next()/goto_prev(). This needs to be a function
+-- rather than just a table bevause M.severity can change and we always want the
+-- *current* value.
+local make_opts = function(opts)
+  local defaults = {
+    wrap = false,         -- don't wrap around the begin/end of file
+    severity = {          -- only navigate items with visible virtual text
+      min = M.severity
+    },
+  }
+  return vim.tbl_extend('keep', opts or {}, defaults)
+end
 
 ---Move to the next diagnostic.
 ---@param opts table\nil: options passed along to `vim.diagnostic.goto_next`.
 M.goto_next= function(opts)
-  vim.diagnostic.goto_next(vim.tbl_extend('keep', opts or {}, diag_opts))
+  vim.diagnostic.goto_next(make_opts(opts))
   vim.cmd 'normal zz'
 end
 
 ---Move to the previous diagnostic.
 ---@param opts table|nil: options passed along to `vim.diagnostic.goto_prev`.
 M.goto_prev= function(opts)
-  vim.diagnostic.goto_prev(vim.tbl_extend('keep', opts or {}, diag_opts))
+  vim.diagnostic.goto_prev(make_opts(opts))
   vim.cmd 'normal zz'
 end
 
@@ -41,18 +53,16 @@ M.hide = function(bufnr)
   vim.diagnostic.hide(nil, bufnr or 0)
 end
 
-local default_severity = vim.diagnostic.severity.WARN
-
 M.select_virtual_text_severity = function()
   vim.ui.select(
     { 'ERROR', 'WARN', 'INFO', 'HINT' },
     { prompt = 'Min. severity for virtual text:' },
     function(choice, --[[index]]_)
       if choice then
-        local severity = vim.diagnostic.severity[choice] or default_severity
+        M.severity = vim.diagnostic.severity[choice] or M.severity
         vim.diagnostic.config {
           virtual_text = {
-            severity = { min = severity }
+            severity = { min = M.severity }
           },
         }
       end
@@ -67,7 +77,7 @@ M.setup = function()
       spacing = 6,
       prefix = '●',
       severity = {
-        min = default_severity,
+        min = M.severity,
       }
     },
     float = {
