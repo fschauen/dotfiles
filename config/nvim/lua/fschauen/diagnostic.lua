@@ -3,31 +3,36 @@ local M = {}
 -- Show/navigate warning and errors by default.
 M.severity = vim.diagnostic.severity.WARN
 
--- Make options to pass to goto_next()/goto_prev(). This needs to be a function
--- rather than just a table bevause M.severity can change and we always want the
--- *current* value.
-local make_opts = function(opts)
-  local defaults = {
+-- Go to next/prev diagnostic, but only if next item has a visible virtual text.
+-- If we can move, then also center screen at target location.
+local conditional_goto = function(condition, move, opts)
+  opts = vim.tbl_extend('keep', opts or {}, {
     wrap = false,         -- don't wrap around the begin/end of file
     severity = {          -- only navigate items with visible virtual text
       min = M.severity
     },
-  }
-  return vim.tbl_extend('keep', opts or {}, defaults)
+  })
+
+  if condition(opts) then
+    move(opts)
+    vim.cmd 'normal zz'
+  else
+    vim.notify(
+      ('No more diagnostics [level: %s]'):format(vim.diagnostic.severity[M.severity] or '???'),
+      vim.log.levels.WARN)
+  end
 end
 
 ---Move to the next diagnostic.
 ---@param opts table\nil: options passed along to `vim.diagnostic.goto_next`.
 M.goto_next= function(opts)
-  vim.diagnostic.goto_next(make_opts(opts))
-  vim.cmd 'normal zz'
+  conditional_goto(vim.diagnostic.get_next_pos, vim.diagnostic.goto_next, opts)
 end
 
 ---Move to the previous diagnostic.
 ---@param opts table|nil: options passed along to `vim.diagnostic.goto_prev`.
 M.goto_prev= function(opts)
-  vim.diagnostic.goto_prev(make_opts(opts))
-  vim.cmd 'normal zz'
+  conditional_goto(vim.diagnostic.get_prev_pos, vim.diagnostic.goto_prev, opts)
 end
 
 ---Show diagnostics in a floating window.
