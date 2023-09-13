@@ -75,6 +75,7 @@ apt_install() {
     pkg-config                  \
     psmisc                      \
     python3                     \
+    python3-venv                \
     ripgrep                     \
     rsync                       \
     shellcheck                  \
