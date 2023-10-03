@@ -146,7 +146,7 @@ main() {
   while getopts 'hny' opt; do
     case "$opt" in
     n)  # dry run
-      cmd=echo
+      cmd='echo'
       echo "${yellow}Performing dry run (no changes will be made).${sgr0}"
       echo
       ;;
