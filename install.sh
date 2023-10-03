@@ -4,7 +4,7 @@
 dotfiles="$(dirname "$(realpath "$0")")"
 
 if [ -t 1 ]; then
-  sgr0="$(printf     '\033[0m')"
+  sgr0="$(printf      '\033[0m')"
   red="$(printf       '\033[31m')"
   green="$(printf     '\033[32m')"
   yellow="$(printf    '\033[33m')"
@@ -26,8 +26,8 @@ error() {
   exit 1
 }
 
-heading(){
-  echo "${blue}=====  $1  ==========$sgr0";
+heading() {
+  echo "${blue}=====  $1  ==========$sgr0"
 }
 
 load_config() {
