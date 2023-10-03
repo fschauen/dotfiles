@@ -23,6 +23,9 @@ else
   cyan=''
 fi
 
+CMD=''  # Support for dry runs, see main() below.
+SKIP_CONFIRMATION='no'
+
 error() {
   printf "${red}ERROR:$sgr0 %s\n"  "$1"
   exit 1
@@ -42,7 +45,7 @@ load_config() {
 move_aside() {
   backup="$1.$(date +%s)"
   echo "${red}WARNING:$sgr0 moving '$1' to '$backup'"
-  $cmd mv "$1" "$backup"
+  $CMD mv "$1" "$backup"
 }
 
 greeting() {
@@ -63,7 +66,7 @@ make_dir() {
     echo "${green}OK:$sgr0 $1"
   else
     echo "${yellow}MKDIR:$sgr0 $1"
-    $cmd mkdir -vp "$1"
+    $CMD mkdir -vp "$1"
   fi
 }
 
@@ -75,7 +78,7 @@ make_link() {
   else
     [ -e "$link" ] && move_aside "$link"
     echo "${yellow}LINK:$sgr0 $link $blue->$sgr0 $target"
-    $cmd ln -sf "$target" "$link"
+    $CMD ln -sf "$target" "$link"
   fi
 }
 
@@ -101,7 +104,7 @@ EOF
   else
     [ -f "$user_config" ] && move_aside "$user_config"
     echo "${yellow}WRITE:$sgr0 $user_config with '$GIT_USER <$GIT_EMAIL>'"
-    $cmd cp -f "$temp_git" "$user_config"
+    $CMD cp -f "$temp_git" "$user_config"
   fi
 }
 
