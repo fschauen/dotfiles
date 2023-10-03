@@ -1,6 +1,8 @@
 #!/bin/sh
 # shellcheck disable=SC1090,SC1091
 
+set -eu
+
 dotfiles="$(dirname "$(realpath "$0")")"
 
 if [ -t 1 ]; then
