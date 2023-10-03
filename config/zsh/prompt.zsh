@@ -17,7 +17,6 @@ render_prompt() {
     PROMPT_SECTIONS=()
     for s in exit_code user_host pwd git venv jobs exec_time; { render_$s }
 
-    echo
     echo ${(pj.$separator.)PROMPT_SECTIONS}
     echo -n "%{%F{$gray}%}"
     printf '❯%.0s' {1..$SHLVL}
