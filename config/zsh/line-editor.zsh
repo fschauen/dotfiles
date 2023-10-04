@@ -38,6 +38,7 @@ export KEYTIMEOUT=1
 bindkey -M viins '^a' vi-beginning-of-line
 bindkey -M viins '^e' vi-end-of-line
 bindkey -M viins '^l' clear-screen
+bindkey -M viins '^u' kill-whole-line
 bindkey -M viins '^[.' insert-last-word
 
 # Search through history in insert mode.
