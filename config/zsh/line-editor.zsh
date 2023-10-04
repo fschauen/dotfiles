@@ -44,13 +44,21 @@ bindkey -M viins '^[.' insert-last-word
 bindkey -M viins '^j' history-beginning-search-forward
 bindkey -M viins '^k' history-beginning-search-backward
 
-# Incremental search
-bindkey -M viins '^r' history-incremental-search-backward
-bindkey -M isearch '^j' history-incremental-search-forward
-bindkey -M isearch '^k' history-incremental-search-backward
-bindkey -M isearch '^y' accept-search
-
 # Move word-wise with Alt.
 bindkey -M viins '^[b' vi-backward-word
 bindkey -M viins '^[f' vi-forward-word
+
+if command -v fzf >/dev/null 2>&1; then
+  # Add `fzf` key bindings if it's installed:
+  #   - CTRL-T: paste the selected file path(s) into the command line
+  #   - ALT-C: cd into the selected directory
+  #   - CTRL-R: paste the selected command from history into the command line
+  source "$ZDOTDIR/line-editor-fzf.zsh"
+else
+  # Fall back to incremental search
+  bindkey -M viins '^r' history-incremental-search-backward
+  bindkey -M isearch '^j' history-incremental-search-forward
+  bindkey -M isearch '^k' history-incremental-search-backward
+  bindkey -M isearch '^y' accept-search
+fi
 
