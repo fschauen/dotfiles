@@ -35,12 +35,23 @@ zle -N zle-keymap-select        keymap_did_change
 bindkey -v
 export KEYTIMEOUT=1
 
+# Restore some common and useful emacs mode shortcuts.
+bindkey -M viins '^a' vi-beginning-of-line
+bindkey -M viins '^e' vi-end-of-line
+bindkey -M viins '^l' clear-screen
+bindkey -M viins '^[.' insert-last-word
+
 # Search through history in insert mode.
 bindkey -M viins '^j' history-beginning-search-forward
 bindkey -M viins '^k' history-beginning-search-backward
 
-# Restore some common and useful emacs mode shortcut.
-bindkey -M viins '^a' vi-beginning-of-line
-bindkey -M viins '^e' vi-end-of-line
-bindkey -M viins '^l' clear-screen
+# Incremental search
+bindkey -M viins '^r' history-incremental-search-backward
+bindkey -M isearch '^j' history-incremental-search-forward
+bindkey -M isearch '^k' history-incremental-search-backward
+bindkey -M isearch '^y' accept-search
+
+# Move word-wise with Alt.
+bindkey -M viins '^[b' vi-backward-word
+bindkey -M viins '^[f' vi-forward-word
 
