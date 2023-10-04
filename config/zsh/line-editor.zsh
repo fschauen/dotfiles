@@ -16,20 +16,19 @@ set_cursor_shape() {
 }
 
 # Start new prompts with bar shaped cursor.
-init_line_editor() {
+zle-line-init() {
   set_cursor_shape bar
 }
+zle -N zle-line-init
 
 # Switch cursor shape depending on editing mode.
-keymap_did_change() {
+zle-keymap-select() {
     case $KEYMAP in
         vicmd)      set_cursor_shape block ;;
         viins|main) set_cursor_shape bar   ;;
     esac
 }
-
-zle -N zle-line-init            init_line_editor
-zle -N zle-keymap-select        keymap_did_change
+zle -N zle-keymap-select
 
 # Use vi mode for line editing.
 bindkey -v
