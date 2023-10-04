@@ -1,7 +1,3 @@
-# Use vi mode for line editing.
-bindkey -v
-export KEYTIMEOUT=1
-
 set_cursor_shape() {
     local block='\e[1 q'        # blinking block
     local underline='\e[3 q'    # blinking underline, 4 for steady
@@ -19,18 +15,25 @@ set_cursor_shape() {
     esac
 }
 
+# Start new prompts with bar shaped cursor.
+init_line_editor() {
+  set_cursor_shape bar
+}
+
 # Switch cursor shape depending on editing mode.
-zle-keymap-select() {
+keymap_did_change() {
     case $KEYMAP in
         vicmd)      set_cursor_shape block ;;
         viins|main) set_cursor_shape bar   ;;
     esac
 }
-zle -N zle-keymap-select
 
-# Start new prompts with bar shaped cursor.
-zle-line-init() { set_cursor_shape bar }
-zle -N zle-line-init
+zle -N zle-line-init            init_line_editor
+zle -N zle-keymap-select        keymap_did_change
+
+# Use vi mode for line editing.
+bindkey -v
+export KEYTIMEOUT=1
 
 # Search through history in insert mode.
 bindkey -M viins '^j' history-beginning-search-forward
