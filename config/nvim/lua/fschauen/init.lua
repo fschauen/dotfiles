@@ -85,8 +85,7 @@ local set_options = function()
   o.wrap           = false   -- don't wrap long lines initially
   o.textwidth      = 80      -- maximum width for text being inserted
   o.colorcolumn    = '+1'    -- highlight column after 'textwidth'
-  o.cursorline     = true    -- highlight the line of the cursor...
-  o.cursorlineopt  = 'number'-- ...but only the line number
+  o.cursorline     = true    -- highlight the line of the cursor
   o.showbreak      = '⤷ '    -- prefix for wrapped lines
   o.scrolloff      = 3       -- min. # of lines above and below cursor
   o.sidescrolloff  = 3       -- min. # of columns to left and right of cursor
@@ -206,11 +205,27 @@ M.setup = function()
   require('fschauen.keymap').setup()
   require('fschauen.diagnostic').setup()
 
+  local group = vim.api.nvim_create_augroup('fschauen', { clear = true } )
+
   vim.api.nvim_create_autocmd('TextYankPost', {
     desc = 'Briefly highlight yanked text.',
-    group = vim.api.nvim_create_augroup('fschauen.yank', { clear = true } ),
+    group = group,
     pattern = '*',
     callback = function(_) vim.highlight.on_yank() end
+  })
+
+  vim.api.nvim_create_autocmd('InsertEnter', {
+    desc = 'Hide cursor line when entering insert mode.',
+    group = group,
+    pattern = '*',
+    callback = function(_) vim.opt.cursorlineopt = 'number' end
+  })
+
+  vim.api.nvim_create_autocmd('InsertLeave', {
+    desc = 'Show cursor line when leaving insert mode.',
+    group = group,
+    pattern = '*',
+    callback = function(_) vim.opt.cursorlineopt = 'both' end
   })
 
   vim.filetype.add {
