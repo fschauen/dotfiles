@@ -77,6 +77,9 @@ local keymap = {
   { '<c-j>', '<down>', mode = 'c' },
   { '<c-k>', '<up>',   mode = 'c' },
 
+  -- trigger InsertLeave when leaving Insert mode with ctrl-c (see :help i_CTRL-C)
+  { '<c-c>', '<esc>', mode = 'i' },
+
   -- quickly change background
   { '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]] },
 
