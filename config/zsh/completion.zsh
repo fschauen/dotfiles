@@ -35,10 +35,32 @@ zstyle ':completion:*:*:*:*:messages'     format '%F{cyan} ❯❯ %d ❮❮%f'
 zstyle ':completion:*:*:*:*:warnings'     format '%F{red} ❯❯ no matches ❮❮%f'
 zstyle ':completion:*:*:*:*:default'      list-colors true
 
-# Menu completion.
+##################
+# Menu selection #
+##################
 zstyle ':completion:*' menu select
+zstyle ':completion:*:*:*:*:default' select-prompt '%F{yellow}%l (%p)%f'
+
+# Navigate the list with `hjkl`.
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
+
+# Accept selected match and keep menu open.
+bindkey -M menuselect 'p' accept-and-hold
+
+# Accept selected match and restart completion (allows drilling down directories).
+bindkey -M menuselect '/' accept-and-infer-next-history
+
+# Remove previously inserted matches.
+bindkey -M menuselect 'u' undo
+
+# Jump to first/last line.
+bindkey -M menuselect 'g' beginning-of-history
+bindkey -M menuselect 'G' end-of-history
+
+# Page down/up.
+bindkey -M menuselect 'f' vi-forward-word
+bindkey -M menuselect 'b' vi-backward-word
 
