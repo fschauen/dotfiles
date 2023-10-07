@@ -74,6 +74,7 @@ M.setup = function()
       ['${HOME}/.ssh/config.d/.*'] = 'sshconfig',
       ['.*/ssh/config'] = 'sshconfig',
       ['.*/git/config'] = 'gitconfig',
+      ['.*config/zsh/.*'] = 'zsh',
     }
   }
 
