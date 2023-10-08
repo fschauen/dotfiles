@@ -16,3 +16,6 @@ unset filepath
 # Prevent ctrl-s from freezing the terminal.
 stty stop undef
 
+# Allow comments in interactive use.
+setopt INTERACTIVE_COMMENTS
+
