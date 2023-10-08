@@ -1,6 +1,9 @@
 zmodload zsh/complist
 autoload -Uz compinit && compinit
 
+# Include hidden files when completing.
+_comp_options+=(globdots)
+
 # Completion context pattern:
 #   :completion:<function>:<completer>:<command>:<argument>:<tag>
 
