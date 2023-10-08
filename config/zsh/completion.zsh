@@ -51,7 +51,7 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'p' accept-and-hold
 
 # Accept selected match and restart completion (allows drilling down directories).
-bindkey -M menuselect '/' accept-and-infer-next-history
+bindkey -M menuselect '\t' accept-and-infer-next-history
 
 # Remove previously inserted matches.
 bindkey -M menuselect 'u' undo
