@@ -7,10 +7,10 @@ _comp_options+=(globdots)
 # Completion context pattern:
 #   :completion:<function>:<completer>:<command>:<argument>:<tag>
 
-zstyle ':completion:*' completer _extensions _complete _approximate
+zstyle ':completion:*' completer _extensions _complete
 
 # Match case-insensitively and on partial words.
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
 
 # Activate caching for completions that may use it.
 zstyle ':completion:*' use-cache true
