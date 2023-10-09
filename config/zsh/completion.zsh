@@ -31,11 +31,11 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*:*:-command-:*:*' group-order builtins aliases functions commands
 
 # Colors!
-zstyle ':completion:*:*:*:*:descriptions' format '%F{green} ❯❯ %d ❮❮%f'
-zstyle ':completion:*:*:*:*:corrections'  format '%F{yellow} ❯❯ %d ❮❮%f'
-zstyle ':completion:*:*:*:*:original'     format '%F{yellow} ❯❯ %d ❮❮%f'
-zstyle ':completion:*:*:*:*:messages'     format '%F{cyan} ❯❯ %d ❮❮%f'
-zstyle ':completion:*:*:*:*:warnings'     format '%F{red} ❯❯ no matches ❮❮%f'
+zstyle ':completion:*:*:*:*:descriptions' format '%F{green}❯❯ %d%f'
+zstyle ':completion:*:*:*:*:corrections'  format '%F{yellow}❯❯ %d%f'
+zstyle ':completion:*:*:*:*:original'     format '%F{yellow}❯❯ %d%f'
+zstyle ':completion:*:*:*:*:messages'     format '%F{cyan}❯❯ %d%f'
+zstyle ':completion:*:*:*:*:warnings'     format '%F{red}❯❯ no matches%f'
 zstyle ':completion:*:*:*:*:default'      list-colors true
 
 ##################
