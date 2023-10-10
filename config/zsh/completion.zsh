@@ -42,7 +42,7 @@ zstyle ':completion:*:*:*:*:default'      list-colors true
 # Menu selection #
 ##################
 zstyle ':completion:*' menu select
-zstyle ':completion:*:*:*:*:default' select-prompt '%F{yellow}%l (%p)%f'
+zstyle ':completion:*:*:*:*:default' select-prompt '%K{yellow}%F{black}%l (%p)%f%k'
 
 # Navigate the list with `hjkl`.
 bindkey -M menuselect 'h' vi-backward-char
