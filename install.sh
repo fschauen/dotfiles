@@ -127,7 +127,7 @@ execute() {
 
   heading 'create required directories'
   make_dir "$DESTDIR/.ssh/"
-  make_dir "$DESTDIR/.local/cache/zsh/"
+  make_dir "$DESTDIR/.cache/zsh/"
   make_dir "$DESTDIR/.local/etc/git/"
   make_dir "$DESTDIR/.local/share/less/"
   make_dir "$DESTDIR/.local/share/python/"
