@@ -18,7 +18,6 @@
     lla     = ll --all
     s       = status --short
     ss      = status
-    start   = !git init && git commit --allow-empty -m \"Initial commit\" && git l
 
 [pretty]
     basic = %C(auto)%h%d %s %C(8) %ad

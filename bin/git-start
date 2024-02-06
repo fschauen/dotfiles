@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Initialize a git repository and automatically create an empty root commit.
+# NOTE: requires the `l` alias to be defined (see .gitconfig)
+
+git init && git commit --allow-empty -m "Initial commit" && git l
+
