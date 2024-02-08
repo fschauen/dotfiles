@@ -6,26 +6,16 @@ M.dependencies = {
   'nvim-treesitter/playground',
 }
 
-M.event = {
-  'BufReadPost',
-  'BufNewFile'
-}
-
-M.cmd = {
-  'TSInstall',
-  'TSUninstall',
-  'TSUpdate',
-  'TSUpdateSync',
-  'TSInstallInfo',
-  'TSInstallSync',
-  'TSInstallFromGrammar',
-}
-
 M.keys = {
   { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
   { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
   { '<leader>tn', '<cmd>TSNodeUnderCursor<cr>' },
 }
+
+-- When lazy loading treesitter, I get a problem when I open the first file
+-- using Telescope: treesitter is used correctly in the previewer but is broken
+-- afterwards.
+M.lazy = false
 
 M.config = function()
   require('nvim-treesitter.configs').setup {
