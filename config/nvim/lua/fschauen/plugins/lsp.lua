@@ -42,7 +42,7 @@ M.config = function()
     end,
 
     on_init = function(client, --[[init_result]]_)
-      -- Opt out of semantic highlighting because it has been casusing the issues
+      -- Opt out of semantic highlighting because it has been causing the issues
       -- https://github.com/neovim/nvim-lspconfig/issues/2542#issuecomment-1547019213
       if client.server_capabilities then
         client.server_capabilities.semanticTokensProvider = false
