@@ -169,33 +169,33 @@ render_exec_time() {
 
 # Hook triggered when a command is about to be executed.
 prompt_preexec_hook() {
-    PROMPT_EXEC_START=$EPOCHSECONDS
+  PROMPT_EXEC_START=$EPOCHSECONDS
 }
 
 # Hook triggered right before the prompt is drawn.
 prompt_precmd_hook() {
-    PROMPT_EXIT_CODE=$?  # this needs to be captured before anything else runs
+  PROMPT_EXIT_CODE=$?  # this needs to be captured before anything else runs
 
-    local stop=$EPOCHSECONDS
-    local start=${PROMPT_EXEC_START:-$stop}
-    PROMPT_EXEC_TIME=$((stop - start))
-    unset PROMPT_EXEC_START  # needed because preexec is not always called
+  local stop=$EPOCHSECONDS
+  local start=${PROMPT_EXEC_START:-$stop}
+  PROMPT_EXEC_TIME=$((stop - start))
+  unset PROMPT_EXEC_START  # needed because preexec is not always called
 
-    local job_count='%j'; PROMPT_JOB_COUNT=${(%)job_count}
+  local job_count='%j'; PROMPT_JOB_COUNT=${(%)job_count}
 }
 
 prompt_setup() {
-    setopt NO_PROMPT_BANG PROMPT_CR PROMPT_PERCENT PROMPT_SP PROMPT_SUBST
-    export PROMPT_EOL_MARK=''  # don't show % when a partial line is preserved
-    export VIRTUAL_ENV_DISABLE_PROMPT=1  # we're doing it ourselves
+  setopt NO_PROMPT_BANG PROMPT_CR PROMPT_PERCENT PROMPT_SP PROMPT_SUBST
+  export PROMPT_EOL_MARK=''  # don't show % when a partial line is preserved
+  export VIRTUAL_ENV_DISABLE_PROMPT=1  # we're doing it ourselves
 
-    zmodload zsh/datetime   # so that $EPOCHSECONDS is available
+  zmodload zsh/datetime   # so that $EPOCHSECONDS is available
 
-    autoload -Uz add-zsh-hook
-    add-zsh-hook precmd prompt_precmd_hook
-    add-zsh-hook preexec prompt_preexec_hook
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd prompt_precmd_hook
+  add-zsh-hook preexec prompt_preexec_hook
 
-    PS1='$(render_prompt)'
+  PS1='$(render_prompt)'
 }
 
 prompt_setup
