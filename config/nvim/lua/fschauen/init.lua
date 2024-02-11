@@ -14,5 +14,7 @@ require('fschauen.diagnostic').setup()
 require('fschauen.autocmd').setup()
 require('fschauen.filetype').setup()
 require('fschauen.lazy').setup()
-require('fschauen.colorscheme').setup()
+
+local colorscheme = 'gruvbox'
+vim.cmd('silent! colorscheme ' .. colorscheme)
 
