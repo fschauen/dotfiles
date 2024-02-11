@@ -6,6 +6,11 @@ M.dependencies = {
   'Hoffs/omnisharp-extended-lsp.nvim',
 }
 
+M.event = {
+  'BufReadPre',
+  'BufNewFile',
+}
+
 M.config = function()
   local extend = function(tbl, ...)
     for _, other in ipairs({...}) do
