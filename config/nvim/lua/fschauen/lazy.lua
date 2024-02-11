@@ -1,6 +1,6 @@
 local M = {}
 
-local bootstrap_lazy = function(path)
+local bootstrap = function(path)
   if not vim.loop.fs_stat(path) then
     vim.fn.system {
       'git',
@@ -16,11 +16,13 @@ local bootstrap_lazy = function(path)
 end
 
 M.setup = function()
-  local lazy = bootstrap_lazy(vim.fn.stdpath('data') .. '/lazy/lazy.nvim')
+  local lazy = bootstrap(vim.fn.stdpath('data') .. '/lazy/lazy.nvim')
   if not lazy then
     vim.notify('Lazy not installed and failed to bootstrap!', vim.log.levels.WARN)
     return
   end
+
+  vim.keymap.set('n', '<leader>L', '<cmd>Lazy<cr>')
 
   lazy.setup {
     spec = 'fschauen.plugins',

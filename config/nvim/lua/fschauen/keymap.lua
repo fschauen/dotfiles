@@ -104,9 +104,6 @@ local keymap = {
   {      '<leader>ll', window.toggle_quickfix,  desc = 'Toggle quickfix'  },
   { '<localleader>ll', window.toggle_loclist,   desc = 'Toggle loclist'   },
 
-  -- quickly open lazy.nvim plugin manager
-  { '<leader>L', '<cmd>Lazy<cr>' },
-
   -- toggle options
   { '<leader>sn', toggle_number },
   { '<leader>sr', toggle_relativenumber },
