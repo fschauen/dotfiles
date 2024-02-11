@@ -74,48 +74,52 @@ local pickers = setmetatable({
   end
 })
 
+local desc = function(text)
+  return ' Telescope ' .. text
+end
+
 M.keys = {
-  { '<leader>fa',  pickers.autocommands           '  Autocommands'         , desc = ' Telescope [a]utocommands'            },
-  { '<leader>fb',  pickers.buffers                '  Buffers'              , desc = ' Telescope [b]uffers'                 },
-  { '<leader>fc',  pickers.colorscheme            '  Colorschemes'         , desc = ' Telescope [c]olorschemes'            },
-  { '<leader>fdd', pickers.diagnostics            '󰀪  Document Diagnostics' , desc = ' Telescope [d]iagnostics [d]ocument'  },
-  { '<leader>fdw', pickers.diagnostics            '󰀪  Workspace Diagnostics', desc = ' Telescope [d]iagnostics [w]orkspace' },
+  { '<leader>fa',  pickers.autocommands           '  Autocommands'         , desc = desc('[a]utocommands')            },
+  { '<leader>fb',  pickers.buffers                '  Buffers'              , desc = desc('[b]uffers')                 },
+  { '<leader>fc',  pickers.colorscheme            '  Colorschemes'         , desc = desc('[c]olorschemes')            },
+  { '<leader>fdd', pickers.diagnostics            '󰀪  Document Diagnostics' , desc = desc('[d]iagnostics [d]ocument')  },
+  { '<leader>fdw', pickers.diagnostics            '󰀪  Workspace Diagnostics', desc = desc('[d]iagnostics [w]orkspace') },
   --'<leader>fe'
-  { '<leader>ff',  pickers.find_files             '  Files'                , desc = ' Telescope [f]ind files'              },
-  { '<leader>fF',  pickers.all_files              '  ALL files'            , desc = ' Telescope all [F]iles'               },
-  { '<leader>fgr', pickers.live_grep              '  Live grep'            , desc = ' Telescope Live [gr]ep'               },
-  { '<leader>fgf', pickers.git_files              '  Git files'            , desc = ' Telescope [g]it [f]iles'             },
-  { '<leader>fgc', pickers.git_commits            ' Commits'             , desc = ' Telescope [g]it [c]ommits'           },
-  { '<leader>fh',  pickers.here                   '  Current buffer'       , desc = ' Telescope [b]uffer [h]ere'           },
-  { '<leader>fH',  pickers.highlights             '󰌶  Highlights'           , desc = ' Telescope [H]ighlights'              },
+  { '<leader>ff',  pickers.find_files             '  Files'                , desc = desc('[f]ind files')              },
+  { '<leader>fF',  pickers.all_files              '  ALL files'            , desc = desc('all [F]iles')               },
+  { '<leader>fgr', pickers.live_grep              '  Live grep'            , desc = desc('Live [gr]ep')               },
+  { '<leader>fgf', pickers.git_files              '  Git files'            , desc = desc('[g]it [f]iles')             },
+  { '<leader>fgc', pickers.git_commits            ' Commits'             , desc = desc('[g]it [c]ommits')           },
+  { '<leader>fh',  pickers.here                   '  Current buffer'       , desc = desc('[b]uffer [h]ere')           },
+  { '<leader>fH',  pickers.highlights             '󰌶  Highlights'           , desc = desc('[H]ighlights')              },
   --'<leader>fi'
-  { '<leader>fj',  pickers.jumplist               '  Jumplist'             , desc = ' Telescope [j]umplist'                },
-  { '<leader>fk',  pickers.keymaps                '  Keymaps'              , desc = ' Telescope [k]eymaps'                 },
-  { '<leader>fK',  pickers.help_tags              '  Help tags'            , desc = ' Telescope [K] help/documentation'    },
-  { '<leader>fl',  pickers.loclist                '  Location list'        , desc = ' Telescope [l]ocation List'           },
-  { '<leader>fm',  pickers.man_pages              '  Man pages'            , desc = ' Telescope [m]an pages'               },
+  { '<leader>fj',  pickers.jumplist               '  Jumplist'             , desc = desc('[j]umplist')                },
+  { '<leader>fk',  pickers.keymaps                '  Keymaps'              , desc = desc('[k]eymaps')                 },
+  { '<leader>fK',  pickers.help_tags              '  Help tags'            , desc = desc('[K] help/documentation')    },
+  { '<leader>fl',  pickers.loclist                '  Location list'        , desc = desc('[l]ocation List')           },
+  { '<leader>fm',  pickers.man_pages              '  Man pages'            , desc = desc('[m]an pages')               },
   --'<leader>fn'
-  { '<leader>fo',  pickers.vim_options            '  Vim options'          , desc = ' Telescope vim [o]ptions'             },
+  { '<leader>fo',  pickers.vim_options            '  Vim options'          , desc = desc('vim [o]ptions')             },
   --'<leader>fp'
-  { '<leader>fq',  pickers.quickfix               '  Quickfix'             , desc = ' Telescope [q]uickfix'                },
-  { '<leader>fr',  pickers.lsp_references         '  References'           , desc = ' Telescope [r]eferences'              },
-  { '<leader>fR',  pickers.registers              '󱓥  Registers'            , desc = ' Telescope [R]registers'              },
-  { '<leader>fs',  pickers.lsp_document_symbols   '󰫧  Document Symbols '    , desc = ' Telescope lsp document [s]ymbols'    },
-  { '<leader>fS',  pickers.lsp_workspace_symbols  '󱄑  Workspace Symbols '   , desc = ' Telescope lsp workspace [S]ymbols'   },
+  { '<leader>fq',  pickers.quickfix               '  Quickfix'             , desc = desc('[q]uickfix')                },
+  { '<leader>fr',  pickers.lsp_references         '  References'           , desc = desc('[r]eferences')              },
+  { '<leader>fR',  pickers.registers              '󱓥  Registers'            , desc = desc('[R]registers')              },
+  { '<leader>fs',  pickers.lsp_document_symbols   '󰫧  Document Symbols '    , desc = desc('lsp document [s]ymbols')    },
+  { '<leader>fS',  pickers.lsp_workspace_symbols  '󱄑  Workspace Symbols '   , desc = desc('lsp workspace [S]ymbols')   },
   --'<leader>ft'   used in todo_comments
-  { '<leader>fT',  pickers.treesitter             '  Treesitter symbols'   , desc = ' Telescope [T]reesitter Symbols'      },
+  { '<leader>fT',  pickers.treesitter             '  Treesitter symbols'   , desc = desc('[T]reesitter Symbols')      },
   --'<leader>fu'
   --'<leader>fv'
-  { '<leader>fw',  pickers.selection              '  Grep'                 , desc = ' Telescope [w]word under cursor'      },
-  { '<leader>fw',  pickers.selection              '  Grep',  mode = 'v'    , desc = ' Telescope [w]ord(s) selected'        },
+  { '<leader>fw',  pickers.selection              '  Grep'                 , desc = desc('[w]word under cursor')      },
+  { '<leader>fw',  pickers.selection              '  Grep',  mode = 'v'    , desc = desc('[w]ord(s) selected')        },
   --'<leader>fx'
   --'<leader>fy'
-  { '<leader>fz',  pickers.spell_suggest          '󰓆  Spelling suggestions' , desc = ' Telescope [z] spell suggestions'     },
-  { '<leader>f.',  pickers.dotfiles               '  Dotfiles'             , desc = ' Telescope [.]dotfiles'               },
-  { '<leader>f:',  pickers.command_history        '  Command history'      , desc = ' Telescope [:]command history'        },
-  { '<leader>f?',  pickers.commands               '  Commands'             , desc = ' Telescope commands [?]'              },
-  { '<leader>f/',  pickers.search_history         '  Search history'       , desc = ' Telescope [/]search history'         },
-  { '<leader>f<leader>', pickers.resume           '󰐎  Resume'               , desc = ' Telescope Resume '                   },
+  { '<leader>fz',  pickers.spell_suggest          '󰓆  Spelling suggestions' , desc = desc('[z] spell suggestions')     },
+  { '<leader>f.',  pickers.dotfiles               '  Dotfiles'             , desc = desc('[.]dotfiles')               },
+  { '<leader>f:',  pickers.command_history        '  Command history'      , desc = desc('[:]command history')        },
+  { '<leader>f?',  pickers.commands               '  Commands'             , desc = desc('commands [?]')              },
+  { '<leader>f/',  pickers.search_history         '  Search history'       , desc = desc('[/]search history')         },
+  { '<leader>f<leader>', pickers.resume           '󰐎  Resume'               , desc = desc('Resume ')                   },
 }
 
 local icons = require('fschauen.icons')
