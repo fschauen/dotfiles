@@ -12,59 +12,59 @@ M.dependencies = {
   'saadparwaiz1/cmp_luasnip',
 }
 
-M.event = 'InsertEnter'
+M.event = {
+  'CmdlineEnter',
+  'InsertEnter',
+}
 
-local repeat_mapping = function(value, keys)
-    local tbl = {}
-    for _, k in ipairs(keys) do tbl[k] = value end
-    return tbl
-end
+local make_keymap = function(cmp)
+  local select = { behavior = cmp.SelectBehavior.Select }
 
-local transform_keymap = function(mappings, modes)
-  modes = modes or 'n'
-  modes = type(modes) == 'table' and modes or { modes }
-  local tbl = {}
-  for lhs, rhs in pairs(mappings) do
-    tbl[lhs] = repeat_mapping(rhs, modes)
+  local either = function(yes, no)
+    return function(fallback)
+      if cmp.visible() then yes(fallback) else no(fallback) end
+    end
   end
-  return tbl
-end
 
-local cond = function(condition, yes, no)
-  return function(fallback)
-    if condition() then yes(fallback) else no(fallback) end
+  -- Mappings that should work in both command line and Insert mode.
+  local common = {
+    ['<c-n>']    = either(cmp.mapping.select_next_item(select), cmp.mapping.complete()),
+    ['<c-p>']    = either(cmp.mapping.select_prev_item(select), cmp.mapping.complete()),
+
+    ['<down>']   = cmp.mapping.select_next_item(select),
+    ['<up>']     = cmp.mapping.select_prev_item(select),
+
+    ['<c-f>']    = cmp.mapping.scroll_docs( 3),
+    ['<s-down>'] = cmp.mapping.scroll_docs( 3),
+    ['<c-b>']    = cmp.mapping.scroll_docs(-3),
+    ['<s-up>']   = cmp.mapping.scroll_docs(-3),
+
+    ['<c-e>']    = cmp.mapping.abort(),
+    ['<c-y>']    = cmp.mapping.confirm { select = true },
+  }
+
+  -- I want <tab> to start completion on the command line, but not in Insert.
+  local keymap = {
+    ['<tab>'] = {
+      i = either(cmp.mapping.confirm { select = true }, function(fallback) fallback() end),
+      c = either(cmp.mapping.confirm { select = true }, cmp.mapping.complete()),
+    }
+  }
+
+  -- Turn { lhs = rhs } into { lhs = { i = rhs, c = rhs } }.
+  for lhs, rhs in pairs(common) do
+    keymap[lhs] = { i = rhs, c = rhs }
   end
+
+  return cmp.mapping.preset.insert(keymap)
 end
 
 M.config = function()
   local cmp = require 'cmp'
-  local map = cmp.mapping
-
-  local keymap = {
-    ['<c-n>']    = cond(cmp.visible,
-                        map.select_next_item { behavior = cmp.SelectBehavior.Select },
-                        map.complete()),
-    ['<c-p>']    = cond(cmp.visible,
-                        map.select_prev_item { behavior = cmp.SelectBehavior.Select },
-                        map.complete()),
-
-    ['<down>']   = map.select_next_item { behavior = cmp.SelectBehavior.Select },
-    ['<up>']     = map.select_prev_item { behavior = cmp.SelectBehavior.Select },
-
-    ['<c-f>']    = map.scroll_docs( 3),
-    ['<s-down>'] = map.scroll_docs( 3),
-    ['<c-b>']    = map.scroll_docs(-3),
-    ['<s-up>']   = map.scroll_docs(-3),
-
-    ['<c-e>']    = map.abort(),
-    ['<c-y>']    = map.confirm { select = true },
-    ['<tab>']    = cond(cmp.visible,
-                        map.confirm { select = true },
-                        function(fallback) fallback() end),
-  }
+  local keymap = make_keymap(cmp)
 
   cmp.setup {
-    mapping = transform_keymap(keymap, 'i'),
+    mapping = keymap,
 
     enabled = function()
       local c = require 'cmp.config.context'
@@ -113,11 +113,7 @@ M.config = function()
   }
 
   cmp.setup.cmdline(':', {
-    mapping = transform_keymap(
-      vim.tbl_extend('force', keymap, {
-        ['<tab>'] = cond(cmp.visible, map.confirm {select = true }, map.complete()),
-      }),
-      'c'),
+    mapping = keymap,
 
     completion = {
       autocomplete = false,
