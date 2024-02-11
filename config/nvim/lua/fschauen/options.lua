@@ -131,10 +131,10 @@ M.setup = function()
 
   -- Options for diff mode
   o.diffopt = {     -- better side-by-side diffs
-  'filler',       -- show filler lines (so text is vertically synced)
-  'vertical',     -- use vertical splits (files side-by-side)
-  'closeoff',     -- disable diff mode when one window is closed
-}
+    'filler',       -- show filler lines (so text is vertically synced)
+    'vertical',     -- use vertical splits (files side-by-side)
+    'closeoff',     -- disable diff mode when one window is closed
+  }
 end
 
 return M
