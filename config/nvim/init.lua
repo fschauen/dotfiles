@@ -1,2 +1,2 @@
-require('fschauen').setup()
+require('fschauen')
 
