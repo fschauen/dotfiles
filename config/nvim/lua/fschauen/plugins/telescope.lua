@@ -82,6 +82,7 @@ M.keys = {
   { '<leader>fa',  pickers.autocommands           '  Autocommands'         , desc = desc('[a]utocommands')            },
   { '<leader>fb',  pickers.buffers                '  Buffers'              , desc = desc('[b]uffers')                 },
   { '<leader>fc',  pickers.colorscheme            '  Colorschemes'         , desc = desc('[c]olorschemes')            },
+  { '<leader>fC',  pickers.commands               '  Commands'             , desc = desc('[C]ommands')              },
   { '<leader>fdd', pickers.diagnostics            '󰀪  Document Diagnostics' , desc = desc('[d]iagnostics [d]ocument')  },
   { '<leader>fdw', pickers.diagnostics            '󰀪  Workspace Diagnostics', desc = desc('[d]iagnostics [w]orkspace') },
   --'<leader>fe'
@@ -117,7 +118,6 @@ M.keys = {
   { '<leader>fz',  pickers.spell_suggest          '󰓆  Spelling suggestions' , desc = desc('[z] spell suggestions')     },
   { '<leader>f.',  pickers.dotfiles               '  Dotfiles'             , desc = desc('[.]dotfiles')               },
   { '<leader>f:',  pickers.command_history        '  Command history'      , desc = desc('[:]command history')        },
-  { '<leader>f?',  pickers.commands               '  Commands'             , desc = desc('commands [?]')              },
   { '<leader>f/',  pickers.search_history         '  Search history'       , desc = desc('[/]search history')         },
   { '<leader>f<leader>', pickers.resume           '󰐎  Resume'               , desc = desc('Resume ')                   },
 }
