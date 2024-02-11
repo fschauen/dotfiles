@@ -12,6 +12,8 @@ M.dependencies = {
   'saadparwaiz1/cmp_luasnip',
 }
 
+M.event = 'InsertEnter'
+
 local repeat_mapping = function(value, keys)
     local tbl = {}
     for _, k in ipairs(keys) do tbl[k] = value end
