@@ -12,19 +12,13 @@ M.event = {
 }
 
 M.config = function()
-  local extend = function(tbl, ...)
-    for _, other in ipairs({...}) do
-      tbl = vim.tbl_deep_extend('force', tbl, other or {})
-    end
-    return tbl
-  end
-
   local border = { border = 'rounded' }
 
-  local opts = {
-    capabilities = extend(
+  local default_opts = {
+    capabilities = vim.tbl_deep_extend(
+      'force',
       vim.lsp.protocol.make_client_capabilities(),
-      vim.F.npcall(function() require('cmp_nvim_lsp').default_capabilities() end)
+      vim.F.npcall(function() require('cmp_nvim_lsp').default_capabilities() end) or {}
     ),
 
     handlers = {
@@ -59,11 +53,12 @@ M.config = function()
   require('mason').setup { ui = border }
   require('mason-lspconfig').setup {
     handlers = {
-      --[[ default = ]] function(server)
-        require('lspconfig')[server].setup(opts)
+      --[[default =]] function(server)
+        require('lspconfig')[server].setup(default_opts)
       end,
-      lua_ls = function()
-        require('lspconfig').lua_ls.setup(extend(opts, {
+
+      lua_ls = function(--[[server]]_)
+        local opts = vim.tbl_deep_extend('force', default_opts, {
           settings = {
             Lua = {
               -- I'm using lua only inside neovim, so the runtime is LuaJIT.
@@ -79,10 +74,12 @@ M.config = function()
               telemetry = { enable = false },
             },
           },
-        }))
+        })
+        require('lspconfig').lua_ls.setup(opts)
       end,
-      omnisharp = function()
-        require('lspconfig').omnisharp.setup(extend(opts, {
+
+      omnisharp = function(--[[server]]_)
+        local opts = vim.tbl_deep_extend('force', default_opts, {
           -- Use .editoconfig for code style, naming convention and analyzer settings.
           enable_editorconfig_support = true,
 
@@ -98,7 +95,8 @@ M.config = function()
           handlers = {
              ['textDocument/definition'] = require('omnisharp_extended').handler,
           },
-        }))
+        })
+        require('lspconfig').omnisharp.setup(opts)
       end,
     },
   }
