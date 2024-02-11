@@ -9,12 +9,14 @@ M.keys = {
 }
 
 M.config = function()
+  local icons = require('fschauen.icons')
+
   require('neogit').setup {
     disable_hint = true,
     signs = {
-      section = { '', '' },
-      item    = { '', '' },
-      hunk    = { '', '' },
+      section = { icons.ui.Folder, icons.ui.EmptyFolderOpen },
+      item    = { icons.ui.ChevronRight, icons.ui.ChevronDown },
+      hunk    = { icons.ui.ChevronSmallRight, icons.ui.ChevronSmallDown },
     },
     mappings = {
       status = {

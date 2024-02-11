@@ -14,16 +14,18 @@ M.keys = {
   { '<leader>ft', '<cmd>TodoTelescope<cr>' },
 }
 
+local icons = require('fschauen.icons')
+
 M.config = function()
   require('todo-comments').setup {
     keywords = {
-      TODO = { icon = '󰄬 ' },
-      FIX  = { icon = ' ' },
-      HACK = { icon = ' ' },
-      WARN = { icon = ' ' },
-      PERF = { icon = '󰓅 ' },
-      NOTE = { icon = '' },
-      TEST = { icon = '󰙨 ' },
+      TODO = { icon = icons.ui.Checkmark },
+      FIX  = { icon = icons.ui.Bug },
+      HACK = { icon = icons.ui.Fire },
+      WARN = { icon = icons.ui.Warning },
+      PERF = { icon = icons.ui.Gauge },
+      NOTE = { icon = icons.ui.Note },
+      TEST = { icon = icons.ui.TestTube },
     },
   }
 end

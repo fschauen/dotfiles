@@ -1,13 +1,15 @@
 local M = { 'lukas-reineke/indent-blankline.nvim' }
 
+local icons = require('fschauen.icons')
+
 M.config = function()
   require('ibl').setup {
     enabled = false,
     indent = {
-      char = '▏',
+      char = icons.ui.LineLeft,
     },
     scope = {
-      char = '▎',
+      char = icons.ui.LineLeftBold,
       enabled = false,
       show_start = false,
       show_end = false,

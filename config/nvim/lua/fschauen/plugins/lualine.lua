@@ -1,7 +1,8 @@
+local M = { 'nvim-lualine/lualine.nvim' }
+
+local icons = require('fschauen.icons')
 local orange = '#d65d0e'
 local bright = '#ffffff'  -- alternative: '#f9f5d7'
-
-local M = { 'nvim-lualine/lualine.nvim' }
 
 M.dependencies = {
   'nvim-tree/nvim-web-devicons',
@@ -52,26 +53,26 @@ M.config = function()
     local C = require('lualine.component'):extend()
 
     C.map = {
-      ['n']  = '', -- 'Normal ', -- Normal
-      ['no'] = '', -- 'O-Pend ', -- Operator-pending
-      ['ni'] = '', -- 'Normal ', -- Normal via i_CTRL-O
-      ['v']  = '󰒉', -- 'Visual ', -- Visual by character
-      [''] = '󰩭', -- 'V-Block', -- Visual blockwise
-      ['s']  = '󰒉', -- 'Select ', -- Select by character
-      [''] = '󰩭', -- 'S-Block', -- Select blockwise
-      ['i']  = '', -- 'Insert ', -- Insert
-      ['r']  = '󰄾', -- 'Replace', -- Replace
-      ['rv'] = '󰶻', -- 'V-Repl ', -- Virtual Replace
-      ['c']  = '', -- 'Command', -- Command-line
-      ['cv'] = '', -- '  Ex   ', -- Ex mode
-      ['rm'] = '', -- ' modeore  ', -- -- modeORE --
-      ['r?'] = '󰭚', -- 'Confirm', -- :confirm
-      ['!']  = '', -- ' Shell ', -- External command executing
-      ['t']  = '', -- ' Term  ', -- Terminal
+      ['n']  = icons.modes.Normal,          -- 'Normal ',    -- Normal
+      ['no'] = icons.modes.OperatorPending, -- 'O-Pend ',    -- Operator-pending
+      ['ni'] = icons.modes.NormalI,         -- 'Normal ',    -- Normal via i_CTRL-O
+      ['v']  = icons.modes.Visual,          -- 'Visual ',    -- Visual by character
+      [''] = icons.modes.VisualBlock,     -- 'V-Block',    -- Visual blockwise
+      ['s']  = icons.modes.Select,          -- 'Select ',    -- Select by character
+      [''] = icons.modes.SelectBlock,     -- 'S-Block',    -- Select blockwise
+      ['i']  = icons.modes.Insert,          -- 'Insert ',    -- Insert
+      ['r']  = icons.modes.Replace,         -- 'Replace',    -- Replace
+      ['rv'] = icons.modes.VirtualReplace,  -- 'V-Repl ',    -- Virtual Replace
+      ['c']  = icons.modes.Command,         -- 'Command',    -- Command-line
+      ['cv'] = icons.modes.Ex,              -- '  Ex   ',    -- Ex mode
+      ['rm'] = icons.modes.modeore,         -- ' modeore  ', -- -- modeORE --
+      ['r?'] = icons.modes.Cofirm,          -- 'Confirm',    -- :confirm
+      ['!']  = icons.modes.Shell,           -- ' Shell ',    -- External command executing
+      ['t']  = icons.modes.Term,            -- ' Term  ',    -- Terminal
     }
 
     function C:update_status(is_focused)
-      if not is_focused then return ' 󰒲 ' end
+      if not is_focused then return ' ' .. icons.ui.Sleep end
 
       local code = vim.api.nvim_get_mode().mode:lower()
       local symbol = C.map[code:sub(1, 2)] or C.map[code:sub(1, 1)] or code
@@ -102,7 +103,7 @@ M.config = function()
       if next(count) == nil then return '' end
 
       local denominator = count.total > count.maxcount and '' or string.format('%d', count.total)
-      return string.format(' %d/%s', count.current, denominator)
+      return string.format(icons.ui.Search .. '%d/%s', count.current, denominator)
     end
 
     return C
@@ -142,7 +143,7 @@ M.config = function()
       local lineno = vim.fn.search(trailing, 'nwc')
       if lineno == 0 then return '' end
 
-      local result = ' ' .. lineno
+      local result = icons.ui.Attention .. lineno
 
       local total = vim.fn.searchcount({ pattern = trailing }).total
       if total > 1 then result = result .. string.format(' (%d total)', total) end
@@ -157,9 +158,8 @@ M.config = function()
     end,
   }
 
-
   local paste = {
-    colored_if_focused(function(has_focus) return has_focus and '' or ' ' end),
+    colored_if_focused(function(has_focus) return has_focus and icons.ui.Paste or '  ' end),
     color = {
       bg = orange,
     },
@@ -169,8 +169,8 @@ M.config = function()
   local status = {
     colored_if_focused(function(_)
       local status = ''
-      if vim.bo.modified then status = status .. '' end
-      if vim.bo.readonly or not vim.bo.modifiable then status = status .. 'RO' end
+      if vim.bo.modified then status = status .. icons.ui.Modified end
+      if vim.bo.readonly or not vim.bo.modifiable then status = status .. icons.ui.ReadOnly end
       return status
     end),
     color = {
@@ -184,7 +184,7 @@ M.config = function()
       mode
     },
     lualine_b = {
-      { 'branch', icon = '󰘬', cond = window.is_medium },
+      { 'branch', icon = icons.git.Branch, cond = window.is_medium },
     },
     lualine_c = {
       filename,

@@ -118,6 +118,8 @@ M.keys = {
   { '<leader>f<leader>', pickers.resume           '󰐎  Resume'               , desc = ' Telescope Resume '                   },
 }
 
+local icons = require('fschauen.icons')
+
 M.config = function()
   local actions = require('telescope.actions')
   local layout  = require('telescope.actions.layout')
@@ -143,10 +145,10 @@ M.config = function()
         n = mappings,
       },
 
-      prompt_prefix = '   ',     -- Alternatives:   ❯
-      selection_caret = ' ',     -- Alternatives:   ➔  
+      prompt_prefix = '   ',
+      selection_caret = icons.ui.Play,
 
-      multi_icon = '󰄬 ',          -- Alternatives: 󰄬    
+      multi_icon = icons.ui.Checkmark,
       scroll_strategy = 'limit',  -- Don't wrap around in results.
 
       dynamic_preview_title = true,

@@ -1,5 +1,7 @@
 local M = {}
 
+local icons = require('fschauen.icons')
+
 -- Show/navigate warning and errors by default.
 M.severity = vim.diagnostic.severity.WARN
 
@@ -80,7 +82,7 @@ M.setup = function()
     underline = false,
     virtual_text = {
       spacing = 6,
-      prefix = '●',
+      prefix = icons.ui.Circle,
       severity = {
         min = M.severity,
       }
@@ -91,14 +93,7 @@ M.setup = function()
     severity_sort = true,
   }
 
-  local signs = {
-    Error = ' ',
-    Warn = ' ',
-    Info = ' ',
-    Hint = ' ',
-  }
-
-  for type, icon in pairs(signs) do
+  for type, icon in pairs(icons.diagnostics) do
     local hl = 'DiagnosticSign' .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
   end

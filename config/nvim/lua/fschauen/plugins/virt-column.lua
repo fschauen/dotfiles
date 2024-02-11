@@ -19,7 +19,7 @@ M.keys = {
 
 M.config = function()
   require('virt-column').setup {
-    char = '│',
+    char = require('fschauen.icons').ui.LineMiddle,
   }
 end
 

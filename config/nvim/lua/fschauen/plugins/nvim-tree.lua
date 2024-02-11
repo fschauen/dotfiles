@@ -11,6 +11,8 @@ M.keys = {
 }
 
 M.config = function()
+  local icons = require('fschauen.icons')
+
   require('nvim-tree').setup {
     disable_netrw = true,       -- replace netrw with nvim-tree
     hijack_cursor = true,       -- keep the cursor on begin of the filename
@@ -50,27 +52,27 @@ M.config = function()
         webdev_colors = false,    -- highlight icons with NvimTreeFileIcon
         git_placement = 'signcolumn',
         glyphs = {
-          default = '',
-          symlink = '',
-          modified = '●',
+          default = icons.ui.File,
+          symlink = icons.ui.FileSymlink,
+          modified = icons.ui.Circle,
           folder = {
-            arrow_closed = '',   --     
-            arrow_open = '',     --     
-            default = '',        --   
-            open = '',           --   
-            empty = '',
-            empty_open = '',
-            symlink = '',
-            symlink_open = '',
+            arrow_closed = icons.ui.ChevronSmallRight,
+            arrow_open   = icons.ui.ChevronSmallDown,
+            default      = icons.ui.Folder,
+            open         = icons.ui.FolderOpen,
+            empty        = icons.ui.EmptyFolder,
+            empty_open   = icons.ui.EmptyFolderOpen,
+            symlink      = icons.ui.FolderSymlink,
+            symlink_open = icons.ui.FolderSymlink,
           },
           git = {
-            untracked = '',
-            unstaged = '✶',
-            staged = '✓',
-            deleted = '✗',
-            unmerged = '',
-            renamed = '➜',
-            ignored = '◌',
+            untracked = icons.git.file.Untracked,
+            unstaged  = icons.git.file.Unstaged,
+            staged    = icons.git.file.Staged,
+            deleted   = icons.git.file.Deleted,
+            unmerged  = icons.git.file.Unmerged,
+            renamed   = icons.git.file.Renamed,
+            ignored   = icons.git.file.Ignored,
           },
         },
       },
