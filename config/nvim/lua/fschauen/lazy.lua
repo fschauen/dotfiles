@@ -32,6 +32,9 @@ M.setup = function()
       border = 'rounded',
       title = '  Lazy  ',
     },
+    change_detection = {
+      notify = false,
+    },
     performance = {
       rtp = {
         disabled_plugins = {
