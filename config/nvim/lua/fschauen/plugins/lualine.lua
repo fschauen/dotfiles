@@ -216,7 +216,6 @@ M.config = function()
         left = '',
         right = ''
       },
-      theme = 'gruvbox',
     },
     sections = sections,
     inactive_sections = sections,
