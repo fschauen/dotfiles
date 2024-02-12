@@ -1,8 +1,10 @@
 local M = {}
 
 local map = function(mode, lhs, rhs, opts)
-  opts = opts or {}
-  opts.silent = opts.silent ~= false  -- silent by default
+  if mode ~= 'c' then
+    opts = opts or {}
+    opts.silent = opts.silent ~= false  -- silent by default
+  end
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
