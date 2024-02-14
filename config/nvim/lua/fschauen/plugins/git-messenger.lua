@@ -14,7 +14,7 @@ M.init = function()
   vim.g.git_messenger_always_into_popup = true
 
   -- Add a border to the floating window, otherwise it's confusing.
-  vim.g.git_messenger_floating_win_opts = { border = 'single' }
+  vim.g.git_messenger_floating_win_opts = { border = 'rounded' }
 
   -- Make the UI a bit more compact by removing margins.
   vim.g.git_messenger_popup_content_margins = false
