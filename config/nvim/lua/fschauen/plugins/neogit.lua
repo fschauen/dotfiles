@@ -5,7 +5,7 @@ M.dependencies = {
 }
 
 M.keys = {
-  { '<leader>gn', '<cmd>Neogit<cr>' },
+  { '<leader>gs', '<cmd>Neogit<cr>', desc = ' [s]tatus with neogit' },
 }
 
 M.config = function()
