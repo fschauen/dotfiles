@@ -1,14 +1,8 @@
-local gruvbox = {
-  'fschauen/gruvbox.nvim',
-  dev = true,
-  lazy = true
+return {
+  { 'fschauen/gruvbox.nvim', dev = true },
+  { 'fschauen/solarized.nvim', dev = true },
+  { 'folke/tokyonight.nvim' },
+  { 'rebelot/kanagawa.nvim' },
+  { 'Mofiqul/dracula.nvim' },
 }
-
-local solarized = {
-  'fschauen/solarized.nvim',
-  dev = true,
-  lazy = true
-}
-
-return { gruvbox, solarized }
 
