@@ -15,6 +15,16 @@ local bootstrap = function(path)
   return vim.F.npcall(require, 'lazy')
 end
 
+local dev_path = function()
+  local paths = {
+    '~/Projects/nvim-plugins',
+    '~/.local/src',
+  }
+  paths = vim.tbl_map(vim.fn.expand, paths)
+  paths = vim.tbl_filter(vim.loop.fs_stat, paths)
+  return paths[1]
+end
+
 M.setup = function()
   local lazy = bootstrap(vim.fn.stdpath('data') .. '/lazy/lazy.nvim')
   if not lazy then
@@ -27,7 +37,7 @@ M.setup = function()
   lazy.setup {
     spec = 'fschauen.plugins',
     dev = {
-      path = '~/Projects/nvim-plugins',
+      path = dev_path(),
       fallback = true,
     },
     ui = {
