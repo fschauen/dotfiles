@@ -17,18 +17,21 @@ M.config = function()
     hijack_cursor = true,       -- keep the cursor on begin of the filename
     sync_root_with_cwd = true,  -- watch for `DirChanged` and refresh the tree
 
-    on_attach = function(bufnr)
+    on_attach = function(buffer)
       local api = require('nvim-tree.api')
-      api.config.mappings.default_on_attach(bufnr)
-
+      local map = vim.keymap.set
       local opts = function(desc)
-        return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, silent = true }
+        return { desc = 'nvim-tree: ' .. desc, buffer = buffer, silent = true }
       end
 
-      vim.keymap.set('n', 'l',    api.node.open.edit,             opts('open'))
-      vim.keymap.set('n', '<CR>', api.node.open.edit,             opts('open'))
-      vim.keymap.set('n', 'o',    api.node.open.edit,             opts('open'))
-      vim.keymap.set('n', 'h',    api.node.navigate.parent_close, opts('close directory'))
+      -- Give me the default mappings except <c-x>, which I replace with <c-s>.
+      api.config.mappings.default_on_attach(buffer)
+      vim.keymap.del('n', '<c-x>', { buffer = buffer })
+
+      map('n', 'l',      api.node.open.edit,             opts('Open'))
+      map('n', '<cr>',   api.node.open.edit,             opts('Open'))
+      map('n', '<c-s>',  api.node.open.horizontal,       opts('Open: Horizontal Split'))
+      map('n', 'h',      api.node.navigate.parent_close, opts('Close directory'))
     end,
 
     git = {
