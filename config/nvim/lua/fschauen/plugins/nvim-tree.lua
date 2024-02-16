@@ -5,9 +5,8 @@ M.dependencies = {
 }
 
 M.keys = {
-  { '<leader>nn', '<cmd>NvimTreeOpen<cr>' },
+  { '<leader>nn', '<cmd>NvimTreeToggle<cr>' },
   { '<leader>nf', '<cmd>NvimTreeFindFile<cr>' },
-  { '<leader>nc', '<cmd>NvimTreeClose<cr>' },
 }
 
 M.config = function()
