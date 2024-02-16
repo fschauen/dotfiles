@@ -151,7 +151,7 @@ M.config = function()
       },
 
       prompt_prefix = '   ',
-      selection_caret = icons.ui.Play,
+      selection_caret = icons.ui.Play .. ' ',
 
       multi_icon = icons.ui.Checkmark,
       scroll_strategy = 'limit',  -- Don't wrap around in results.
