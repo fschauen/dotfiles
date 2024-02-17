@@ -28,6 +28,12 @@ M.config = function()
     timer = {
       spinner_rate = 75,
     },
+    window = {
+      blend = 50,
+    },
+    fmt = {
+      max_messages = 10,
+    }
   }
 end
 
