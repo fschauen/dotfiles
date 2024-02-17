@@ -19,7 +19,7 @@ M.keys = {
   { '<leader>ww', '<cmd>ToggleWhitespace<cr>' },
   { '<leader>wj', '<cmd>NextTrailingWhitespace<cr>' },
   { '<leader>wk', '<cmd>PrevTrailingWhitespace<cr>' },
-  { '<leader>wd', '<cmd>StripWhitespace<cr>' },
+  { '<leader>W',  '<cmd>StripWhitespace<cr>' },
 }
 
 M.config = false
