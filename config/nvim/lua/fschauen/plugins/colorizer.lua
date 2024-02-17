@@ -1,6 +1,8 @@
 local M = { 'norcalli/nvim-colorizer.lua' }
 
-M.cond = vim.opt.termguicolors:get()
+M.cond = function(--[[plugin]]_)
+  return vim.o.termguicolors
+end
 
 M.event = {
   'BufReadPost',
