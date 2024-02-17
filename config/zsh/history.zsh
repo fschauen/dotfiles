@@ -1,6 +1,7 @@
-setopt APPEND_HISTORY     # Append history rather than overwrite.
-setopt EXTENDED_HISTORY   # Save beginning timestamp and duration.
-setopt INC_APPEND_HISTORY # Don't wait until shell exits to save history.
+setopt APPEND_HISTORY         # Append history rather than overwrite.
+setopt EXTENDED_HISTORY       # Save beginning timestamp and duration.
+setopt INC_APPEND_HISTORY     # Don't wait until shell exits to save history.
+setopt HIST_IGNORE_ALL_DUPS   # Don't add duplicates to history.
 
 HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
 HISTSIZE=1000000
