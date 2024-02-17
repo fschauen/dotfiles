@@ -23,19 +23,6 @@ M.setup = function()
     pattern = '*',
     callback = function(_) vim.opt.cursorlineopt = 'both' end
   })
-
-  local lua_go_to_file = function()
-    require('fschauen.util').edit_lua_module(vim.fn.expand('<cfile>'))
-  end
-
-  vim.api.nvim_create_autocmd('FileType', {
-    desc = 'Make `gf` work for lua modules.',
-    group = group,
-    pattern = 'lua',
-    callback = function (_)
-      vim.keymap.set('n', 'gf', lua_go_to_file, { buffer = 0 })
-    end
-  })
 end
 
 return M
