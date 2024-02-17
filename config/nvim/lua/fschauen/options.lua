@@ -17,6 +17,7 @@ M.setup = function()
   o.modelines   = 0               -- never use modelines
   o.fileformats = 'unix,mac,dos'  -- prioritize unix <EOL> format
   o.pastetoggle = '<F20>'         -- toggle paste with P on Moonlander
+  o.winblend    = 8               -- minimum transparency for floating windows
 
   o.swapfile    = false           -- don't use swap files
   o.writebackup = true            -- Make a backup before writing a file...
