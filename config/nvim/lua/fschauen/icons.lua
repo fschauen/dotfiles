@@ -9,6 +9,15 @@ M.diagnostics = {
   Warn    = ' ',
 }
 
+M.diagnostics_bold = {
+  Debug   = ' ',
+  Error   = ' ',
+  Hint    = '󰌵 ',
+  Info    = ' ',
+  Trace   = '✎ ',
+  Warn    = ' ',
+}
+
 M.git = {
   Branch = '󰘬',         -- 
   file = {
