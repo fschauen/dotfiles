@@ -7,6 +7,7 @@ M.event = 'LspAttach'
 M.config = function()
   require('fidget').setup {
     text = {
+      done = require('fschauen.icons').ui.Checkmark,
       spinner = {
         '▱▱▱▱▱▱▱',
         '▰▱▱▱▱▱▱',

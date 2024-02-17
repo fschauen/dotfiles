@@ -19,7 +19,7 @@ local icons = require('fschauen.icons')
 M.config = function()
   require('todo-comments').setup {
     keywords = {
-      TODO = { icon = icons.ui.Checkmark },
+      TODO = { icon = icons.ui.Checkbox },
       FIX  = { icon = icons.ui.Bug },
       HACK = { icon = icons.ui.Fire },
       WARN = { icon = icons.ui.Warning },
