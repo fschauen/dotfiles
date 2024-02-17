@@ -49,6 +49,9 @@ bindkey -M viins '^k' history-beginning-search-backward
 bindkey -M viins '^[b' vi-backward-word
 bindkey -M viins '^[f' vi-forward-word
 
+# Shortcut to start neovim.
+bindkey -s '^v' '^unvim\r'
+
 if command -v fzf >/dev/null 2>&1; then
   # Add `fzf` key bindings if it's installed:
   #   - CTRL-T: paste the selected file path(s) into the command line
