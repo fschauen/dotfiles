@@ -11,7 +11,7 @@ M.event = {
 }
 
 M.keys = {
-  { '<leader>ft', '<cmd>TodoTelescope<cr>' },
+  { '<leader>ft', '<cmd>TodoTelescope<cr>', desc = ' Telescope [t]odos'  },
 }
 
 local icons = require('fschauen.icons')

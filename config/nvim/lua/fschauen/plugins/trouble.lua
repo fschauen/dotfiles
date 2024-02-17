@@ -5,9 +5,9 @@ M.dependencies = {
 }
 
 M.keys = {
-  { '<leader>lt', '<cmd>TroubleToggle<cr>' },
-  { '<leader>lw', '<cmd>TroubleToggle workspace_diagnostics<cr>' },
-  { '<leader>ld', '<cmd>TroubleToggle document_diagnostics<cr>' },
+  { '<leader>lt', '<cmd>TroubleToggle<cr>', desc = '󱠪 trouble [t]toggle' },
+  { '<leader>lw', '<cmd>TroubleToggle workspace_diagnostics<cr>', desc = '󱠪 trouble [w]orkspace'  },
+  { '<leader>ld', '<cmd>TroubleToggle document_diagnostics<cr>', desc = '󱠪 trouble [d]ocument'  },
 }
 
 M.config = function()

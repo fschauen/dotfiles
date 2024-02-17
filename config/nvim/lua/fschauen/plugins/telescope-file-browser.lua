@@ -5,11 +5,11 @@ M.dependencies = {
 }
 
 M.keys = {
-  { '<leader>fB', '<cmd>Telescope file_browser<cr>' , desc = ' file [B]rowser' },
+  { '<leader>fB', '<cmd>Telescope file_browser<cr>' , desc = ' Telescope file [B]rowser' },
 }
 
 M.config = function()
-  require('telescope').load_extension 'file_browser'
+  require('telescope').load_extension('file_browser')
 end
 
 return M

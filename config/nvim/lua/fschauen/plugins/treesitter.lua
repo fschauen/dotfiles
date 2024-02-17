@@ -17,9 +17,9 @@ M.dependencies = {
 M.event = 'VeryLazy'
 
 M.keys = {
-  { '<leader>tp', '<cmd>TSPlaygroundToggle<cr>' },
-  { '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>' },
-  { '<leader>tn', '<cmd>TSNodeUnderCursor<cr>' },
+  { '<leader>Tp', '<cmd>TSPlaygroundToggle<cr>', desc = ' [T]reesitter [p]layground (toggle)' },
+  { '<leader>Th', '<cmd>TSHighlightCapturesUnderCursor<cr>', desc = ' [T]reesitter [h]ighlights' },
+  { '<leader>Tn', '<cmd>TSNodeUnderCursor<cr>', desc = ' [T]reesitter [n]ode under cursor' },
 }
 
 M.config = function()
