@@ -9,7 +9,7 @@ M.keys = {
   { '<leader>tf',  '<cmd>NvimTreeFindFile<cr>', desc = '󰙅 Open [t]ree to current [f]ile ' },
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   local icons = require('fschauen.icons')
 
   require('nvim-tree').setup {

@@ -17,7 +17,7 @@ M.keys = {
   { '<leader>sc', toggle_colorcolumn, desc = 'Toggle virtual colunn' },
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   require('virt-column').setup {
     char = require('fschauen.icons').ui.LineMiddle,
   }

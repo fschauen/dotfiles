@@ -8,7 +8,7 @@ M.dependencies = {
   'nvim-tree/nvim-web-devicons',
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   local window = require 'fschauen.window'
 
   local filename = (function()

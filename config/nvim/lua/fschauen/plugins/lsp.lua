@@ -11,7 +11,7 @@ M.event = {
   'BufNewFile',
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   local border = { border = 'rounded' }
 
   local default_opts = {

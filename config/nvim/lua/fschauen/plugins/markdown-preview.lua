@@ -14,7 +14,7 @@ M.ft = {
   'markdown',
 }
 
-M.init = function(_)
+M.init = function(--[[plugin]]__)
   vim.g.mkdp_theme = 'dark'
 end
 

@@ -124,7 +124,7 @@ M.keys = {
 
 local icons = require('fschauen.icons')
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   local actions = require('telescope.actions')
   local layout  = require('telescope.actions.layout')
   local trouble = vim.F.npcall(require, 'trouble.providers.telescope') or {}

@@ -1,6 +1,6 @@
 local M = { 'mbbill/undotree' }
 
-M.init = function()
+M.init = function(--[[plugin]]_)
   vim.g.undotree_WindowLayout = 2  -- tree: left, diff: bottom
   vim.g.undotree_DiffAutoOpen = 0  -- don't open diff by default
   vim.g.undotree_SetFocusWhenToggle = 1

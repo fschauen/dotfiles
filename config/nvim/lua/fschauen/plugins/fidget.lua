@@ -4,7 +4,7 @@ M.branch = 'legacy'
 
 M.event = 'LspAttach'
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   require('fidget').setup {
     text = {
       done = require('fschauen.icons').ui.Checkmark,

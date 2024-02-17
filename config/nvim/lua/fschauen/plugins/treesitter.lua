@@ -22,7 +22,7 @@ M.keys = {
   { '<leader>Tn', '<cmd>TSNodeUnderCursor<cr>', desc = ' [T]reesitter [n]ode under cursor' },
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   require('nvim-treesitter.configs').setup {
     ensure_installed = {
       'bash',

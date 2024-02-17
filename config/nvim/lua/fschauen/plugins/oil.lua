@@ -8,7 +8,7 @@ M.keys = {
   { '<leader>o', '<cmd>Oil<cr>' },
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   require('oil').setup {
     default_file_explorer = true,
 

@@ -10,7 +10,7 @@ M.keys = {
   { '<leader>ld', '<cmd>TroubleToggle document_diagnostics<cr>', desc = '󱠪 trouble [d]ocument'  },
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   require('trouble').setup {
     padding = false,      -- don't add an extra new line of top of the list
     auto_preview = false, -- don't preview automatically

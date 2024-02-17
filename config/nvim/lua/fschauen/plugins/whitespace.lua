@@ -1,6 +1,6 @@
 local M = { 'ntpeters/vim-better-whitespace' }
 
-M.init = function()
+M.init = function(--[[plugin]]_)
   vim.g.better_whitespace_filetypes_blacklist = {
     'diff',
     'fugitive',

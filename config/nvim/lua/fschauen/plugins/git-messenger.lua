@@ -6,7 +6,7 @@ M.keys = {
   { '<leader>gm', '<cmd>GitMessenger<cr>', desc = ' open [m]essenger' },
 }
 
-M.init = function()
+M.init = function(--[[plugin]]_)
   -- Disable default mappings, as I have my own for lazy-loading.
   vim.g.git_messenger_no_default_mappings = true
 

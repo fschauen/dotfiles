@@ -8,7 +8,7 @@ M.keys = {
   { '<leader>gs', '<cmd>Neogit<cr>', desc = ' [s]tatus with neogit' },
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   local icons = require('fschauen.icons')
 
   require('neogit').setup {

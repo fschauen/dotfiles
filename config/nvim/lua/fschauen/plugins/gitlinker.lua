@@ -26,7 +26,7 @@ M.keys = {
   { '<leader>gL', browser('v'),   desc = ' open perma[L]ink in browser', mode = 'v' },
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   require('gitlinker').setup {
     mappings = nil,  -- I'm defining me own mappings above.
 

@@ -6,7 +6,7 @@ M.cmd ={
   'Tabularize',
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   if vim.fn.exists('g:tabular_loaded') == 1 then
     vim.cmd [[ AddTabularPattern! first_comma /^[^,]*\zs,/ ]]
     vim.cmd [[ AddTabularPattern! first_colon /^[^:]*\zs:/ ]]

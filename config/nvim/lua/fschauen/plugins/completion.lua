@@ -59,7 +59,7 @@ local make_keymap = function(cmp)
   return cmp.mapping.preset.insert(keymap)
 end
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   local cmp = require 'cmp'
   local keymap = make_keymap(cmp)
 

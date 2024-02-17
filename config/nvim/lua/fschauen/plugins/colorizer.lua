@@ -7,7 +7,7 @@ M.event = {
   'BufNewFile'
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   require('colorizer').setup(--[[ filetypes ]] nil, {
     css  = true,             -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
     mode = 'foreground',

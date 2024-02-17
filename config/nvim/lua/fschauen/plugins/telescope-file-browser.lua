@@ -8,7 +8,7 @@ M.keys = {
   { '<leader>fB', '<cmd>Telescope file_browser<cr>' , desc = ' Telescope file [B]rowser' },
 }
 
-M.config = function()
+M.config = function(--[[plugin]]_, --[[opts]]_)
   require('telescope').load_extension('file_browser')
 end
 
