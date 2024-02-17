@@ -138,6 +138,7 @@ M.config = function()
     ['<c-o>']    = layout.toggle_mirror,
     ['<c-h>']    = layout.toggle_preview,
     ['<c-s>']    = actions.select_horizontal,
+    ['<c-x>']    = false,
     ['<c-c>']    = actions.close,
     ['<c-q>']    = actions.smart_send_to_qflist + actions.open_qflist,
     ['<c-l>']    = actions.smart_send_to_loclist + actions.open_loclist,
