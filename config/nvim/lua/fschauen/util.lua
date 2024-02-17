@@ -11,7 +11,7 @@ M.edit_file = function(path)
   end
 end
 
-local find_module_source = function(modname)
+local find_lua_module_sources = function(modname)
   modname = modname:gsub('^%.+', ''):gsub('/', '.')
   local base = 'lua/' .. modname:gsub('%.', '/')
   local candidates = { base .. '.lua', base .. '/init.lua' }
@@ -28,8 +28,33 @@ local find_module_source = function(modname)
   return results
 end
 
-M.edit_lua_module = function(modname)
-  local sources = find_module_source(modname)
+local lua = {}
+
+lua.execute_lines = function(first, last)
+  first = first or vim.fn.line('.')
+  last = last or first
+  local code = vim.fn.join(vim.fn.getline(first, last), '\n')
+  loadstring(code)()
+end
+
+lua.execute_selection = function()
+  local selection = { vim.fn.line('v'), vim.fn.line('.') }
+  table.sort(selection)
+  lua.execute_lines(unpack(selection))
+end
+
+lua.execute_file = function(path)
+  if path then
+    vim.cmd.luafile(path)
+  else
+    lua.execute_lines(1, vim.fn.line('$'))
+  end
+end
+
+lua.go_to_module = function(modname)
+  modname = modname or vim.fn.expand('<cfile>')
+
+  local sources = find_lua_module_sources(modname)
   if #sources == 0 then
     vim.notify('Not found: ' .. modname, vim.log.levels.WARN)
   elseif #sources == 1 then
@@ -42,6 +67,8 @@ M.edit_lua_module = function(modname)
     end)
   end
 end
+
+M.lua = lua
 
 return M
 
