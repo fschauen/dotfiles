@@ -1,9 +1,6 @@
 local M = { 'tpope/vim-fugitive' }
 
-M.cmd = {
-  'G',
-  'Git',
-}
+M.cmd = { 'G', 'Git' }
 
 M.keys = {
   { '<leader>gS', '<cmd>tab Git<cr>', desc = ' [S]status with fugitive' },

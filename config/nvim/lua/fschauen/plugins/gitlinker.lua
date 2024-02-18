@@ -26,14 +26,13 @@ M.keys = {
   { '<leader>gL', browser('v'),   desc = ' open perma[L]ink in browser', mode = 'v' },
 }
 
-M.config = function(--[[plugin]]_, --[[opts]]_)
-  require('gitlinker').setup {
-    mappings = nil,  -- I'm defining me own mappings above.
-
+M.opts = function(--[[plugin]]_, opts)
+  return vim.tbl_deep_extend('force', opts, {
+    mappings = nil,  -- I'm defining my own mappings above.
     callbacks = {
       ['git.schauenburg.me'] = require('gitlinker.hosts').get_gitea_type_url,
     },
-  }
+  })
 end
 
 return M

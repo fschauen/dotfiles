@@ -20,11 +20,9 @@ M.keys = {
 
 M.lazy = false
 
-M.config = function(--[[plugin]]_, --[[opts]]_)
+M.opts = function(--[[plugin]]_, opts)
   local icons = require('fschauen.icons')
-  local notify = require('notify')
-
-  notify.setup {
+  return vim.tbl_deep_extend('force', opts, {
     icons = {
       ERROR = icons.diagnostics_bold.Error,
       WARN  = icons.diagnostics_bold.Warn,
@@ -37,10 +35,13 @@ M.config = function(--[[plugin]]_, --[[opts]]_)
     minimum_width = 50,
     render = 'wrapped-compact',
     stages = 'fade',
-    time_formats = { notification_history = '%F %T' },
-    top_down = true,
-  }
+    time_formats = { notification_history = '%F %T │ ' },
+  })
+end
 
+M.config = function(--[[plugin]]_, opts)
+  local notify = require('notify')
+  notify.setup(opts)
   vim.notify = notify
 end
 

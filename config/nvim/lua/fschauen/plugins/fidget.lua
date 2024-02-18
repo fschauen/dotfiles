@@ -4,38 +4,30 @@ M.branch = 'legacy'
 
 M.event = 'LspAttach'
 
-M.config = function(--[[plugin]]_, --[[opts]]_)
-  require('fidget').setup {
-    text = {
-      done = require('fschauen.icons').ui.Checkmark,
-      spinner = {
-        '▱▱▱▱▱▱▱',
-        '▰▱▱▱▱▱▱',
-        '▰▰▱▱▱▱▱',
-        '▰▰▰▱▱▱▱',
-        '▰▰▰▰▱▱▱',
-        '▰▰▰▰▰▱▱',
-        '▰▰▰▰▰▰▱',
-        '▰▰▰▰▰▰▰',
-        '▱▰▰▰▰▰▰',
-        '▱▱▰▰▰▰▰',
-        '▱▱▱▰▰▰▰',
-        '▱▱▱▱▰▰▰',
-        '▱▱▱▱▱▰▰',
-        '▱▱▱▱▱▱▰',
-      },
+M.opts = {
+  text = {
+    done = require('fschauen.icons').ui.Checkmark,
+    spinner = {
+      '▱▱▱▱▱▱▱',
+      '▰▱▱▱▱▱▱',
+      '▰▰▱▱▱▱▱',
+      '▰▰▰▱▱▱▱',
+      '▰▰▰▰▱▱▱',
+      '▰▰▰▰▰▱▱',
+      '▰▰▰▰▰▰▱',
+      '▰▰▰▰▰▰▰',
+      '▱▰▰▰▰▰▰',
+      '▱▱▰▰▰▰▰',
+      '▱▱▱▰▰▰▰',
+      '▱▱▱▱▰▰▰',
+      '▱▱▱▱▱▰▰',
+      '▱▱▱▱▱▱▰',
     },
-    timer = {
-      spinner_rate = 75,
-    },
-    window = {
-      blend = 50,
-    },
-    fmt = {
-      max_messages = 10,
-    }
-  }
-end
+  },
+  timer = { spinner_rate = 75 },
+  window = { blend = 50 },
+  fmt = { max_messages = 10 }
+}
 
 return M
 

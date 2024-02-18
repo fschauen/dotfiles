@@ -1,15 +1,8 @@
 local M = { 'johmsalas/text-case.nvim' }
 
-M.event = {
-  'BufReadPost',
-  'BufNewFile',
-}
+M.event = { 'BufReadPost', 'BufNewFile' }
 
-M.config = function(--[[plugin]]_, --[[opts]]_)
-  require('textcase').setup {
-    prefix = '<leader>c',
-  }
-end
+M.opts = { prefix = '<leader>c' }
 
 return M
 

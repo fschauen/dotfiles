@@ -10,10 +10,7 @@ M.init = function(--[[plugin]]_)
   }
 end
 
-M.event = {
-  'BufReadPost',
-  'BufNewFile'
-}
+M.event = { 'BufReadPost', 'BufNewFile' }
 
 M.keys = {
   { '<leader>ww', '<cmd>ToggleWhitespace<cr>' },
@@ -21,8 +18,6 @@ M.keys = {
   { '<leader>wk', '<cmd>PrevTrailingWhitespace<cr>' },
   { '<leader>W',  '<cmd>StripWhitespace<cr>' },
 }
-
-M.config = false
 
 return M
 

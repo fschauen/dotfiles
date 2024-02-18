@@ -1,9 +1,6 @@
 local M = { 'lukas-reineke/virt-column.nvim' }
 
-M.event = {
-  'BufReadPost',
-  'BufNewFile'
-}
+M.event = { 'BufReadPost', 'BufNewFile' }
 
 local toggle_colorcolumn = function()
   if vim.o.colorcolumn == '' then

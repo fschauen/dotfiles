@@ -2,18 +2,15 @@ local M = { 'NeogitOrg/neogit' }
 
 M.cmd = 'Neogit'
 
-M.dependencies = {
-  'nvim-lua/plenary.nvim',
-}
+M.dependencies = { 'nvim-lua/plenary.nvim' }
 
 M.keys = {
   { '<leader>gs', '<cmd>Neogit<cr>', desc = ' [s]tatus with neogit' },
 }
 
-M.config = function(--[[plugin]]_, --[[opts]]_)
+M.opts = function(--[[plugin]]_, opts)
   local icons = require('fschauen.icons')
-
-  require('neogit').setup {
+  return vim.tbl_deep_extend('force', opts, {
     disable_hint = true,
     signs = {
       section = { icons.ui.Folder, icons.ui.EmptyFolderOpen },
@@ -26,7 +23,7 @@ M.config = function(--[[plugin]]_, --[[opts]]_)
         ['='] = 'Toggle',
       },
     },
-  }
+  })
 end
 
 return M

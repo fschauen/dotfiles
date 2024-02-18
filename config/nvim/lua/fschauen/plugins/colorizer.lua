@@ -10,8 +10,8 @@ M.event = {
 }
 
 M.config = function(--[[plugin]]_, --[[opts]]_)
-  require('colorizer').setup(--[[ filetypes ]] nil, {
-    css  = true,             -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+  require('colorizer').setup(--[[filetypes]]nil, {
+    css  = true,  -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
     mode = 'foreground',
   })
 end

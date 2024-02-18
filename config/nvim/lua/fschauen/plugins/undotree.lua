@@ -14,7 +14,5 @@ M.keys = {
   { '<leader>u', '<cmd>UndotreeToggle<cr>' },
 }
 
-M.config = false
-
 return M
 

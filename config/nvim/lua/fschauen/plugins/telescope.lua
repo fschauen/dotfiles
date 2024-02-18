@@ -122,11 +122,10 @@ M.keys = {
   { '<leader>f<leader>', pickers.resume           '󰐎  Resume'               , desc = desc('Resume ')                   },
 }
 
-local icons = require('fschauen.icons')
-
-M.config = function(--[[plugin]]_, --[[opts]]_)
+M.opts = function(--[[plugin]]_, opts)
   local actions = require('telescope.actions')
   local layout  = require('telescope.actions.layout')
+  local icons = require('fschauen.icons')
   local trouble = vim.F.npcall(require, 'trouble.providers.telescope') or {}
 
   local mappings = {
@@ -145,12 +144,9 @@ M.config = function(--[[plugin]]_, --[[opts]]_)
     ['<c-b>']    = trouble.smart_open_with_trouble,
   }
 
-  require('telescope').setup {
+  return vim.tbl_deep_extend('force', opts, {
     defaults = {
-      mappings = {
-        i = mappings,
-        n = mappings,
-      },
+      mappings = { i = mappings, n = mappings },
 
       prompt_prefix = '   ',
       selection_caret = icons.ui.Play .. ' ',
@@ -172,11 +168,7 @@ M.config = function(--[[plugin]]_, --[[opts]]_)
     },
     pickers = {
       buffers = {
-        mappings = {
-          n = {
-            x = actions.delete_buffer,
-          },
-        },
+        mappings = { n = { x = actions.delete_buffer } },
       },
       colorscheme = {
         theme = 'dropdown',
@@ -190,10 +182,13 @@ M.config = function(--[[plugin]]_, --[[opts]]_)
         theme = 'ivy'
       },
     },
-  }
+  })
+end
 
-  require('telescope').load_extension 'fzf'
 
+M.config = function(--[[plugin]]_, opts)
+  require('telescope').setup(opts)
+  require('telescope').load_extension('fzf')
   vim.api.nvim_create_autocmd('User', {
     desc = 'Enable line number in Telescope previewers.',
     group = vim.api.nvim_create_augroup('fschauen.telescope', { clear = true } ),
