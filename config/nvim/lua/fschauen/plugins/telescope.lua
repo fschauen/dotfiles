@@ -18,27 +18,7 @@ local builtin = function(picker, opts)
   end
 end
 
----Preserve register contents over function call.
----@param reg string: register to save, must be a valid register name.
----@param func function: function that may freely clobber the register.
----@return any: return value of calling `func`.
-local with_saved_register = function(reg, func)
-  local saved = vim.fn.getreg(reg)
-  local result = func()
-  vim.fn.setreg(reg, saved)
-  return result
-end
-
----Get selected text.
----@return string: selected text, or work under cursor if not in visual mode.
-local get_selected_text = function()
-  if vim.fn.mode() ~= 'v' then return vim.fn.expand '<cword>' end
-
-  return with_saved_register('v', function()
-    vim.cmd [[noautocmd sil norm "vy]]
-    return vim.fn.getreg 'v'
-  end)
-end
+local util = require('fschauen.util')
 
 local pickers = setmetatable({
   all_files = builtin('find_files', {
@@ -58,7 +38,7 @@ local pickers = setmetatable({
   }),
   selection = function(title)
     return function()
-      local text = get_selected_text()
+      local text = util.get_selected_text()
       return require('telescope.builtin').grep_string {
         prompt_title = string.format(title .. ': %s  ', text),
         search = text,
