@@ -140,8 +140,8 @@ M.opts = function(--[[plugin]]_, opts)
       layout_config = {
         width      = 0.9,
         height     = 0.9,
-        flex       = { flip_columns   = 130 },
-        horizontal = { preview_width  = 0.5, preview_cutoff = 130 },
+        flex       = { flip_columns   = 180 },
+        horizontal = { preview_width  = 0.5 },
         vertical   = { preview_height = 0.5 },
       },
       cycle_layout_list = { 'horizontal', 'vertical' },
