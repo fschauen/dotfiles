@@ -99,26 +99,20 @@ M.setup = function()
   map('n', '<localleader>j', '<cmd>lnext<cr>zz')
   map('n', '<localleader>k', '<cmd>lprevious<cr>zz')
 
+  local toggle = require('fschauen.util.icons').ui.Toggle .. '  toggle '
+
   -- toggle quickfix and loclist
-  map('n',      '<leader>ll', window.toggle_quickfix, { desc = 'Toggle quickfix' })
-  map('n', '<localleader>ll', window.toggle_loclist,  { desc = 'Toggle loclist'  })
+  map('n',      '<leader>ll', window.toggle_quickfix, { desc = toggle .. 'quickfix' })
+  map('n', '<localleader>ll', window.toggle_loclist,  { desc = toggle .. 'loclist'  })
 
-  local toggle_number = function()
-    vim.wo.number = not vim.wo.number
-    vim.wo.relativenumber = false
-  end
-
-  local toggle_relativenumber = function()
-    vim.wo.relativenumber = not vim.wo.relativenumber
-    vim.wo.number = vim.wo.relativenumber or vim.wo.number
-  end
+  local options = require('fschauen.util.options')
 
   -- toggle options
-  map('n', '<leader>sn', toggle_number)
-  map('n', '<leader>sr', toggle_relativenumber)
-  map('n', '<leader>sl', '<cmd>set list!  | set list?<CR>')
-  map('n', '<leader>sw', '<cmd>set wrap!  | set wrap?<CR>')
-  map('n', '<leader>ss', '<cmd>set spell! | set spell?<CR>')
+  map('n', '<leader>sn', options.toggle_number,         { desc = toggle .. "'number'" })
+  map('n', '<leader>sr', options.toggle_relativenumber, { desc = toggle .. "'relativenumber'" })
+  map('n', '<leader>sl', options.toggle_list,           { desc = toggle .. "'list'" })
+  map('n', '<leader>sw', options.toggle_wrap,           { desc = toggle .. "'wrap'" })
+  map('n', '<leader>ss', options.toggle_spell,          { desc = toggle .. "'spell'" })
 end
 
 return M

@@ -125,6 +125,7 @@ M.ui = {
   Search                = '',    -- 
   Sleep                 = '󰒲',
   TestTube              = '󰙨',    -- 󰤑
+  Toggle                = '󰨚',
   Warning               = '',
 }
 
