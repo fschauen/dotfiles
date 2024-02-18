@@ -61,8 +61,9 @@ end
 M.keys = {
   { '<leader>fa',  pickers.autocommands           '  Autocommands'         , desc = desc('[a]utocommands')            },
   { '<leader>fb',  pickers.buffers                '  Buffers'              , desc = desc('[b]uffers')                 },
+  --'<leader>fB'   used in telescope-file-browser
   { '<leader>fc',  pickers.colorscheme            '  Colorschemes'         , desc = desc('[c]olorschemes')            },
-  { '<leader>fC',  pickers.commands               '  Commands'             , desc = desc('[C]ommands')              },
+  { '<leader>fC',  pickers.commands               '  Commands'             , desc = desc('[C]ommands')                },
   { '<leader>fdd', pickers.diagnostics            '󰀪  Document Diagnostics' , desc = desc('[d]iagnostics [d]ocument')  },
   { '<leader>fdw', pickers.diagnostics            '󰀪  Workspace Diagnostics', desc = desc('[d]iagnostics [w]orkspace') },
   --'<leader>fe'
@@ -73,13 +74,13 @@ M.keys = {
   { '<leader>fgc', pickers.git_commits            ' Commits'             , desc = desc('[g]it [c]ommits')           },
   { '<leader>fh',  pickers.here                   '  Current buffer'       , desc = desc('[b]uffer [h]ere')           },
   { '<leader>fH',  pickers.highlights             '󰌶  Highlights'           , desc = desc('[H]ighlights')              },
-  --'<leader>fi'
+  --'<leader>fi'   used in nerdy
   { '<leader>fj',  pickers.jumplist               '  Jumplist'             , desc = desc('[j]umplist')                },
   { '<leader>fk',  pickers.keymaps                '  Keymaps'              , desc = desc('[k]eymaps')                 },
   { '<leader>fK',  pickers.help_tags              '  Help tags'            , desc = desc('[K] help/documentation')    },
   { '<leader>fl',  pickers.loclist                '  Location list'        , desc = desc('[l]ocation List')           },
   { '<leader>fm',  pickers.man_pages              '  Man pages'            , desc = desc('[m]an pages')               },
-  --'<leader>fn'
+  --'<leader>fn'   used in vim-notify
   { '<leader>fo',  pickers.vim_options            '  Vim options'          , desc = desc('vim [o]ptions')             },
   --'<leader>fp'
   { '<leader>fq',  pickers.quickfix               '  Quickfix'             , desc = desc('[q]uickfix')                },
@@ -131,7 +132,7 @@ M.opts = function(--[[plugin]]_, opts)
       prompt_prefix = '   ',
       selection_caret = icons.ui.Play .. ' ',
 
-      multi_icon = icons.ui.Checkbox,
+      multi_icon = icons.ui.Checkbox .. ' ',
       scroll_strategy = 'limit',  -- Don't wrap around in results.
 
       dynamic_preview_title = true,

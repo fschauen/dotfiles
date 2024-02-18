@@ -15,7 +15,7 @@ end
 
 M.keys = {
   { '<leader>n', '<cmd>Notifications<cr>', desc = 'Display notification history' },
-  { '<leader>fn', telescope_notify, desc = ' [N]otifications' },
+  { '<leader>fn', telescope_notify, desc = ' Telescope [n]otifications' },
 }
 
 M.lazy = false
