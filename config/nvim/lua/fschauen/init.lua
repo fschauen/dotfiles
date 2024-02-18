@@ -15,6 +15,6 @@ require('fschauen.autocmd').setup()
 require('fschauen.filetype').setup()
 require('fschauen.lazy').setup()
 
-local colorscheme = 'gruvbox'
+local colorscheme = vim.env.NVIM_COLORSCHEME or 'gruvbox'
 vim.cmd('silent! colorscheme ' .. colorscheme)
 
