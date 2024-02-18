@@ -10,8 +10,10 @@ local toggle_colorcolumn = function()
   end
 end
 
+local toggle = require('fschauen.util.icons').ui.Toggle .. '  toggle '
+
 M.keys = {
-  { '<leader>sc', toggle_colorcolumn, desc = 'Toggle virtual colunn' },
+  { '<leader>sc', toggle_colorcolumn, desc = toggle .. 'virtual colunn' },
 }
 
 M.config = function(--[[plugin]]_, --[[opts]]_)

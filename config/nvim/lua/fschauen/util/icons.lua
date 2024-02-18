@@ -103,6 +103,7 @@ M.ui = {
   ChevronSmallRight     = '',
   ChevronSmallUp        = '',
   Circle                = '●',
+  Diagnostic            = '',
   EmptyFolder           = '',
   EmptyFolderOpen       = '',
   File                  = '',    -- 

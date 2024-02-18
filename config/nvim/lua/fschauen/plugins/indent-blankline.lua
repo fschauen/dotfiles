@@ -9,9 +9,11 @@ M.cmd = {
   'IBLToggleScope',
 }
 
+local toggle = require('fschauen.util.icons').ui.Toggle .. '  toggle '
+
 M.keys = {
-  { '<leader>si', '<cmd>IBLToggle<cr>' },
-  { '<leader>so', '<cmd>IBLToggleScope<cr>' },
+  { '<leader>si', '<cmd>IBLToggle<cr>', desc = toggle .. 'indent lines' },
+  { '<leader>so', '<cmd>IBLToggleScope<cr>', desc = toggle .. 'indent line scope' },
 }
 
 M.main = 'ibl'

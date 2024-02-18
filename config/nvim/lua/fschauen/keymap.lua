@@ -1,5 +1,7 @@
 local M = {}
 
+local ui = require('fschauen.util.icons').ui
+
 local map = function(mode, lhs, rhs, opts)
   if mode ~= 'c' then
     opts = opts or {}
@@ -83,12 +85,12 @@ M.setup = function()
   local diagnostic = require 'fschauen.diagnostic'
 
   -- navigate diagnostics
-  map('n', '<Down>',     diagnostic.goto_next)
-  map('n', '<Up>',       diagnostic.goto_prev)
-  map('n', '<leader>dd', diagnostic.toggle)
-  map('n', '<leader>do', diagnostic.open_float)
-  map('n', '<leader>dh', diagnostic.hide)
-  map('n', '<leader>dt', diagnostic.select_virtual_text_severity)
+  map('n', '<Down>',     diagnostic.goto_next,                    { desc = ui.Diagnostic .. ' [d]iagnostic [n]ext' })
+  map('n', '<Up>',       diagnostic.goto_prev,                    { desc = ui.Diagnostic .. ' [d]iagnostic [p]revious' })
+  map('n', '<leader>dd', diagnostic.toggle,                       { desc = ui.Diagnostic .. ' [d]iagnostic enable/[d]isable' })
+  map('n', '<leader>do', diagnostic.open_float,                   { desc = ui.Diagnostic .. ' [d]iagnostic [o]pen' })
+  map('n', '<leader>dh', diagnostic.hide,                         { desc = ui.Diagnostic .. ' [d]iagnostic [h]ide' })
+  map('n', '<leader>ds', diagnostic.select_virtual_text_severity, { desc = ui.Diagnostic .. ' [d]iagnostic [s]everity' })
 
   -- disable highlight until next search
   map('n', '<leader>h', '<cmd>nohlsearch<cr><esc>')
@@ -99,20 +101,19 @@ M.setup = function()
   map('n', '<localleader>j', '<cmd>lnext<cr>zz')
   map('n', '<localleader>k', '<cmd>lprevious<cr>zz')
 
-  local toggle = require('fschauen.util.icons').ui.Toggle .. '  toggle '
 
   -- toggle quickfix and loclist
-  map('n',      '<leader>ll', window.toggle_quickfix, { desc = toggle .. 'quickfix' })
-  map('n', '<localleader>ll', window.toggle_loclist,  { desc = toggle .. 'loclist'  })
+  map('n',      '<leader>ll', window.toggle_quickfix, { desc = ui.Toggle .. ' toggle quickfix' })
+  map('n', '<localleader>ll', window.toggle_loclist,  { desc = ui.Toggle .. ' toggle loclist'  })
 
   local options = require('fschauen.util.options')
 
   -- toggle options
-  map('n', '<leader>sn', options.toggle_number,         { desc = toggle .. "'number'" })
-  map('n', '<leader>sr', options.toggle_relativenumber, { desc = toggle .. "'relativenumber'" })
-  map('n', '<leader>sl', options.toggle_list,           { desc = toggle .. "'list'" })
-  map('n', '<leader>sw', options.toggle_wrap,           { desc = toggle .. "'wrap'" })
-  map('n', '<leader>ss', options.toggle_spell,          { desc = toggle .. "'spell'" })
+  map('n', '<leader>sn', options.toggle_number,         { desc = ui.Toggle .. " toggle 'number'" })
+  map('n', '<leader>sr', options.toggle_relativenumber, { desc = ui.Toggle .. " toggle 'relativenumber'" })
+  map('n', '<leader>sl', options.toggle_list,           { desc = ui.Toggle .. " toggle 'list'" })
+  map('n', '<leader>sw', options.toggle_wrap,           { desc = ui.Toggle .. " toggle 'wrap'" })
+  map('n', '<leader>ss', options.toggle_spell,          { desc = ui.Toggle .. " toggle 'spell'" })
 end
 
 return M
