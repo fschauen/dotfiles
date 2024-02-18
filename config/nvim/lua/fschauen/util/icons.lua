@@ -125,6 +125,7 @@ M.ui = {
   ReadOnly              = '',    -- 'RO',
   Search                = '',    -- 
   Sleep                 = '󰒲',
+  Telescope             = '',
   TestTube              = '󰙨',    -- 󰤑
   Toggle                = '󰨚',
   Warning               = '',

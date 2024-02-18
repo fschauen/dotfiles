@@ -7,8 +7,11 @@ M.dependencies = {
   'nvim-telescope/telescope.nvim',
 }
 
+local ts = require('fschauen.plugins.telescope')
+local lhs, desc = ts.keymap.lhs, ts.keymap.description
+
 M.keys = {
-  { '<leader>fi', '<cmd>Nerdy<cr>', desc = ' Telescope Nerd [i]cons' },
+  { lhs('i'), '<cmd>Nerdy<cr>', desc = desc('Nerd [i]cons') },
 }
 
 return M

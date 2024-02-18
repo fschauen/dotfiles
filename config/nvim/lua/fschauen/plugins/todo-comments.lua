@@ -7,8 +7,11 @@ M.dependencies = {
 
 M.event = { 'BufReadPost', 'BufNewFile' }
 
+local ts = require('fschauen.plugins.telescope')
+local lhs, desc = ts.keymap.lhs, ts.keymap.description
+
 M.keys = {
-  { '<leader>ft', '<cmd>TodoTelescope<cr>', desc = ' Telescope [t]odos'  },
+  { lhs('t'), '<cmd>TodoTelescope<cr>', desc = desc('[t]odos') },
 }
 
 M.opts = function(--[[plugin]]_, opts)

@@ -13,9 +13,12 @@ local telescope_notify = function()
   notify.notify(theme)
 end
 
+local ts = require('fschauen.plugins.telescope')
+local lhs, desc = ts.keymap.lhs, ts.keymap.description
+
 M.keys = {
   { '<leader>n', '<cmd>Notifications<cr>', desc = 'Display notification history' },
-  { '<leader>fn', telescope_notify, desc = ' Telescope [n]otifications' },
+  { lhs('n'), telescope_notify, desc = desc('[n]otifications') },
 }
 
 M.lazy = false
