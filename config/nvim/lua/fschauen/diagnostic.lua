@@ -1,6 +1,6 @@
 local M = {}
 
-local icons = require('fschauen.icons')
+local icons = require('fschauen.util.icons')
 
 -- Show/navigate warning and errors by default.
 M.severity = vim.diagnostic.severity.WARN

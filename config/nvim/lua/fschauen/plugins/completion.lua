@@ -89,7 +89,7 @@ M.config = function(--[[plugin]]_, --[[opts]]_)
           path     = '',
         },
 
-        symbol_map = require('fschauen.icons').kind,
+        symbol_map = require('fschauen.util.icons').kind,
       },
     },
 

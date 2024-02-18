@@ -21,7 +21,7 @@ M.keys = {
 M.lazy = false
 
 M.opts = function(--[[plugin]]_, opts)
-  local icons = require('fschauen.icons')
+  local icons = require('fschauen.util.icons')
   return vim.tbl_deep_extend('force', opts, {
     icons = {
       ERROR = icons.diagnostics_bold.Error,

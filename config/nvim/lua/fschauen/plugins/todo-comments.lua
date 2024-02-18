@@ -12,7 +12,7 @@ M.keys = {
 }
 
 M.opts = function(--[[plugin]]_, opts)
-  local icons = require('fschauen.icons')
+  local icons = require('fschauen.util.icons')
   return vim.tbl_deep_extend('force', opts, {
     keywords = {
       TODO = { icon = icons.ui.Checkbox },

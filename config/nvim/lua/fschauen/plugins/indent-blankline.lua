@@ -17,7 +17,7 @@ M.keys = {
 M.main = 'ibl'
 
 M.opts = function(--[[plugin]]_, opts)
-  local icons = require('fschauen.icons')
+  local icons = require('fschauen.util.icons')
   return vim.tbl_deep_extend('force', opts, {
     enabled = false,
     indent = {

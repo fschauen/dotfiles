@@ -1,6 +1,6 @@
 vim.bo.tabstop = 2
 
-local lua = require('fschauen.util').lua
+local lua = require('fschauen.util.lua')
 
 local opts = function(desc)
   return { desc = desc, buffer = true }

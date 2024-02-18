@@ -1,6 +1,6 @@
 local M = { 'nvim-lualine/lualine.nvim' }
 
-local icons = require('fschauen.icons')
+local icons = require('fschauen.util.icons')
 local orange = '#d65d0e'
 local bright = '#ffffff'  -- alternative: '#f9f5d7'
 

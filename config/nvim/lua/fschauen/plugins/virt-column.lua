@@ -16,7 +16,7 @@ M.keys = {
 
 M.config = function(--[[plugin]]_, --[[opts]]_)
   require('virt-column').setup {
-    char = require('fschauen.icons').ui.LineMiddle,
+    char = require('fschauen.util.icons').ui.LineMiddle,
   }
 end
 

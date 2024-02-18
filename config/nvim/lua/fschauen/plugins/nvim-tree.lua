@@ -10,7 +10,7 @@ M.keys = {
 }
 
 M.opts = function(--[[plugin]]_, opts)
-  local icons = require('fschauen.icons')
+  local icons = require('fschauen.util.icons')
   return vim.tbl_deep_extend('force', opts, {
     disable_netrw = true,       -- replace netrw with nvim-tree
     hijack_cursor = true,       -- keep the cursor on begin of the filename

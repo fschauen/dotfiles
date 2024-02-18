@@ -125,7 +125,7 @@ M.keys = {
 M.opts = function(--[[plugin]]_, opts)
   local actions = require('telescope.actions')
   local layout  = require('telescope.actions.layout')
-  local icons = require('fschauen.icons')
+  local icons = require('fschauen.util.icons')
   local trouble = vim.F.npcall(require, 'trouble.providers.telescope') or {}
 
   local mappings = {

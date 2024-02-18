@@ -6,7 +6,7 @@ M.event = 'LspAttach'
 
 M.opts = {
   text = {
-    done = require('fschauen.icons').ui.Checkmark,
+    done = require('fschauen.util.icons').ui.Checkmark,
     spinner = {
       '▱▱▱▱▱▱▱',
       '▰▱▱▱▱▱▱',
