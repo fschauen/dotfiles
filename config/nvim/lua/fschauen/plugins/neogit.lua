@@ -1,5 +1,7 @@
 local M = { 'NeogitOrg/neogit' }
 
+M.cmd = 'Neogit'
+
 M.dependencies = {
   'nvim-lua/plenary.nvim',
 }
