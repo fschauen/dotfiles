@@ -82,6 +82,9 @@ M.setup = function()
   -- quickly change background
   map('n', '<leader>bg', [[<cmd>let &background = &background ==? 'light' ? 'dark' : 'light'<cr>]])
 
+  -- don't loose the original yanked contents when pasting in visual mode
+  map('x', '<leader>p', [["_dP]])
+
   local diagnostic = require 'fschauen.diagnostic'
 
   -- navigate diagnostics
