@@ -18,6 +18,7 @@ local lhs, desc = ts.keymap.lhs, ts.keymap.description
 
 M.keys = {
   { '<leader>n', '<cmd>Notifications<cr>', desc = 'Display notification history' },
+  { '<c-q>', function() require('notify').dismiss() end, desc = 'Dismiss notifications' },
   { lhs('n'), telescope_notify, desc = desc('[n]otifications') },
 }
 
