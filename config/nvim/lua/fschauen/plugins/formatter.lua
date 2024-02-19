@@ -9,6 +9,7 @@ M.cmd = {
 
 M.keys = {
   { '<leader>F', '<cmd>Format<cr>', desc = '󰉼 Format file' },
+  { '<leader>F', "<cmd>'<,'>Format<cr>", mode = 'v', desc = '󰉼 Format file' },
 }
 
 M.opts = function( --[[plugin]] _, opts)
