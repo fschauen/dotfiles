@@ -27,7 +27,7 @@ M.keys = {
 }
 
 M.opts = function(--[[plugin]]_, opts)
-  return vim.tbl_deep_extend('force', opts, {
+  return vim.tbl_deep_extend('force', opts or {}, {
     mappings = nil,  -- I'm defining my own mappings above.
     callbacks = {
       ['git.schauenburg.me'] = require('gitlinker.hosts').get_gitea_type_url,

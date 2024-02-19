@@ -11,7 +11,7 @@ M.keys = {
 
 M.opts = function(--[[plugin]]_, opts)
   local icons = require('fschauen.util.icons')
-  return vim.tbl_deep_extend('force', opts, {
+  return vim.tbl_deep_extend('force', opts or {}, {
     disable_netrw = true,       -- replace netrw with nvim-tree
     hijack_cursor = true,       -- keep the cursor on begin of the filename
     sync_root_with_cwd = true,  -- watch for `DirChanged` and refresh the tree

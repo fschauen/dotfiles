@@ -33,7 +33,7 @@ M.keys = {
   { 'g<c-x>', dial_cmd('dec_gvisual', 'gv'), expr = true, desc = ' Decrement', mode = 'v' },
 }
 
-M.config = function()
+M.config = function( --[[plugin]] _, --[[opts]] _)
   local augend = require('dial.augend')
   require('dial.config').augends:register_group {
     default = {

@@ -126,7 +126,7 @@ M.opts = function(--[[plugin]]_, opts)
     ['<c-b>']    = trouble.smart_open_with_trouble,
   }
 
-  return vim.tbl_deep_extend('force', opts, {
+  return vim.tbl_deep_extend('force', opts or {}, {
     defaults = {
       mappings = { i = mappings, n = mappings },
 

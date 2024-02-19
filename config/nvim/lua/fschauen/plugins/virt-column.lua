@@ -16,10 +16,10 @@ M.keys = {
   { '<leader>sc', toggle_colorcolumn, desc = toggle .. 'virtual colunn' },
 }
 
-M.config = function(--[[plugin]]_, --[[opts]]_)
-  require('virt-column').setup {
+M.opts = function(--[[plugin]]_, opts)
+  return vim.tbl_deep_extend('force', opts or {}, {
     char = require('fschauen.util.icons').ui.LineMiddle,
-  }
+  })
 end
 
 return M

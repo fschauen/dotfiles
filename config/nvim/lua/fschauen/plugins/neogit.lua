@@ -10,7 +10,7 @@ M.keys = {
 
 M.opts = function(--[[plugin]]_, opts)
   local icons = require('fschauen.util.icons')
-  return vim.tbl_deep_extend('force', opts, {
+  return vim.tbl_deep_extend('force', opts or {}, {
     disable_hint = true,
     signs = {
       section = { icons.ui.Folder, icons.ui.EmptyFolderOpen },

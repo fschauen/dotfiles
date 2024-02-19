@@ -20,7 +20,7 @@ M.main = 'ibl'
 
 M.opts = function(--[[plugin]]_, opts)
   local icons = require('fschauen.util.icons')
-  return vim.tbl_deep_extend('force', opts, {
+  return vim.tbl_deep_extend('force', opts or {}, {
     enabled = false,
     indent = {
       char = icons.ui.LineLeft,
