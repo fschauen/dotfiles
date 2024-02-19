@@ -26,6 +26,13 @@ M.opts = function(--[[plugin]]_, opts)
       NOTE = { icon = icons.ui.Note },
       TEST = { icon = icons.ui.TestTube },
     },
+    gui_style = { fg = 'bold' },
+    highlight = {
+      multiline = false,
+      before = 'fg',
+      keyword = 'wide_fg',
+      after = '',
+    }
   })
 end
 
