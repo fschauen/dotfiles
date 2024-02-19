@@ -91,6 +91,12 @@ M.config = function( --[[plugin]] _, --[[opts]] _)
   require('lspconfig.ui.windows').default_options = border
   require('mason').setup { ui = border }
   require('mason-lspconfig').setup {
+    ensure_installed = {
+      'clangd',
+      'cmake',
+      'lua_ls',
+      'pyright',
+    },
     handlers = {
       function(server_name)
         local opts = server_opts[server_name](defaults)
