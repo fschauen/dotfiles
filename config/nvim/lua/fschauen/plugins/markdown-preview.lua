@@ -1,22 +1,19 @@
-local M = { 'iamcco/markdown-preview.nvim' }
+return {
+  "iamcco/markdown-preview.nvim",
 
-M.build = function()
-  vim.fn["mkdp#util#install"]()
-end
+  build = function()
+    vim.fn["mkdp#util#install"]()
+  end,
 
-M.cmd = {
-  'MarkdownPreview',
-  'MarkdownPreviewStop',
-  'MarkdownPreviewToggle',
+  cmd = {
+    "MarkdownPreview",
+    "MarkdownPreviewStop",
+    "MarkdownPreviewToggle",
+  },
+
+  ft = "markdown",
+
+  init = function()
+    vim.g.mkdp_theme = "dark"
+  end,
 }
-
-M.ft = {
-  'markdown',
-}
-
-M.init = function(--[[plugin]]_)
-  vim.g.mkdp_theme = 'dark'
-end
-
-return M
-

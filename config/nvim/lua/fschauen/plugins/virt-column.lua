@@ -1,26 +1,25 @@
-local M = { 'lukas-reineke/virt-column.nvim' }
-
-M.event = { 'BufReadPost', 'BufNewFile' }
-
 local toggle_colorcolumn = function()
-  if vim.o.colorcolumn == '' then
-    vim.o.colorcolumn = '+1'  -- one after 'textwidth'
+  if vim.o.colorcolumn == "" then
+    vim.o.colorcolumn = "+1" -- one after 'textwidth'
   else
-    vim.o.colorcolumn = ''    -- none
+    vim.o.colorcolumn = "" -- none
   end
 end
 
-local toggle = require('fschauen.util.icons').ui.Toggle .. '  toggle '
+local icons = require("fschauen.util.icons")
 
-M.keys = {
-  { '<leader>sc', toggle_colorcolumn, desc = toggle .. 'virtual colunn' },
+return {
+  "lukas-reineke/virt-column.nvim",
+
+  event = { "BufReadPost", "BufNewFile" },
+
+  keys = {
+    { "<leader>sc", toggle_colorcolumn, desc = icons.ui.Toggle .. "  toggle virtual colunn" },
+  },
+
+  opts = function(_, opts)
+    return vim.tbl_deep_extend("force", opts or {}, {
+      char = icons.ui.LineMiddle,
+    })
+  end,
 }
-
-M.opts = function(--[[plugin]]_, opts)
-  return vim.tbl_deep_extend('force', opts or {}, {
-    char = require('fschauen.util.icons').ui.LineMiddle,
-  })
-end
-
-return M
-

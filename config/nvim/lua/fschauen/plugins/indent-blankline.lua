@@ -1,37 +1,36 @@
-local M = { 'lukas-reineke/indent-blankline.nvim' }
+local icons = require("fschauen.util.icons")
 
-M.cmd = {
-  'IBLEnable',
-  'IBLDisable',
-  'IBLToggle',
-  'IBLEnableScope',
-  'IBLDisableScope',
-  'IBLToggleScope',
-}
+return {
+  "lukas-reineke/indent-blankline.nvim",
 
-local toggle = require('fschauen.util.icons').ui.Toggle .. '  toggle '
+  cmd = {
+    "IBLEnable",
+    "IBLDisable",
+    "IBLToggle",
+    "IBLEnableScope",
+    "IBLDisableScope",
+    "IBLToggleScope",
+  },
 
-M.keys = {
-  { '<leader>si', '<cmd>IBLToggle<cr>', desc = toggle .. 'indent lines' },
-  { '<leader>so', '<cmd>IBLToggleScope<cr>', desc = toggle .. 'indent line scope' },
-}
+  keys = {
+    -- stylua: ignore start
+    { "<leader>si", "<cmd>IBLToggle<cr>",      desc = icons.ui.Toggle .. "  toggle indent lines" },
+    { "<leader>so", "<cmd>IBLToggleScope<cr>", desc = icons.ui.Toggle .. "  toggle indent line scope" },
+    -- stylua: ignore end
+  },
 
-M.main = 'ibl'
+  main = "ibl",
 
-M.opts = function(--[[plugin]]_, opts)
-  local icons = require('fschauen.util.icons')
-  return vim.tbl_deep_extend('force', opts or {}, {
-    enabled = false,
-    indent = {
-      char = icons.ui.LineLeft,
-    },
-    scope = {
-      char = icons.ui.LineLeftBold,
+  opts = function(_, opts)
+    return vim.tbl_deep_extend("force", opts or {}, {
       enabled = false,
-      show_start = false,
-      show_end = false,
-    },
-  })
-end
-
-return M
+      indent = { char = icons.ui.LineLeft },
+      scope = {
+        char = icons.ui.LineLeftBold,
+        enabled = false,
+        show_start = false,
+        show_end = false,
+      },
+    })
+  end,
+}

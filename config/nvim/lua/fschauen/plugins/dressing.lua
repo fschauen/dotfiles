@@ -1,21 +1,21 @@
-local M = { 'stevearc/dressing.nvim' }
+return {
+  "stevearc/dressing.nvim",
 
-M.lazy = false
+  -- `vim.ui.select()` and `vim.ui.input()` can be used from the start.
+  lazy = false,
 
-M.opts = {
-  input = {
-    insert_only = false,  -- <esc> changes to Normal mode
-    mappings = {
-      n = {
-        ['<C-c>'] = 'Close',
-      },
-      i = {
-        ['<c-k>'] = 'HistoryPrev',
-        ['<c-j>'] = 'HistoryNext',
+  opts = {
+    input = {
+      insert_only = false, -- <esc> changes to Normal mode
+      mappings = {
+        n = {
+          ["<C-c>"] = "Close",
+        },
+        i = {
+          ["<c-k>"] = "HistoryPrev",
+          ["<c-j>"] = "HistoryNext",
+        },
       },
     },
   },
 }
-
-return M
-

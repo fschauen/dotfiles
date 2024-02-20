@@ -1,17 +1,16 @@
-local M = { 'nvim-telescope/telescope-file-browser.nvim' }
+local helper = require("fschauen.plugins.telescope").keymap_helper
+local lhs, desc = helper.lhs, helper.description
 
-M.dependencies = { 'nvim-telescope/telescope.nvim' }
+return {
+  "nvim-telescope/telescope-file-browser.nvim",
 
-local ts = require('fschauen.plugins.telescope')
-local lhs, desc = ts.keymap.lhs, ts.keymap.description
+  dependencies = "nvim-telescope/telescope.nvim",
 
-M.keys = {
-  { lhs('B'), '<cmd>Telescope file_browser<cr>' , desc = desc('file [B]rowser') },
+  keys = {
+    { lhs("B"), "<cmd>Telescope file_browser<cr>", desc = desc("file [B]rowser") },
+  },
+
+  config = function()
+    require("telescope").load_extension("file_browser")
+  end,
 }
-
-M.config = function(--[[plugin]]_, --[[opts]]_)
-  require('telescope').load_extension('file_browser')
-end
-
-return M
-

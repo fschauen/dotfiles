@@ -1,8 +1,7 @@
-local M = { 'johmsalas/text-case.nvim' }
+return {
+  "johmsalas/text-case.nvim",
 
-M.event = { 'BufReadPost', 'BufNewFile' }
+  event = { "BufReadPost", "BufNewFile" },
 
-M.opts = { prefix = '<leader>c' }
-
-return M
-
+  opts = { prefix = "<leader>c" },
+}

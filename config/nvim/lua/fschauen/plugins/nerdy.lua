@@ -1,18 +1,17 @@
-local M = { '2kabhishek/nerdy.nvim' }
+local helper = require("fschauen.plugins.telescope").keymap_helper
+local lhs, desc = helper.lhs, helper.description
 
-M.cmd = 'Nerdy'
+return {
+  "2kabhishek/nerdy.nvim",
 
-M.dependencies = {
-  'stevearc/dressing.nvim',
-  'nvim-telescope/telescope.nvim',
+  cmd = "Nerdy",
+
+  dependencies = {
+    "stevearc/dressing.nvim",
+    "nvim-telescope/telescope.nvim",
+  },
+
+  keys = {
+    { lhs("i"), "<cmd>Nerdy<cr>", desc = desc("Nerd [i]cons") },
+  },
 }
-
-local ts = require('fschauen.plugins.telescope')
-local lhs, desc = ts.keymap.lhs, ts.keymap.description
-
-M.keys = {
-  { lhs('i'), '<cmd>Nerdy<cr>', desc = desc('Nerd [i]cons') },
-}
-
-return M
-

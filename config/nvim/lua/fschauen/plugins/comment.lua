@@ -1,12 +1,13 @@
-local M = { 'tpope/vim-commentary' }
+return {
+  "tpope/vim-commentary",
 
-M.cmd = 'Commentary'
+  cmd = "Commentary",
 
-M.keys = {
-  { 'gc',  '<Plug>Commentary', mode = { 'n', 'x', 'o' },  desc = 'Comment in/out' },
-  { 'gcc', '<Plug>CommentaryLine',                        desc = 'Comment in/out line' },
-  { 'gcu', '<Plug>Commentary<Plug>Commentary',            desc = 'Undo comment in/out' },
+  keys = {
+    -- stylua: ignore start
+    { "gc",  "<Plug>Commentary", mode = {"n", "x", "o"}, desc = "Comment in/out" },
+    { "gcc", "<Plug>CommentaryLine",                     desc = "Comment in/out line" },
+    { "gcu", "<Plug>Commentary<Plug>Commentary",         desc = "Undo comment in/out" },
+    -- stylua: ignore end
+  },
 }
-
-return M
-

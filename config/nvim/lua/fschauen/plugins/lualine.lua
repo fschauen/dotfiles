@@ -4,9 +4,7 @@ local icons = require('fschauen.util.icons')
 local orange = '#d65d0e'
 local bright = '#ffffff'  -- alternative: '#f9f5d7'
 
-M.dependencies = {
-  'nvim-tree/nvim-web-devicons',
-}
+M.dependencies = 'nvim-tree/nvim-web-devicons'
 
 M.config = function(--[[plugin]]_, --[[opts]]_)
   local window = require 'fschauen.window'

@@ -1,33 +1,34 @@
-local M = { 'j-hui/fidget.nvim' }
+local icons = require("fschauen.util.icons")
 
-M.branch = 'legacy'
+return {
+  "j-hui/fidget.nvim",
 
-M.event = 'LspAttach'
+  branch = "legacy",
 
-M.opts = {
-  text = {
-    done = require('fschauen.util.icons').ui.Checkmark,
-    spinner = {
-      '▱▱▱▱▱▱▱',
-      '▰▱▱▱▱▱▱',
-      '▰▰▱▱▱▱▱',
-      '▰▰▰▱▱▱▱',
-      '▰▰▰▰▱▱▱',
-      '▰▰▰▰▰▱▱',
-      '▰▰▰▰▰▰▱',
-      '▰▰▰▰▰▰▰',
-      '▱▰▰▰▰▰▰',
-      '▱▱▰▰▰▰▰',
-      '▱▱▱▰▰▰▰',
-      '▱▱▱▱▰▰▰',
-      '▱▱▱▱▱▰▰',
-      '▱▱▱▱▱▱▰',
+  event = "LspAttach",
+
+  opts = {
+    text = {
+      done = icons.ui.Checkmark,
+      spinner = {
+        "▱▱▱▱▱▱▱",
+        "▰▱▱▱▱▱▱",
+        "▰▰▱▱▱▱▱",
+        "▰▰▰▱▱▱▱",
+        "▰▰▰▰▱▱▱",
+        "▰▰▰▰▰▱▱",
+        "▰▰▰▰▰▰▱",
+        "▰▰▰▰▰▰▰",
+        "▱▰▰▰▰▰▰",
+        "▱▱▰▰▰▰▰",
+        "▱▱▱▰▰▰▰",
+        "▱▱▱▱▰▰▰",
+        "▱▱▱▱▱▰▰",
+        "▱▱▱▱▱▱▰",
+      },
     },
+    timer = { spinner_rate = 75 },
+    window = { blend = 50 },
+    fmt = { max_messages = 10 },
   },
-  timer = { spinner_rate = 75 },
-  window = { blend = 50 },
-  fmt = { max_messages = 10 }
 }
-
-return M
-
