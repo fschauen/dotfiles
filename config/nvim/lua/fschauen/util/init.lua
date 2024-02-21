@@ -22,13 +22,14 @@ end
 ---Get selected text.
 ---@return string: selected text, or work under cursor if not in visual mode.
 M.get_selected_text = function()
-  if vim.fn.mode() ~= 'v' then return vim.fn.expand '<cword>' end
+  if vim.fn.mode() ~= "v" then
+    return vim.fn.expand("<cword>")
+  end
 
-  return M.preserve_register('v', function()
-    vim.cmd [[noautocmd sil norm "vy]]
-    return vim.fn.getreg 'v'
+  return M.preserve_register("v", function()
+    vim.cmd([[noautocmd sil norm "vy]])
+    return vim.fn.getreg("v")
   end)
 end
 
 return M
-
