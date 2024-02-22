@@ -1,8 +1,9 @@
 local M = {}
 
+-- stylua: ignore start
 M.setup = function()
-  vim.g.mapleader = ' '
-  vim.g.maplocalleader = ','
+  vim.g.mapleader = " "
+  vim.g.maplocalleader = ","
 
   vim.cmd [[let &t_8f = "\<ESC>[38:2:%lu:%lu:%lum"]]
   vim.cmd [[let &t_8b = "\<ESC>[48:2:%lu:%lu:%lum"]]
@@ -10,21 +11,21 @@ M.setup = function()
   local o = vim.opt
 
   -- General
-  o.belloff     = 'all'           -- never ring bells
+  o.belloff     = "all"           -- never ring bells
   o.hidden      = true            -- hide abandoned buffers
-  o.clipboard   = 'unnamedplus'   -- synchronize with system clipboard
-  o.lazyredraw  = true            -- don't redraw screen during macros
+  o.clipboard   = "unnamedplus"   -- synchronize with system clipboard
+  o.lazyredraw  = true            -- don"t redraw screen during macros
   o.modelines   = 0               -- never use modelines
-  o.fileformats = 'unix,mac,dos'  -- prioritize unix <EOL> format
-  o.pastetoggle = '<F20>'         -- toggle paste with P on Moonlander
+  o.fileformats = "unix,mac,dos"  -- prioritize unix <EOL> format
+  o.pastetoggle = "<F20>"         -- toggle paste with P on Moonlander
   o.winblend    = 8               -- minimum transparency for floating windows
 
-  o.swapfile    = false           -- don't use swap files
+  o.swapfile    = false           -- don"t use swap files
   o.writebackup = true            -- Make a backup before writing a file...
-  o.backup      = false           -- ...but don't keep it around.
+  o.backup      = false           -- ...but don"t keep it around.
   o.undofile    = true            -- write undo history
 
-  o.shortmess:append 'I'          -- no intro message when starting Vim
+  o.shortmess:append("I")         -- no intro message when starting Vim
   o.shada = {
     "'1000",    -- remember marks for this many files
     "/1000",    -- remember this many search patterns
@@ -44,29 +45,29 @@ M.setup = function()
   o.tabstop       = 4        -- tabs are 4 spaces
   o.shiftwidth    = 0        -- (auto)indent using 'tabstop' spaces
   o.smartindent   = true     -- use smart autoindenting
-  o.inccommand    = 'split'  -- preview command partial results
+  o.inccommand    = "split"  -- preview command partial results
   o.joinspaces    = false    -- use one space after a period whe joining lines
   o.showmatch     = true     -- briefly jump to matching bracket if insert one
-  o.virtualedit   = 'block'  -- position the cursor anywhere in Visual Block mode
+  o.virtualedit   = "block"  -- position the cursor anywhere in Visual Block mode
   o.formatlistpat = [[^\s*\(\d\+[\]:.)}\t ]\|[-+*]\|[\[(][ x][\])]\)\s*]]
   o.completeopt   = {
-    'menu',       -- show completions in a popup menu
-    'preview',    -- show extra information about the selected match
-    'noinsert',   -- don't insert text until I select a match
-    'noselect',   -- don't pre-select the first match in the menu
+    "menu",       -- show completions in a popup menu
+    "preview",    -- show extra information about the selected match
+    "noinsert",   -- don"t insert text until I select a match
+    "noselect",   -- don"t pre-select the first match in the menu
   }
 
   local fmt = o.formatoptions
-  fmt:remove 't'   -- Don't auto-wrap on 'textwidth'...
-  fmt:append 'c'   -- ...but do it within comment blocks...
-  fmt:append 'l'   -- ...but not if line was already long before entering Insert mode.
-  fmt:append 'r'   -- Insert comment leader when pressing Enter...
-  fmt:remove 'o'   -- ...but not when opening a new line with o & O.
-  fmt:append 'q'   -- allow formatting of comments with gq
-  fmt:remove 'a'   -- don't auto-format every time text is inserted
-  fmt:append 'n'   -- indent lists automatically acc. 'formatlistpat'
-  fmt:append 'j'   -- remove comment leader when joining lines
-  fmt:append '1'   -- don't break lines after a one letter word but rather before it
+  fmt:remove("t")  -- Don't auto-wrap on 'textwidth'...
+  fmt:append("c")  -- ...but do it within comment blocks...
+  fmt:append("l")  -- ...but not if line was already long before entering Insert mode.
+  fmt:append("r")  -- Insert comment leader when pressing Enter...
+  fmt:remove("o")  -- ...but not when opening a new line with o & O.
+  fmt:append("q")  -- allow formatting of comments with gq
+  fmt:remove("a")  -- don"t auto-format every time text is inserted
+  fmt:append("n")  -- indent lists automatically acc. 'formatlistpat'
+  fmt:append("j")  -- remove comment leader when joining lines
+  fmt:append("1")  -- don"t break lines after a one letter word but rather before it
 
   -- Appearance
   o.termguicolors  = true    -- use "gui" :higlight instead of "cterm"
@@ -75,49 +76,49 @@ M.setup = function()
   o.number         = true    -- ...but real number for current line.
   o.wrap           = false   -- don't wrap long lines initially
   o.textwidth      = 80      -- maximum width for text being inserted
-  o.colorcolumn    = ''      -- highlight column after 'textwidth'
+  o.colorcolumn    = ""      -- highlight column after 'textwidth'
   o.cursorline     = true    -- highlight the line of the cursor
-  o.showbreak      = '⤷ '    -- prefix for wrapped lines
+  o.showbreak      = "⤷ "    -- prefix for wrapped lines
   o.scrolloff      = 3       -- min. # of lines above and below cursor
   o.sidescrolloff  = 3       -- min. # of columns to left and right of cursor
-  o.signcolumn     = 'yes'   -- always display the signs column
+  o.signcolumn     = "yes"   -- always display the signs column
   o.list           = false    -- don't show invisible characters initially
   o.listchars      = {
-    eol = '↲',
-    tab = '󰌒 ',     -- »
-    extends = '…',
-    precedes = '…',
-    trail = '·',
-    conceal = '┊',
+    eol = "↲",
+    tab = "󰌒 ",     -- »
+    extends = "…",
+    precedes = "…",
+    trail = "·",
+    conceal = "┊",
   }
   o.fillchars = {
-    diff = '⋅',
+    diff = "⋅",
   }
 
   -- Wildcard Expansion
   o.wildignore = {
-    '.git',
-    '.svn',
-    '__pycache__',
-    '**/tmp/**',
-    '*.DS_Store',
-    '*.dll',
-    '*.egg-info',
-    '*.exe',
-    '*.gif',
-    '*.jpeg',
-    '*.jpg',
-    '*.o',
-    '*.obj',
-    '*.out',
-    '*.png',
-    '*.pyc',
-    '*.so',
-    '*.zip',
-    '*~',
+    ".git",
+    ".svn",
+    "__pycache__",
+    "**/tmp/**",
+    "*.DS_Store",
+    "*.dll",
+    "*.egg-info",
+    "*.exe",
+    "*.gif",
+    "*.jpeg",
+    "*.jpg",
+    "*.o",
+    "*.obj",
+    "*.out",
+    "*.png",
+    "*.pyc",
+    "*.so",
+    "*.zip",
+    "*~",
   }
   o.wildignorecase = true            -- ignore case when completing file names
-  o.wildmode       = 'longest:full'  -- longest common prefix first, then wildmenu
+  o.wildmode       = "longest:full"  -- longest common prefix first, then wildmenu
 
   -- Window Splitting
   o.splitbelow  = true               -- :split below current window
@@ -127,16 +128,16 @@ M.setup = function()
   -- Folding
   o.foldenable     = true            -- enable folding
   o.foldlevelstart = 100             -- start with all folds open
-  o.foldmethod     = 'syntax'        -- fold based on syntax by default
+  o.foldmethod     = "syntax"        -- fold based on syntax by default
   o.foldnestmax    = 10              -- limit nested folds to 10 levels
 
   -- Options for diff mode
   o.diffopt = {     -- better side-by-side diffs
-    'filler',       -- show filler lines (so text is vertically synced)
-    'vertical',     -- use vertical splits (files side-by-side)
-    'closeoff',     -- disable diff mode when one window is closed
+    "filler",       -- show filler lines (so text is vertically synced)
+    "vertical",     -- use vertical splits (files side-by-side)
+    "closeoff",     -- disable diff mode when one window is closed
   }
 end
+-- stylua: ignore end
 
 return M
-

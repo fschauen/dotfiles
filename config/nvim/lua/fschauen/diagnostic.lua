@@ -1,6 +1,6 @@
 local M = {}
 
-local icons = require('fschauen.util.icons')
+local icons = require("fschauen.util.icons")
 
 -- Show/navigate warning and errors by default.
 M.severity = vim.diagnostic.severity.WARN
@@ -8,38 +8,38 @@ M.severity = vim.diagnostic.severity.WARN
 -- Go to next/prev diagnostic, but only if next item has a visible virtual text.
 -- If we can move, then also center screen at target location.
 local conditional_goto = function(condition, move, opts)
-  opts = vim.tbl_extend('keep', opts or {}, {
-    wrap = false,         -- don't wrap around the begin/end of file
-    severity = {          -- only navigate items with visible virtual text
-      min = M.severity
+  opts = vim.tbl_extend("keep", opts or {}, {
+    wrap = false, -- don't wrap around the begin/end of file
+    severity = { -- only navigate items with visible virtual text
+      min = M.severity,
     },
   })
 
   if condition(opts) then
     move(opts)
-    vim.cmd 'normal zz'
+    vim.cmd("normal zz")
   else
-    vim.notify(
-      ('No more diagnostics [level: %s]'):format(vim.diagnostic.severity[M.severity] or '???'),
-      vim.log.levels.WARN)
+    local level = vim.diagnostic.severity[M.severity] or "???"
+    local msg = string.format("No more diagnostics [level: %s]", level)
+    vim.notify(msg, vim.log.levels.WARN)
   end
 end
 
 ---Move to the next diagnostic.
 ---@param opts table\nil: options passed along to `vim.diagnostic.goto_next`.
-M.goto_next= function(opts)
+M.goto_next = function(opts)
   conditional_goto(vim.diagnostic.get_next_pos, vim.diagnostic.goto_next, opts)
 end
 
 ---Move to the previous diagnostic.
 ---@param opts table|nil: options passed along to `vim.diagnostic.goto_prev`.
-M.goto_prev= function(opts)
+M.goto_prev = function(opts)
   conditional_goto(vim.diagnostic.get_prev_pos, vim.diagnostic.goto_prev, opts)
 end
 
 ---Show diagnostics in a floating window.
 ---@param opts table|nil: options passed along to `vim.diagnostic.open_float`.
-M.open_float= function(opts)
+M.open_float = function(opts)
   vim.diagnostic.open_float(opts)
 end
 
@@ -62,18 +62,19 @@ end
 
 M.select_virtual_text_severity = function()
   vim.ui.select(
-    { 'ERROR', 'WARN', 'INFO', 'HINT' },
-    { prompt = 'Min. severity for virtual text:' },
-    function(choice, --[[index]]_)
+    { "ERROR", "WARN", "INFO", "HINT" },
+    { prompt = "Min. severity for virtual text:" },
+    function(choice)
       if choice then
         M.severity = vim.diagnostic.severity[choice] or M.severity
         vim.diagnostic.config {
           virtual_text = {
-            severity = { min = M.severity }
+            severity = { min = M.severity },
           },
         }
       end
-    end)
+    end
+  )
 end
 
 ---Customize nvim's diagnostics display.
@@ -85,19 +86,18 @@ M.setup = function()
       prefix = icons.ui.Circle,
       severity = {
         min = M.severity,
-      }
+      },
     },
     float = {
-      border = 'rounded',
+      border = "rounded",
     },
     severity_sort = true,
   }
 
   for type, icon in pairs(icons.diagnostics) do
-    local hl = 'DiagnosticSign' .. type
+    local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
   end
 end
 
 return M
-
