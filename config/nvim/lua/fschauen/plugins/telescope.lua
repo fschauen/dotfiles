@@ -112,9 +112,13 @@ return {
   opts = function(_, opts)
     local actions = require("telescope.actions")
     local layout = require("telescope.actions.layout")
+    local state = require("telescope.actions.state")
     local trouble = vim.F.npcall(require, "trouble.providers.telescope") or {}
 
     local mappings = {
+      ["<c-u>"] = function(prompt_bufnr)
+        state.get_current_picker(prompt_bufnr):reset_prompt()
+      end,
       ["<c-j>"] = actions.cycle_history_next,
       ["<c-k>"] = actions.cycle_history_prev,
       ["<s-down>"] = actions.preview_scrolling_down,
