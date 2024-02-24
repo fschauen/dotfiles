@@ -25,4 +25,11 @@ M.toggle_spell = function()
   vim.cmd([[set spell?]])
 end
 
+M.set_gitcommit_buffer_options = function()
+  print('here we are!')
+  vim.bo.textwidth = 72
+  vim.opt.formatoptions:append('t') -- wrap text on 'textwidth'
+  vim.opt.spell = true              -- turn on spell checking
+end
+
 return M

@@ -29,6 +29,15 @@ M.setup = function()
       vim.opt.cursorlineopt = "both"
     end,
   })
+
+  vim.api.nvim_create_autocmd("FileType", {
+    desc = "Replicate gitcommit filetype options for Neogit commit.",
+    group = group,
+    pattern = "NeogitCommitMessage",
+    callback = function(_)
+      require("fschauen.util.options").set_gitcommit_buffer_options()
+    end,
+  })
 end
 
 return M
