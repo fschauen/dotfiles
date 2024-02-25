@@ -1,2 +1,5 @@
-require('fschauen')
+if vim.loader then
+  vim.loader.enable()
+end
 
+require("fschauen")
