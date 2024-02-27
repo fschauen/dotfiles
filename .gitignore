@@ -4,6 +4,7 @@
 .git/
 
 config.sh
+config/git/gitk
 config/zsh/.zcompcache
 config/zsh/.zcompdump
 config/iterm2
